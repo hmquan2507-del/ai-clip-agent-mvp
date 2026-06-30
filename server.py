@@ -10,6 +10,7 @@ import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlparse
+from storage import create_storage_adapter, guess_mime
 
 ROOT = Path(__file__).resolve().parent
 STATIC = ROOT / "static"
@@ -53,6 +54,12 @@ def init_db():
                 job_id TEXT PRIMARY KEY,
                 account_id TEXT NOT NULL,
                 filename TEXT NOT NULL,
+                storage_provider TEXT NOT NULL DEFAULT 'local',
+                storage_key TEXT,
+                storage_url TEXT,
+                file_size INTEGER NOT NULL DEFAULT 0,
+                mime_type TEXT,
+                expires_at INTEGER,
                 title TEXT,
                 niche TEXT,
                 objective TEXT,
@@ -136,6 +143,12 @@ def init_db():
             "mode": "ALTER TABLE jobs ADD COLUMN mode TEXT NOT NULL DEFAULT 'auto'",
             "target_length": "ALTER TABLE jobs ADD COLUMN target_length REAL NOT NULL DEFAULT 30",
             "customer_request": "ALTER TABLE jobs ADD COLUMN customer_request TEXT",
+            "storage_provider": "ALTER TABLE jobs ADD COLUMN storage_provider TEXT NOT NULL DEFAULT 'local'",
+            "storage_key": "ALTER TABLE jobs ADD COLUMN storage_key TEXT",
+            "storage_url": "ALTER TABLE jobs ADD COLUMN storage_url TEXT",
+            "file_size": "ALTER TABLE jobs ADD COLUMN file_size INTEGER NOT NULL DEFAULT 0",
+            "mime_type": "ALTER TABLE jobs ADD COLUMN mime_type TEXT",
+            "expires_at": "ALTER TABLE jobs ADD COLUMN expires_at INTEGER",
         }
         for column, statement in migrations.items():
             if column not in existing_columns:
@@ -159,14 +172,21 @@ def save_job(metadata):
         conn.execute(
             """
             INSERT INTO jobs (
-                job_id, account_id, filename, title, niche, objective, duration,
+                job_id, account_id, filename, storage_provider, storage_key,
+                storage_url, file_size, mime_type, expires_at, title, niche, objective, duration,
                 clip_count, status, created_at, updated_at, style, mode, target_length, customer_request
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 metadata["job_id"],
                 DEMO_ACCOUNT_ID,
                 metadata["filename"],
+                metadata.get("storage_provider", "local"),
+                metadata.get("storage_key", ""),
+                metadata.get("storage_url", ""),
+                metadata.get("file_size", 0),
+                metadata.get("mime_type", ""),
+                metadata.get("expires_at"),
                 metadata["title"],
                 metadata["niche"],
                 metadata["objective"],
@@ -344,6 +364,10 @@ def ffprobe_duration(path):
 def safe_name(name):
     name = re.sub(r"[^a-zA-Z0-9._-]+", "-", name).strip("-")
     return name or "video.mp4"
+
+
+def storage_adapter():
+    return create_storage_adapter(JOBS)
 
 
 def wrap(text, limit=24):
@@ -858,9 +882,32 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/api/upload":
             return self.handle_upload()
+        if parsed.path == "/api/uploads/presign":
+            return self.handle_presign_upload()
         if parsed.path == "/api/render":
             return self.handle_render()
         return json_response(self, {"error": "Not found"}, 404)
+
+    def handle_presign_upload(self):
+        length = int(self.headers.get("Content-Length", "0"))
+        payload = json.loads(self.rfile.read(length).decode("utf-8") or "{}")
+        filename = safe_name(payload.get("filename", "video.mp4"))
+        content_type = payload.get("content_type") or guess_mime(filename)
+        job_id = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
+        try:
+            upload = storage_adapter().create_presigned_upload(job_id, filename, content_type)
+        except NotImplementedError:
+            return json_response(
+                self,
+                {
+                    "error": "Presigned upload chỉ dùng khi STORAGE_PROVIDER=s3 hoặc r2.",
+                    "fallback": "Dùng /api/upload cho local MVP.",
+                },
+                400,
+            )
+        except Exception as exc:
+            return json_response(self, {"error": str(exc)}, 500)
+        return json_response(self, {"job_id": job_id, "filename": filename, **upload})
 
     def handle_upload(self):
         length = int(self.headers.get("Content-Length", "0"))
@@ -870,11 +917,14 @@ class Handler(BaseHTTPRequestHandler):
             return json_response(self, {"error": "Chưa có file video"}, 400)
 
         job_id = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
-        job_dir = JOBS / job_id
-        job_dir.mkdir(parents=True, exist_ok=True)
-        original = job_dir / safe_name(file_item["filename"])
-        with original.open("wb") as f:
-            f.write(file_item["content"])
+        filename = safe_name(file_item["filename"])
+        stored_file = storage_adapter().save_upload(job_id, filename, file_item["content"])
+        original = stored_file.local_path
+        if original is None:
+            job_dir = JOBS / job_id
+            job_dir.mkdir(parents=True, exist_ok=True)
+            original = job_dir / filename
+            original.write_bytes(file_item["content"])
 
         title = str(form.get("title", "")).strip()
         niche = str(form.get("niche", "")).strip()
@@ -900,7 +950,13 @@ class Handler(BaseHTTPRequestHandler):
         )
         metadata = {
             "job_id": job_id,
-            "filename": original.name,
+            "filename": stored_file.filename,
+            "storage_provider": stored_file.provider,
+            "storage_key": stored_file.key,
+            "storage_url": stored_file.url,
+            "file_size": stored_file.size,
+            "mime_type": stored_file.mime_type,
+            "expires_at": stored_file.expires_at,
             "duration": duration,
             "title": title,
             "niche": niche,

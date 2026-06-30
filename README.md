@@ -44,6 +44,8 @@ http://localhost:8765
 ```text
 ai-clip-agent-mvp/
   server.py                  # HTTP server, API, SQLite, ffmpeg render
+  storage.py                 # Local/S3/R2 storage adapters
+  .env.example               # Production storage/env template
   static/
     index.html               # Dashboard UI
     styles.css               # UI/UX SaaS layout
@@ -57,6 +59,7 @@ ai-clip-agent-mvp/
 
 - `accounts`: account demo và gói dùng thử.
 - `jobs`: video upload, mode xử lý, style render, yêu cầu khách.
+- `jobs.storage_provider`, `storage_key`, `storage_url`, `file_size`, `mime_type`, `expires_at`: metadata file/video để production không lưu binary trong DB.
 - `suggestions`: clip đề xuất, thời điểm bắt đầu, hook/caption/CTA.
 - `transcript_segments`: transcript theo mốc thời gian, dùng làm input cho highlight/subtitle.
 - `editor_assets`: asset workspace gồm footage, subtitle, B-roll, SFX, music.
@@ -67,7 +70,23 @@ ai-clip-agent-mvp/
 
 - `GET /api/dashboard` - account demo, quota, stats, recent jobs.
 - `POST /api/upload` - upload video và tạo suggestions.
+- `POST /api/uploads/presign` - tạo signed URL cho browser upload trực tiếp lên S3/R2 khi dùng production storage.
 - `POST /api/render` - render các clip đã chọn.
+
+## Storage Production
+
+MVP local dùng `STORAGE_PROVIDER=local` và lưu file trong `data/jobs/`.
+
+Production nên dùng `STORAGE_PROVIDER=r2` hoặc `s3`:
+
+```text
+Browser -> /api/uploads/presign -> upload thẳng lên R2/S3
+API/DB -> chỉ lưu metadata: storage_key, file_size, mime_type, duration, status
+Render worker -> đọc video từ object storage khi cần render
+Output -> lưu lại object storage, DB chỉ lưu link/key
+```
+
+Database không lưu binary video. App server chính không nên giữ file lớn lâu dài.
 
 ## Logic sản phẩm chính
 
