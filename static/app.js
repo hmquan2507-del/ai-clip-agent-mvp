@@ -22,6 +22,7 @@ const metricJobs = document.querySelector("#metricJobs");
 const metricClips = document.querySelector("#metricClips");
 const metricQuota = document.querySelector("#metricQuota");
 const metricModules = document.querySelector("#metricModules");
+const sidebarQuota = document.querySelector("#sidebarQuota");
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -56,6 +57,7 @@ async function loadDashboard() {
   metricJobs.textContent = data.stats.jobs;
   metricClips.textContent = data.stats.clips;
   metricQuota.textContent = `${data.stats.quota_used}/${data.stats.quota_monthly}`;
+  sidebarQuota.textContent = `${data.stats.quota_used}/${data.stats.quota_monthly}`;
   metricModules.textContent = `${data.stats.workspace_modules} bước`;
   renderJobs(data.recent_jobs);
 }

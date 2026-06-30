@@ -17,47 +17,75 @@
           </div>
         </div>
         <nav>
-          <a class="active" href="#create">Tạo clip</a>
-          <a href="#workspace">Editor workspace</a>
-          <a href="#jobs">Job gần đây</a>
-          <a href="#outputs">Video đã render</a>
-          <a href="#settings">Cài đặt</a>
+          <a class="active" href="#create"><span>⌂</span> Trang chủ</a>
+          <a href="#create"><span>＋</span> Tạo clip</a>
+          <a href="#jobs"><span>◴</span> Job gần đây</a>
+          <a href="#outputs"><span>▣</span> Video đã render</a>
+          <a href="#settings"><span>⚙</span> Cài đặt</a>
         </nav>
+        <div class="plan-card">
+          <small>Gói dùng</small>
+          <strong id="planName">MVP Trial</strong>
+          <div class="quota-ring">
+            <span id="sidebarQuota">0/50</span>
+            <small>quota tháng</small>
+          </div>
+          <button type="button">Nâng cấp ngay →</button>
+        </div>
         <div class="account">
+          <span class="avatar">DB</span>
           <small>Workspace</small>
           <strong id="accountName">Demo Brand</strong>
-          <span id="planName">MVP Trial</span>
         </div>
       </aside>
 
       <main class="content">
-        <section class="topbar">
-          <div>
-            <p class="eyebrow">AI Clip Agent</p>
-            <h1>1 video dài thành nhiều clip ngắn.</h1>
+        <header class="app-header">
+          <div></div>
+          <div class="header-actions" aria-label="Toolbar">
+            <button type="button" aria-label="Thông báo">⌁</button>
+            <button type="button" aria-label="Giao diện">☼</button>
+            <span class="user-photo"></span>
           </div>
-          <div class="top-actions">
-            <span class="pill">Local MVP</span>
-            <span class="pill">SQLite</span>
-            <span class="pill">FFmpeg</span>
-            <span class="pill">Editor-first</span>
+        </header>
+        <section class="topbar">
+          <div class="hero-copy">
+            <p class="eyebrow">AI Clip Agent</p>
+            <h1>1 video dài thành <span>nhiều clip ngắn.</span></h1>
+            <p>AI sẽ tự động phân tích nội dung, chọn những đoạn hay nhất và tạo thành các clip ngắn sẵn sàng để đăng.</p>
+            <a class="hero-cta" href="#create">Bắt đầu tạo clip →</a>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-player">
+              <span class="play">▶</span>
+            </div>
+            <div class="hero-clips">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </section>
 
         <section class="metrics" aria-label="Tổng quan">
           <article>
+            <i>✦</i>
             <span>Job đã tạo</span>
             <strong id="metricJobs">0</strong>
           </article>
           <article>
+            <i>▷</i>
             <span>Clip đã xuất</span>
             <strong id="metricClips">0</strong>
           </article>
           <article>
+            <i>▣</i>
             <span>Quota tháng</span>
             <strong id="metricQuota">0/50</strong>
           </article>
           <article>
+            <i>✓</i>
             <span>Trạng thái</span>
             <strong id="metricModules">6 bước</strong>
           </article>
@@ -72,7 +100,9 @@
               </div>
             </div>
             <label class="dropzone">
-              <span>Chọn video dài hoặc video thô</span>
+              <span class="drop-icon">⇧</span>
+              <span>Kéo & thả video vào đây</span>
+              <small>hoặc chọn file từ máy</small>
               <input type="file" name="video" accept="video/*" required />
             </label>
             <div id="videoPreviewPanel" class="video-preview empty">
@@ -126,7 +156,6 @@
               Template render
               <select name="style">
                 <option value="talking-head" selected>Talking head TikTok</option>
-                <option value="raw-edited">RAW vs EDITED giống clip mẫu</option>
                 <option value="classic">Caption bar cơ bản</option>
               </select>
             </label>
@@ -177,7 +206,7 @@
                 <span>01</span>
                 <strong>Footage</strong>
               </div>
-              <p>Video gốc, đoạn cắt, crop talking-head, phiên bản raw/edited.</p>
+              <p>Video gốc, đoạn cắt và crop talking-head để chuẩn bị render.</p>
             </article>
             <article class="workspace-block">
               <div class="block-head">

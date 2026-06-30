@@ -982,33 +982,7 @@ def parse_multipart(headers, body):
     return parts
 
 
-def timeline_filter():
-    boxes = [
-        (32, 1260, 180, 26, "0xf06f6f"),
-        (238, 1260, 132, 26, "0x47c6b5"),
-        (410, 1260, 190, 26, "0xf06f6f"),
-        (636, 1260, 118, 26, "0x47c6b5"),
-        (790, 1260, 218, 26, "0xf06f6f"),
-        (36, 1320, 250, 28, "0x47c6b5"),
-        (318, 1320, 170, 28, "0x47c6b5"),
-        (520, 1320, 260, 28, "0x47c6b5"),
-        (815, 1320, 210, 28, "0x47c6b5"),
-        (42, 1404, 420, 32, "0x0f766e"),
-        (486, 1404, 520, 32, "0x0f766e"),
-        (42, 1490, 290, 26, "0x1d4ed8"),
-        (368, 1490, 240, 26, "0x1d4ed8"),
-        (648, 1490, 350, 26, "0x1d4ed8"),
-        (42, 1590, 956, 34, "0x0f3f7f"),
-    ]
-    return ",".join(
-        f"drawbox=x={x}:y={y}:w={w}:h={h}:color={color}@0.82:t=fill"
-        for x, y, w, h, color in boxes
-    )
-
-
 def render_clip(input_path, output_path, suggestion, style="classic"):
-    if style == "raw-edited":
-        return render_raw_edited_clip(input_path, output_path, suggestion)
     if style == "talking-head":
         return render_talking_head_clip(input_path, output_path, suggestion)
     return render_classic_clip(input_path, output_path, suggestion)
@@ -1053,70 +1027,6 @@ def render_classic_clip(input_path, output_path, suggestion):
         "aac",
         "-b:a",
         "128k",
-        "-movflags",
-        "+faststart",
-        str(output_path),
-    ])
-
-
-def render_raw_edited_clip(input_path, output_path, suggestion):
-    hook = drawtext_escape("EDITED")
-    raw_label = drawtext_escape("RAW")
-    caption = drawtext_escape(suggestion["caption"])
-    cta = drawtext_escape(suggestion["hook"])
-    timeline = timeline_filter()
-    bg_duration = max(1, float(suggestion["duration"]))
-    filter_complex = (
-        "[0:v]split=2[rawsrc][editsrc];"
-        "[rawsrc]scale=-2:590:force_original_aspect_ratio=increase,crop=330:590,setsar=1[rawv];"
-        "[editsrc]scale=530:-2:force_original_aspect_ratio=increase,crop=530:900,setsar=1[editv];"
-        f"color=c=0x151515:s=1080x1920:d={bg_duration}[base];"
-        "[base]drawgrid=width=120:height=120:thickness=2:color=white@0.18,"
-        "drawbox=x=0:y=1180:w=1080:h=740:color=0x111111@0.92:t=fill,"
-        f"{timeline},"
-        "drawbox=x=70:y=306:w=374:h=670:color=black@0.96:t=fill,"
-        "drawbox=x=442:y=224:w=562:h=922:color=0xf5f1e8@0.95:t=fill,"
-        f"drawtext=fontfile={FONT}:text='{raw_label}':fontcolor=0xf6e84d:fontsize=62:"
-        "x=96:y=194:borderw=4:bordercolor=black@0.7,"
-        f"drawtext=fontfile={FONT}:text='{hook}':fontcolor=0xe01b2f:fontsize=60:"
-        "x=604:y=104:borderw=8:bordercolor=white@0.95[bg];"
-        "[bg][rawv]overlay=92:346[tmp1];"
-        "[tmp1][editv]overlay=458:246[tmp2];"
-        "[tmp2]drawbox=x=70:y=306:w=374:h=670:color=white@0.7:t=6,"
-        "drawbox=x=442:y=224:w=562:h=922:color=white@0.8:t=6,"
-        f"drawtext=fontfile={FONT}:text='{caption}':fontcolor=white:fontsize=54:"
-        "x=(w-text_w)/2:y=850:borderw=5:bordercolor=black@0.9,"
-        f"drawtext=fontfile={FONT}:text='{cta}':fontcolor=0xffe066:fontsize=42:"
-        "x=(w-text_w)/2:y=936:borderw=4:bordercolor=black@0.9[v]"
-    )
-    run([
-        "ffmpeg",
-        "-y",
-        "-ss",
-        str(suggestion["start"]),
-        "-t",
-        str(suggestion["duration"]),
-        "-i",
-        str(input_path),
-        "-filter_complex",
-        filter_complex,
-        "-map",
-        "[v]",
-        "-map",
-        "0:a?",
-        "-af",
-        "loudnorm=I=-16:LRA=11:TP=-1.5",
-        "-c:v",
-        "libx264",
-        "-preset",
-        "veryfast",
-        "-crf",
-        "23",
-        "-c:a",
-        "aac",
-        "-b:a",
-        "128k",
-        "-shortest",
         "-movflags",
         "+faststart",
         str(output_path),

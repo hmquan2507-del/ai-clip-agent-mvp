@@ -37,13 +37,12 @@ http://localhost:8765
 - Thêm hook đầu video, caption và CTA cuối.
 - Xuất file MP4 để tải xuống.
 - Lưu account demo, job, suggestion, output và quota vào SQLite.
-- Dashboard có sidebar, thống kê quota, editor workspace, job gần đây và output trong phiên.
+- Dashboard có sidebar, hero dark SaaS, thống kê quota, editor workspace, job gần đây và output trong phiên.
 
 ## Template render hiện có
 
 - `talking-head`: mặc định cho sản phẩm chính, crop video thành format người nói dọc, nền blur, hook trên đầu, caption lớn phía dưới, CTA và progress bar.
 - `classic`: video dọc đơn giản có hook/caption/CTA.
-- `raw-edited`: style theo clip mẫu của anh Quân, gồm nền lưới tối, nhãn RAW/EDITED, khung raw bên trái, khung edited bên phải, caption lớn và timeline giả lập phía dưới.
 
 ## Cấu trúc MVP SaaS
 
