@@ -421,6 +421,47 @@ def fail_render_task(task_id, error):
         )
 
 
+def apply_clip_edits(job_id, metadata, edits):
+    if not edits:
+        return metadata
+    normalized = {int(item["id"]): item for item in edits if item.get("id")}
+    if not normalized:
+        return metadata
+    allowed_fields = {"hook", "caption", "cta"}
+    with db_connect() as conn:
+        for suggestion in metadata.get("suggestions", []):
+            clip_id = int(suggestion["id"])
+            edit = normalized.get(clip_id)
+            if not edit:
+                continue
+            for field in allowed_fields:
+                if field in edit:
+                    suggestion[field] = str(edit.get(field) or "").strip()
+            edit_plan = suggestion.setdefault("edit_plan", {})
+            for field in ["subtitle_style", "music"]:
+                if field in edit:
+                    edit_plan[field] = str(edit.get(field) or "").strip()
+            for field in ["broll", "sfx"]:
+                if field in edit:
+                    raw = str(edit.get(field) or "")
+                    edit_plan[field] = [item.strip() for item in raw.split("\n") if item.strip()]
+            conn.execute(
+                """
+                UPDATE suggestions
+                SET hook = ?, caption = ?, cta = ?
+                WHERE job_id = ? AND clip_id = ?
+                """,
+                (
+                    suggestion.get("hook", ""),
+                    suggestion.get("caption", ""),
+                    suggestion.get("cta", ""),
+                    job_id,
+                    clip_id,
+                ),
+            )
+    return metadata
+
+
 def render_job_clip(job_id, clip_id):
     job_dir = JOBS / job_id
     metadata_path = job_dir / "job.json"
@@ -1270,6 +1311,8 @@ class Handler(BaseHTTPRequestHandler):
             return json_response(self, {"error": "Không tìm thấy job"}, 404)
 
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        metadata = apply_clip_edits(job_id, metadata, payload.get("edits", []))
+        metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
         selected_ids = [
             int(suggestion["id"])
             for suggestion in metadata["suggestions"]

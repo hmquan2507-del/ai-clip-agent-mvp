@@ -361,6 +361,14 @@ button:disabled {
   font-size: 17px;
 }
 
+.clip-editor label {
+  margin-bottom: 10px;
+}
+
+.clip-editor textarea {
+  min-height: 62px;
+}
+
 .meta {
   display: flex;
   flex-wrap: wrap;
@@ -391,6 +399,15 @@ button:disabled {
   border-radius: 8px;
   background: #f8fafc;
   border: 1px solid var(--line);
+}
+
+.clip-plan label {
+  margin-bottom: 0;
+}
+
+.clip-plan input,
+.clip-plan textarea {
+  background: white;
 }
 
 .clip-plan span {

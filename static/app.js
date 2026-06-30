@@ -135,26 +135,40 @@ function renderSuggestions(job) {
       (clip) => `
         <article class="clip-card">
           <input type="checkbox" value="${clip.id}" checked aria-label="Chọn clip ${clip.id}" />
-          <div>
+          <div class="clip-editor" data-clip-id="${clip.id}">
             <div class="meta">
               <span>Clip ${clip.id}</span>
               <span>${Number(clip.highlight_score || 50)} điểm</span>
               <span>Bắt đầu ${formatTime(clip.start)}</span>
               <span>${Math.round(clip.duration)} giây</span>
             </div>
-            <h3>${escapeHtml(clip.hook)}</h3>
+            <label>Hook
+              <textarea data-field="hook" rows="2">${escapeHtml(clip.hook)}</textarea>
+            </label>
             <p><strong>Lý do chọn:</strong> ${escapeHtml(clip.reason || "Đoạn phù hợp để edit thành clip ngắn.")}</p>
             ${clip.keywords?.length ? `<p><strong>Keyword:</strong> ${clip.keywords.map(escapeHtml).join(", ")}</p>` : ""}
             ${clip.edit_plan ? `
               <div class="clip-plan">
-                <span>${escapeHtml(clip.edit_plan.subtitle_style)}</span>
-                <span>B-roll: ${(clip.edit_plan.broll || []).map(escapeHtml).join(" · ")}</span>
-                <span>SFX: ${(clip.edit_plan.sfx || []).map(escapeHtml).join(" · ")}</span>
-                <span>Music: ${escapeHtml(clip.edit_plan.music || "")}</span>
+                <label>Subtitle style
+                  <input data-field="subtitle_style" value="${escapeHtml(clip.edit_plan.subtitle_style || "")}" />
+                </label>
+                <label>B-roll
+                  <textarea data-field="broll" rows="3">${escapeHtml((clip.edit_plan.broll || []).join("\n"))}</textarea>
+                </label>
+                <label>SFX
+                  <textarea data-field="sfx" rows="2">${escapeHtml((clip.edit_plan.sfx || []).join("\n"))}</textarea>
+                </label>
+                <label>Music
+                  <input data-field="music" value="${escapeHtml(clip.edit_plan.music || "")}" />
+                </label>
               </div>
             ` : ""}
-            <p><strong>Caption:</strong> ${escapeHtml(clip.caption)}</p>
-            <p><strong>CTA:</strong> ${escapeHtml(clip.cta)}</p>
+            <label>Caption
+              <textarea data-field="caption" rows="2">${escapeHtml(clip.caption)}</textarea>
+            </label>
+            <label>CTA
+              <input data-field="cta" value="${escapeHtml(clip.cta)}" />
+            </label>
           </div>
         </article>
       `
@@ -261,6 +275,16 @@ function renderOutputs(items) {
     .join("");
 }
 
+function collectClipEdits() {
+  return [...suggestions.querySelectorAll(".clip-editor")].map((editor) => {
+    const edit = { id: Number(editor.dataset.clipId) };
+    editor.querySelectorAll("[data-field]").forEach((input) => {
+      edit[input.dataset.field] = input.value;
+    });
+    return edit;
+  });
+}
+
 videoInput.addEventListener("change", () => {
   renderVideoPreview(videoInput.files?.[0]);
 });
@@ -299,7 +323,7 @@ renderBtn.addEventListener("click", async () => {
     const response = await fetch("/api/render", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ job_id: currentJob.job_id, selected }),
+      body: JSON.stringify({ job_id: currentJob.job_id, selected, edits: collectClipEdits() }),
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "Render lỗi");
