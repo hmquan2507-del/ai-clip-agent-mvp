@@ -22,7 +22,9 @@ http://localhost:8765
 - Chọn độ dài mỗi clip: 15/30/45/60/90 giây.
 - Nhập yêu cầu riêng của khách để định hướng hook/caption.
 - Nhập caption chính, niche và mục tiêu video.
+- Tạo transcript bằng `faster-whisper` nếu môi trường đã cài; nếu chưa có thì tạo transcript scaffold để workspace vẫn chạy đủ flow.
 - Hệ thống đề xuất 3-8 đoạn cắt theo thời lượng video.
+- Clip suggestion ưu tiên lấy hook từ transcript segment khi có dữ liệu transcript.
 - Tạo Editor Workspace cho từng job: Footage, Subtitle, B-roll, Sound effect, Nhạc nền, Export.
 - Lưu asset bin và các bước edit cho từng clip vào SQLite.
 - Render clip dọc 1080x1920 bằng `ffmpeg`.
@@ -56,6 +58,7 @@ ai-clip-agent-mvp/
 - `accounts`: account demo và gói dùng thử.
 - `jobs`: video upload, mode xử lý, style render, yêu cầu khách.
 - `suggestions`: clip đề xuất, thời điểm bắt đầu, hook/caption/CTA.
+- `transcript_segments`: transcript theo mốc thời gian, dùng làm input cho highlight/subtitle.
 - `editor_assets`: asset workspace gồm footage, subtitle, B-roll, SFX, music.
 - `editor_steps`: các bước edit cho từng clip.
 - `outputs`: video đã render.
@@ -72,11 +75,12 @@ ai-clip-agent-mvp/
 - Video dài (`long_video`): cắt thành nhiều clip ngắn, từng clip đều render theo format talking-head.
 - Tự động (`auto`): video từ 90 giây trở xuống được xem là clip thô; dài hơn 90 giây được xem là video dài.
 - Workspace editor luôn được tạo sau upload để user thấy đầy đủ quy trình edit, kể cả khi một vài track như B-roll/SFX/music mới ở trạng thái planned.
+- Transcript là bước đầu của AI editor: khi `faster-whisper` có sẵn, hệ thống tạo transcript thật; khi chưa có, hệ thống tạo scaffold để không làm gãy flow MVP.
 
 ## Giới hạn bản MVP
 
-- Chưa có speech-to-text, nên đoạn hay đang được đề xuất theo thời lượng video.
-- Chưa gọi model AI ngoài, hook/caption đang là template.
+- Chưa có LLM highlight scoring, nên đoạn hay mới ưu tiên transcript segment hoặc fallback theo thời lượng.
+- Chưa gọi model AI ngoài, hook/caption vẫn là transcript/template.
 - Chưa có đăng nhập thật, thanh toán, workspace nhiều khách.
 - Chưa có hàng đợi render cho nhiều người dùng cùng lúc.
 - B-roll, SFX và music hiện là workspace layer/planned asset; render thực tế mới áp dụng footage, subtitle/caption và loudnorm.

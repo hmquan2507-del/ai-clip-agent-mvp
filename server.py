@@ -113,6 +113,18 @@ def init_db():
                 notes TEXT,
                 FOREIGN KEY (job_id, clip_id) REFERENCES suggestions(job_id, clip_id)
             );
+
+            CREATE TABLE IF NOT EXISTS transcript_segments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                job_id TEXT NOT NULL,
+                start REAL NOT NULL,
+                end REAL NOT NULL,
+                text TEXT NOT NULL,
+                confidence REAL,
+                source TEXT NOT NULL,
+                created_at INTEGER NOT NULL,
+                FOREIGN KEY (job_id) REFERENCES jobs(job_id)
+            );
             """
         )
         existing_columns = {
@@ -222,6 +234,25 @@ def save_job(metadata):
                     step.get("notes", ""),
                 )
                 for step in workspace.get("steps", [])
+            ],
+        )
+        transcript = metadata.get("transcript", {})
+        conn.executemany(
+            """
+            INSERT INTO transcript_segments (job_id, start, end, text, confidence, source, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            [
+                (
+                    metadata["job_id"],
+                    segment["start"],
+                    segment["end"],
+                    segment["text"],
+                    segment.get("confidence"),
+                    transcript.get("source", "planned"),
+                    ts,
+                )
+                for segment in transcript.get("segments", [])
             ],
         )
 
@@ -368,18 +399,20 @@ def normalize_mode(mode, duration):
     return "raw_clip" if duration <= 90 else "long_video"
 
 
-def make_suggestions(duration, clip_count, title, niche, objective, mode="auto", target_length=30, customer_request=""):
+def make_suggestions(duration, clip_count, title, niche, objective, mode="auto", target_length=30, customer_request="", transcript=None):
     mode = normalize_mode(mode, duration)
     target_length = max(8, min(90, float(target_length or 30)))
+    transcript_segments = (transcript or {}).get("segments", [])
     if mode == "raw_clip":
         clip_len = round(min(duration, target_length if duration > target_length else duration), 2)
+        transcript_text = " ".join(segment["text"] for segment in transcript_segments[:2]).strip()
         return [
             {
                 "id": 1,
                 "start": 0,
                 "duration": clip_len,
-                "hook": customer_request or "Edit clip tho thanh talking head",
-                "caption": title or "Talking head clip",
+                "hook": customer_request or transcript_text[:64] or "Edit clip tho thanh talking head",
+                "caption": title or transcript_text[:80] or "Talking head clip",
                 "cta": objective or "Theo doi de xem them",
             }
         ]
@@ -408,15 +441,83 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
     for i in range(clip_count):
         ratio = (i + 1) / (clip_count + 1)
         start = round(min(usable, usable * ratio), 2)
+        if transcript_segments:
+            segment = transcript_segments[min(i, len(transcript_segments) - 1)]
+            start = round(max(0, min(usable, segment["start"])), 2)
+            hook = segment["text"][:76] or hooks[i % len(hooks)]
+        else:
+            hook = hooks[i % len(hooks)]
         suggestions.append({
             "id": i + 1,
             "start": start,
             "duration": round(clip_len, 2),
-            "hook": hooks[i % len(hooks)],
+            "hook": hook,
             "caption": title or "AI Clip Agent",
             "cta": ctas[i % len(ctas)],
         })
     return suggestions
+
+
+def fallback_transcript(duration, title, niche, objective, customer_request):
+    seed_lines = [
+        title or "Video talking head cua khach",
+        customer_request or "Doan nay can bien thanh noi dung ngan de giu chan nguoi xem",
+        f"Noi dung phu hop niche {niche or 'kinh doanh'}",
+        f"Muc tieu la {objective or 'xay kenh va keo inbox'}",
+        "Nen cat thanh cac doan co hook ro, subtitle lon va CTA cuoi video",
+    ]
+    segment_count = max(1, min(8, int(duration // 20) or 1))
+    segment_len = max(8, duration / segment_count)
+    segments = []
+    for index in range(segment_count):
+        start = round(index * segment_len, 2)
+        end = round(min(duration, start + segment_len), 2)
+        segments.append({
+            "start": start,
+            "end": end,
+            "text": seed_lines[index % len(seed_lines)],
+            "confidence": None,
+        })
+    return {
+        "status": "planned",
+        "source": "fallback",
+        "language": "vi",
+        "segments": segments,
+        "summary": "Chua co Whisper/faster-whisper nen MVP tao transcript scaffold de editor tiep tuc flow.",
+    }
+
+
+def transcribe_video(input_path, duration, title, niche, objective, customer_request):
+    try:
+        from faster_whisper import WhisperModel
+
+        model_size = os.environ.get("WHISPER_MODEL", "base")
+        model = WhisperModel(model_size, device=os.environ.get("WHISPER_DEVICE", "cpu"), compute_type="int8")
+        segments, info = model.transcribe(str(input_path), vad_filter=True)
+        rows = []
+        for segment in segments:
+            text = segment.text.strip()
+            if not text:
+                continue
+            rows.append({
+                "start": round(float(segment.start), 2),
+                "end": round(float(segment.end), 2),
+                "text": text,
+                "confidence": None,
+            })
+        if rows:
+            return {
+                "status": "ready",
+                "source": "faster-whisper",
+                "language": getattr(info, "language", "vi"),
+                "segments": rows,
+                "summary": "Transcript duoc tao bang faster-whisper local.",
+            }
+    except Exception as exc:
+        fallback = fallback_transcript(duration, title, niche, objective, customer_request)
+        fallback["summary"] = f"Chua transcribe duoc bang Whisper local: {exc}"
+        return fallback
+    return fallback_transcript(duration, title, niche, objective, customer_request)
 
 
 def build_editor_workspace(metadata):
@@ -424,6 +525,8 @@ def build_editor_workspace(metadata):
     title = metadata.get("title") or metadata["filename"]
     request = metadata.get("customer_request") or "Chưa có yêu cầu riêng"
     target = int(float(metadata.get("target_length") or 30))
+    transcript = metadata.get("transcript", {})
+    transcript_ready = transcript.get("status") == "ready"
     assets = [
         {
             "type": "footage",
@@ -435,9 +538,9 @@ def build_editor_workspace(metadata):
         {
             "type": "subtitle",
             "name": "Auto subtitle track",
-            "status": "planned",
+            "status": "ready" if transcript_ready else "planned",
             "source": "transcript",
-            "notes": "MVP tạo caption theo hook/caption trước; bước sau nối Whisper để lấy lời nói thật.",
+            "notes": transcript.get("summary") or "MVP tạo caption theo hook/caption trước; bước sau nối Whisper để lấy lời nói thật.",
         },
         {
             "type": "broll",
@@ -463,7 +566,7 @@ def build_editor_workspace(metadata):
     ]
     tracks = [
         {"id": "footage", "name": "Footage", "items": len(metadata["suggestions"]), "status": "ready"},
-        {"id": "subtitle", "name": "Subtitle", "items": len(metadata["suggestions"]), "status": "planned"},
+        {"id": "subtitle", "name": "Subtitle", "items": len(metadata["suggestions"]), "status": "ready" if transcript_ready else "planned"},
         {"id": "broll", "name": "B-roll", "items": max(1, len(metadata["suggestions"]) - 1), "status": "planned"},
         {"id": "sfx", "name": "Sound effect", "items": len(metadata["suggestions"]) * 2, "status": "planned"},
         {"id": "music", "name": "Nhạc nền", "items": 1, "status": "planned"},
@@ -783,6 +886,7 @@ class Handler(BaseHTTPRequestHandler):
         customer_request = str(form.get("customer_request", "")).strip()
         duration = ffprobe_duration(original)
         effective_mode = normalize_mode(mode, duration)
+        transcript = transcribe_video(original, duration, title, niche, objective, customer_request)
         suggestions = make_suggestions(
             duration,
             clip_count,
@@ -792,6 +896,7 @@ class Handler(BaseHTTPRequestHandler):
             mode=mode,
             target_length=target_length,
             customer_request=customer_request,
+            transcript=transcript,
         )
         metadata = {
             "job_id": job_id,
@@ -804,6 +909,7 @@ class Handler(BaseHTTPRequestHandler):
             "mode": effective_mode,
             "target_length": target_length,
             "customer_request": customer_request,
+            "transcript": transcript,
             "suggestions": suggestions,
             "outputs": [],
         }

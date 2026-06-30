@@ -10,6 +10,7 @@ const workspaceMode = document.querySelector("#workspaceMode");
 const assetBin = document.querySelector("#assetBin");
 const timelineTracks = document.querySelector("#timelineTracks");
 const editSteps = document.querySelector("#editSteps");
+const transcriptBox = document.querySelector("#transcriptBox");
 
 const accountName = document.querySelector("#accountName");
 const planName = document.querySelector("#planName");
@@ -81,6 +82,7 @@ function renderSuggestions(job) {
   renderBtn.disabled = false;
   suggestions.classList.remove("empty");
   renderWorkspace(job.editor_workspace);
+  renderTranscript(job.transcript);
   suggestions.innerHTML = job.suggestions
     .map(
       (clip) => `
@@ -100,6 +102,33 @@ function renderSuggestions(job) {
       `
     )
     .join("");
+}
+
+function renderTranscript(transcript) {
+  if (!transcript || !transcript.segments?.length) {
+    transcriptBox.className = "transcript-box empty";
+    transcriptBox.textContent = "Chưa có transcript.";
+    return;
+  }
+  transcriptBox.className = "transcript-box";
+  transcriptBox.innerHTML = `
+    <div class="transcript-summary">
+      <strong>${escapeHtml(transcript.source || "transcript")}</strong>
+      <span>${statusLabel(transcript.status)}</span>
+      <small>${escapeHtml(transcript.summary || "")}</small>
+    </div>
+    ${transcript.segments
+      .slice(0, 8)
+      .map(
+        (segment) => `
+          <article>
+            <time>${formatTime(segment.start)} - ${formatTime(segment.end)}</time>
+            <p>${escapeHtml(segment.text)}</p>
+          </article>
+        `
+      )
+      .join("")}
+  `;
 }
 
 function statusLabel(status) {
