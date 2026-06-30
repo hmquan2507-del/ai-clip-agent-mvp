@@ -30,6 +30,7 @@ http://localhost:8765
 - Chấm điểm highlight cho từng clip dựa trên tín hiệu pain/value/money/proof/urgency, niche, mục tiêu và yêu cầu khách.
 - Mỗi clip có edit plan gồm subtitle style, B-roll gợi ý, SFX và nhạc nền.
 - User có thể chỉnh hook, caption, CTA, subtitle style, B-roll, SFX và music plan trước khi render.
+- Timeline preview hiển thị các track Footage, Subtitle, B-roll, SFX và Music trước khi render.
 - Tạo Editor Workspace cho từng job: Footage, Subtitle, B-roll, Sound effect, Nhạc nền, Export.
 - Lưu asset bin và các bước edit cho từng clip vào SQLite.
 - Render clip dọc 1080x1920 bằng `ffmpeg`.

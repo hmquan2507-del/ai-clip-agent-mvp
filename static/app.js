@@ -14,6 +14,7 @@ const assetBin = document.querySelector("#assetBin");
 const timelineTracks = document.querySelector("#timelineTracks");
 const editSteps = document.querySelector("#editSteps");
 const transcriptBox = document.querySelector("#transcriptBox");
+const timelinePreview = document.querySelector("#timelinePreview");
 
 const accountName = document.querySelector("#accountName");
 const planName = document.querySelector("#planName");
@@ -174,6 +175,7 @@ function renderSuggestions(job) {
       `
     )
     .join("");
+  renderTimelinePreview(job.suggestions[0]);
 }
 
 function renderTranscript(transcript) {
@@ -261,6 +263,68 @@ function renderWorkspace(workspace) {
     .join("");
 }
 
+function clipFromEditor(editor) {
+  if (!editor) return null;
+  const clipId = Number(editor.dataset.clipId);
+  const base = currentJob?.suggestions?.find((clip) => Number(clip.id) === clipId) || {};
+  const data = { ...base, edit_plan: { ...(base.edit_plan || {}) } };
+  editor.querySelectorAll("[data-field]").forEach((input) => {
+    const field = input.dataset.field;
+    if (field === "broll" || field === "sfx") {
+      data.edit_plan[field] = input.value.split("\n").map((item) => item.trim()).filter(Boolean);
+    } else if (field === "subtitle_style" || field === "music") {
+      data.edit_plan[field] = input.value;
+    } else {
+      data[field] = input.value;
+    }
+  });
+  return data;
+}
+
+function renderTimelinePreview(clip) {
+  if (!clip) {
+    timelinePreview.className = "timeline-preview empty";
+    timelinePreview.textContent = "Chọn clip để xem timeline preview.";
+    return;
+  }
+  const plan = clip.edit_plan || {};
+  const duration = Math.max(8, Number(clip.duration) || 30);
+  const brollItems = plan.broll?.length ? plan.broll : ["B-roll gợi ý"];
+  const sfxItems = plan.sfx?.length ? plan.sfx : ["SFX hook", "SFX chuyển ý"];
+  const rows = [
+    { label: "Footage", items: [{ text: `Clip ${clip.id} · ${Math.round(duration)}s`, start: 0, width: 100, type: "footage" }] },
+    { label: "Subtitle", items: [
+      { text: clip.hook || "Hook", start: 0, width: 28, type: "subtitle" },
+      { text: clip.caption || "Caption", start: 30, width: 42, type: "subtitle" },
+      { text: clip.cta || "CTA", start: 76, width: 22, type: "subtitle" },
+    ] },
+    { label: "B-roll", items: brollItems.slice(0, 3).map((item, index) => ({ text: item, start: 12 + index * 26, width: 22, type: "broll" })) },
+    { label: "SFX", items: sfxItems.slice(0, 3).map((item, index) => ({ text: item, start: 4 + index * 34, width: 10, type: "sfx" })) },
+    { label: "Music", items: [{ text: plan.music || "Nhạc nền", start: 0, width: 100, type: "music" }] },
+  ];
+  timelinePreview.className = "timeline-preview";
+  timelinePreview.innerHTML = rows
+    .map(
+      (row) => `
+        <div class="preview-row">
+          <strong>${escapeHtml(row.label)}</strong>
+          <div>
+            ${row.items
+              .map(
+                (item) => `
+                  <span class="${escapeHtml(item.type)}" style="--start:${item.start};--width:${item.width}">
+                    ${escapeHtml(item.text)}
+                  </span>
+                `
+              )
+              .join("")}
+          </div>
+        </div>
+      `
+    )
+    .join("");
+}
+
 function renderOutputs(items) {
   outputsGrid.classList.remove("empty");
   outputsGrid.innerHTML = items
@@ -284,6 +348,17 @@ function collectClipEdits() {
     return edit;
   });
 }
+
+suggestions.addEventListener("input", (event) => {
+  const editor = event.target.closest(".clip-editor");
+  renderTimelinePreview(clipFromEditor(editor));
+});
+
+suggestions.addEventListener("change", (event) => {
+  const card = event.target.closest(".clip-card");
+  if (!card) return;
+  renderTimelinePreview(clipFromEditor(card.querySelector(".clip-editor")));
+});
 
 videoInput.addEventListener("change", () => {
   renderVideoPreview(videoInput.files?.[0]);

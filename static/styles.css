@@ -614,6 +614,80 @@ button:disabled {
   margin-top: 18px;
 }
 
+.timeline-preview-panel {
+  margin-top: 18px;
+}
+
+.timeline-preview {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0f172a;
+}
+
+.preview-row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.preview-row strong {
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+.preview-row > div {
+  position: relative;
+  min-height: 34px;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.06);
+  background-size: 10% 100%;
+  overflow: hidden;
+}
+
+.preview-row span {
+  position: absolute;
+  left: calc(var(--start) * 1%);
+  width: calc(var(--width) * 1%);
+  top: 5px;
+  bottom: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 8px;
+  color: white;
+  font-size: 11px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-row span.footage {
+  background: #2563eb;
+}
+
+.preview-row span.subtitle {
+  background: #0f766e;
+}
+
+.preview-row span.broll {
+  background: #9333ea;
+}
+
+.preview-row span.sfx {
+  background: #ea580c;
+}
+
+.preview-row span.music {
+  background: #16a34a;
+}
+
 .transcript-box {
   display: grid;
   gap: 8px;
@@ -817,6 +891,7 @@ video {
   nav,
   .job-row,
   .track-row,
+  .preview-row,
   .edit-steps article,
   .transcript-summary,
   .transcript-box article {
