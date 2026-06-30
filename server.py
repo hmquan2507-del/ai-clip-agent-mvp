@@ -613,6 +613,28 @@ def score_highlight(text, niche="", objective="", customer_request=""):
     return score, reason, sorted(set(matched))[:8]
 
 
+def build_clip_edit_plan(text, niche="", keywords=None):
+    keywords = keywords or []
+    topic = niche or "kinh doanh"
+    broll = [
+        f"Ảnh/video minh họa ngành {topic}",
+        "Close-up màn hình/chat/inbox khi nhắc đến khách hàng",
+    ]
+    if any(word in keywords for word in ["giá", "doanh thu", "lợi nhuận", "đơn"]):
+        broll.append("Overlay số liệu hoặc biểu đồ tăng trưởng")
+    if any(word in keywords for word in ["trước", "sau", "ví dụ", "case"]):
+        broll.append("Split-screen trước/sau hoặc case study")
+    sfx = ["pop nhẹ ở hook đầu", "whoosh ngắn khi đổi ý"]
+    if any(word in keywords for word in ["ngay", "đừng", "phải", "quan trọng"]):
+        sfx.append("hit sound để nhấn cảnh báo")
+    return {
+        "subtitle_style": "Caption lớn, 2 dòng, highlight keyword màu vàng",
+        "broll": broll[:3],
+        "sfx": sfx[:3],
+        "music": "Nhạc nền nhẹ, nhịp nhanh vừa, duck dưới giọng nói",
+    }
+
+
 def make_suggestions(duration, clip_count, title, niche, objective, mode="auto", target_length=30, customer_request="", transcript=None):
     mode = normalize_mode(mode, duration)
     target_length = max(8, min(90, float(target_length or 30)))
@@ -632,6 +654,7 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
                 "highlight_score": score,
                 "reason": "Clip thô ngắn nên edit nguyên video." if not reason else reason,
                 "keywords": keywords,
+                "edit_plan": build_clip_edit_plan(transcript_text or title, niche, keywords),
             }
         ]
 
@@ -676,6 +699,7 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
             "highlight_score": score,
             "reason": reason,
             "keywords": keywords,
+            "edit_plan": build_clip_edit_plan(hook, niche, keywords),
         })
     suggestions.sort(key=lambda item: item["highlight_score"], reverse=True)
     for index, suggestion in enumerate(suggestions, start=1):

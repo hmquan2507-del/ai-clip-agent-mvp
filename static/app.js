@@ -98,6 +98,14 @@ function renderSuggestions(job) {
             <h3>${escapeHtml(clip.hook)}</h3>
             <p><strong>Lý do chọn:</strong> ${escapeHtml(clip.reason || "Đoạn phù hợp để edit thành clip ngắn.")}</p>
             ${clip.keywords?.length ? `<p><strong>Keyword:</strong> ${clip.keywords.map(escapeHtml).join(", ")}</p>` : ""}
+            ${clip.edit_plan ? `
+              <div class="clip-plan">
+                <span>${escapeHtml(clip.edit_plan.subtitle_style)}</span>
+                <span>B-roll: ${(clip.edit_plan.broll || []).map(escapeHtml).join(" · ")}</span>
+                <span>SFX: ${(clip.edit_plan.sfx || []).map(escapeHtml).join(" · ")}</span>
+                <span>Music: ${escapeHtml(clip.edit_plan.music || "")}</span>
+              </div>
+            ` : ""}
             <p><strong>Caption:</strong> ${escapeHtml(clip.caption)}</p>
             <p><strong>CTA:</strong> ${escapeHtml(clip.cta)}</p>
           </div>
