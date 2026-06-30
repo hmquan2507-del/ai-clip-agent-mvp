@@ -1,0 +1,90 @@
+# AI Clip Agent MVP
+
+MVP local cho hướng sản phẩm: **SaaS video editor AI-first**. User upload video lên, phần mềm tạo workspace edit gồm Footage, Subtitle, B-roll, Sound effect, Nhạc nền và Export. Có 2 luồng chính: edit nguyên clip thô hoặc cắt video dài thành nhiều clip rồi edit từng clip.
+
+## Chạy thử
+
+```bash
+cd /home/chotnhanh/.openclaw/workspace/ai-clip-agent-mvp
+python3 server.py
+```
+
+Mở:
+
+```text
+http://localhost:8765
+```
+
+## Luồng hiện có
+
+- Upload video dài hoặc video thô.
+- Chọn kiểu xử lý: tự động, clip thô ngắn, hoặc video dài.
+- Chọn độ dài mỗi clip: 15/30/45/60/90 giây.
+- Nhập yêu cầu riêng của khách để định hướng hook/caption.
+- Nhập caption chính, niche và mục tiêu video.
+- Hệ thống đề xuất 3-8 đoạn cắt theo thời lượng video.
+- Tạo Editor Workspace cho từng job: Footage, Subtitle, B-roll, Sound effect, Nhạc nền, Export.
+- Lưu asset bin và các bước edit cho từng clip vào SQLite.
+- Render clip dọc 1080x1920 bằng `ffmpeg`.
+- Thêm hook đầu video, caption và CTA cuối.
+- Xuất file MP4 để tải xuống.
+- Lưu account demo, job, suggestion, output và quota vào SQLite.
+- Dashboard có sidebar, thống kê quota, editor workspace, job gần đây và output trong phiên.
+
+## Template render hiện có
+
+- `talking-head`: mặc định cho sản phẩm chính, crop video thành format người nói dọc, nền blur, hook trên đầu, caption lớn phía dưới, CTA và progress bar.
+- `classic`: video dọc đơn giản có hook/caption/CTA.
+- `raw-edited`: style theo clip mẫu của anh Quân, gồm nền lưới tối, nhãn RAW/EDITED, khung raw bên trái, khung edited bên phải, caption lớn và timeline giả lập phía dưới.
+
+## Cấu trúc MVP SaaS
+
+```text
+ai-clip-agent-mvp/
+  server.py                  # HTTP server, API, SQLite, ffmpeg render
+  static/
+    index.html               # Dashboard UI
+    styles.css               # UI/UX SaaS layout
+    app.js                   # Fetch API, render state, dashboard state
+  data/
+    ai_clip_agent.sqlite3    # Database local
+    jobs/                    # File upload và video output
+```
+
+## Database MVP
+
+- `accounts`: account demo và gói dùng thử.
+- `jobs`: video upload, mode xử lý, style render, yêu cầu khách.
+- `suggestions`: clip đề xuất, thời điểm bắt đầu, hook/caption/CTA.
+- `editor_assets`: asset workspace gồm footage, subtitle, B-roll, SFX, music.
+- `editor_steps`: các bước edit cho từng clip.
+- `outputs`: video đã render.
+
+## API nội bộ
+
+- `GET /api/dashboard` - account demo, quota, stats, recent jobs.
+- `POST /api/upload` - upload video và tạo suggestions.
+- `POST /api/render` - render các clip đã chọn.
+
+## Logic sản phẩm chính
+
+- Clip thô ngắn (`raw_clip`): edit nguyên clip theo format talking-head.
+- Video dài (`long_video`): cắt thành nhiều clip ngắn, từng clip đều render theo format talking-head.
+- Tự động (`auto`): video từ 90 giây trở xuống được xem là clip thô; dài hơn 90 giây được xem là video dài.
+- Workspace editor luôn được tạo sau upload để user thấy đầy đủ quy trình edit, kể cả khi một vài track như B-roll/SFX/music mới ở trạng thái planned.
+
+## Giới hạn bản MVP
+
+- Chưa có speech-to-text, nên đoạn hay đang được đề xuất theo thời lượng video.
+- Chưa gọi model AI ngoài, hook/caption đang là template.
+- Chưa có đăng nhập thật, thanh toán, workspace nhiều khách.
+- Chưa có hàng đợi render cho nhiều người dùng cùng lúc.
+- B-roll, SFX và music hiện là workspace layer/planned asset; render thực tế mới áp dụng footage, subtitle/caption và loudnorm.
+
+## Bước nâng cấp kế tiếp
+
+- Thêm transcript bằng Whisper/faster-whisper.
+- Dùng LLM để chọn đoạn có nội dung hấp dẫn thật.
+- Thêm nhiều template caption theo ngành: livestream, spa, coach, bất động sản.
+- Thêm lưu project, quota theo gói và tài khoản người dùng.
+- Thêm landing page bán gói dùng thử.

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+data/ai_clip_agent.sqlite3
+data/jobs/
+reference/
+
+.env
+.env.*
+!.env.example
