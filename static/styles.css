@@ -1,18 +1,20 @@
 :root {
   color-scheme: dark;
-  --bg: #070d14;
-  --sidebar: #0b121b;
-  --surface: rgba(14, 24, 36, 0.86);
-  --surface-2: rgba(18, 31, 46, 0.72);
-  --surface-3: rgba(9, 17, 27, 0.9);
+  --bg: #070a12;
+  --sidebar: #0a0f19;
+  --surface: rgba(14, 20, 32, 0.9);
+  --surface-2: rgba(20, 29, 44, 0.78);
+  --surface-3: rgba(9, 14, 23, 0.94);
   --ink: #f4fbff;
-  --muted: #91a3b4;
-  --line: rgba(116, 238, 218, 0.12);
-  --line-strong: rgba(116, 238, 218, 0.26);
-  --accent: #21c7b5;
-  --accent-ink: #9ff7ec;
+  --muted: #9aa8b8;
+  --line: rgba(142, 162, 181, 0.16);
+  --line-strong: rgba(125, 211, 252, 0.28);
+  --accent: #38bdf8;
+  --accent-ink: #b6e7ff;
+  --accent-2: #2dd4bf;
+  --warn: #f59e0b;
   --danger: #ff7b86;
-  --soft: rgba(33, 199, 181, 0.12);
+  --soft: rgba(56, 189, 248, 0.12);
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
 }
 
@@ -26,9 +28,7 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 72% 12%, rgba(33, 199, 181, 0.16), transparent 32%),
-    linear-gradient(135deg, #070d14 0%, #0a1019 52%, #05080d 100%);
+  background: linear-gradient(135deg, #070a12 0%, #0a1019 52%, #05080d 100%);
   color: var(--ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -65,10 +65,10 @@ body {
   display: grid;
   place-items: center;
   border-radius: 8px;
-  background: linear-gradient(135deg, #18b9aa, #0f766e);
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
   color: white;
   font-weight: 950;
-  box-shadow: 0 0 28px rgba(33, 199, 181, 0.25);
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.25);
 }
 
 .brand strong,
@@ -225,9 +225,9 @@ nav a:hover {
 }
 
 .topbar {
-  min-height: 218px;
+  min-height: 190px;
   display: grid;
-  grid-template-columns: minmax(330px, 0.9fr) minmax(420px, 1.1fr);
+  grid-template-columns: minmax(360px, 1fr) minmax(420px, 0.9fr);
   align-items: center;
   gap: 24px;
   padding: 26px 34px;
@@ -235,9 +235,9 @@ nav a:hover {
   overflow: hidden;
   position: relative;
   background:
-    linear-gradient(120deg, rgba(12, 22, 34, 0.95), rgba(9, 20, 31, 0.82)),
-    linear-gradient(90deg, rgba(33, 199, 181, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(33, 199, 181, 0.06) 1px, transparent 1px);
+    linear-gradient(120deg, rgba(14, 22, 35, 0.96), rgba(9, 16, 28, 0.9)),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(45, 212, 191, 0.05) 1px, transparent 1px);
   background-size: auto, 42px 42px, 42px 42px;
   border: 1px solid rgba(116, 238, 218, 0.16);
   box-shadow: var(--shadow);
@@ -278,7 +278,7 @@ p {
 h1 {
   max-width: 480px;
   margin: 0;
-  font-size: clamp(38px, 5vw, 52px);
+  font-size: clamp(34px, 4vw, 46px);
   line-height: 1.05;
 }
 
@@ -306,10 +306,49 @@ h2 {
   padding: 0 16px;
   border-radius: 8px;
   color: white;
-  background: linear-gradient(135deg, #1ec9b7, #119887);
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
   text-decoration: none;
   font-weight: 900;
-  box-shadow: 0 16px 32px rgba(33, 199, 181, 0.22);
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.24);
+}
+
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.dashboard-summary div {
+  min-height: 116px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.dashboard-summary span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #07111f;
+  background: linear-gradient(135deg, #fbbf24, #38bdf8);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.dashboard-summary strong,
+.dashboard-summary small {
+  display: block;
+}
+
+.dashboard-summary small {
+  color: var(--muted);
+  line-height: 1.35;
 }
 
 .hero-visual {
@@ -425,6 +464,66 @@ h2 {
   font-size: 23px;
 }
 
+.category-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 8px;
+  border: 1px solid rgba(142, 162, 181, 0.14);
+  border-radius: 8px;
+  background: rgba(7, 12, 21, 0.86);
+  backdrop-filter: blur(18px);
+}
+
+.category-tabs a {
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0 10px;
+  color: #c6d4e1;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.category-tabs a:hover {
+  color: white;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.module-section {
+  scroll-margin-top: 78px;
+  margin-top: 18px;
+}
+
+.module-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
+.module-heading > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  border-radius: 8px;
+  color: var(--accent-ink);
+  background: rgba(56, 189, 248, 0.1);
+  font-weight: 950;
+}
+
+.module-heading .eyebrow {
+  margin-bottom: 4px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: minmax(390px, 0.9fr) 1.1fr;
@@ -434,6 +533,23 @@ h2 {
 
 .panel {
   padding: 18px;
+}
+
+.upload-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(420px, 1.18fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.upload-layout > .section-title {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.upload-preview-column,
+.upload-form-column {
+  min-width: 0;
 }
 
 .section-title {
@@ -1080,9 +1196,14 @@ video {
 
   .topbar,
   .grid,
+  .upload-layout,
   .workspace-grid,
   .editor-surface,
   .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-summary {
     grid-template-columns: 1fr;
   }
 
@@ -1104,9 +1225,27 @@ video {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .sidebar {
+    overflow: hidden;
+  }
+
+  .plan-card button {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .category-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    position: static;
+  }
+
   .two-col,
   .video-preview,
   nav,
+  .dashboard-summary,
+  .upload-layout,
   .job-row,
   .track-row,
   .preview-row,

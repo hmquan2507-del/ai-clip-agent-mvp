@@ -17,7 +17,7 @@
           </div>
         </div>
         <nav>
-          <a class="active" href="#create"><span>⌂</span> Trang chủ</a>
+          <a class="active" href="#dashboard"><span>⌂</span> Trang chủ</a>
           <a href="#create"><span>＋</span> Tạo clip</a>
           <a href="#jobs"><span>◴</span> Job gần đây</a>
           <a href="#outputs"><span>▣</span> Video đã render</a>
@@ -48,22 +48,28 @@
             <span class="user-photo"></span>
           </div>
         </header>
-        <section class="topbar">
+        <section id="dashboard" class="topbar">
           <div class="hero-copy">
             <p class="eyebrow">AI Clip Agent</p>
-            <h1>1 video dài thành <span>nhiều clip ngắn.</span></h1>
-            <p>AI sẽ tự động phân tích nội dung, chọn những đoạn hay nhất và tạo thành các clip ngắn sẵn sàng để đăng.</p>
-            <a class="hero-cta" href="#create">Bắt đầu tạo clip →</a>
+            <h1>AI Clip Workspace</h1>
+            <p>Dashboard chỉ giữ tổng quan. Từng bước xử lý video được tách thành danh mục riêng để user dễ thao tác.</p>
+            <a class="hero-cta" href="#create">Tạo job mới →</a>
           </div>
-          <div class="hero-visual" aria-hidden="true">
-            <div class="hero-player">
-              <span class="play">▶</span>
+          <div class="dashboard-summary" aria-label="Luồng xử lý">
+            <div>
+              <span>01</span>
+              <strong>Upload</strong>
+              <small>Chọn video và yêu cầu edit</small>
             </div>
-            <div class="hero-clips">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
+            <div>
+              <span>02</span>
+              <strong>Analyze</strong>
+              <small>Đọc metadata, transcript, highlight</small>
+            </div>
+            <div>
+              <span>03</span>
+              <strong>Edit</strong>
+              <small>Chỉnh hook, caption, timeline</small>
             </div>
           </div>
         </section>
@@ -91,87 +97,129 @@
           </article>
         </section>
 
-        <section id="create" class="grid">
-          <form id="uploadForm" class="panel composer">
+        <nav class="category-tabs" aria-label="Danh mục làm việc">
+          <a href="#create">Upload</a>
+          <a href="#analysis">Phân tích</a>
+          <a href="#clips">Clip đề xuất</a>
+          <a href="#workspace">Editor</a>
+          <a href="#outputs">Output</a>
+          <a href="#jobs">Jobs</a>
+        </nav>
+
+        <section id="create" class="module-section">
+          <div class="module-heading">
+            <span>01</span>
+            <div>
+              <p class="eyebrow">Upload</p>
+              <h2>Video gốc và yêu cầu edit</h2>
+            </div>
+          </div>
+          <form id="uploadForm" class="panel composer upload-layout">
             <div class="section-title">
               <div>
                 <p class="eyebrow">Tạo job mới</p>
                 <h2>Upload video gốc</h2>
               </div>
             </div>
-            <label class="dropzone">
-              <span class="drop-icon">⇧</span>
-              <span>Kéo & thả video vào đây</span>
-              <small>hoặc chọn file từ máy</small>
-              <input type="file" name="video" accept="video/*" required />
-            </label>
-            <div id="videoPreviewPanel" class="video-preview empty">
-              Chưa chọn video để xem preview.
+            <div class="upload-preview-column">
+              <label class="dropzone">
+                <span class="drop-icon">⇧</span>
+                <span>Kéo & thả video vào đây</span>
+                <small>hoặc chọn file từ máy</small>
+                <input type="file" name="video" accept="video/*" required />
+              </label>
+              <div id="videoPreviewPanel" class="video-preview empty">
+                Chưa chọn video để xem preview.
+              </div>
             </div>
-            <div class="two-col">
+            <div class="upload-form-column">
+              <div class="two-col">
+                <label>
+                  Tiêu đề/caption chính
+                  <input name="title" placeholder="VD: 1 video dài có thể cắt thành 10 clip ngắn" />
+                </label>
+                <label>
+                  Tệp/niche
+                  <input name="niche" placeholder="VD: spa, livestream, podcast, bất động sản" />
+                </label>
+              </div>
+              <div class="two-col">
+                <label>
+                  Mục tiêu video
+                  <input name="objective" placeholder="VD: kéo inbox, xây kênh, bán dịch vụ" />
+                </label>
+                <label>
+                  Số clip muốn tạo
+                  <select name="clip_count">
+                    <option value="3">3 clip</option>
+                    <option value="5" selected>5 clip</option>
+                    <option value="8">8 clip</option>
+                  </select>
+                </label>
+              </div>
+              <div class="two-col">
+                <label>
+                  Kiểu xử lý
+                  <select name="mode">
+                    <option value="auto" selected>Tự động theo độ dài video</option>
+                    <option value="raw_clip">Clip thô ngắn: edit nguyên clip</option>
+                    <option value="long_video">Video dài: cắt nhiều clip</option>
+                  </select>
+                </label>
+                <label>
+                  Độ dài mỗi clip
+                  <select name="target_length">
+                    <option value="15">15 giây</option>
+                    <option value="30" selected>30 giây</option>
+                    <option value="45">45 giây</option>
+                    <option value="60">60 giây</option>
+                    <option value="90">90 giây</option>
+                  </select>
+                </label>
+              </div>
               <label>
-                Tiêu đề/caption chính
-                <input name="title" placeholder="VD: 1 video dài có thể cắt thành 10 clip ngắn" />
-              </label>
-              <label>
-                Tệp/niche
-                <input name="niche" placeholder="VD: spa, livestream, podcast, bất động sản" />
-              </label>
-            </div>
-            <div class="two-col">
-              <label>
-                Mục tiêu video
-                <input name="objective" placeholder="VD: kéo inbox, xây kênh, bán dịch vụ" />
-              </label>
-              <label>
-                Số clip muốn tạo
-                <select name="clip_count">
-                  <option value="3">3 clip</option>
-                  <option value="5" selected>5 clip</option>
-                  <option value="8">8 clip</option>
+                Template render
+                <select name="style">
+                  <option value="talking-head" selected>Talking head TikTok</option>
+                  <option value="classic">Caption bar cơ bản</option>
                 </select>
               </label>
-            </div>
-            <div class="two-col">
               <label>
-                Kiểu xử lý
-                <select name="mode">
-                  <option value="auto" selected>Tự động theo độ dài video</option>
-                  <option value="raw_clip">Clip thô ngắn: edit nguyên clip</option>
-                  <option value="long_video">Video dài: cắt nhiều clip</option>
-                </select>
+                Yêu cầu riêng của khách
+                <textarea name="customer_request" rows="3" placeholder="VD: cắt đoạn nói về lợi ích chính, caption mạnh, CTA nhắn tin tư vấn"></textarea>
               </label>
-              <label>
-                Độ dài mỗi clip
-                <select name="target_length">
-                  <option value="15">15 giây</option>
-                  <option value="30" selected>30 giây</option>
-                  <option value="45">45 giây</option>
-                  <option value="60">60 giây</option>
-                  <option value="90">90 giây</option>
-                </select>
-              </label>
+              <button type="submit">Phân tích video</button>
+              <p id="uploadStatus" class="status"></p>
             </div>
-            <label>
-              Template render
-              <select name="style">
-                <option value="talking-head" selected>Talking head TikTok</option>
-                <option value="classic">Caption bar cơ bản</option>
-              </select>
-            </label>
-            <label>
-              Yêu cầu riêng của khách
-              <textarea name="customer_request" rows="3" placeholder="VD: cắt đoạn nói về lợi ích chính, caption mạnh, CTA nhắn tin tư vấn"></textarea>
-            </label>
-            <button type="submit">Phân tích video</button>
-            <p id="uploadStatus" class="status"></p>
           </form>
+        </section>
 
+        <section id="analysis" class="module-section">
+          <div class="module-heading">
+            <span>02</span>
+            <div>
+              <p class="eyebrow">Analysis</p>
+              <h2>Phân tích trước khi edit</h2>
+            </div>
+          </div>
+          <section class="panel analysis-panel">
+            <div id="analysisGrid" class="analysis-grid empty">Upload video để xem thông tin phân tích.</div>
+          </section>
+        </section>
+
+        <section id="clips" class="module-section">
+          <div class="module-heading">
+            <span>03</span>
+            <div>
+              <p class="eyebrow">Clip đề xuất</p>
+              <h2>Chọn và chỉnh nội dung clip</h2>
+            </div>
+          </div>
           <section class="panel results">
             <div class="section-title">
               <div>
-                <p class="eyebrow">Clip đề xuất</p>
-                <h2>Chọn đoạn để render</h2>
+                <p class="eyebrow">AI shortlist</p>
+                <h2>Các đoạn nên render</h2>
               </div>
               <button id="renderBtn" type="button" disabled>Render clip đã chọn</button>
             </div>
@@ -181,124 +229,134 @@
           </section>
         </section>
 
-        <section class="panel analysis-panel">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Video analysis</p>
-              <h2>Phân tích trước khi edit</h2>
-            </div>
-          </div>
-          <div id="analysisGrid" class="analysis-grid empty">Upload video để xem thông tin phân tích.</div>
-        </section>
-
-        <section id="workspace" class="panel workspace-panel">
-          <div class="section-title">
+        <section id="workspace" class="module-section">
+          <div class="module-heading">
+            <span>04</span>
             <div>
               <p class="eyebrow">Editor workspace</p>
-              <h2>Quy trình edit sau khi upload</h2>
+              <h2>Timeline, asset và transcript</h2>
             </div>
-            <span id="workspaceMode" class="workspace-mode">Chưa có job</span>
           </div>
+          <section class="panel workspace-panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Workspace status</p>
+                <h2>Quy trình edit sau khi upload</h2>
+              </div>
+              <span id="workspaceMode" class="workspace-mode">Chưa có job</span>
+            </div>
 
-          <div class="workspace-grid">
-            <article class="workspace-block">
-              <div class="block-head">
-                <span>01</span>
-                <strong>Footage</strong>
-              </div>
-              <p>Video gốc, đoạn cắt và crop talking-head để chuẩn bị render.</p>
-            </article>
-            <article class="workspace-block">
-              <div class="block-head">
-                <span>02</span>
-                <strong>Subtitle</strong>
-              </div>
-              <p>Hook, caption lớn, CTA, chuẩn bị nối transcript/Whisper.</p>
-            </article>
-            <article class="workspace-block">
-              <div class="block-head">
-                <span>03</span>
-                <strong>B-roll</strong>
-              </div>
-              <p>Placeholder ảnh/video minh họa theo niche và keyword.</p>
-            </article>
-            <article class="workspace-block">
-              <div class="block-head">
-                <span>04</span>
-                <strong>Sound effect</strong>
-              </div>
-              <p>Whoosh, pop, click cho hook, keyword và chuyển cảnh.</p>
-            </article>
-            <article class="workspace-block">
-              <div class="block-head">
-                <span>05</span>
-                <strong>Nhạc nền</strong>
-              </div>
-              <p>Music bed nhẹ, ưu tiên rõ giọng nói và social loudness.</p>
-            </article>
-            <article class="workspace-block">
-              <div class="block-head">
-                <span>06</span>
-                <strong>Export</strong>
-              </div>
-              <p>MP4 dọc 1080x1920 cho TikTok, Reels, Shorts.</p>
-            </article>
-          </div>
+            <div class="workspace-grid">
+              <article class="workspace-block">
+                <div class="block-head">
+                  <span>01</span>
+                  <strong>Footage</strong>
+                </div>
+                <p>Video gốc, đoạn cắt và crop talking-head để chuẩn bị render.</p>
+              </article>
+              <article class="workspace-block">
+                <div class="block-head">
+                  <span>02</span>
+                  <strong>Subtitle</strong>
+                </div>
+                <p>Hook, caption lớn, CTA, chuẩn bị nối transcript/Whisper.</p>
+              </article>
+              <article class="workspace-block">
+                <div class="block-head">
+                  <span>03</span>
+                  <strong>B-roll</strong>
+                </div>
+                <p>Placeholder ảnh/video minh họa theo niche và keyword.</p>
+              </article>
+              <article class="workspace-block">
+                <div class="block-head">
+                  <span>04</span>
+                  <strong>Sound effect</strong>
+                </div>
+                <p>Whoosh, pop, click cho hook, keyword và chuyển cảnh.</p>
+              </article>
+              <article class="workspace-block">
+                <div class="block-head">
+                  <span>05</span>
+                  <strong>Nhạc nền</strong>
+                </div>
+                <p>Music bed nhẹ, ưu tiên rõ giọng nói và social loudness.</p>
+              </article>
+              <article class="workspace-block">
+                <div class="block-head">
+                  <span>06</span>
+                  <strong>Export</strong>
+                </div>
+                <p>MP4 dọc 1080x1920 cho TikTok, Reels, Shorts.</p>
+              </article>
+            </div>
 
-          <div class="editor-surface">
-            <div>
-              <p class="eyebrow">Asset bin</p>
-              <div id="assetBin" class="asset-bin empty">Upload video để tạo asset workspace.</div>
+            <div class="editor-surface">
+              <div>
+                <p class="eyebrow">Asset bin</p>
+                <div id="assetBin" class="asset-bin empty">Upload video để tạo asset workspace.</div>
+              </div>
+              <div>
+                <p class="eyebrow">Timeline tracks</p>
+                <div id="timelineTracks" class="timeline-tracks empty">Chưa có timeline.</div>
+              </div>
             </div>
-            <div>
-              <p class="eyebrow">Timeline tracks</p>
-              <div id="timelineTracks" class="timeline-tracks empty">Chưa có timeline.</div>
+            <div class="timeline-preview-panel">
+              <p class="eyebrow">Timeline preview</p>
+              <div id="timelinePreview" class="timeline-preview empty">Chọn clip để xem timeline preview.</div>
             </div>
-          </div>
-          <div class="timeline-preview-panel">
-            <p class="eyebrow">Timeline preview</p>
-            <div id="timelinePreview" class="timeline-preview empty">Chọn clip để xem timeline preview.</div>
-          </div>
-          <div class="transcript-panel">
-            <p class="eyebrow">Transcript / AI highlight input</p>
-            <div id="transcriptBox" class="transcript-box empty">Chưa có transcript.</div>
-          </div>
-          <div id="editSteps" class="edit-steps empty">Chưa có bước edit cho clip.</div>
+            <div class="transcript-panel">
+              <p class="eyebrow">Transcript / AI highlight input</p>
+              <div id="transcriptBox" class="transcript-box empty">Chưa có transcript.</div>
+            </div>
+            <div id="editSteps" class="edit-steps empty">Chưa có bước edit cho clip.</div>
+          </section>
         </section>
 
-        <section id="outputs" class="panel outputs">
-          <div class="section-title">
+        <section id="outputs" class="module-section">
+          <div class="module-heading">
+            <span>05</span>
             <div>
               <p class="eyebrow">Output</p>
               <h2>Video đã render</h2>
             </div>
           </div>
-          <div id="outputsGrid" class="output-grid empty">Chưa có video xuất ra trong phiên này.</div>
+          <section class="panel outputs">
+            <div id="outputsGrid" class="output-grid empty">Chưa có video xuất ra trong phiên này.</div>
+          </section>
         </section>
 
-        <section id="jobs" class="panel jobs-panel">
-          <div class="section-title">
+        <section id="jobs" class="module-section">
+          <div class="module-heading">
+            <span>06</span>
             <div>
               <p class="eyebrow">Database</p>
               <h2>Job gần đây</h2>
             </div>
           </div>
-          <div id="jobsTable" class="jobs-table empty">Chưa có job nào.</div>
+          <section class="panel jobs-panel">
+            <div id="jobsTable" class="jobs-table empty">Chưa có job nào.</div>
+          </section>
         </section>
 
-        <section id="settings" class="panel settings-panel">
-          <div>
-            <p class="eyebrow">Bước sau</p>
-            <h2>Nâng cấp SaaS tiếp theo</h2>
+        <section id="settings" class="module-section">
+          <div class="module-heading">
+            <span>07</span>
+            <div>
+              <p class="eyebrow">Settings</p>
+              <h2>Nâng cấp SaaS tiếp theo</h2>
+            </div>
           </div>
-          <div class="roadmap">
-            <span>Đăng nhập khách hàng</span>
-            <span>Thanh toán/gói quota</span>
-            <span>Whisper transcript</span>
-            <span>AI chọn đoạn hay</span>
-            <span>Hàng đợi render</span>
-            <span>Template thương hiệu</span>
-          </div>
+          <section class="panel settings-panel">
+            <div class="roadmap">
+              <span>Đăng nhập khách hàng</span>
+              <span>Thanh toán/gói quota</span>
+              <span>Whisper transcript</span>
+              <span>AI chọn đoạn hay</span>
+              <span>Hàng đợi render</span>
+              <span>Template thương hiệu</span>
+            </div>
+          </section>
         </section>
       </main>
     </div>
