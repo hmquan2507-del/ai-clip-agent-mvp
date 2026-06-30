@@ -44,6 +44,7 @@ http://localhost:8765
 ```text
 ai-clip-agent-mvp/
   server.py                  # HTTP server, API, SQLite, ffmpeg render
+  worker.py                  # Render worker for queued production-style jobs
   storage.py                 # Local/S3/R2 storage adapters
   .env.example               # Production storage/env template
   static/
@@ -64,6 +65,7 @@ ai-clip-agent-mvp/
 - `transcript_segments`: transcript theo mốc thời gian, dùng làm input cho highlight/subtitle.
 - `editor_assets`: asset workspace gồm footage, subtitle, B-roll, SFX, music.
 - `editor_steps`: các bước edit cho từng clip.
+- `render_tasks`: hàng đợi render để web server không phải xử lý video nặng trực tiếp.
 - `outputs`: video đã render.
 
 ## API nội bộ
@@ -72,6 +74,23 @@ ai-clip-agent-mvp/
 - `POST /api/upload` - upload video và tạo suggestions.
 - `POST /api/uploads/presign` - tạo signed URL cho browser upload trực tiếp lên S3/R2 khi dùng production storage.
 - `POST /api/render` - render các clip đã chọn.
+
+## Render Queue
+
+Local MVP mặc định dùng:
+
+```text
+RENDER_MODE=sync
+```
+
+Production nên dùng:
+
+```text
+RENDER_MODE=queue
+python3 worker.py
+```
+
+Khi `RENDER_MODE=queue`, API `/api/render` chỉ tạo record trong `render_tasks` và trả về trạng thái queued. Worker riêng sẽ lấy từng task pending, render bằng ffmpeg, cập nhật output. Đây là nền để scale nhiều worker sau này thay vì làm nặng web server.
 
 ## Storage Production
 

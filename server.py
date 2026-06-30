@@ -132,6 +132,19 @@ def init_db():
                 created_at INTEGER NOT NULL,
                 FOREIGN KEY (job_id) REFERENCES jobs(job_id)
             );
+
+            CREATE TABLE IF NOT EXISTS render_tasks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                job_id TEXT NOT NULL,
+                clip_id INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                attempts INTEGER NOT NULL DEFAULT 0,
+                error TEXT,
+                output_url TEXT,
+                created_at INTEGER NOT NULL,
+                updated_at INTEGER NOT NULL,
+                FOREIGN KEY (job_id, clip_id) REFERENCES suggestions(job_id, clip_id)
+            );
             """
         )
         existing_columns = {
@@ -290,6 +303,129 @@ def save_outputs(job_id, outputs):
             "UPDATE jobs SET status = ?, updated_at = ? WHERE job_id = ?",
             ("rendered", now_ts(), job_id),
         )
+
+
+def enqueue_render_tasks(job_id, selected):
+    ts = now_ts()
+    with db_connect() as conn:
+        for clip_id in selected:
+            conn.execute(
+                """
+                INSERT INTO render_tasks (job_id, clip_id, status, attempts, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (job_id, clip_id, "pending", 0, ts, ts),
+            )
+        conn.execute(
+            "UPDATE jobs SET status = ?, updated_at = ? WHERE job_id = ?",
+            ("queued", ts, job_id),
+        )
+
+
+def list_render_tasks(job_id):
+    with db_connect() as conn:
+        return [
+            dict(row)
+            for row in conn.execute(
+                """
+                SELECT *
+                FROM render_tasks
+                WHERE job_id = ?
+                ORDER BY created_at ASC, id ASC
+                """,
+                (job_id,),
+            ).fetchall()
+        ]
+
+
+def next_render_task():
+    with db_connect() as conn:
+        row = conn.execute(
+            """
+            SELECT *
+            FROM render_tasks
+            WHERE status = 'pending'
+            ORDER BY created_at ASC, id ASC
+            LIMIT 1
+            """
+        ).fetchone()
+        if not row:
+            return None
+        task = dict(row)
+        conn.execute(
+            """
+            UPDATE render_tasks
+            SET status = ?, attempts = attempts + 1, updated_at = ?
+            WHERE id = ?
+            """,
+            ("processing", now_ts(), task["id"]),
+        )
+        return task
+
+
+def complete_render_task(task_id, output_url):
+    with db_connect() as conn:
+        conn.execute(
+            """
+            UPDATE render_tasks
+            SET status = ?, output_url = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            ("done", output_url, now_ts(), task_id),
+        )
+
+
+def fail_render_task(task_id, error):
+    with db_connect() as conn:
+        conn.execute(
+            """
+            UPDATE render_tasks
+            SET status = ?, error = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            ("failed", str(error)[:1000], now_ts(), task_id),
+        )
+
+
+def render_job_clip(job_id, clip_id):
+    job_dir = JOBS / job_id
+    metadata_path = job_dir / "job.json"
+    if not metadata_path.exists():
+        raise FileNotFoundError("Không tìm thấy job")
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    input_path = job_dir / metadata["filename"]
+    style = metadata.get("style", "classic")
+    suggestion = next((item for item in metadata["suggestions"] if int(item["id"]) == int(clip_id)), None)
+    if not suggestion:
+        raise ValueError("Không tìm thấy clip trong job")
+    output_name = f"clip-{suggestion['id']:02d}.mp4"
+    output_path = job_dir / output_name
+    render_clip(input_path, output_path, suggestion, style=style)
+    output = {
+        "id": suggestion["id"],
+        "name": output_name,
+        "url": f"/jobs/{job_id}/{output_name}",
+    }
+    outputs = metadata.get("outputs", [])
+    outputs = [item for item in outputs if int(item["id"]) != int(output["id"])]
+    outputs.append(output)
+    metadata["outputs"] = sorted(outputs, key=lambda item: item["id"])
+    metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+    save_outputs(job_id, [output])
+    return output
+
+
+def process_next_render_task():
+    task = next_render_task()
+    if not task:
+        return None
+    try:
+        output = render_job_clip(task["job_id"], task["clip_id"])
+        complete_render_task(task["id"], output["url"])
+        return {"task": task, "output": output}
+    except Exception as exc:
+        fail_render_task(task["id"], exc)
+        raise
 
 
 def dashboard_payload():
@@ -985,23 +1121,25 @@ class Handler(BaseHTTPRequestHandler):
             return json_response(self, {"error": "Không tìm thấy job"}, 404)
 
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-        input_path = job_dir / metadata["filename"]
-        style = metadata.get("style", "classic")
-        outputs = []
-        for suggestion in metadata["suggestions"]:
-            if selected and suggestion["id"] not in selected:
-                continue
-            output_name = f"clip-{suggestion['id']:02d}.mp4"
-            output_path = job_dir / output_name
-            render_clip(input_path, output_path, suggestion, style=style)
-            outputs.append({
-                "id": suggestion["id"],
-                "name": output_name,
-                "url": f"/jobs/{job_id}/{output_name}",
-            })
-        metadata["outputs"] = outputs
-        metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
-        save_outputs(job_id, outputs)
+        selected_ids = [
+            int(suggestion["id"])
+            for suggestion in metadata["suggestions"]
+            if not selected or int(suggestion["id"]) in selected
+        ]
+        if os.environ.get("RENDER_MODE", "sync").lower() == "queue":
+            enqueue_render_tasks(job_id, selected_ids)
+            return json_response(
+                self,
+                {
+                    "job_id": job_id,
+                    "queued": True,
+                    "tasks": list_render_tasks(job_id),
+                    "message": "Đã đưa clip vào render queue.",
+                },
+                202,
+            )
+
+        outputs = [render_job_clip(job_id, clip_id) for clip_id in selected_ids]
         return json_response(self, {"job_id": job_id, "outputs": outputs})
 
     def serve_file(self, path):

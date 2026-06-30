@@ -241,6 +241,11 @@ renderBtn.addEventListener("click", async () => {
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "Render lỗi");
+    if (data.queued) {
+      uploadStatus.textContent = `Đã đưa ${data.tasks.length} clip vào render queue.`;
+      await loadDashboard();
+      return;
+    }
     renderOutputs(data.outputs);
     uploadStatus.textContent = `Đã render ${data.outputs.length} clip.`;
     await loadDashboard();
