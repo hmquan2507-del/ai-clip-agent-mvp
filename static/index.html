@@ -75,6 +75,9 @@
               <span>Chọn video dài hoặc video thô</span>
               <input type="file" name="video" accept="video/*" required />
             </label>
+            <div id="videoPreviewPanel" class="video-preview empty">
+              Chưa chọn video để xem preview.
+            </div>
             <div class="two-col">
               <label>
                 Tiêu đề/caption chính
@@ -147,6 +150,16 @@
               Upload video để xem các đoạn cắt đề xuất.
             </div>
           </section>
+        </section>
+
+        <section class="panel analysis-panel">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Video analysis</p>
+              <h2>Phân tích trước khi edit</h2>
+            </div>
+          </div>
+          <div id="analysisGrid" class="analysis-grid empty">Upload video để xem thông tin phân tích.</div>
         </section>
 
         <section id="workspace" class="panel workspace-panel">

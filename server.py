@@ -60,6 +60,10 @@ def init_db():
                 file_size INTEGER NOT NULL DEFAULT 0,
                 mime_type TEXT,
                 expires_at INTEGER,
+                width INTEGER,
+                height INTEGER,
+                fps REAL,
+                has_audio INTEGER NOT NULL DEFAULT 0,
                 title TEXT,
                 niche TEXT,
                 objective TEXT,
@@ -169,6 +173,10 @@ def init_db():
             "file_size": "ALTER TABLE jobs ADD COLUMN file_size INTEGER NOT NULL DEFAULT 0",
             "mime_type": "ALTER TABLE jobs ADD COLUMN mime_type TEXT",
             "expires_at": "ALTER TABLE jobs ADD COLUMN expires_at INTEGER",
+            "width": "ALTER TABLE jobs ADD COLUMN width INTEGER",
+            "height": "ALTER TABLE jobs ADD COLUMN height INTEGER",
+            "fps": "ALTER TABLE jobs ADD COLUMN fps REAL",
+            "has_audio": "ALTER TABLE jobs ADD COLUMN has_audio INTEGER NOT NULL DEFAULT 0",
         }
         for column, statement in migrations.items():
             if column not in existing_columns:
@@ -201,9 +209,10 @@ def save_job(metadata):
             """
             INSERT INTO jobs (
                 job_id, account_id, filename, storage_provider, storage_key,
-                storage_url, file_size, mime_type, expires_at, title, niche, objective, duration,
+                storage_url, file_size, mime_type, expires_at, width, height, fps, has_audio,
+                title, niche, objective, duration,
                 clip_count, status, created_at, updated_at, style, mode, target_length, customer_request
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 metadata["job_id"],
@@ -215,6 +224,10 @@ def save_job(metadata):
                 metadata.get("file_size", 0),
                 metadata.get("mime_type", ""),
                 metadata.get("expires_at"),
+                metadata.get("video_analysis", {}).get("width"),
+                metadata.get("video_analysis", {}).get("height"),
+                metadata.get("video_analysis", {}).get("fps"),
+                1 if metadata.get("video_analysis", {}).get("has_audio") else 0,
                 metadata["title"],
                 metadata["niche"],
                 metadata["objective"],
@@ -516,6 +529,47 @@ def ffprobe_duration(path):
         str(path),
     ])
     return max(1.0, float(result.stdout.strip()))
+
+
+def parse_fps(rate):
+    if not rate or rate == "0/0":
+        return None
+    if "/" in rate:
+        num, den = rate.split("/", 1)
+        den_value = float(den or 1)
+        return round(float(num) / den_value, 2) if den_value else None
+    return round(float(rate), 2)
+
+
+def ffprobe_analysis(path):
+    result = run([
+        "ffprobe",
+        "-v",
+        "error",
+        "-show_streams",
+        "-show_format",
+        "-of",
+        "json",
+        str(path),
+    ])
+    payload = json.loads(result.stdout)
+    streams = payload.get("streams", [])
+    video = next((stream for stream in streams if stream.get("codec_type") == "video"), {})
+    audio = next((stream for stream in streams if stream.get("codec_type") == "audio"), None)
+    duration = float(payload.get("format", {}).get("duration") or video.get("duration") or 1)
+    width = int(video.get("width") or 0)
+    height = int(video.get("height") or 0)
+    return {
+        "duration": max(1.0, duration),
+        "width": width,
+        "height": height,
+        "aspect_ratio": round(width / height, 3) if width and height else None,
+        "fps": parse_fps(video.get("avg_frame_rate") or video.get("r_frame_rate")),
+        "video_codec": video.get("codec_name", ""),
+        "audio_codec": audio.get("codec_name", "") if audio else "",
+        "has_audio": bool(audio),
+        "is_vertical": bool(height and width and height > width),
+    }
 
 
 def safe_name(name):
@@ -1159,7 +1213,8 @@ class Handler(BaseHTTPRequestHandler):
         mode = str(form.get("mode", "auto")).strip() or "auto"
         target_length = float(str(form.get("target_length", "30")).strip() or 30)
         customer_request = str(form.get("customer_request", "")).strip()
-        duration = ffprobe_duration(original)
+        video_analysis = ffprobe_analysis(original)
+        duration = video_analysis["duration"]
         effective_mode = normalize_mode(mode, duration)
         transcript = transcribe_video(original, duration, title, niche, objective, customer_request)
         suggestions = make_suggestions(
@@ -1183,6 +1238,11 @@ class Handler(BaseHTTPRequestHandler):
             "mime_type": stored_file.mime_type,
             "expires_at": stored_file.expires_at,
             "duration": duration,
+            "video_analysis": {
+                **video_analysis,
+                "processing_mode": effective_mode,
+                "recommended_action": "Edit nguyên video" if effective_mode == "raw_clip" else "Cắt clip rồi edit từng clip",
+            },
             "title": title,
             "niche": niche,
             "objective": objective,

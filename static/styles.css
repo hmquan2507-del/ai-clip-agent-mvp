@@ -271,6 +271,35 @@ textarea {
   font-size: 15px;
 }
 
+.video-preview {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.video-preview video {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.video-preview strong,
+.video-preview span {
+  display: block;
+}
+
+.video-preview span {
+  margin-top: 5px;
+  color: var(--muted);
+}
+
 input[type="file"] {
   padding: 10px;
   background: transparent;
@@ -370,11 +399,42 @@ button:disabled {
   line-height: 1.35;
 }
 
+.analysis-panel,
 .workspace-panel,
 .outputs,
 .jobs-panel,
 .settings-panel {
   margin-top: 16px;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.analysis-grid article {
+  min-height: 84px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.analysis-grid span,
+.analysis-grid strong {
+  display: block;
+}
+
+.analysis-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.analysis-grid strong {
+  margin-top: 8px;
+  font-size: 16px;
 }
 
 .workspace-mode {
@@ -714,7 +774,8 @@ video {
   .metrics,
   .grid,
   .workspace-grid,
-  .editor-surface {
+  .editor-surface,
+  .analysis-grid {
     grid-template-columns: 1fr;
   }
 
@@ -735,6 +796,7 @@ video {
   }
 
   .two-col,
+  .video-preview,
   nav,
   .job-row,
   .track-row,

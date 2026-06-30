@@ -18,6 +18,8 @@ http://localhost:8765
 ## Luồng hiện có
 
 - Upload video dài hoặc video thô.
+- Xem preview video ngay trong browser trước khi upload.
+- Phân tích video thật sau upload: duration, width, height, fps, codec, audio, vertical/horizontal và recommended action.
 - Chọn kiểu xử lý: tự động, clip thô ngắn, hoặc video dài.
 - Chọn độ dài mỗi clip: 15/30/45/60/90 giây.
 - Nhập yêu cầu riêng của khách để định hướng hook/caption.
@@ -63,6 +65,7 @@ ai-clip-agent-mvp/
 - `accounts`: account demo và gói dùng thử.
 - `jobs`: video upload, mode xử lý, style render, yêu cầu khách.
 - `jobs.storage_provider`, `storage_key`, `storage_url`, `file_size`, `mime_type`, `expires_at`: metadata file/video để production không lưu binary trong DB.
+- `jobs.width`, `height`, `fps`, `has_audio`: thông tin phân tích video để editor quyết định cách crop/edit.
 - `suggestions`: clip đề xuất, thời điểm bắt đầu, hook/caption/CTA, highlight score, lý do chọn và keyword.
 - `transcript_segments`: transcript theo mốc thời gian, dùng làm input cho highlight/subtitle.
 - `editor_assets`: asset workspace gồm footage, subtitle, B-roll, SFX, music.

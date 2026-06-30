@@ -2,6 +2,9 @@ let currentJob = null;
 
 const uploadForm = document.querySelector("#uploadForm");
 const uploadStatus = document.querySelector("#uploadStatus");
+const videoInput = uploadForm.querySelector('input[type="file"]');
+const videoPreviewPanel = document.querySelector("#videoPreviewPanel");
+const analysisGrid = document.querySelector("#analysisGrid");
 const suggestions = document.querySelector("#suggestions");
 const renderBtn = document.querySelector("#renderBtn");
 const outputsGrid = document.querySelector("#outputsGrid");
@@ -77,10 +80,54 @@ function renderJobs(jobs) {
     .join("");
 }
 
+function renderVideoPreview(file) {
+  if (!file) {
+    videoPreviewPanel.className = "video-preview empty";
+    videoPreviewPanel.textContent = "Chưa chọn video để xem preview.";
+    return;
+  }
+  const url = URL.createObjectURL(file);
+  videoPreviewPanel.className = "video-preview";
+  videoPreviewPanel.innerHTML = `
+    <video src="${url}" controls playsinline muted></video>
+    <div>
+      <strong>${escapeHtml(file.name)}</strong>
+      <span>${(file.size / 1024 / 1024).toFixed(1)} MB · ${escapeHtml(file.type || "video")}</span>
+    </div>
+  `;
+}
+
+function renderAnalysis(job) {
+  const analysis = job.video_analysis;
+  if (!analysis) return;
+  analysisGrid.className = "analysis-grid";
+  const items = [
+    ["Thời lượng", `${Math.round(analysis.duration)} giây`],
+    ["Kích thước", `${analysis.width || "-"}x${analysis.height || "-"}`],
+    ["FPS", analysis.fps || "-"],
+    ["Tỷ lệ", analysis.is_vertical ? "Dọc" : "Ngang/vuông"],
+    ["Video codec", analysis.video_codec || "-"],
+    ["Audio", analysis.has_audio ? analysis.audio_codec || "Có" : "Không có audio"],
+    ["Kiểu xử lý", analysis.recommended_action || "-"],
+    ["Storage", `${job.storage_provider || "local"} · ${job.storage_key || job.filename}`],
+  ];
+  analysisGrid.innerHTML = items
+    .map(
+      ([label, value]) => `
+        <article>
+          <span>${escapeHtml(label)}</span>
+          <strong>${escapeHtml(value)}</strong>
+        </article>
+      `
+    )
+    .join("");
+}
+
 function renderSuggestions(job) {
   currentJob = job;
   renderBtn.disabled = false;
   suggestions.classList.remove("empty");
+  renderAnalysis(job);
   renderWorkspace(job.editor_workspace);
   renderTranscript(job.transcript);
   suggestions.innerHTML = job.suggestions
@@ -213,6 +260,10 @@ function renderOutputs(items) {
     )
     .join("");
 }
+
+videoInput.addEventListener("change", () => {
+  renderVideoPreview(videoInput.files?.[0]);
+});
 
 uploadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
