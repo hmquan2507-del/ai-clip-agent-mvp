@@ -83,6 +83,9 @@ def init_db():
                 hook TEXT NOT NULL,
                 caption TEXT NOT NULL,
                 cta TEXT NOT NULL,
+                highlight_score INTEGER NOT NULL DEFAULT 50,
+                reason TEXT,
+                keywords TEXT,
                 PRIMARY KEY (job_id, clip_id),
                 FOREIGN KEY (job_id) REFERENCES jobs(job_id)
             );
@@ -151,6 +154,10 @@ def init_db():
             row["name"]
             for row in conn.execute("PRAGMA table_info(jobs)").fetchall()
         }
+        suggestion_columns = {
+            row["name"]
+            for row in conn.execute("PRAGMA table_info(suggestions)").fetchall()
+        }
         migrations = {
             "style": "ALTER TABLE jobs ADD COLUMN style TEXT NOT NULL DEFAULT 'classic'",
             "mode": "ALTER TABLE jobs ADD COLUMN mode TEXT NOT NULL DEFAULT 'auto'",
@@ -165,6 +172,14 @@ def init_db():
         }
         for column, statement in migrations.items():
             if column not in existing_columns:
+                conn.execute(statement)
+        suggestion_migrations = {
+            "highlight_score": "ALTER TABLE suggestions ADD COLUMN highlight_score INTEGER NOT NULL DEFAULT 50",
+            "reason": "ALTER TABLE suggestions ADD COLUMN reason TEXT",
+            "keywords": "ALTER TABLE suggestions ADD COLUMN keywords TEXT",
+        }
+        for column, statement in suggestion_migrations.items():
+            if column not in suggestion_columns:
                 conn.execute(statement)
         conn.execute(
             """
@@ -216,8 +231,11 @@ def save_job(metadata):
         )
         conn.executemany(
             """
-            INSERT INTO suggestions (job_id, clip_id, start, duration, hook, caption, cta)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO suggestions (
+                job_id, clip_id, start, duration, hook, caption, cta,
+                highlight_score, reason, keywords
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             [
                 (
@@ -228,6 +246,9 @@ def save_job(metadata):
                     item["hook"],
                     item["caption"],
                     item["cta"],
+                    item.get("highlight_score", 50),
+                    item.get("reason", ""),
+                    json.dumps(item.get("keywords", []), ensure_ascii=False),
                 )
                 for item in metadata["suggestions"]
             ],
@@ -559,6 +580,39 @@ def normalize_mode(mode, duration):
     return "raw_clip" if duration <= 90 else "long_video"
 
 
+def score_highlight(text, niche="", objective="", customer_request=""):
+    normalized = str(text or "").lower()
+    keyword_groups = {
+        "pain": ["khó", "lo", "sai", "mất", "tốn", "vấn đề", "không biết", "kẹt", "lỗi"],
+        "value": ["cách", "bí quyết", "lợi ích", "tăng", "giảm", "nhanh", "hiệu quả", "giúp"],
+        "money": ["giá", "doanh thu", "bán", "chốt", "đơn", "khách", "inbox", "lợi nhuận"],
+        "proof": ["ví dụ", "case", "thực tế", "kết quả", "trước", "sau", "mẫu"],
+        "urgency": ["ngay", "hôm nay", "đừng", "nên", "phải", "quan trọng"],
+    }
+    matched = []
+    score = 45
+    for words in keyword_groups.values():
+        hits = [word for word in words if word in normalized]
+        if hits:
+            score += min(18, len(hits) * 6)
+            matched.extend(hits)
+    for value in [niche, objective, customer_request]:
+        for word in str(value or "").lower().split():
+            if len(word) >= 4 and word in normalized:
+                score += 4
+                matched.append(word)
+    word_count = len(normalized.split())
+    if 8 <= word_count <= 36:
+        score += 12
+    elif word_count > 60:
+        score -= 8
+    score = max(30, min(98, score))
+    reason = "Đoạn có hook rõ, dễ cắt thành clip ngắn."
+    if matched:
+        reason = "Có tín hiệu nội dung tốt: " + ", ".join(sorted(set(matched))[:5])
+    return score, reason, sorted(set(matched))[:8]
+
+
 def make_suggestions(duration, clip_count, title, niche, objective, mode="auto", target_length=30, customer_request="", transcript=None):
     mode = normalize_mode(mode, duration)
     target_length = max(8, min(90, float(target_length or 30)))
@@ -566,6 +620,7 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
     if mode == "raw_clip":
         clip_len = round(min(duration, target_length if duration > target_length else duration), 2)
         transcript_text = " ".join(segment["text"] for segment in transcript_segments[:2]).strip()
+        score, reason, keywords = score_highlight(transcript_text or title, niche, objective, customer_request)
         return [
             {
                 "id": 1,
@@ -574,6 +629,9 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
                 "hook": customer_request or transcript_text[:64] or "Edit clip tho thanh talking head",
                 "caption": title or transcript_text[:80] or "Talking head clip",
                 "cta": objective or "Theo doi de xem them",
+                "highlight_score": score,
+                "reason": "Clip thô ngắn nên edit nguyên video." if not reason else reason,
+                "keywords": keywords,
             }
         ]
 
@@ -607,6 +665,7 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
             hook = segment["text"][:76] or hooks[i % len(hooks)]
         else:
             hook = hooks[i % len(hooks)]
+        score, reason, keywords = score_highlight(hook, niche, objective, customer_request)
         suggestions.append({
             "id": i + 1,
             "start": start,
@@ -614,7 +673,13 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
             "hook": hook,
             "caption": title or "AI Clip Agent",
             "cta": ctas[i % len(ctas)],
+            "highlight_score": score,
+            "reason": reason,
+            "keywords": keywords,
         })
+    suggestions.sort(key=lambda item: item["highlight_score"], reverse=True)
+    for index, suggestion in enumerate(suggestions, start=1):
+        suggestion["id"] = index
     return suggestions
 
 

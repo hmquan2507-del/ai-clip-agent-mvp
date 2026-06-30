@@ -25,6 +25,7 @@ http://localhost:8765
 - Tạo transcript bằng `faster-whisper` nếu môi trường đã cài; nếu chưa có thì tạo transcript scaffold để workspace vẫn chạy đủ flow.
 - Hệ thống đề xuất 3-8 đoạn cắt theo thời lượng video.
 - Clip suggestion ưu tiên lấy hook từ transcript segment khi có dữ liệu transcript.
+- Chấm điểm highlight cho từng clip dựa trên tín hiệu pain/value/money/proof/urgency, niche, mục tiêu và yêu cầu khách.
 - Tạo Editor Workspace cho từng job: Footage, Subtitle, B-roll, Sound effect, Nhạc nền, Export.
 - Lưu asset bin và các bước edit cho từng clip vào SQLite.
 - Render clip dọc 1080x1920 bằng `ffmpeg`.
@@ -61,7 +62,7 @@ ai-clip-agent-mvp/
 - `accounts`: account demo và gói dùng thử.
 - `jobs`: video upload, mode xử lý, style render, yêu cầu khách.
 - `jobs.storage_provider`, `storage_key`, `storage_url`, `file_size`, `mime_type`, `expires_at`: metadata file/video để production không lưu binary trong DB.
-- `suggestions`: clip đề xuất, thời điểm bắt đầu, hook/caption/CTA.
+- `suggestions`: clip đề xuất, thời điểm bắt đầu, hook/caption/CTA, highlight score, lý do chọn và keyword.
 - `transcript_segments`: transcript theo mốc thời gian, dùng làm input cho highlight/subtitle.
 - `editor_assets`: asset workspace gồm footage, subtitle, B-roll, SFX, music.
 - `editor_steps`: các bước edit cho từng clip.
@@ -117,7 +118,7 @@ Database không lưu binary video. App server chính không nên giữ file lớ
 
 ## Giới hạn bản MVP
 
-- Chưa có LLM highlight scoring, nên đoạn hay mới ưu tiên transcript segment hoặc fallback theo thời lượng.
+- Highlight scoring hiện là heuristic local, chưa dùng LLM để hiểu ngữ cảnh sâu.
 - Chưa gọi model AI ngoài, hook/caption vẫn là transcript/template.
 - Chưa có đăng nhập thật, thanh toán, workspace nhiều khách.
 - Chưa có hàng đợi render cho nhiều người dùng cùng lúc.

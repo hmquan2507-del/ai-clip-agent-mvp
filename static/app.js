@@ -91,10 +91,13 @@ function renderSuggestions(job) {
           <div>
             <div class="meta">
               <span>Clip ${clip.id}</span>
+              <span>${Number(clip.highlight_score || 50)} điểm</span>
               <span>Bắt đầu ${formatTime(clip.start)}</span>
               <span>${Math.round(clip.duration)} giây</span>
             </div>
             <h3>${escapeHtml(clip.hook)}</h3>
+            <p><strong>Lý do chọn:</strong> ${escapeHtml(clip.reason || "Đoạn phù hợp để edit thành clip ngắn.")}</p>
+            ${clip.keywords?.length ? `<p><strong>Keyword:</strong> ${clip.keywords.map(escapeHtml).join(", ")}</p>` : ""}
             <p><strong>Caption:</strong> ${escapeHtml(clip.caption)}</p>
             <p><strong>CTA:</strong> ${escapeHtml(clip.cta)}</p>
           </div>
