@@ -1140,6 +1140,19 @@ video {
   gap: 12px;
   align-items: center;
   padding: 12px 14px;
+  width: 100%;
+  min-height: auto;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.job-row:hover {
+  border-color: var(--line-strong);
+  background: rgba(56, 189, 248, 0.08);
 }
 
 .job-row strong,

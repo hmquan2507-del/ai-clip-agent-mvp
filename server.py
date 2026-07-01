@@ -372,6 +372,37 @@ def list_render_tasks(job_id):
         ]
 
 
+def list_outputs(job_id):
+    with db_connect() as conn:
+        rows = [
+            dict(row)
+            for row in conn.execute(
+                """
+                SELECT clip_id AS id, name, url, created_at
+                FROM outputs
+                WHERE job_id = ?
+                ORDER BY created_at DESC, id DESC
+                """,
+                (job_id,),
+            ).fetchall()
+        ]
+    latest = {}
+    for row in rows:
+        latest.setdefault(int(row["id"]), row)
+    return [latest[key] for key in sorted(latest)]
+
+
+def load_job_payload(job_id):
+    job_dir = JOBS / safe_name(job_id)
+    metadata_path = job_dir / "job.json"
+    if not metadata_path.exists():
+        return None
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    metadata["outputs"] = list_outputs(job_id)
+    metadata["render_tasks"] = list_render_tasks(job_id)
+    return metadata
+
+
 def next_render_task():
     with db_connect() as conn:
         row = conn.execute(
@@ -1102,6 +1133,12 @@ class Handler(BaseHTTPRequestHandler):
         path = unquote(parsed.path)
         if path == "/api/dashboard":
             return json_response(self, dashboard_payload())
+        if path.startswith("/api/jobs/"):
+            job_id = path.removeprefix("/api/jobs/").strip("/")
+            payload = load_job_payload(job_id)
+            if not payload:
+                return json_response(self, {"error": "Không tìm thấy job"}, 404)
+            return json_response(self, payload)
         if path == "/":
             return self.serve_file(STATIC / "index.html")
         if path.startswith("/jobs/"):
@@ -1148,10 +1185,10 @@ class Handler(BaseHTTPRequestHandler):
 
         job_id = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
         filename = safe_name(file_item["filename"])
+        job_dir = JOBS / job_id
         stored_file = storage_adapter().save_upload(job_id, filename, file_item["content"])
         original = stored_file.local_path
         if original is None:
-            job_dir = JOBS / job_id
             job_dir.mkdir(parents=True, exist_ok=True)
             original = job_dir / filename
             original.write_bytes(file_item["content"])
