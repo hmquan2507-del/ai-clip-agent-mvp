@@ -9,6 +9,12 @@ cd /home/chotnhanh/.openclaw/workspace/ai-clip-agent-mvp
 python3 server.py
 ```
 
+Hoặc chạy trong VS Code bằng npm:
+
+```bash
+npm run dev
+```
+
 Mở:
 
 ```text
@@ -51,14 +57,40 @@ http://localhost:8765
 
 ```text
 ai-clip-agent-mvp/
-  server.py                  # HTTP server, API, SQLite, ffmpeg render
+  server.py                  # HTTP server/router mỏng
+  config.py                  # Path, DB, font, account demo
+  db.py                      # SQLite schema, migrations, connection
+  repositories.py            # Job/output/task persistence + dashboard payload
+  render_queue.py            # Render task processing và output metadata
+  rendering.py               # ffmpeg render classic/talking-head
+  video_probe.py             # ffprobe duration/metadata
+  transcript.py              # faster-whisper hoặc transcript fallback
+  suggestions.py             # Highlight scoring, clip suggestions, edit plan
+  workspace_builder.py       # Editor assets, tracks, steps
+  http_utils.py              # Multipart parsing, JSON response, safe filenames
+  text_utils.py              # Text wrap/escape helpers cho ffmpeg drawtext
+  utils.py                   # Process/time helpers
   worker.py                  # Render worker for queued production-style jobs
   storage.py                 # Local/S3/R2 storage adapters
+  storage_helpers.py         # Adapter factory wrapper
   .env.example               # Production storage/env template
   static/
     index.html               # Dashboard UI
-    styles.css               # UI/UX SaaS layout
-    app.js                   # Fetch API, render state, dashboard state
+    styles.css               # Entry CSS, import các file UI/UX nhỏ
+    app.js                   # App bootstrap và event binding
+    components.js            # Barrel export UI renderer components
+    css/
+      tokens.css             # Design tokens, reset, base typography
+      shell.css              # Sidebar, account, header, app shell
+      dashboard.css          # Hero, metrics, tabs, module panels
+      forms.css              # Upload form, inputs, buttons, preview
+      clip-editor.css        # Clip cards, analysis grid, edit plan
+      workspace.css          # Asset bin, timeline, transcript, edit steps
+      outputs-jobs.css       # Output cards, jobs table, roadmap, empty states
+      responsive.css         # Breakpoints
+    js/
+      components/            # UI renderers theo từng vùng màn hình
+      lib/                   # API client, DOM map, state, clip edit helpers
   data/
     ai_clip_agent.sqlite3    # Database local
     jobs/                    # File upload và video output

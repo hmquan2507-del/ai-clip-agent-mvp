@@ -1,0 +1,93 @@
+@media (max-width: 1060px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .plan-card {
+    margin-top: 0;
+  }
+
+  nav {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .topbar,
+  .grid,
+  .upload-layout,
+  .workspace-grid,
+  .editor-surface,
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .content {
+    width: min(100% - 24px, 1200px);
+  }
+
+  .topbar {
+    padding: 22px;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar {
+    overflow: hidden;
+  }
+
+  .plan-card button {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .category-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    position: static;
+  }
+
+  .two-col,
+  .video-preview,
+  nav,
+  .dashboard-summary,
+  .upload-layout,
+  .job-row,
+  .track-row,
+  .preview-row,
+  .edit-steps article,
+  .transcript-summary,
+  .transcript-box article {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-clips {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .track-row em {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}

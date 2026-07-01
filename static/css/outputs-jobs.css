@@ -1,0 +1,84 @@
+.output-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.output-card {
+  overflow: hidden;
+}
+
+video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #05080d;
+}
+
+.download {
+  display: block;
+  padding: 12px;
+  color: var(--accent-ink);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.jobs-table {
+  display: grid;
+  gap: 8px;
+}
+
+.job-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.6fr 0.6fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  width: 100%;
+  min-height: auto;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.job-row:hover {
+  border-color: var(--line-strong);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.job-row strong,
+.job-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job-row span {
+  color: var(--muted);
+}
+
+.roadmap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.roadmap span {
+  padding: 10px 12px;
+  background: var(--soft);
+  color: var(--accent-ink);
+  border-radius: 8px;
+  font-weight: 850;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 18px;
+  border: 1px dashed rgba(151, 184, 199, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}

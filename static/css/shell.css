@@ -1,0 +1,190 @@
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 244px 1fr;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 22px 18px;
+  background: linear-gradient(180deg, rgba(10, 18, 28, 0.98), rgba(8, 14, 22, 0.96));
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  color: white;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.mark,
+.avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  color: white;
+  font-weight: 950;
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.25);
+}
+
+.brand strong,
+.brand small,
+.account strong,
+.account small {
+  display: block;
+}
+
+.brand small,
+.account small,
+.plan-card small {
+  color: var(--muted);
+}
+
+nav {
+  display: grid;
+  gap: 8px;
+}
+
+nav a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  color: #b7c4d0;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+nav a span {
+  width: 20px;
+  color: #d8f8f4;
+}
+
+nav a.active,
+nav a:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(116, 238, 218, 0.08);
+}
+
+.plan-card,
+.account {
+  border: 1px solid rgba(116, 238, 218, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.plan-card {
+  margin-top: auto;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.plan-card strong {
+  display: block;
+  color: white;
+}
+
+.quota-ring {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #0b121b 55%, transparent 56%),
+    conic-gradient(var(--accent) 0 18deg, rgba(255, 255, 255, 0.13) 18deg 360deg);
+  text-align: center;
+}
+
+.quota-ring span,
+.quota-ring small {
+  grid-area: 1 / 1;
+  display: block;
+}
+
+.quota-ring span {
+  transform: translateY(-7px);
+  font-weight: 950;
+}
+
+.quota-ring small {
+  transform: translateY(12px);
+  font-size: 10px;
+}
+
+.plan-card button {
+  min-height: 34px;
+  font-size: 12px;
+}
+
+.account {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  column-gap: 10px;
+  align-items: center;
+  padding: 12px;
+}
+
+.account small,
+.account strong {
+  grid-column: 2;
+}
+
+.account .avatar {
+  grid-row: 1 / span 2;
+}
+
+.content {
+  width: min(1200px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 18px 0 44px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 36px;
+  margin-bottom: 10px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-actions button {
+  width: 34px;
+  min-height: 34px;
+  padding: 0;
+  border-radius: 8px;
+  color: #dffefa;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(116, 238, 218, 0.1);
+}
+
+.user-photo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent),
+    #8b6d5c;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+}
