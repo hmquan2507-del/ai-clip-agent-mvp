@@ -28,20 +28,23 @@ Status: Complete
 
 ### EPIC 2 - Product Specification
 
-Status: Complete
+Status: In Progress
 
 Goal: define the full product before implementation.
 
-#### Sprint 2.2.1 - Specification Repository Foundation
+#### Sprint 2.2.1 - Governance Foundation
+
+Status: In Progress
+Goal: Solidify the core governance and product principles.
 
 Governance:
 
-- Done: Vision
-- Done: Product Principles
-- Done: Documentation Standards
-- Done: ADR Process
-- Done: Roadmap
-- Done: Glossary
+- In Progress: Vision
+- In Progress: Product Principles
+- In Progress: Documentation Standards
+- In Progress: ADR Process
+- In Progress: Roadmap
+- In Progress: Glossary
 
 Product:
 

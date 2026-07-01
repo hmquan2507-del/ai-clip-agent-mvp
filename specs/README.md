@@ -82,11 +82,11 @@ Status: Complete
 
 ### EPIC 2 - Product Specification
 
-Status: Complete
+Status: In Progress
 
 Goal: define the whole product before building more product features.
 
-Current completed Product Specification docs:
+This epic is currently focused on solidifying the core governance and product principles. The following documents are being actively reviewed and updated:
 
 - Governance: Vision
 - Governance: Product Principles
