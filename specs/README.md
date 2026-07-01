@@ -127,3 +127,63 @@ This epic is currently focused on solidifying the core governance and product pr
 Status: In Progress
 
 Start only after EPIC 2 Product Specification is complete.
+
+
+---
+
+# Repository Status
+
+## Current Progress
+
+| Epic | Status |
+|------|---------|
+| EPIC 01 Foundation | ✅ Complete |
+| EPIC 02 Product Specification | ✅ Approved |
+| EPIC 03 AI Production Workspace | ⏳ Next |
+| EPIC 04 Review Workspace | Planned |
+| EPIC 05 Style Engine | Planned |
+| EPIC 06 Render Engine | Planned |
+| EPIC 07 SaaS Platform | Planned |
+| EPIC 08 Automation | Planned |
+| EPIC 09 Analytics | Planned |
+| EPIC 10 Production Ready | Planned |
+
+---
+
+## Repository Rules
+
+All implementation must follow:
+
+Idea
+
+↓
+
+Specification
+
+↓
+
+Workflow
+
+↓
+
+Architecture
+
+↓
+
+Implementation
+
+↓
+
+Testing
+
+↓
+
+Review
+
+↓
+
+Release
+
+Product Specification is the single source of truth.
+
+Changes to approved specifications require an ADR.
