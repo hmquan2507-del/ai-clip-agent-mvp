@@ -10,19 +10,17 @@ export function renderSuggestions(container, job) {
   container.innerHTML = job.suggestions
     .map(
       (clip) => `
-        <article class="clip-card">
+        <article class="clip-card suggestion-row">
           <input type="checkbox" value="${clip.id}" checked aria-label="Chọn clip ${clip.id}" />
+          <span class="rank">${clip.id}</span>
+          <span class="clip-thumb" aria-hidden="true"></span>
+          <span class="time-range">${formatTime(clip.start)} - ${formatTime(Number(clip.start) + Number(clip.duration || 0))}</span>
+          <span class="score">${Number(clip.highlight_score || 50)}/100</span>
           <div class="clip-editor" data-clip-id="${clip.id}">
-            <div class="meta">
-              <span>Clip ${clip.id}</span>
-              <span>${Number(clip.highlight_score || 50)} điểm</span>
-              <span>Bắt đầu ${formatTime(clip.start)}</span>
-              <span>${Math.round(clip.duration)} giây</span>
-            </div>
-            <label>Hook
+            <label class="hook-field">Hook
               <textarea data-field="hook" rows="2">${escapeHtml(clip.hook)}</textarea>
             </label>
-            <p><strong>Lý do chọn:</strong> ${escapeHtml(clip.reason || "Đoạn phù hợp để edit thành clip ngắn.")}</p>
+            <p class="reason"><strong>Lý do chọn:</strong> ${escapeHtml(clip.reason || "Đoạn phù hợp để edit thành clip ngắn.")}</p>
             ${clip.keywords?.length ? `<p><strong>Keyword:</strong> ${clip.keywords.map(escapeHtml).join(", ")}</p>` : ""}
             ${renderClipPlan(clip.edit_plan)}
             <label>Caption
@@ -32,6 +30,7 @@ export function renderSuggestions(container, job) {
               <input data-field="cta" value="${escapeHtml(clip.cta)}" />
             </label>
           </div>
+          <a class="edit-link primary-action" href="#workspace">Edit</a>
         </article>
       `
     )

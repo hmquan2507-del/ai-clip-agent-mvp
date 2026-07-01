@@ -1,8 +1,1 @@
-@import url("./css/tokens.css");
-@import url("./css/shell.css");
-@import url("./css/dashboard.css");
-@import url("./css/forms.css");
-@import url("./css/clip-editor.css");
-@import url("./css/workspace.css");
-@import url("./css/outputs-jobs.css");
-@import url("./css/responsive.css");
+@import url("./css/app-ui.css");

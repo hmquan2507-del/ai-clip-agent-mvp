@@ -33,6 +33,8 @@ http://localhost:8765
 - Tạo transcript bằng `faster-whisper` nếu môi trường đã cài; nếu chưa có thì tạo transcript scaffold để workspace vẫn chạy đủ flow.
 - Hệ thống đề xuất 3-8 đoạn cắt theo thời lượng video.
 - Clip suggestion ưu tiên lấy hook từ transcript segment khi có dữ liệu transcript.
+- Có thể dùng OpenAI hoặc Gemini API để AI thật chọn đoạn hay, viết hook, caption, CTA, edit plan.
+- Nếu chưa cấu hình API key hoặc provider lỗi, hệ thống tự fallback về heuristic local để không gãy flow.
 - Chấm điểm highlight cho từng clip dựa trên tín hiệu pain/value/money/proof/urgency, niche, mục tiêu và yêu cầu khách.
 - Mỗi clip có edit plan gồm subtitle style, B-roll gợi ý, SFX và nhạc nền.
 - User có thể chỉnh hook, caption, CTA, subtitle style, B-roll, SFX và music plan trước khi render.
@@ -156,19 +158,31 @@ Database không lưu binary video. App server chính không nên giữ file lớ
 - Tự động (`auto`): video từ 90 giây trở xuống được xem là clip thô; dài hơn 90 giây được xem là video dài.
 - Workspace editor luôn được tạo sau upload để user thấy đầy đủ quy trình edit, kể cả khi một vài track như B-roll/SFX/music mới ở trạng thái planned.
 - Transcript là bước đầu của AI editor: khi `faster-whisper` có sẵn, hệ thống tạo transcript thật; khi chưa có, hệ thống tạo scaffold để không làm gãy flow MVP.
+- AI suggestion là lớp chọn đoạn/edit nội dung: `AI_SUGGESTION_PROVIDER=auto` ưu tiên OpenAI nếu có `OPENAI_API_KEY`, sau đó Gemini nếu có `GEMINI_API_KEY` hoặc `GOOGLE_API_KEY`, cuối cùng fallback heuristic.
+
+## AI Suggestion Config
+
+```text
+AI_SUGGESTION_PROVIDER=auto
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+Provider hợp lệ: `auto`, `openai`, `gemini`, `off`. Khi `off`, app chỉ dùng heuristic local.
 
 ## Giới hạn bản MVP
 
-- Highlight scoring hiện là heuristic local, chưa dùng LLM để hiểu ngữ cảnh sâu.
-- Chưa gọi model AI ngoài, hook/caption vẫn là transcript/template.
+- AI suggestion đã có lớp OpenAI/Gemini optional, nhưng chất lượng còn phụ thuộc transcript đầu vào và prompt hiện tại.
 - Chưa có đăng nhập thật, thanh toán, workspace nhiều khách.
 - Hàng đợi render đã có cho local/production worker, nhưng chưa có điều phối nhiều worker nâng cao.
 - B-roll, SFX và music hiện là workspace layer/planned asset; render thực tế mới áp dụng footage, subtitle/caption và loudnorm.
 
 ## Bước nâng cấp kế tiếp
 
-- Thêm transcript bằng Whisper/faster-whisper.
-- Dùng LLM để chọn đoạn có nội dung hấp dẫn thật.
+- Tinh chỉnh prompt/JSON schema theo từng ngành.
+- Thêm transcript bằng Whisper/faster-whisper cho môi trường production.
 - Thêm nhiều template caption theo ngành: livestream, spa, coach, bất động sản.
 - Thêm lưu project, quota theo gói và tài khoản người dùng.
 - Thêm landing page bán gói dùng thử.

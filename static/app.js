@@ -4,6 +4,7 @@ import {
   renderEditSteps,
   renderJobs,
   renderOutputs,
+  renderQueue,
   renderSuggestions,
   renderTasks,
   renderTimelinePreview,
@@ -20,13 +21,14 @@ async function loadDashboard() {
   const data = await fetchDashboard();
   renderDashboardMetrics(elements.dashboard, data);
   renderJobs(elements.jobsTable, data.recent_jobs);
+  renderJobs(elements.projectList, data.recent_jobs);
 }
 
 async function loadJob(jobId, { focus = true } = {}) {
   const job = await fetchJob(jobId);
   showJob(job);
   elements.uploadStatus.textContent = `Đã mở lại job ${job.title || job.filename}.`;
-  if (focus) document.querySelector("#clips")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (focus) document.querySelector("#suggestions-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function showJob(job) {
@@ -37,6 +39,7 @@ function showJob(job) {
   renderWorkspace(elements.workspace, job.editor_workspace, job.suggestions?.[0]?.id || 1);
   renderTranscript(elements.transcriptBox, job.transcript);
   renderOutputs(elements.outputsGrid, job.outputs || []);
+  renderQueue(elements.queueTable, job.render_tasks || []);
   renderTimelinePreview(elements.timelinePreview, job.suggestions?.[0]);
   updateQueueStatus(job);
 }
@@ -80,7 +83,7 @@ function bindSuggestionEditor() {
 }
 
 function bindJobsTable() {
-  elements.jobsTable.addEventListener("click", async (event) => {
+  [elements.jobsTable, elements.projectList].forEach((container) => container.addEventListener("click", async (event) => {
     const row = event.target.closest("[data-job-id]");
     if (!row) return;
     elements.uploadStatus.textContent = "Đang mở lại job...";
@@ -89,7 +92,7 @@ function bindJobsTable() {
     } catch (error) {
       elements.uploadStatus.textContent = error.message;
     }
-  });
+  }));
 }
 
 function bindUploadForm() {
@@ -130,6 +133,7 @@ function bindRenderButton() {
       if (data.queued) {
         elements.uploadStatus.textContent = `Đã đưa ${data.tasks.length} clip vào render queue.`;
         setCurrentJob({ ...currentJob, render_tasks: data.tasks });
+        renderQueue(elements.queueTable, data.tasks);
         updateQueueStatus(getCurrentJob());
         await loadDashboard();
         return;
@@ -153,8 +157,10 @@ function boot() {
   bindUploadForm();
   bindRenderButton();
   loadDashboard().catch(() => {
-    elements.jobsTable.className = "jobs-table empty";
+    elements.jobsTable.className = "project-grid empty";
     elements.jobsTable.textContent = "Chưa load được dữ liệu dashboard.";
+    elements.projectList.className = "project-grid empty";
+    elements.projectList.textContent = "Chưa load được dữ liệu dashboard.";
   });
 }
 

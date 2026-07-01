@@ -10,6 +10,8 @@ export const elements = {
   renderBtn: document.querySelector("#renderBtn"),
   outputsGrid: document.querySelector("#outputsGrid"),
   jobsTable: document.querySelector("#jobsTable"),
+  projectList: document.querySelector("#projectList"),
+  queueTable: document.querySelector("#queueTable"),
   timelinePreview: document.querySelector("#timelinePreview"),
   transcriptBox: document.querySelector("#transcriptBox"),
   dashboard: {

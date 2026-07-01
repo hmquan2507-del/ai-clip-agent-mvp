@@ -1,3 +1,10 @@
+import json
+import os
+import re
+import urllib.error
+import urllib.request
+
+
 def normalize_mode(mode, duration):
     if mode in {"raw_clip", "long_video"}:
         return mode
@@ -57,6 +64,30 @@ def build_clip_edit_plan(text, niche="", keywords=None):
     }
 
 def make_suggestions(duration, clip_count, title, niche, objective, mode="auto", target_length=30, customer_request="", transcript=None):
+    fallback = lambda: make_heuristic_suggestions(
+        duration,
+        clip_count,
+        title,
+        niche,
+        objective,
+        mode=mode,
+        target_length=target_length,
+        customer_request=customer_request,
+        transcript=transcript,
+    )
+    provider = resolve_ai_provider()
+    if not provider:
+        return fallback()
+    try:
+        prompt = build_ai_prompt(duration, clip_count, title, niche, objective, mode, target_length, customer_request, transcript)
+        raw = call_ai_provider(provider, prompt)
+        suggestions = normalize_ai_suggestions(raw, duration, clip_count, title, niche, objective, mode, target_length, customer_request)
+        return suggestions or fallback()
+    except Exception:
+        return fallback()
+
+
+def make_heuristic_suggestions(duration, clip_count, title, niche, objective, mode="auto", target_length=30, customer_request="", transcript=None):
     mode = normalize_mode(mode, duration)
     target_length = max(8, min(90, float(target_length or 30)))
     transcript_segments = (transcript or {}).get("segments", [])
@@ -126,3 +157,200 @@ def make_suggestions(duration, clip_count, title, niche, objective, mode="auto",
     for index, suggestion in enumerate(suggestions, start=1):
         suggestion["id"] = index
     return suggestions
+
+
+def resolve_ai_provider():
+    provider = os.environ.get("AI_SUGGESTION_PROVIDER", "auto").strip().lower()
+    if provider in {"", "off", "none", "heuristic"}:
+        return None
+    if provider == "auto":
+        if os.environ.get("OPENAI_API_KEY"):
+            return "openai"
+        if os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY"):
+            return "gemini"
+        return None
+    if provider == "openai" and os.environ.get("OPENAI_API_KEY"):
+        return "openai"
+    if provider in {"gemini", "google"} and (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
+        return "gemini"
+    return None
+
+
+def build_ai_prompt(duration, clip_count, title, niche, objective, mode, target_length, customer_request, transcript):
+    effective_mode = normalize_mode(mode, duration)
+    desired_count = 1 if effective_mode == "raw_clip" else max(1, min(8, int(clip_count or 3)))
+    segments = (transcript or {}).get("segments", [])[:40]
+    compact_segments = [
+        {
+            "start": round(float(segment.get("start", 0)), 2),
+            "end": round(float(segment.get("end", 0)), 2),
+            "text": str(segment.get("text", ""))[:360],
+        }
+        for segment in segments
+    ]
+    return (
+        "Bạn là AI Clip Agent cho short-form video tiếng Việt. "
+        "Hãy chọn đoạn đáng cắt nhất và viết hook/caption/CTA có tính bán hàng, giữ chân người xem. "
+        "Chỉ trả về JSON hợp lệ, không markdown, theo schema: "
+        "[{\"start\": number, \"duration\": number, \"hook\": string, \"caption\": string, "
+        "\"cta\": string, \"highlight_score\": number, \"reason\": string, \"keywords\": string[], "
+        "\"edit_plan\": {\"subtitle_style\": string, \"broll\": string[], \"sfx\": string[], \"music\": string}}]. "
+        f"Số clip cần trả về: {desired_count}. "
+        f"Độ dài video: {round(float(duration), 2)} giây. "
+        f"Mode: {effective_mode}. Độ dài mỗi clip mục tiêu: {target_length} giây. "
+        f"Tiêu đề/caption chính: {title or 'chưa có'}. "
+        f"Niche: {niche or 'chưa có'}. "
+        f"Mục tiêu: {objective or 'chưa có'}. "
+        f"Yêu cầu khách: {customer_request or 'chưa có'}. "
+        "Nếu transcript là scaffold/fallback thì vẫn chọn theo ngữ cảnh có sẵn. "
+        "Không đặt start âm, không vượt quá duration video. "
+        "Hook nên ngắn, mạnh, tự nhiên; caption nên rõ lợi ích; CTA nên nhẹ và dễ hành động. "
+        f"Transcript segments JSON: {json.dumps(compact_segments, ensure_ascii=False)}"
+    )
+
+
+def call_ai_provider(provider, prompt):
+    if provider == "openai":
+        return call_openai(prompt)
+    if provider == "gemini":
+        return call_gemini(prompt)
+    raise ValueError("Unsupported AI provider")
+
+
+def call_openai(prompt):
+    api_key = os.environ["OPENAI_API_KEY"]
+    model = os.environ.get("OPENAI_MODEL", "gpt-4.1-mini")
+    payload = {
+        "model": model,
+        "input": prompt,
+        "temperature": float(os.environ.get("AI_SUGGESTION_TEMPERATURE", "0.45")),
+    }
+    data = post_json(
+        "https://api.openai.com/v1/responses",
+        payload,
+        {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+    )
+    return extract_openai_text(data)
+
+
+def extract_openai_text(data):
+    if isinstance(data, dict) and data.get("output_text"):
+        return data["output_text"]
+    chunks = []
+    for item in data.get("output", []):
+        for content in item.get("content", []):
+            text = content.get("text") or content.get("output_text")
+            if text:
+                chunks.append(text)
+    return "\n".join(chunks)
+
+
+def call_gemini(prompt):
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": float(os.environ.get("AI_SUGGESTION_TEMPERATURE", "0.45")),
+            "responseMimeType": "application/json",
+        },
+    }
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    data = post_json(url, payload, {"Content-Type": "application/json"})
+    return extract_gemini_text(data)
+
+
+def extract_gemini_text(data):
+    chunks = []
+    for candidate in data.get("candidates", []):
+        for part in candidate.get("content", {}).get("parts", []):
+            if part.get("text"):
+                chunks.append(part["text"])
+    return "\n".join(chunks)
+
+
+def post_json(url, payload, headers):
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    request = urllib.request.Request(url, data=body, headers=headers, method="POST")
+    timeout = float(os.environ.get("AI_SUGGESTION_TIMEOUT", "45"))
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")[:500]
+        raise RuntimeError(f"AI provider HTTP {exc.code}: {detail}") from exc
+
+
+def parse_json_payload(raw):
+    text = str(raw or "").strip()
+    text = re.sub(r"^```(?:json)?|```$", "", text, flags=re.IGNORECASE | re.MULTILINE).strip()
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        match = re.search(r"(\[.*\]|\{.*\})", text, flags=re.DOTALL)
+        if not match:
+            raise
+        return json.loads(match.group(1))
+
+
+def normalize_ai_suggestions(raw, duration, clip_count, title, niche, objective, mode, target_length, customer_request):
+    payload = parse_json_payload(raw)
+    items = payload.get("suggestions", payload) if isinstance(payload, dict) else payload
+    if not isinstance(items, list):
+        return []
+    effective_mode = normalize_mode(mode, duration)
+    max_count = 1 if effective_mode == "raw_clip" else max(1, min(8, int(clip_count or 3)))
+    target_length = max(8, min(90, float(target_length or 30)))
+    results = []
+    for item in items[:max_count]:
+        if not isinstance(item, dict):
+            continue
+        start = clamp_number(item.get("start", 0), 0, max(0, float(duration) - 1))
+        clip_duration = clamp_number(item.get("duration", target_length), 8, min(90, float(duration)))
+        if start + clip_duration > float(duration):
+            clip_duration = max(1, float(duration) - start)
+        text_for_plan = item.get("hook") or item.get("caption") or title
+        score, reason, keywords = score_highlight(text_for_plan, niche, objective, customer_request)
+        user_keywords = [str(value).strip() for value in item.get("keywords", []) if str(value).strip()] if isinstance(item.get("keywords"), list) else []
+        plan = item.get("edit_plan") if isinstance(item.get("edit_plan"), dict) else {}
+        fallback_plan = build_clip_edit_plan(text_for_plan, niche, user_keywords or keywords)
+        results.append({
+            "id": len(results) + 1,
+            "start": round(start, 2),
+            "duration": round(clip_duration, 2),
+            "hook": str(item.get("hook") or text_for_plan or "Đoạn này đáng cắt thành clip ngắn")[:120],
+            "caption": str(item.get("caption") or title or text_for_plan or "AI Clip Agent")[:160],
+            "cta": str(item.get("cta") or objective or "Nhắn tin nếu bạn muốn làm video như này")[:120],
+            "highlight_score": int(clamp_number(item.get("highlight_score", score), 30, 99)),
+            "reason": str(item.get("reason") or reason)[:240],
+            "keywords": (user_keywords or keywords)[:8],
+            "edit_plan": {
+                "subtitle_style": str(plan.get("subtitle_style") or fallback_plan["subtitle_style"]),
+                "broll": normalize_string_list(plan.get("broll"), fallback_plan["broll"]),
+                "sfx": normalize_string_list(plan.get("sfx"), fallback_plan["sfx"]),
+                "music": str(plan.get("music") or fallback_plan["music"]),
+            },
+        })
+    results.sort(key=lambda value: value["highlight_score"], reverse=True)
+    for index, suggestion in enumerate(results, start=1):
+        suggestion["id"] = index
+    return results
+
+
+def clamp_number(value, low, high):
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        number = low
+    return max(low, min(high, number))
+
+
+def normalize_string_list(value, fallback):
+    if isinstance(value, list):
+        items = [str(item).strip() for item in value if str(item).strip()]
+        if items:
+            return items[:3]
+    return fallback[:3]
