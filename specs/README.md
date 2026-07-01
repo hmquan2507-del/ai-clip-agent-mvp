@@ -187,3 +187,4 @@ Release
 Product Specification is the single source of truth.
 
 Changes to approved specifications require an ADR.
+
