@@ -1,32 +1,35 @@
+"use client";
+
 import {
-  BarChart3,
-  CreditCard,
+  CheckCircle2,
   Film,
   FolderKanban,
   Home,
-  Images,
+  ListChecks,
   Layers,
   Settings,
   Sparkles,
   Upload,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const items = [
-  { label: "Dashboard", icon: Home },
-  { label: "Projects", icon: FolderKanban },
-  { label: "Upload", icon: Upload },
-  { label: "AI Studio", icon: Sparkles },
-  { label: "Templates", icon: Layers },
-  { label: "Assets", icon: Images },
-  { label: "Render Queue", icon: Film },
-  { label: "Analytics", icon: BarChart3 },
-  { label: "Billing", icon: CreditCard },
-  { label: "Settings", icon: Settings },
+  { label: "Home", href: "/", icon: Home },
+  { label: "Upload", href: "/upload", icon: Upload },
+  { label: "AI Queue", href: "/ai-queue", icon: ListChecks },
+  { label: "Review", href: "/review", icon: CheckCircle2 },
+  { label: "Export", href: "/export", icon: Film },
+  { label: "Productions", href: "/productions", icon: FolderKanban },
+  { label: "Styles", href: "/styles", icon: Layers },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar() {
+  const pathname = usePathname();
+
   return (
-    <aside className="fixed inset-y-0 left-0 w-64 border-r border-white/10 bg-black/30 px-4 py-5">
+    <aside className="fixed inset-y-0 left-0 z-20 w-64 border-r border-white/10 bg-black/30 px-4 py-5 backdrop-blur max-lg:w-60">
       <div className="mb-8 flex items-center gap-3 px-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-600">
           <Sparkles className="h-5 w-5" />
@@ -38,13 +41,15 @@ export function Sidebar() {
       </div>
 
       <nav className="space-y-1">
-        {items.map((item, index) => {
+        {items.map((item) => {
           const Icon = item.icon;
-          const active = index === 0;
+          const active =
+            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
 
           return (
-            <button
+            <Link
               key={item.label}
+              href={item.href}
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
                 active
                   ? "bg-violet-600 text-white"
@@ -53,7 +58,7 @@ export function Sidebar() {
             >
               <Icon className="h-4 w-4" />
               {item.label}
-            </button>
+            </Link>
           );
         })}
       </nav>

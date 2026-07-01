@@ -103,10 +103,14 @@ AI Production Pipeline
 +
 Style Engine
 =
-Ready-to-Review Short VideosProduct Tagline
+Ready-to-Review Short Videos
+```
+
+---
+
+## Product Tagline
 
 Upload once.
 AI edits everything.
 Review.
 Export.
-
