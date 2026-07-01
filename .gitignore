@@ -9,3 +9,5 @@ reference/
 .env
 .env.*
 !.env.example
+.next/
+.next/
