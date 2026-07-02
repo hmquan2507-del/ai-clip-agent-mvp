@@ -1,8 +1,10 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, String
+from sqlalchemy import DateTime, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+from app.db.types import GUID
 
 
 class Base(DeclarativeBase):
@@ -10,10 +12,10 @@ class Base(DeclarativeBase):
 
 
 class UUIDPrimaryKeyMixin:
-    id: Mapped[str] = mapped_column(
-        String,
+    id: Mapped[uuid.UUID] = mapped_column(
+        GUID(),
         primary_key=True,
-        default=lambda: str(uuid.uuid4()),
+        default=uuid.uuid4,
     )
 
 
@@ -29,7 +31,27 @@ class TimestampMixin:
     )
 
 
-class BaseEntity(UUIDPrimaryKeyMixin, TimestampMixin):
+class SoftDeleteMixin:
+    deleted_at: Mapped[datetime | None] = mapped_column(
+        DateTime,
+        nullable=True,
+    )
+
+
+class VersionMixin:
+    version: Mapped[int] = mapped_column(
+        Integer,
+        default=1,
+        nullable=False,
+    )
+
+
+class BaseEntity(
+    UUIDPrimaryKeyMixin,
+    TimestampMixin,
+    SoftDeleteMixin,
+    VersionMixin,
+):
     __abstract__ = True
 
 
