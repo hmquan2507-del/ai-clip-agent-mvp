@@ -1,8 +1,8 @@
 from uuid import UUID
 
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.domain.production.exceptions import ProductionNotFoundError
 from app.repositories.production_repository import ProductionRepository
 from app.schemas.production import ProductionCreate, ProductionUpdate
 
@@ -18,10 +18,7 @@ class ProductionService:
         production = self.repository.get_by_id(production_id)
 
         if production is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Production not found",
-            )
+            raise ProductionNotFoundError(str(production_id))
 
         return production
 
