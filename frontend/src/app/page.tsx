@@ -1,76 +1,100 @@
+import { ArrowRight, UploadCloud } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
-import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { ButtonLink } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
+import { ProductionCard } from "@/features/production/production-card";
+import { ActivityFeed } from "@/features/workspace/activity-feed";
+import { ContinueProductionCard } from "@/features/workspace/continue-production-card";
+import { QuickActions } from "@/features/workspace/quick-actions";
+import { productions } from "@/lib/mock-productions";
 
-const activeProductions = [
-  { name: "Podcast bán hàng tự động", status: "Ready for review", clips: "8 clips" },
-  { name: "Livestream mỹ phẩm", status: "AI queue", clips: "Processing" },
-  { name: "Business talk", status: "Export ready", clips: "4 clips" },
+const stats = [
+  { label: "Active Productions", value: "3", helper: "+2 hôm nay" },
+  { label: "Ready for Review", value: "1", helper: "Cần kiểm tra" },
+  { label: "Processing", value: "1", helper: "AI đang chạy" },
+  { label: "Exported", value: "8", helper: "Tháng này" },
 ];
 
-export default function Home() {
+export default function HomePage() {
+  const continueProduction = productions[0];
+
   return (
-    <DashboardShell title="Home" actionHref="/upload" actionLabel="Start Production">
-      <div className="mb-8">
-        <p className="text-sm font-medium text-violet-300">AI video production</p>
-        <h2 className="mt-2 max-w-3xl text-3xl font-bold tracking-tight">
-          Upload once. AI edits everything. Review. Export.
-        </h2>
-        <p className="mt-3 max-w-2xl text-white/50">
-          Start a production or continue reviewing AI-generated clips. Home stays
-          focused on production flow, not admin dashboard clutter.
-        </p>
-      </div>
+    <DashboardShell title="Home">
+        <div className="grid gap-6">
+        <section className="rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900 to-violet-950/40 p-5 shadow-sm md:p-6">
+          <div className="grid gap-6 xl:grid-cols-[1.25fr_0.85fr]">
+            <div>
+              <Badge tone="violet">AI Production Workspace</Badge>
 
-      <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Active productions", "3"],
-          ["Ready to review", "1"],
-          ["In AI queue", "1"],
-          ["Export ready", "1"],
-        ].map(([label, value]) => (
-          <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <p className="text-sm text-white/50">{label}</p>
-            <p className="mt-3 text-3xl font-bold">{value}</p>
-          </div>
-        ))}
-      </div>
+              <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
+                Biến video thô thành production sẵn sàng xuất bản.
+              </h2>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-          <div className="flex items-center justify-between gap-4">
-            <h3 className="text-lg font-semibold">Recent productions</h3>
-            <Link href="/productions" className="text-sm text-violet-300 hover:text-violet-200">
-              View all
-            </Link>
-          </div>
-          <div className="mt-5 space-y-3">
-            {activeProductions.map((production) => (
-              <div key={production.name} className="flex items-center justify-between gap-4 rounded-xl bg-white/5 p-4">
-                <div>
-                  <p className="font-medium">{production.name}</p>
-                  <p className="text-sm text-white/40">{production.status} · {production.clips}</p>
-                </div>
-                <Link href="/review" className="rounded-lg bg-white/10 px-3 py-2 text-sm hover:bg-white/15">
-                  Open
-                </Link>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300">
+                Workspace này đi theo flow chính: Home → Upload → AI Queue →
+                Review → Export. Người dùng bắt đầu từ Production, không phải
+                dashboard admin.
+              </p>
+
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/upload">
+                  <UploadCloud className="h-4 w-4" />
+                  Start Production
+                </ButtonLink>
+
+                <ButtonLink href="/productions" variant="secondary">
+                  View Productions
+                  <ArrowRight className="h-4 w-4" />
+                </ButtonLink>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className="rounded-2xl border border-violet-400/20 bg-violet-600/15 p-6">
-          <h3 className="text-lg font-semibold">Next step</h3>
-          <p className="mt-3 text-sm text-white/60">
-            Create a production and let AI move it through upload, queue, review,
-            and export.
-          </p>
-          <Link
-            href="/upload"
-            className="mt-6 block w-full rounded-xl bg-white px-4 py-3 text-center text-sm font-semibold text-black"
-          >
-            Start Production
-          </Link>
-        </div>
+            <ContinueProductionCard production={continueProduction} />
+          </div>
+        </section>
+
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {stats.map((stat) => (
+            <Card key={stat.label}>
+              <CardContent>
+                <p className="text-sm text-slate-400">{stat.label}</p>
+                <p className="mt-2 text-3xl font-semibold text-white">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-sm text-slate-500">{stat.helper}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+
+        <QuickActions />
+
+        <section className="grid gap-6 xl:grid-cols-[1.35fr_0.75fr]">
+          <div>
+            <SectionHeader
+              eyebrow="Production First"
+              title="Recent Productions"
+              description="Các production gần đây, trạng thái xử lý và tiến độ AI."
+              action={
+                <ButtonLink href="/productions" variant="ghost" size="sm">
+                  View all
+                </ButtonLink>
+              }
+            />
+
+            <div className="grid gap-4">
+              {productions.map((production) => (
+                <ProductionCard key={production.id} production={production} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <ActivityFeed />
+          </div>
+        </section>
       </div>
     </DashboardShell>
   );
