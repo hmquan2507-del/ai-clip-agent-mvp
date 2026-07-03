@@ -44,3 +44,10 @@ class ExportStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"
     EXPIRED = "expired"
+
+class UploadStatus(str, Enum):
+    PENDING = "pending"
+    VALIDATING = "validating"
+    STORED = "stored"
+    ATTACHED = "attached"
+    FAILED = "failed"
