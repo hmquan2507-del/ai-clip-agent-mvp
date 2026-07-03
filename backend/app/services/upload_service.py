@@ -1,3 +1,4 @@
+import uuid
 from uuid import UUID
 
 from fastapi import UploadFile
@@ -10,15 +11,20 @@ from app.services.upload_validation_service import (
     UploadValidationError,
     UploadValidationService,
 )
-from app.storage.local_storage import LocalStorageProvider
+from app.storage.base import StorageProvider
+from app.storage.factory import get_storage_provider
 
 
 class UploadService:
-    def __init__(self, db: Session):
+    def __init__(
+        self,
+        db: Session,
+        storage: StorageProvider | None = None,
+    ):
         self.db = db
         self.production_repository = ProductionRepository(db)
         self.validation_service = UploadValidationService()
-        self.storage = LocalStorageProvider()
+        self.storage = storage or get_storage_provider()
 
     def upload_source_video(
         self,
@@ -32,15 +38,28 @@ class UploadService:
 
         self.validation_service.validate_video_file(file)
 
-        storage_path, size_bytes = self.storage.save_upload(
-            file=file,
-            production_id=str(production_id),
+        filename = file.filename or "upload.mp4"
+        object_key = f"{production_id}/{uuid.uuid4()}_{filename}"
+
+        storage_path = self.storage.save_file(
+            file=file.file,
+            object_key=object_key,
+            content_type=file.content_type,
         )
+
+        size_bytes = None
+
+        try:
+            file.file.seek(0, 2)
+            size_bytes = file.file.tell()
+            file.file.seek(0)
+        except Exception:
+            size_bytes = None
 
         asset = Asset(
             production_id=production_id,
             type=AssetType.SOURCE_VIDEO,
-            filename=file.filename or "upload.mp4",
+            filename=filename,
             mime_type=file.content_type,
             size_bytes=size_bytes,
             storage_path=storage_path,

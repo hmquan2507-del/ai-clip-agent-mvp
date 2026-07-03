@@ -39,6 +39,26 @@ def get_asset(
     return service.get_by_id(asset_id)
 
 
+@router.get("/{asset_id}/url")
+def get_asset_url(
+    asset_id: UUID,
+    service: AssetService = Depends(get_asset_service),
+):
+    return {
+        "url": service.get_public_url(asset_id),
+    }
+
+
+@router.get("/{asset_id}/signed-url")
+def get_signed_asset_url(
+    asset_id: UUID,
+    service: AssetService = Depends(get_asset_service),
+):
+    return {
+        "url": service.get_signed_url(asset_id),
+    }
+
+
 @router.delete(
     "/{asset_id}",
     response_model=AssetRead,

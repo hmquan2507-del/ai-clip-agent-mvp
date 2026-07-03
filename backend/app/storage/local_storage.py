@@ -1,25 +1,47 @@
 import shutil
-import uuid
 from pathlib import Path
+from typing import BinaryIO
 
-from fastapi import UploadFile
+from app.storage.base import StorageProvider
 
 
-class LocalStorageProvider:
+class LocalStorageProvider(StorageProvider):
     def __init__(self, base_path: str = "data/uploads"):
         self.base_path = Path(base_path)
         self.base_path.mkdir(parents=True, exist_ok=True)
 
-    def save_upload(self, file: UploadFile, production_id: str) -> tuple[str, int]:
-        safe_name = f"{uuid.uuid4()}_{file.filename}"
-        production_dir = self.base_path / production_id
-        production_dir.mkdir(parents=True, exist_ok=True)
+    def _resolve_path(self, object_key: str) -> Path:
+        return self.base_path / object_key
 
-        destination = production_dir / safe_name
+    def save_file(
+        self,
+        file: BinaryIO,
+        object_key: str,
+        content_type: str | None = None,
+    ) -> str:
+        destination = self._resolve_path(object_key)
+        destination.parent.mkdir(parents=True, exist_ok=True)
 
         with destination.open("wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+            shutil.copyfileobj(file, buffer)
 
-        size_bytes = destination.stat().st_size
+        return object_key
 
-        return str(destination), size_bytes
+    def delete_file(self, object_key: str) -> None:
+        path = self._resolve_path(object_key)
+
+        if path.exists():
+            path.unlink()
+
+    def file_exists(self, object_key: str) -> bool:
+        return self._resolve_path(object_key).exists()
+
+    def get_public_url(self, object_key: str) -> str:
+        return f"/media/{object_key}"
+
+    def get_signed_url(
+        self,
+        object_key: str,
+        expires_in_seconds: int = 3600,
+    ) -> str:
+        return self.get_public_url(object_key)

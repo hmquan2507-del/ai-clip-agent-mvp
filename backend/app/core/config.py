@@ -4,6 +4,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     app_name: str = "AI Clip Agent API"
     environment: str = "development"
+    local_storage_path: str = "data/uploads"
+
+    r2_bucket_name: str = ""
+    r2_endpoint_url: str = ""
+    r2_access_key_id: str = ""
+    r2_secret_access_key: str = ""
+    r2_public_base_url: str | None = None
 
     database_url: str = "sqlite:///./data/ai_clip_agent.db"
 
@@ -11,6 +18,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
     )
+    storage_provider: str = "local"
 
 
 settings = Settings()
