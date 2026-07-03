@@ -51,3 +51,22 @@ class UploadStatus(str, Enum):
     STORED = "stored"
     ATTACHED = "attached"
     FAILED = "failed"
+
+
+
+class QueueStatus(str, Enum):
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELED = "canceled"
+
+
+class QueueType(str, Enum):
+    TRANSCRIPT = "transcript"
+    SUBTITLE = "subtitle"
+    BROLL = "broll"
+    MUSIC = "music"
+    THUMBNAIL = "thumbnail"
+    EXPORT = "export"
+    RENDER = "render"

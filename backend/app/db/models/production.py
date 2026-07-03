@@ -27,3 +27,4 @@ class Production(BaseEntity):
     clips = relationship("Clip", back_populates="production")
     render_jobs = relationship("RenderJob", back_populates="production")
     exports = relationship("Export", back_populates="production")
+    queue_jobs = relationship("QueueJob", back_populates="production")

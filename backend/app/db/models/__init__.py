@@ -5,7 +5,7 @@ from app.db.models.production import Production
 from app.db.models.render_job import RenderJob
 from app.db.models.user import User
 from app.db.models.workspace import Workspace
-
+from app.db.models.queue_job import QueueJob
 __all__ = [
     "Asset",
     "Clip",
@@ -14,4 +14,5 @@ __all__ = [
     "RenderJob",
     "User",
     "Workspace",
+    "QueueJob",
 ]
