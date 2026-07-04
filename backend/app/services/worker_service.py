@@ -13,7 +13,7 @@ from app.workers.dispatcher import WorkerDispatcher
 class WorkerService:
     def __init__(self, db: Session):
         self.queue_repository = QueueRepository(db)
-        self.dispatcher = WorkerDispatcher()
+        self.dispatcher = WorkerDispatcher(db=db)
 
     def run_job(self, queue_id: UUID):
         job = self.queue_repository.get_by_id(queue_id)

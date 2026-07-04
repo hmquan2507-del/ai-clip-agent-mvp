@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     app_name: str = "AI Clip Agent API"
     app_version: str = "1.0.0"
     environment: str = "development"
-
+    speech_provider: str = "whisper"
     database_url: str = "sqlite:///./data/ai_clip_agent.db"
 
     storage_provider: str = "local"

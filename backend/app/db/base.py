@@ -47,6 +47,7 @@ class VersionMixin:
 
 
 class BaseEntity(
+    Base,
     UUIDPrimaryKeyMixin,
     TimestampMixin,
     SoftDeleteMixin,

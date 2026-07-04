@@ -1,3 +1,5 @@
+from sqlalchemy.orm import Session
+
 from app.db.enums import QueueType
 from app.workers.base import BaseWorker
 from app.workers.broll_worker import BrollWorker
@@ -8,9 +10,9 @@ from app.workers.transcript_worker import TranscriptWorker
 
 
 class WorkerRegistry:
-    def __init__(self):
+    def __init__(self, db: Session | None = None):
         self._workers: dict[QueueType, BaseWorker] = {
-            QueueType.TRANSCRIPT: TranscriptWorker(),
+            QueueType.TRANSCRIPT: TranscriptWorker(db=db),
             QueueType.SUBTITLE: SubtitleWorker(),
             QueueType.BROLL: BrollWorker(),
             QueueType.MUSIC: MusicWorker(),
