@@ -8,6 +8,7 @@ from app.db.models.workspace import Workspace
 from app.db.models.queue_job import QueueJob
 from app.db.models.editing_plan import EditingPlan, EditingPlanItem
 from app.db.models.timeline import Timeline, TimelineTrack, TimelineClip
+from app.db.models.subtitle import Subtitle, SubtitleCue
 __all__ = [
     "Asset",
     "Clip",
@@ -22,4 +23,6 @@ __all__ = [
     "Timeline",
     "TimelineTrack",
     "TimelineClip",
+    "Subtitle",
+    "SubtitleCue",
 ]

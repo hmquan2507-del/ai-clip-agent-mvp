@@ -87,6 +87,7 @@ class QueueType(str, Enum):
     EXPORT = "export"
     RENDER = "render"
     TIMELINE = "timeline"
+    SUBTITLE_RUNTIME = "subtitle_runtime"
 
 class TimelineStatus(str, Enum):
     DRAFT = "draft"
@@ -111,3 +112,16 @@ class TimelineClipType(str, Enum):
     BROLL = "broll"
     SOUND_EFFECT = "sound_effect"
     MUSIC = "music"
+
+class SubtitleStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class SubtitleStyle(str, Enum):
+    DEFAULT = "default"
+    BOLD_KEYWORD = "bold_keyword"
+    TIKTOK = "tiktok"
+    MINIMAL = "minimal"
