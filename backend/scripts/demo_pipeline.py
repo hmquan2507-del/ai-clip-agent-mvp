@@ -4,19 +4,23 @@ import asyncio
 import json
 import sys
 from pathlib import Path
+
 from sqlalchemy import text
+
 ROOT_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT_DIR))
 
-from app.db.enums import QueueStatus, QueueType  # noqa: E402
+from app.db.enums import MusicMood, QueueStatus, QueueType  # noqa: E402
 from app.db.models.production import Production  # noqa: E402
 from app.db.models.queue_job import QueueJob  # noqa: E402
 from app.db.models.user import User  # noqa: E402
 from app.db.models.workspace import Workspace  # noqa: E402
 from app.db.session import SessionLocal  # noqa: E402
-from app.repositories.queue_repository import QueueRepository  # noqa: E402
 from app.services.broll_service import BrollService  # noqa: E402
 from app.services.editing_service import EditingService  # noqa: E402
+from app.services.music_service import MusicService  # noqa: E402
+from app.services.render_service import RenderService  # noqa: E402
+from app.services.sound_effect_service import SoundEffectService  # noqa: E402
 from app.services.subtitle_service import SubtitleService  # noqa: E402
 from app.services.timeline_service import TimelineService  # noqa: E402
 
@@ -43,11 +47,7 @@ def get_or_create_demo_user(db):
 
 
 def get_or_create_demo_workspace(db, user):
-    workspace = (
-        db.query(Workspace)
-        .filter(Workspace.owner_id == user.id)
-        .first()
-    )
+    workspace = db.query(Workspace).filter(Workspace.owner_id == user.id).first()
 
     if workspace:
         return workspace
@@ -85,7 +85,8 @@ def create_completed_transcript_job(db, production):
             "In this video, I will show you how AI Clip Agent turns raw video "
             "into a ready-to-post short-form clip. First, it reads the transcript. "
             "Then it finds the strongest hook, removes boring parts, adds subtitles, "
-            "suggests B-roll, and prepares the timeline for rendering."
+            "suggests B-roll, adds sound effects, selects background music, "
+            "and prepares the final render plan."
         )
     }
 
@@ -143,8 +144,27 @@ async def run_pipeline():
         )
         print(f"[OK] B-roll plan: {broll_plan.id}")
 
+        sound_effect_plan = SoundEffectService(db).generate_sound_effect_plan(
+            production_id=production.id,
+        )
+        print(f"[OK] Sound Effect plan: {sound_effect_plan.id}")
+
+        music_plan = MusicService(db).generate_music_plan(
+            production_id=production.id,
+            mood=MusicMood.ENERGETIC,
+        )
+        print(f"[OK] Music plan: {music_plan.id}")
+
+        render_plan = RenderService(db).generate_render_plan(
+            production_id=production.id,
+        )
+        print(f"[OK] Render plan: {render_plan.id}")
+
         print("\n=== Counts ===")
+
         tables = [
+            "productions",
+            "queue_jobs",
             "editing_plans",
             "editing_plan_items",
             "timelines",
@@ -154,12 +174,19 @@ async def run_pipeline():
             "subtitle_cues",
             "broll_plans",
             "broll_cues",
+            "sound_effect_plans",
+            "sound_effect_cues",
+            "music_plans",
+            "music_cues",
+            "render_plans",
+            "render_tracks",
+            "render_assets",
         ]
 
         for table in tables:
             count = db.execute(
-    text(f"SELECT COUNT(*) FROM {table}")
-).scalar()
+                text(f"SELECT COUNT(*) FROM {table}")
+            ).scalar()
             print(f"{table}: {count}")
 
         print("\nDEMO PIPELINE COMPLETED\n")

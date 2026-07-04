@@ -12,6 +12,7 @@ from app.db.models.subtitle import Subtitle, SubtitleCue
 from app.db.models.broll import BrollCue, BrollPlan
 from app.db.models.sound_effect import SoundEffectCue, SoundEffectPlan
 from app.db.models.music import MusicCue, MusicPlan
+from app.db.models.render_plan import RenderAsset, RenderPlan, RenderTrack
 __all__ = [
     "Asset",
     "Clip",
@@ -34,4 +35,7 @@ __all__ = [
     "SoundEffectCue",
     "MusicPlan",
     "MusicCue",
+    "RenderPlan",
+    "RenderTrack",
+    "RenderAsset",
 ]

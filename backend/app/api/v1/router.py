@@ -10,6 +10,7 @@ from app.api.v1.subtitle import router as subtitle_router
 from app.api.v1.broll import router as broll_router
 from app.api.v1.sound_effect import router as sound_effect_router
 from app.api.v1.music import router as music_router
+from app.api.v1.render import router as render_router
 
 api_router = APIRouter(prefix="/api/v1")
 
@@ -23,3 +24,4 @@ api_router.include_router(subtitle_router)
 api_router.include_router(broll_router)
 api_router.include_router(sound_effect_router)
 api_router.include_router(music_router)
+api_router.include_router(render_router)

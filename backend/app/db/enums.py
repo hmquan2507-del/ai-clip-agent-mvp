@@ -91,6 +91,7 @@ class QueueType(str, Enum):
     BROLL_RUNTIME = "broll_runtime"
     SOUND_EFFECT_RUNTIME = "sound_effect_runtime"
     MUSIC_RUNTIME = "music_runtime"
+    RENDER_RUNTIME = "render_runtime"
 
 class TimelineStatus(str, Enum):
     DRAFT = "draft"
@@ -173,3 +174,27 @@ class MusicMood(str, Enum):
     INSPIRATIONAL = "inspirational"
     MINIMAL = "minimal"
     CUSTOM = "custom"
+
+class RenderPlanStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class RenderTrackType(str, Enum):
+    VIDEO = "video"
+    SUBTITLE = "subtitle"
+    BROLL = "broll"
+    SOUND_EFFECT = "sound_effect"
+    MUSIC = "music"
+    EXPORT = "export"
+
+
+class RenderAssetType(str, Enum):
+    SOURCE_VIDEO = "source_video"
+    SUBTITLE = "subtitle"
+    BROLL = "broll"
+    SOUND_EFFECT = "sound_effect"
+    MUSIC = "music"
+    GENERATED = "generated"
