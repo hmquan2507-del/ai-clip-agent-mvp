@@ -31,7 +31,10 @@ class QueueRepository:
 
         return job
 
-    def get_by_id(self, queue_id: UUID) -> QueueJob | None:
+    def get_by_id(
+        self,
+        queue_id: UUID,
+    ) -> QueueJob | None:
         statement = select(QueueJob).where(
             QueueJob.id == queue_id,
             QueueJob.deleted_at.is_(None),
@@ -39,6 +42,22 @@ class QueueRepository:
 
         return self.db.scalars(statement).first()
 
+    def get_latest_completed_transcript(
+        self,
+        production_id: UUID,
+    ) -> QueueJob | None:
+        statement = (
+            select(QueueJob)
+            .where(
+                QueueJob.production_id == production_id,
+                QueueJob.type == QueueType.TRANSCRIPT,
+                QueueJob.status == QueueStatus.COMPLETED,
+                QueueJob.deleted_at.is_(None),
+            )
+            .order_by(QueueJob.created_at.desc())
+        )
+
+        return self.db.scalars(statement).first()
     def list_by_production(
         self,
         production_id: UUID,
@@ -54,6 +73,7 @@ class QueueRepository:
 
         return list(self.db.scalars(statement).all())
 
+    
     def update(self, job: QueueJob) -> QueueJob:
         job.version += 1
 
@@ -62,3 +82,5 @@ class QueueRepository:
         self.db.refresh(job)
 
         return job
+    
+    

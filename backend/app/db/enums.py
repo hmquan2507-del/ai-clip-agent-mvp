@@ -60,10 +60,26 @@ class QueueStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELED = "canceled"
+    
+class EditingPlanStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
 
+
+class EditingPlanItemAction(str, Enum):
+    KEEP = "keep"
+    CUT = "cut"
+    HOOK = "hook"
+    HIGHLIGHT = "highlight"
+    BROLL = "broll"
+    SOUND_EFFECT = "sound_effect"
+    SUBTITLE_EMPHASIS = "subtitle_emphasis"
 
 class QueueType(str, Enum):
     TRANSCRIPT = "transcript"
+    AI_EDITING = "ai_editing"
     SUBTITLE = "subtitle"
     BROLL = "broll"
     MUSIC = "music"

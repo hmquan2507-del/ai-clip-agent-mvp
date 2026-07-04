@@ -7,12 +7,13 @@ from app.workers.music_worker import MusicWorker
 from app.workers.render_worker import RenderWorker
 from app.workers.subtitle_worker import SubtitleWorker
 from app.workers.transcript_worker import TranscriptWorker
-
+from app.workers.editing_worker import EditingWorker
 
 class WorkerRegistry:
     def __init__(self, db: Session | None = None):
         self._workers: dict[QueueType, BaseWorker] = {
             QueueType.TRANSCRIPT: TranscriptWorker(db=db),
+            QueueType.AI_EDITING: EditingWorker(db=db),
             QueueType.SUBTITLE: SubtitleWorker(),
             QueueType.BROLL: BrollWorker(),
             QueueType.MUSIC: MusicWorker(),

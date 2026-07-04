@@ -6,6 +6,7 @@ from app.db.models.render_job import RenderJob
 from app.db.models.user import User
 from app.db.models.workspace import Workspace
 from app.db.models.queue_job import QueueJob
+from app.db.models.editing_plan import EditingPlan, EditingPlanItem
 __all__ = [
     "Asset",
     "Clip",
@@ -15,4 +16,6 @@ __all__ = [
     "User",
     "Workspace",
     "QueueJob",
+    "EditingPlan",
+    "EditingPlanItem",
 ]
