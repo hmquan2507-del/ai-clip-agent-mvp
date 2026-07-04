@@ -60,7 +60,7 @@ class QueueStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELED = "canceled"
-    
+
 class EditingPlanStatus(str, Enum):
     DRAFT = "draft"
     PROCESSING = "processing"
@@ -86,3 +86,28 @@ class QueueType(str, Enum):
     THUMBNAIL = "thumbnail"
     EXPORT = "export"
     RENDER = "render"
+    TIMELINE = "timeline"
+
+class TimelineStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class TimelineTrackType(str, Enum):
+    VIDEO = "video"
+    AUDIO = "audio"
+    SUBTITLE = "subtitle"
+    BROLL = "broll"
+    SOUND_EFFECT = "sound_effect"
+    MUSIC = "music"
+
+
+class TimelineClipType(str, Enum):
+    SOURCE = "source"
+    GENERATED = "generated"
+    SUBTITLE = "subtitle"
+    BROLL = "broll"
+    SOUND_EFFECT = "sound_effect"
+    MUSIC = "music"

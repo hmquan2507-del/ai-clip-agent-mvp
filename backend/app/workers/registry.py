@@ -8,6 +8,7 @@ from app.workers.render_worker import RenderWorker
 from app.workers.subtitle_worker import SubtitleWorker
 from app.workers.transcript_worker import TranscriptWorker
 from app.workers.editing_worker import EditingWorker
+from app.workers.timeline_worker import TimelineWorker
 
 class WorkerRegistry:
     def __init__(self, db: Session | None = None):
@@ -18,6 +19,7 @@ class WorkerRegistry:
             QueueType.BROLL: BrollWorker(),
             QueueType.MUSIC: MusicWorker(),
             QueueType.RENDER: RenderWorker(),
+            QueueType.TIMELINE: TimelineWorker(db=db),
         }
 
     def get_worker(self, queue_type: QueueType) -> BaseWorker:

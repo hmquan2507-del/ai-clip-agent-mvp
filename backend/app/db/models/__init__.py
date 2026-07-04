@@ -7,6 +7,7 @@ from app.db.models.user import User
 from app.db.models.workspace import Workspace
 from app.db.models.queue_job import QueueJob
 from app.db.models.editing_plan import EditingPlan, EditingPlanItem
+from app.db.models.timeline import Timeline, TimelineTrack, TimelineClip
 __all__ = [
     "Asset",
     "Clip",
@@ -18,4 +19,7 @@ __all__ = [
     "QueueJob",
     "EditingPlan",
     "EditingPlanItem",
+    "Timeline",
+    "TimelineTrack",
+    "TimelineClip",
 ]
