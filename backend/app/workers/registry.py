@@ -10,6 +10,9 @@ from app.workers.transcript_worker import TranscriptWorker
 from app.workers.editing_worker import EditingWorker
 from app.workers.timeline_worker import TimelineWorker
 from app.workers.subtitle_worker import SubtitleWorker
+from app.workers.broll_runtime_worker import BrollRuntimeWorker
+from app.workers.sound_effect_runtime_worker import SoundEffectRuntimeWorker
+from app.workers.music_runtime_worker import MusicRuntimeWorker
 
 class WorkerRegistry:
     def __init__(self, db: Session | None = None):
@@ -17,6 +20,9 @@ class WorkerRegistry:
             QueueType.TRANSCRIPT: TranscriptWorker(db=db),
             QueueType.AI_EDITING: EditingWorker(db=db),
             QueueType.SUBTITLE_RUNTIME: SubtitleWorker(db=db),
+            QueueType.BROLL_RUNTIME: BrollRuntimeWorker(db=db),
+            QueueType.SOUND_EFFECT_RUNTIME: SoundEffectRuntimeWorker(db=db),
+            QueueType.MUSIC_RUNTIME: MusicRuntimeWorker(db=db),
             QueueType.SUBTITLE: SubtitleWorker(),
             QueueType.BROLL: BrollWorker(),
             QueueType.MUSIC: MusicWorker(),

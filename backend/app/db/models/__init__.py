@@ -9,6 +9,9 @@ from app.db.models.queue_job import QueueJob
 from app.db.models.editing_plan import EditingPlan, EditingPlanItem
 from app.db.models.timeline import Timeline, TimelineTrack, TimelineClip
 from app.db.models.subtitle import Subtitle, SubtitleCue
+from app.db.models.broll import BrollCue, BrollPlan
+from app.db.models.sound_effect import SoundEffectCue, SoundEffectPlan
+from app.db.models.music import MusicCue, MusicPlan
 __all__ = [
     "Asset",
     "Clip",
@@ -25,4 +28,10 @@ __all__ = [
     "TimelineClip",
     "Subtitle",
     "SubtitleCue",
+    "BrollPlan",
+    "BrollCue",
+    "SoundEffectPlan",
+    "SoundEffectCue",
+    "MusicPlan",
+    "MusicCue",
 ]

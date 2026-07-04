@@ -7,6 +7,10 @@ from app.api.v1.queues import router as queues_router
 from app.api.v1.workers import router as workers_router
 from app.api.v1.editing import router as editing_router
 from app.api.v1.subtitle import router as subtitle_router
+from app.api.v1.broll import router as broll_router
+from app.api.v1.sound_effect import router as sound_effect_router
+from app.api.v1.music import router as music_router
+
 api_router = APIRouter(prefix="/api/v1")
 
 api_router.include_router(productions_router)
@@ -16,3 +20,6 @@ api_router.include_router(queues_router)
 api_router.include_router(workers_router)
 api_router.include_router(editing_router)
 api_router.include_router(subtitle_router)
+api_router.include_router(broll_router)
+api_router.include_router(sound_effect_router)
+api_router.include_router(music_router)

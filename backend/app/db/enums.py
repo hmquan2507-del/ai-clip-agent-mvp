@@ -88,6 +88,9 @@ class QueueType(str, Enum):
     RENDER = "render"
     TIMELINE = "timeline"
     SUBTITLE_RUNTIME = "subtitle_runtime"
+    BROLL_RUNTIME = "broll_runtime"
+    SOUND_EFFECT_RUNTIME = "sound_effect_runtime"
+    MUSIC_RUNTIME = "music_runtime"
 
 class TimelineStatus(str, Enum):
     DRAFT = "draft"
@@ -125,3 +128,48 @@ class SubtitleStyle(str, Enum):
     BOLD_KEYWORD = "bold_keyword"
     TIKTOK = "tiktok"
     MINIMAL = "minimal"
+
+class BrollStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class BrollSourceType(str, Enum):
+    SUGGESTION = "suggestion"
+    STOCK = "stock"
+    GENERATED = "generated"
+    UPLOADED = "uploaded"
+    
+class SoundEffectStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class SoundEffectType(str, Enum):
+    WHOOSH = "whoosh"
+    POP = "pop"
+    CLICK = "click"
+    TRANSITION = "transition"
+    IMPACT = "impact"
+    AMBIENT = "ambient"
+    CUSTOM = "custom"
+
+class MusicStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class MusicMood(str, Enum):
+    ENERGETIC = "energetic"
+    CALM = "calm"
+    CINEMATIC = "cinematic"
+    CORPORATE = "corporate"
+    INSPIRATIONAL = "inspirational"
+    MINIMAL = "minimal"
+    CUSTOM = "custom"
