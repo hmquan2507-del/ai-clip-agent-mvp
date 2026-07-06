@@ -13,6 +13,7 @@ from app.db.models.broll import BrollCue, BrollPlan
 from app.db.models.sound_effect import SoundEffectCue, SoundEffectPlan
 from app.db.models.music import MusicCue, MusicPlan
 from app.db.models.render_plan import RenderAsset, RenderPlan, RenderTrack
+from app.db.models.content_graph import ContentGraph, ContentSegment
 __all__ = [
     "Asset",
     "Clip",
@@ -38,4 +39,6 @@ __all__ = [
     "RenderPlan",
     "RenderTrack",
     "RenderAsset",
+    "ContentGraph",
+    "ContentSegment",
 ]

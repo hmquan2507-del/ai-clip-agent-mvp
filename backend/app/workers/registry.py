@@ -14,6 +14,7 @@ from app.workers.broll_runtime_worker import BrollRuntimeWorker
 from app.workers.sound_effect_runtime_worker import SoundEffectRuntimeWorker
 from app.workers.music_runtime_worker import MusicRuntimeWorker
 from app.workers.render_runtime_worker import RenderRuntimeWorker
+from app.workers.content_understanding_worker import (ContentUnderstandingWorker,)
 
 class WorkerRegistry:
     def __init__(self, db: Session | None = None):
@@ -25,6 +26,7 @@ class WorkerRegistry:
             QueueType.SOUND_EFFECT_RUNTIME: SoundEffectRuntimeWorker(db=db),
             QueueType.MUSIC_RUNTIME: MusicRuntimeWorker(db=db),
             QueueType.RENDER_RUNTIME: RenderRuntimeWorker(db=db),
+            QueueType.CONTENT_UNDERSTANDING: ContentUnderstandingWorker(db=db),
             QueueType.SUBTITLE: SubtitleWorker(),
             QueueType.BROLL: BrollWorker(),
             QueueType.MUSIC: MusicWorker(),

@@ -92,6 +92,7 @@ class QueueType(str, Enum):
     SOUND_EFFECT_RUNTIME = "sound_effect_runtime"
     MUSIC_RUNTIME = "music_runtime"
     RENDER_RUNTIME = "render_runtime"
+    CONTENT_UNDERSTANDING = "content_understanding"
 
 class TimelineStatus(str, Enum):
     DRAFT = "draft"
@@ -198,3 +199,31 @@ class RenderAssetType(str, Enum):
     SOUND_EFFECT = "sound_effect"
     MUSIC = "music"
     GENERATED = "generated"
+
+class ContentGraphStatus(str, Enum):
+    DRAFT = "draft"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+class ContentSegmentType(str, Enum):
+    INTRO = "intro"
+    HOOK = "hook"
+    MAIN_POINT = "main_point"
+    EXAMPLE = "example"
+    STORY = "story"
+    CTA = "cta"
+    FILLER = "filler"
+    UNKNOWN = "unknown"
+
+
+class ContentEmotion(str, Enum):
+    NEUTRAL = "neutral"
+    EXCITED = "excited"
+    SURPRISED = "surprised"
+    SERIOUS = "serious"
+    FUNNY = "funny"
+    INSPIRATIONAL = "inspirational"
+    CONFUSED = "confused"
+    ANGRY = "angry"
