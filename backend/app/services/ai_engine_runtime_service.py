@@ -9,6 +9,7 @@ from app.ai.base.metadata_manager import MetadataManager
 from app.ai.base.payload_builder import ContentGraphPayloadBuilder
 from app.ai.runtime import AIContext, AIRuntime
 from app.ai.runtime.runtime_registry import build_default_engine_registry
+from app.artifacts.runtime_store import RuntimeArtifactStore
 from app.repositories.content_graph_repository import ContentGraphRepository
 
 
@@ -18,6 +19,7 @@ class AIEngineRuntimeService:
         self.content_graph_repository = ContentGraphRepository(db)
         self.registry = build_default_engine_registry()
         self.runtime = AIRuntime()
+        self.artifact_store = RuntimeArtifactStore(db)
 
     def run_engine(
         self,
@@ -69,6 +71,13 @@ class AIEngineRuntimeService:
             metadata_json=metadata_json,
         )
 
+        if isinstance(result_dict["data"], dict):
+            self.artifact_store.save(
+                production_id=str(production_id),
+                artifact_key=engine_key,
+                payload=result_dict["data"],
+            )
+
         return result_dict["data"]
 
     def run_pipeline(
@@ -111,10 +120,22 @@ class AIEngineRuntimeService:
             )
 
             result_data = result.data
-            context.set_runtime_result(engine_key, result_data)
+
+            context.set_runtime_result(
+                engine_key,
+                result_data,
+            )
+
             results[engine_key] = result_data
 
-        merged_metadata = metadata
+            if isinstance(result_data, dict):
+                self.artifact_store.save(
+                    production_id=str(production_id),
+                    artifact_key=engine_key,
+                    payload=result_data,
+                )
+
+        merged_metadata = dict(metadata)
 
         for key, value in results.items():
             merged_metadata[key] = value

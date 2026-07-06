@@ -14,6 +14,7 @@ from app.db.models.sound_effect import SoundEffectCue, SoundEffectPlan
 from app.db.models.music import MusicCue, MusicPlan
 from app.db.models.render_plan import RenderAsset, RenderPlan, RenderTrack
 from app.db.models.content_graph import ContentGraph, ContentSegment
+from app.db.models.runtime_artifact import RuntimeArtifact
 __all__ = [
     "Asset",
     "Clip",
@@ -41,4 +42,5 @@ __all__ = [
     "RenderAsset",
     "ContentGraph",
     "ContentSegment",
+    "RuntimeArtifact",
 ]

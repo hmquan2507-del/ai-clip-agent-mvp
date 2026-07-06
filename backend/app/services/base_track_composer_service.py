@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import json
 from typing import Any
 from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.ai.base.metadata_manager import MetadataManager
+from app.artifacts.keys import TRACK_CONTEXT
+from app.artifacts.runtime_store import RuntimeArtifactStore
 from app.editing.track.segment_loader import SegmentLoader
 from app.editing.track.track_context_loader import TrackContextLoader
 from app.editing.track.track_runtime import TrackRuntime
@@ -25,6 +25,7 @@ class BaseTrackComposerService:
             raise ValueError("TRACK_KEY is required")
 
         self.content_graph_repository = ContentGraphRepository(db)
+        self.artifact_store = RuntimeArtifactStore(db)
         self.composer = composer
         self.context_loader = TrackContextLoader()
         self.segment_loader = SegmentLoader()
@@ -46,18 +47,18 @@ class BaseTrackComposerService:
                 },
             }
 
-        metadata = MetadataManager.load(graph.metadata_json)
-
-        track_context_payload = metadata.get("track_context", {})
-        if not isinstance(track_context_payload, dict):
-            track_context_payload = {}
+        track_context_payload = self.artifact_store.load_payload(
+            production_id=str(production_id),
+            artifact_key=TRACK_CONTEXT,
+            default={},
+        )
 
         context = self.context_loader.load(
             production_id=str(production_id),
             payload=track_context_payload,
         )
 
-        kwargs = self.build_kwargs(graph=graph, metadata=metadata)
+        kwargs = self.build_kwargs(graph=graph)
 
         result = self.runtime.run_composer(
             track_key=self.TRACK_KEY,
@@ -67,18 +68,18 @@ class BaseTrackComposerService:
         )
 
         result_dict = result.to_dict()
-        metadata[self.METADATA_KEY] = result_dict["payload"]
+        payload = result_dict["payload"]
 
-        self.content_graph_repository.update_metadata_json(
-            graph_id=str(graph.id),
-            metadata_json=json.dumps(metadata, ensure_ascii=False),
+        self.artifact_store.save(
+            production_id=str(production_id),
+            artifact_key=self.METADATA_KEY,
+            payload=payload,
         )
 
-        return result_dict["payload"]
+        return payload
 
     def build_kwargs(
         self,
         graph: Any,
-        metadata: dict[str, Any],
     ) -> dict[str, Any]:
         return {}

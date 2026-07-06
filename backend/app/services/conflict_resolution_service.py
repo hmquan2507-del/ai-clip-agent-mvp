@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import json
 from typing import Any
 from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.ai.base.metadata_manager import MetadataManager
+from app.artifacts.keys import OPTIMIZED_EXECUTION_GRAPH, TIMELINE
+from app.artifacts.runtime_store import RuntimeArtifactStore
 from app.editing.execution.conflict import (
     ConflictDetector,
     ConflictResolver,
@@ -17,10 +17,9 @@ from app.repositories.content_graph_repository import ContentGraphRepository
 
 
 class ConflictResolutionService:
-    METADATA_KEY = "optimized_execution_graph"
-
     def __init__(self, db: Session):
         self.content_graph_repository = ContentGraphRepository(db)
+        self.artifact_store = RuntimeArtifactStore(db)
         self.graph_builder = ExecutionGraphBuilder()
         self.detector = ConflictDetector()
         self.resolver = ConflictResolver()
@@ -42,11 +41,11 @@ class ConflictResolutionService:
                 },
             }
 
-        metadata = MetadataManager.load(graph_model.metadata_json)
-        editable_timeline = metadata.get("editable_timeline", {})
-
-        if not isinstance(editable_timeline, dict):
-            editable_timeline = {}
+        editable_timeline = self.artifact_store.load_payload(
+            production_id=str(production_id),
+            artifact_key=TIMELINE,
+            default={},
+        )
 
         execution_graph = self.graph_builder.build(
             production_id=str(production_id),
@@ -73,11 +72,10 @@ class ConflictResolutionService:
 
         result = optimized_graph.to_dict()
 
-        metadata[self.METADATA_KEY] = result
-
-        self.content_graph_repository.update_metadata_json(
-            graph_id=str(graph_model.id),
-            metadata_json=json.dumps(metadata, ensure_ascii=False),
+        self.artifact_store.save(
+            production_id=str(production_id),
+            artifact_key=OPTIMIZED_EXECUTION_GRAPH,
+            payload=result,
         )
 
         return result
