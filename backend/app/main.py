@@ -12,7 +12,20 @@ from app.api.v1.ai_brain import router as ai_brain_router
 from app.api.v1.editing_style import router as editing_style_router
 from app.api.v1.decision_engine import router as decision_engine_router
 from app.api.v1.editing_execution_planner import router as editing_execution_planner_router
-
+from app.api.v1.timeline_composer import router as timeline_composer_router
+from app.api.v1.execution_graph import router as execution_graph_router
+from app.api.v1.conflict_resolution import router as conflict_resolution_router
+from app.api.v1.track_context import router as track_context_router
+from app.api.v1.subtitle_track_composer import (
+    router as subtitle_track_composer_router,
+)
+from app.api.v1.video_track_composer import (
+    router as video_track_composer_router,
+)
+from app.api.v1.audio_track_composer import (
+    router as audio_track_composer_router,
+)
+from app.api.v1.composition_runtime import router as composition_runtime_router
 
 configure_logging()
 
@@ -32,6 +45,14 @@ app.include_router(ai_brain_router, prefix="/api/v1")
 app.include_router(editing_style_router, prefix="/api/v1")
 app.include_router(decision_engine_router, prefix="/api/v1")
 app.include_router(editing_execution_planner_router, prefix="/api/v1")
+app.include_router(timeline_composer_router, prefix="/api/v1")
+app.include_router(execution_graph_router, prefix="/api/v1")
+app.include_router(conflict_resolution_router, prefix="/api/v1")
+app.include_router(track_context_router, prefix="/api/v1")
+app.include_router(subtitle_track_composer_router, prefix="/api/v1")
+app.include_router(video_track_composer_router, prefix="/api/v1")
+app.include_router(audio_track_composer_router, prefix="/api/v1")
+app.include_router(composition_runtime_router, prefix="/api/v1")
 
 @app.get("/")
 def root():
