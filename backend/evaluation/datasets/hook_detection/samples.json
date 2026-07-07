@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hook_001",
+    "transcript": "Bạn có biết vì sao video của bạn không giữ chân người xem không? Sai lầm lớn nhất là bạn đang lãng phí 80% thời gian để edit thủ công.",
+    "expected": {
+      "keywords": ["không giữ chân người xem", "80%", "edit thủ công"],
+      "min_hooks": 1
+    }
+  },
+  {
+    "id": "hook_002",
+    "transcript": "Nếu bạn đang mất 3 tiếng để dựng một video ngắn, quy trình này có thể giúp bạn giảm xuống còn 20 phút.",
+    "expected": {
+      "keywords": ["3 tiếng", "20 phút", "giảm"],
+      "min_hooks": 1
+    }
+  }
+]

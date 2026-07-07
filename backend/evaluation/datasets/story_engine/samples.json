@@ -1,0 +1,10 @@
+[
+  {
+    "id": "story_001",
+    "transcript": "Ban đầu tôi edit video thủ công rất lâu. Sau đó tôi thử dùng AI để hiểu transcript. Cuối cùng tôi tạo được quy trình tự động hóa phần lớn công việc.",
+    "expected": {
+      "keywords": ["ban đầu", "sau đó", "cuối cùng"],
+      "min_story_points": 2
+    }
+  }
+]

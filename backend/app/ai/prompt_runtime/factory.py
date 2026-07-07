@@ -35,6 +35,37 @@ def build_default_prompt_loader() -> PromptLoader:
             ),
         )
     )
+    loader.register(
+        PromptTemplate(
+            key="story.detect",
+            system_prompt=(
+                "You analyze narrative structure in video transcripts. "
+                "Return only valid JSON."
+            ),
+            user_prompt=(
+                "Analyze this transcript and extract story points.\n\n"
+                "Transcript:\n{transcript}\n\n"
+                "Return JSON with this shape:\n"
+                '{{"story_points":["...","..."]}}'
+            ),
+        )
+    )
+
+    loader.register(
+        PromptTemplate(
+            key="emotion.detect",
+            system_prompt=(
+                "You detect emotional signals in video transcripts. "
+                "Return only valid JSON."
+            ),
+            user_prompt=(
+                "Analyze this transcript and detect emotions.\n\n"
+                "Transcript:\n{transcript}\n\n"
+                "Return JSON with this shape:\n"
+                '{{"emotions":["curiosity","urgency"]}}'
+            ),
+        )
+    )
 
     return loader
 

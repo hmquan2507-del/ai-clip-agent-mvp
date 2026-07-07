@@ -1,0 +1,20 @@
+{
+  "provider": "gemini",
+  "tasks": {
+    "hook_detection": {
+      "sample_count": 2,
+      "average_score": 1.0,
+      "average_latency_ms": 2956.87
+    },
+    "story_engine": {
+      "sample_count": 1,
+      "average_score": 1.0,
+      "average_latency_ms": 1452.31
+    },
+    "emotion": {
+      "sample_count": 1,
+      "average_score": 0.6667,
+      "average_latency_ms": 3189.74
+    }
+  }
+}

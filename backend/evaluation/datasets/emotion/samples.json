@@ -1,0 +1,9 @@
+[
+  {
+    "id": "emotion_001",
+    "transcript": "Tôi thật sự bất ngờ khi phát hiện mình đã lãng phí quá nhiều thời gian cho việc edit thủ công.",
+    "expected": {
+      "emotions": ["surprise", "urgency", "frustration"]
+    }
+  }
+]
