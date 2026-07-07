@@ -41,6 +41,7 @@ from app.api.v1.runtime_artifact_cleanup import (
 from app.api.v1.runtime_artifact_replay import (
     router as runtime_artifact_replay_router,
 )
+from app.api.v1.ai_provider_health import router as ai_provider_health_router
 
 configure_logging()
 
@@ -77,6 +78,7 @@ app.include_router(ffmpeg_runtime_router, prefix="/api/v1")
 app.include_router(runtime_artifact_validation_router, prefix="/api/v1")
 app.include_router(runtime_artifact_cleanup_router, prefix="/api/v1")
 app.include_router(runtime_artifact_replay_router, prefix="/api/v1")
+app.include_router(ai_provider_health_router, prefix="/api/v1")
 
 @app.get("/")
 def root():

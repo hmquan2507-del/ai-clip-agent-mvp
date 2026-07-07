@@ -272,3 +272,13 @@ class RuntimeArtifactStore:
 
     def load_ffmpeg_command_plan(self, production_id: str) -> dict[str, Any]:
         return self.load_payload(production_id, keys.FFMPEG_COMMAND_PLAN, {})
+    
+    def save_gemini_hook_detection(
+        self,
+        production_id: str,
+        payload: dict[str, Any],
+    ) -> RuntimeArtifactPayload:
+        return self.save(production_id, keys.GEMINI_HOOK_DETECTION, payload)
+
+    def load_gemini_hook_detection(self, production_id: str) -> dict[str, Any]:
+        return self.load_payload(production_id, keys.GEMINI_HOOK_DETECTION, {})

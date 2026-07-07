@@ -2,11 +2,29 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    # =========================
+    # Application
+    # =========================
+
     app_name: str = "AI Clip Agent API"
     app_version: str = "1.0.0"
     environment: str = "development"
-    speech_provider: str = "whisper"
+
+    # =========================
+    # Database
+    # =========================
+
     database_url: str = "sqlite:///./data/ai_clip_agent.db"
+
+    # =========================
+    # Speech
+    # =========================
+
+    speech_provider: str = "whisper"
+
+    # =========================
+    # Storage
+    # =========================
 
     storage_provider: str = "local"
     local_storage_path: str = "data/uploads"
@@ -16,6 +34,45 @@ class Settings(BaseSettings):
     r2_access_key_id: str = ""
     r2_secret_access_key: str = ""
     r2_public_base_url: str | None = None
+
+    # =========================
+    # AI Runtime
+    # =========================
+
+    default_ai_provider: str = "gemini"
+
+    ai_timeout_seconds: int = 60
+    ai_max_retries: int = 2
+    ai_temperature: float = 0.2
+
+    # =========================
+    # Gemini
+    # =========================
+
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
+
+    # =========================
+    # OpenAI
+    # =========================
+
+    openai_api_key: str = ""
+    openai_model: str = "gpt-5"
+
+    # =========================
+    # Claude
+    # =========================
+
+    claude_api_key: str = ""
+    claude_model: str = "claude-sonnet-4"
+
+    # =========================
+    # Provider Feature Flags
+    # =========================
+
+    enable_gemini: bool = True
+    enable_openai: bool = True
+    enable_claude: bool = False
 
     model_config = SettingsConfigDict(
         env_file=".env",

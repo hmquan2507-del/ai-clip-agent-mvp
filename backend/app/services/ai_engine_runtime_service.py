@@ -59,7 +59,11 @@ class AIEngineRuntimeService:
         )
 
         result_dict = result.to_dict()
-
+        self._persist_provider_artifacts(
+            production_id=str(production_id),
+            engine_key=engine_key,
+            result_data=result_dict["data"],
+        )
         metadata_json = MetadataManager.merge_result(
             metadata_json=graph.metadata_json,
             key=engine_key,
@@ -127,6 +131,11 @@ class AIEngineRuntimeService:
             )
 
             results[engine_key] = result_data
+            self._persist_provider_artifacts(
+                production_id=str(production_id),
+                engine_key=engine_key,
+                result_data=result_data,
+            )
 
             if isinstance(result_data, dict):
                 self.artifact_store.save(
@@ -153,3 +162,24 @@ class AIEngineRuntimeService:
                 "total_results": len(results),
             },
         }
+
+    def _persist_provider_artifacts(
+        self,
+        production_id: str,
+        engine_key: str,
+        result_data: Any,
+    ) -> None:
+        if not isinstance(result_data, dict):
+            return
+
+        metadata = result_data.get("metadata", {})
+        if not isinstance(metadata, dict):
+            return
+
+        gemini_hook_detection = metadata.get("gemini_hook_detection")
+
+        if isinstance(gemini_hook_detection, dict):
+            self.artifact_store.save_gemini_hook_detection(
+                production_id=production_id,
+                payload=gemini_hook_detection,
+            )
