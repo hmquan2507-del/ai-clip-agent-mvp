@@ -282,3 +282,43 @@ class RuntimeArtifactStore:
 
     def load_gemini_hook_detection(self, production_id: str) -> dict[str, Any]:
         return self.load_payload(production_id, keys.GEMINI_HOOK_DETECTION, {})
+    
+    def save_production_progress(
+        self,
+        production_id: str,
+        payload: dict[str, Any],
+    ) -> RuntimeArtifactPayload:
+        return self.save(production_id, keys.PRODUCTION_PROGRESS, payload)
+
+    def load_production_progress(self, production_id: str) -> dict[str, Any]:
+        return self.load_payload(production_id, keys.PRODUCTION_PROGRESS, {})
+
+    def save_production_metrics(
+        self,
+        production_id: str,
+        payload: dict[str, Any],
+    ) -> RuntimeArtifactPayload:
+        return self.save(production_id, keys.PRODUCTION_METRICS, payload)
+
+    def load_production_metrics(self, production_id: str) -> dict[str, Any]:
+        return self.load_payload(production_id, keys.PRODUCTION_METRICS, {})
+
+    def save_production_logs(
+        self,
+        production_id: str,
+        payload: dict[str, Any],
+    ) -> RuntimeArtifactPayload:
+        return self.save(production_id, keys.PRODUCTION_LOGS, payload)
+
+    def load_production_logs(self, production_id: str) -> dict[str, Any]:
+        return self.load_payload(production_id, keys.PRODUCTION_LOGS, {})
+
+    def save_production_history(
+        self,
+        production_id: str,
+        payload: dict[str, Any],
+    ) -> RuntimeArtifactPayload:
+        return self.save(production_id, keys.PRODUCTION_HISTORY, payload)
+
+    def load_production_history(self, production_id: str) -> dict[str, Any]:
+        return self.load_payload(production_id, keys.PRODUCTION_HISTORY, {})

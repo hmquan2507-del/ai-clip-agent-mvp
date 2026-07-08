@@ -196,12 +196,46 @@ class ProductionOrchestrator:
         history: list[dict[str, Any]],
         metadata: dict[str, Any],
     ) -> dict[str, Any]:
+        progress_payload = event_runtime.progress.to_dict()
+        metrics_payload = event_runtime.metrics.to_dict()
+        logs_payload = {"events": event_runtime.logger.events}
+        history_payload = {"items": history}
+
+        artifact_store = RuntimeArtifactStore(self.db)
+
+        artifact_store.save_production_progress(
+            production_id=production_id,
+            payload=progress_payload,
+        )
+
+        artifact_store.save_production_metrics(
+            production_id=production_id,
+            payload=metrics_payload,
+        )
+
+        artifact_store.save_production_logs(
+            production_id=production_id,
+            payload=logs_payload,
+        )
+
+        artifact_store.save_production_history(
+            production_id=production_id,
+            payload=history_payload,
+        )
         return ProductionSummary(
             production_id=production_id,
             status=status,
-            progress=event_runtime.progress.to_dict(),
-            metrics=event_runtime.metrics.to_dict(),
+            progress=progress_payload,
+            metrics=metrics_payload,
             logs=event_runtime.logger.events,
             history=history,
-            metadata=metadata,
+            metadata={
+                **metadata,
+                "persisted_artifacts": [
+                    "production_progress",
+                    "production_metrics",
+                    "production_logs",
+                    "production_history",
+                ],
+            },
         ).to_dict()
