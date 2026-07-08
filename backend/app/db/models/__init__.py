@@ -1,4 +1,4 @@
-from app.db.models.asset import Asset
+from app.db.models.asset import AssetLibraryItem
 from app.db.models.clip import Clip
 from app.db.models.export import Export
 from app.db.models.production import Production
@@ -16,7 +16,7 @@ from app.db.models.render_plan import RenderAsset, RenderPlan, RenderTrack
 from app.db.models.content_graph import ContentGraph, ContentSegment
 from app.db.models.runtime_artifact import RuntimeArtifact
 __all__ = [
-    "Asset",
+    "AssetLibraryItem",
     "Clip",
     "Export",
     "Production",

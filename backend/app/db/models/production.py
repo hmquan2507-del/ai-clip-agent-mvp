@@ -23,7 +23,7 @@ class Production(BaseEntity):
     progress: Mapped[int] = mapped_column(Integer, default=0)
 
     workspace = relationship("Workspace", back_populates="productions")
-    assets = relationship("Asset", back_populates="production")
+    # assets = relationship("Asset", back_populates="production")
     clips = relationship("Clip", back_populates="production")
     render_jobs = relationship("RenderJob", back_populates="production")
     exports = relationship("Export", back_populates="production")
