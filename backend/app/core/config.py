@@ -73,6 +73,24 @@ class Settings(BaseSettings):
     enable_gemini: bool = True
     enable_openai: bool = True
     enable_claude: bool = False
+        # =========================
+    # Asset Providers
+    # =========================
+
+    pexels_api_key: str = ""
+    pixabay_api_key: str = ""
+    freesound_api_key: str = ""
+
+    enable_pexels: bool = True
+    enable_pixabay: bool = True
+    enable_freesound: bool = True
+
+    default_broll_provider: str = "pexels"
+    default_music_provider: str = "pixabay"
+    default_sfx_provider: str = "freesound"
+
+    asset_provider_timeout_seconds: int = 30
+    asset_provider_max_retries: int = 2
 
     model_config = SettingsConfigDict(
         env_file=".env",
