@@ -7,6 +7,7 @@ from app.asset.providers.registry import AssetProviderRegistry
 from app.asset.providers.runtime import AssetProviderRuntime
 from app.core.config import settings
 from app.asset.providers.pixabay.audio_provider import PixabayAudioProvider
+from app.asset.providers.internal import InternalMusicProvider
 
 def build_default_asset_provider_registry() -> AssetProviderRegistry:
     registry = AssetProviderRegistry()
@@ -22,6 +23,13 @@ def build_default_asset_provider_registry() -> AssetProviderRegistry:
     
     if settings.enable_pixabay:
         registry.register(PixabayAudioProvider())
+
+    if settings.enable_internal_music:
+        registry.register(
+        InternalMusicProvider(
+            music_root=settings.internal_music_path,
+        )
+    )
 
     return registry
 

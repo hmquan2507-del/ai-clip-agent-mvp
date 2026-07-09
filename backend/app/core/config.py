@@ -77,6 +77,14 @@ class Settings(BaseSettings):
     # Asset Providers
     # =========================
 
+
+    # =========================
+    # Internal Asset Libraries
+    # =========================
+
+    enable_internal_music: bool = True
+    internal_music_path: str = "storage/assets/music/internal"
+    
     pexels_api_key: str = ""
     pixabay_api_key: str = ""
     freesound_api_key: str = ""
@@ -91,6 +99,7 @@ class Settings(BaseSettings):
 
     asset_provider_timeout_seconds: int = 30
     asset_provider_max_retries: int = 2
+
 
     model_config = SettingsConfigDict(
         env_file=".env",

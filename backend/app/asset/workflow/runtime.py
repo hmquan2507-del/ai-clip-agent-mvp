@@ -17,7 +17,7 @@ class MediaWorkflowRuntime:
             return ["freesound"]
 
         if normalized == "music":
-            return ["freesound"]
+            return ["internal_music"]
 
         if normalized == "image":
             return ["pexels", "pixabay"]

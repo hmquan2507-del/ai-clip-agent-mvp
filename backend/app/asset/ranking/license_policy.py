@@ -20,6 +20,7 @@ class AssetLicensePolicy:
         "creativecommons.org/licenses/by/3.0",
         "cc-by",
         "attribution",
+        "internal",
     ]
 
     def is_allowed(
