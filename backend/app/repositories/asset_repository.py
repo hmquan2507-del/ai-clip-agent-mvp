@@ -132,3 +132,44 @@ class AssetRepository:
         self.db.commit()
 
         return True
+    
+    def find_by_checksum(
+        self,
+        checksum: str,
+    ) -> AssetLibraryItem | None:
+        return (
+            self.db.query(AssetLibraryItem)
+            .filter(AssetLibraryItem.checksum == checksum)
+            .first()
+        )
+
+    def find_ready_by_provider_asset(
+        self,
+        provider_key: str,
+        provider_asset_id: str,
+    ) -> AssetLibraryItem | None:
+        return (
+            self.db.query(AssetLibraryItem)
+            .filter(
+                AssetLibraryItem.provider_key == provider_key,
+                AssetLibraryItem.provider_asset_id == provider_asset_id,
+                AssetLibraryItem.status == "ready",
+            )
+            .first()
+        )
+
+    def find_ready_by_type(
+        self,
+        asset_type: str,
+        limit: int = 50,
+    ) -> list[AssetLibraryItem]:
+        return (
+            self.db.query(AssetLibraryItem)
+            .filter(
+                AssetLibraryItem.asset_type == asset_type,
+                AssetLibraryItem.status == "ready",
+            )
+            .order_by(AssetLibraryItem.created_at.desc())
+            .limit(limit)
+            .all()
+        )

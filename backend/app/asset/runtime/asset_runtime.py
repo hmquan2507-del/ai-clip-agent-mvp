@@ -90,3 +90,36 @@ class AssetRuntime:
             return {}
 
         return data if isinstance(data, dict) else {}
+    def save_provider_asset(
+        self,
+        asset,
+        download_result,
+        status: str = "ready",
+    ):
+        return self.repository.save(
+            provider_key=asset.provider_key,
+            provider_asset_id=asset.provider_asset_id,
+            asset_type=asset.asset_type,
+            status=status,
+            title=asset.title,
+            description=asset.description,
+            tags=asset.tags,
+            keywords=asset.tags,
+            metadata={
+                **asset.metadata,
+                "download": download_result.metadata,
+                "source_provider": asset.provider_key,
+            },
+            local_path=download_result.local_path,
+            remote_url=asset.remote_url,
+            thumbnail_url=asset.thumbnail_url,
+            preview_url=asset.preview_url,
+            checksum=download_result.checksum,
+            duration=asset.duration,
+            width=asset.width,
+            height=asset.height,
+            fps=None,
+            file_size=download_result.file_size,
+            license=asset.license,
+            language=None,
+        )

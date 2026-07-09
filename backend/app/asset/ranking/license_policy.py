@@ -6,7 +6,7 @@ class AssetLicensePolicy:
         "by-nc",
         "noncommercial",
         "non-commercial",
-        "nc/",
+        "/nc/",
     ]
 
     ALLOWED_COMMERCIAL_MARKERS = [
@@ -16,6 +16,10 @@ class AssetLicensePolicy:
         "public domain",
         "royalty free",
         "royalty-free",
+        "creativecommons.org/licenses/by/4.0",
+        "creativecommons.org/licenses/by/3.0",
+        "cc-by",
+        "attribution",
     ]
 
     def is_allowed(
@@ -34,10 +38,16 @@ class AssetLicensePolicy:
         if any(marker in normalized for marker in self.NON_COMMERCIAL_MARKERS):
             return False
 
-        if any(marker in normalized for marker in self.ALLOWED_COMMERCIAL_MARKERS):
-            return True
+        return any(marker in normalized for marker in self.ALLOWED_COMMERCIAL_MARKERS)
 
-        return False
+    def requires_attribution(self, license_value: str | None) -> bool:
+        normalized = (license_value or "").strip().lower()
+
+        return (
+            "creativecommons.org/licenses/by/" in normalized
+            or "cc-by" in normalized
+            or "attribution" in normalized
+        ) and "by-nc" not in normalized
 
     def rejection_reason(
         self,
