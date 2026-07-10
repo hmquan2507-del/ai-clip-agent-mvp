@@ -1,0 +1,305 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "prepared_inputs": [
+    {
+      "input_id": "input_0",
+      "input_type": "audio",
+      "source_path": "storage/assets/music/internal_music/internal_music_corporate_background_music.mp3",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_0.mp3",
+      "asset_id": "c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "checksum": "f19e8fea303e408196e1dd3eab301d64d04c1120e23b53c235c85db5ac96a9fa",
+      "file_size": 289270,
+      "duration": 18.0,
+      "width": null,
+      "height": null,
+      "fps": null,
+      "video_codec": null,
+      "audio_codec": "mp3",
+      "has_video": false,
+      "has_audio": true,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+        "track_type": "music",
+        "validation": {
+          "local_path": "storage/assets/music/internal_music/internal_music_corporate_background_music.mp3",
+          "valid": true,
+          "duration": 18.0,
+          "width": null,
+          "height": null,
+          "fps": null,
+          "video_codec": null,
+          "audio_codec": "mp3",
+          "has_video": false,
+          "has_audio": true,
+          "errors": [],
+          "metadata": {
+            "file_size": 289270,
+            "format_name": "mp3"
+          }
+        }
+      }
+    },
+    {
+      "input_id": "input_1",
+      "input_type": "video",
+      "source_path": "storage/uploads/demo_source_video.mp4",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
+      "asset_id": "demo_source_asset",
+      "checksum": "173d08f0284a311b7b0ef82ea647ec31b34a6ab6328acb9fcb9e135b83555830",
+      "file_size": 216838,
+      "duration": 18.0,
+      "width": 1080,
+      "height": 1920,
+      "fps": 30.0,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "has_video": true,
+      "has_audio": true,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "seg_001_source",
+        "track_type": "video_primary",
+        "source_asset_id": "demo_source_asset",
+        "storage_key": null,
+        "source": "timeline_compiler_test",
+        "validation": {
+          "local_path": "storage/uploads/demo_source_video.mp4",
+          "valid": true,
+          "duration": 18.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "has_video": true,
+          "has_audio": true,
+          "errors": [],
+          "metadata": {
+            "file_size": 216838,
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+          }
+        }
+      }
+    },
+    {
+      "input_id": "input_2",
+      "input_type": "video",
+      "source_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_2.mp4",
+      "asset_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "checksum": "8fe6a24d7000182340a591bf7c7564ec8dad76e8d2e29af2d2d07493ebe0c291",
+      "file_size": 4755199,
+      "duration": 10.01,
+      "width": 1080,
+      "height": 1920,
+      "fps": 23.976,
+      "video_codec": "h264",
+      "audio_codec": null,
+      "has_video": true,
+      "has_audio": false,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+        "track_type": "broll",
+        "validation": {
+          "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+          "valid": true,
+          "duration": 10.01,
+          "width": 1080,
+          "height": 1920,
+          "fps": 23.976,
+          "video_codec": "h264",
+          "audio_codec": null,
+          "has_video": true,
+          "has_audio": false,
+          "errors": [],
+          "metadata": {
+            "file_size": 4755199,
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+          }
+        }
+      }
+    },
+    {
+      "input_id": "input_3",
+      "input_type": "video",
+      "source_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_3.mp4",
+      "asset_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "checksum": "22be31372b82485027666e00bc4fafa6be2823150529db22b9ad4e0a99d3bfdf",
+      "file_size": 7378765,
+      "duration": 10.01,
+      "width": 1440,
+      "height": 2560,
+      "fps": 23.976,
+      "video_codec": "h264",
+      "audio_codec": null,
+      "has_video": true,
+      "has_audio": false,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+        "track_type": "broll",
+        "validation": {
+          "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+          "valid": true,
+          "duration": 10.01,
+          "width": 1440,
+          "height": 2560,
+          "fps": 23.976,
+          "video_codec": "h264",
+          "audio_codec": null,
+          "has_video": true,
+          "has_audio": false,
+          "errors": [],
+          "metadata": {
+            "file_size": 7378765,
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+          }
+        }
+      }
+    },
+    {
+      "input_id": "input_4",
+      "input_type": "video",
+      "source_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_4.mp4",
+      "asset_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "checksum": "a260e7c9fe8c390f362f7301eb326d4fa7b574d6836c18991097f007b194d0e7",
+      "file_size": 847762,
+      "duration": 10.01,
+      "width": 540,
+      "height": 960,
+      "fps": 23.976,
+      "video_codec": "h264",
+      "audio_codec": null,
+      "has_video": true,
+      "has_audio": false,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "track_type": "broll",
+        "validation": {
+          "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+          "valid": true,
+          "duration": 10.01,
+          "width": 540,
+          "height": 960,
+          "fps": 23.976,
+          "video_codec": "h264",
+          "audio_codec": null,
+          "has_video": true,
+          "has_audio": false,
+          "errors": [],
+          "metadata": {
+            "file_size": 847762,
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+          }
+        }
+      }
+    },
+    {
+      "input_id": "input_5",
+      "input_type": "audio",
+      "source_path": "storage/assets/sound_effect/freesound/freesound_460469.mp3",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_5.mp3",
+      "asset_id": "79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "checksum": "cee627b4a2270cd89b5b1fa2bdf195651ce65c903509cb9871b05c0384ffb940",
+      "file_size": 30943,
+      "duration": 1.21576,
+      "width": null,
+      "height": null,
+      "fps": null,
+      "video_codec": null,
+      "audio_codec": "mp3",
+      "has_video": false,
+      "has_audio": true,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+        "track_type": "sfx",
+        "validation": {
+          "local_path": "storage/assets/sound_effect/freesound/freesound_460469.mp3",
+          "valid": true,
+          "duration": 1.21576,
+          "width": null,
+          "height": null,
+          "fps": null,
+          "video_codec": null,
+          "audio_codec": "mp3",
+          "has_video": false,
+          "has_audio": true,
+          "errors": [],
+          "metadata": {
+            "file_size": 30943,
+            "format_name": "mp3"
+          }
+        }
+      }
+    },
+    {
+      "input_id": "input_6",
+      "input_type": "audio",
+      "source_path": "storage/assets/sound_effect/freesound/freesound_460473.mp3",
+      "prepared_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_6.mp3",
+      "asset_id": "d096e6d1-f912-4677-931d-f37f57627e7e",
+      "checksum": "350fc14e3736f258a1190969f3d326baca5ea17c2f70206e10d7b9f92baae04b",
+      "file_size": 30266,
+      "duration": 1.21576,
+      "width": null,
+      "height": null,
+      "fps": null,
+      "video_codec": null,
+      "audio_codec": "mp3",
+      "has_video": false,
+      "has_audio": true,
+      "copied": false,
+      "linked": true,
+      "reused": false,
+      "metadata": {
+        "clip_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+        "track_type": "sfx",
+        "validation": {
+          "local_path": "storage/assets/sound_effect/freesound/freesound_460473.mp3",
+          "valid": true,
+          "duration": 1.21576,
+          "width": null,
+          "height": null,
+          "fps": null,
+          "video_codec": null,
+          "audio_codec": "mp3",
+          "has_video": false,
+          "has_audio": true,
+          "errors": [],
+          "metadata": {
+            "file_size": 30266,
+            "format_name": "mp3"
+          }
+        }
+      }
+    }
+  ],
+  "issues": [],
+  "manifest_path": "storage/ffmpeg_executor_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/prepared_inputs_manifest.json",
+  "success": true,
+  "metadata": {
+    "runtime": "RenderAssetPreloader",
+    "input_count": 7,
+    "prepared_input_count": 7,
+    "issue_count": 0,
+    "prefer_hardlink": true
+  }
+}

@@ -191,6 +191,10 @@ class FFmpegFilterGraphBuilder:
                 "has_audio_output": (
                     audio_output_label is not None
                 ),
+                "duration": plan.duration,
+                "width": plan.width,
+                "height": plan.height,
+                "fps": plan.fps,
             },
         )
 

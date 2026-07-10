@@ -21,6 +21,16 @@ from app.render.ffmpeg.instructions import (
     build_ffmpeg_instruction_compiler,
     build_ffmpeg_instruction_plan_validator,
 )
+from app.render.ffmpeg.execution import (
+    FFmpegCommand,
+    FFmpegCommandBuilder,
+    FFmpegCommandExecutor,
+    FFmpegExecutionIssue,
+    FFmpegExecutionResult,
+    FFmpegProgressEvent,
+    build_ffmpeg_command_builder,
+    build_ffmpeg_command_executor,
+)
 
 __all__ = [
     "FFmpegFilterChain",
@@ -42,4 +52,12 @@ __all__ = [
     "build_ffmpeg_filtergraph_validator",
     "build_ffmpeg_instruction_compiler",
     "build_ffmpeg_instruction_plan_validator",
+    "FFmpegCommand",
+    "FFmpegCommandBuilder",
+    "FFmpegCommandExecutor",
+    "FFmpegExecutionIssue",
+    "FFmpegExecutionResult",
+    "FFmpegProgressEvent",
+    "build_ffmpeg_command_builder",
+    "build_ffmpeg_command_executor",
 ]
