@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from app.timeline.compiler.models import (
     ExecutionTimeline,
@@ -8,6 +9,7 @@ from app.timeline.compiler.models import (
     TimelineInput,
     TimelineInstruction,
 )
+from app.timeline.compiler.source import TimelineSourceMedia
 from app.timeline.finalizer.models import FinalTimeline
 
 
@@ -15,7 +17,7 @@ class TimelineCompilerRuntime:
     def compile(
         self,
         timeline: FinalTimeline,
-        source_video_path: str | None = None,
+        source_media: TimelineSourceMedia | None = None,
     ) -> ExecutionTimeline:
         inputs: list[TimelineInput] = []
         instructions: list[TimelineInstruction] = []
@@ -27,14 +29,26 @@ class TimelineCompilerRuntime:
             for clip in track.clips:
                 local_path = clip.local_path
 
-                if (
-                    clip.track_type == "video_primary"
-                    and not local_path
-                    and source_video_path
-                ):
-                    local_path = source_video_path
+                if clip.track_type == "video_primary" and not local_path:
+                    if source_media is None:
+                        issues.append(
+                            TimelineCompilerIssue(
+                                level="error",
+                                code="missing_source_media",
+                                message=(
+                                    "Primary video clip requires source media "
+                                    "before compilation."
+                                ),
+                                source_id=clip.clip_id,
+                                metadata={
+                                    "track_type": clip.track_type,
+                                },
+                            )
+                        )
+                    else:
+                        local_path = source_media.local_path
 
-                input_id = None
+                input_id: str | None = None
 
                 if self._requires_media_input(clip.track_type):
                     if not local_path:
@@ -53,18 +67,36 @@ class TimelineCompilerRuntime:
                             )
                         )
                     else:
+                        input_metadata: dict[str, Any] = {
+                            "clip_id": clip.clip_id,
+                            "track_type": clip.track_type,
+                        }
+
+                        resolved_asset_id = clip.asset_id
+
+                        if (
+                            clip.track_type == "video_primary"
+                            and source_media is not None
+                        ):
+                            resolved_asset_id = (
+                                clip.asset_id or source_media.asset_id
+                            )
+
+                            input_metadata.update(
+                                {
+                                    "source_asset_id": source_media.asset_id,
+                                    "storage_key": source_media.storage_key,
+                                    **source_media.metadata,
+                                }
+                            )
+
                         input_id = self._get_or_create_input(
                             inputs=inputs,
                             input_index=input_index,
                             local_path=local_path,
-                            input_type=self._input_type(
-                                clip.track_type
-                            ),
-                            asset_id=clip.asset_id,
-                            metadata={
-                                "clip_id": clip.clip_id,
-                                "track_type": clip.track_type,
-                            },
+                            input_type=self._input_type(clip.track_type),
+                            asset_id=resolved_asset_id,
+                            metadata=input_metadata,
                         )
 
                 instructions.append(
@@ -118,9 +150,15 @@ class TimelineCompilerRuntime:
             for issue in issues
         )
 
+        assets_resolved = self._assets_resolved(
+            timeline=timeline,
+            inputs=inputs,
+            instructions=instructions,
+        )
+
         return ExecutionTimeline(
             production_id=timeline.production_id,
-            version="14.12.0",
+            version="14.13.0",
             duration=timeline.duration,
             width=timeline.width,
             height=timeline.height,
@@ -135,7 +173,10 @@ class TimelineCompilerRuntime:
                 "instruction_count": len(instructions),
                 "issue_count": len(issues),
                 "has_errors": has_errors,
-                "render_ready": not has_errors,
+                "compile_ready": not has_errors,
+                "assets_resolved": assets_resolved,
+                "media_validated": False,
+                "render_ready": False,
             },
         )
 
@@ -146,9 +187,11 @@ class TimelineCompilerRuntime:
         local_path: str,
         input_type: str,
         asset_id: str | None,
-        metadata: dict,
+        metadata: dict[str, Any],
     ) -> str:
-        normalized_path = str(Path(local_path))
+        normalized_path = str(
+            Path(local_path).expanduser()
+        )
 
         if normalized_path in input_index:
             return input_index[normalized_path]
@@ -260,7 +303,25 @@ class TimelineCompilerRuntime:
             for clip in track.clips
         }
 
+        instruction_ids: set[str] = set()
+
         for instruction in instructions:
+            if instruction.instruction_id in instruction_ids:
+                issues.append(
+                    TimelineCompilerIssue(
+                        level="error",
+                        code="duplicate_instruction_id",
+                        message=(
+                            "Timeline instruction IDs must be unique."
+                        ),
+                        source_id=instruction.instruction_id,
+                    )
+                )
+            else:
+                instruction_ids.add(
+                    instruction.instruction_id
+                )
+
             if instruction.start_time < 0:
                 issues.append(
                     TimelineCompilerIssue(
@@ -297,14 +358,19 @@ class TimelineCompilerRuntime:
                             "timeline duration."
                         ),
                         source_id=instruction.instruction_id,
+                        metadata={
+                            "instruction_end_time": (
+                                instruction.end_time
+                            ),
+                            "timeline_duration": timeline.duration,
+                        },
                     )
                 )
 
             if (
                 instruction.instruction_type
                 in {"apply_effect", "apply_transition"}
-                and instruction.target_id
-                not in known_targets
+                and instruction.target_id not in known_targets
             ):
                 issues.append(
                     TimelineCompilerIssue(
@@ -321,7 +387,65 @@ class TimelineCompilerRuntime:
                     )
                 )
 
+            if (
+                instruction.instruction_type
+                in {
+                    "place_video",
+                    "place_video_overlay",
+                    "place_audio",
+                }
+                and instruction.input_id is None
+            ):
+                issues.append(
+                    TimelineCompilerIssue(
+                        level="error",
+                        code="missing_instruction_input",
+                        message=(
+                            "Media placement instruction "
+                            "requires input_id."
+                        ),
+                        source_id=instruction.instruction_id,
+                        metadata={
+                            "track_type": instruction.track_type,
+                        },
+                    )
+                )
+
         return issues
+
+    def _assets_resolved(
+        self,
+        timeline: FinalTimeline,
+        inputs: list[TimelineInput],
+        instructions: list[TimelineInstruction],
+    ) -> bool:
+        expected_media_instruction_count = sum(
+            1
+            for track in timeline.tracks
+            for clip in track.clips
+            if self._requires_media_input(clip.track_type)
+        )
+
+        resolved_media_instruction_count = sum(
+            1
+            for instruction in instructions
+            if instruction.instruction_type
+            in {
+                "place_video",
+                "place_video_overlay",
+                "place_audio",
+            }
+            and instruction.input_id is not None
+        )
+
+        return (
+            expected_media_instruction_count
+            == resolved_media_instruction_count
+            and all(
+                bool(item.local_path)
+                for item in inputs
+            )
+        )
 
     def _requires_media_input(
         self,

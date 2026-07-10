@@ -551,60 +551,8 @@
   ],
   "effects": [
     {
-      "effect_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_camera",
-      "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
-      "effect_type": "camera_movement",
-      "start_time": 0.0,
-      "end_time": 3.2,
-      "duration": 3.2,
-      "parameters": {
-        "movement_type": "ken_burns_zoom_in",
-        "crop_mode": "center_crop",
-        "scale_from": 1.0,
-        "scale_to": 1.12,
-        "x_from": 0.5,
-        "y_from": 0.5,
-        "x_to": 0.5,
-        "y_to": 0.5
-      },
-      "metadata": {
-        "placement_type": "overlay",
-        "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
-        "reason": "hook/high viral potential needs strong visual interruption",
-        "source_motion_type": "zoom_in",
-        "segment_id": "seg_001",
-        "rhythm_aligned": false
-      }
-    },
-    {
-      "effect_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_camera",
-      "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
-      "effect_type": "camera_movement",
-      "start_time": 4.5,
-      "end_time": 8.0,
-      "duration": 3.5,
-      "parameters": {
-        "movement_type": "slow_push_in",
-        "crop_mode": "center_crop",
-        "scale_from": 1.02,
-        "scale_to": 1.08,
-        "x_from": 0.5,
-        "y_from": 0.5,
-        "x_to": 0.5,
-        "y_to": 0.5
-      },
-      "metadata": {
-        "placement_type": "cutaway",
-        "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
-        "reason": "solution/main point with b-roll should use cutaway shot",
-        "source_motion_type": "slow_push",
-        "segment_id": "seg_002",
-        "rhythm_aligned": false
-      }
-    },
-    {
       "effect_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_camera",
-      "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
       "effect_type": "camera_movement",
       "start_time": 14.0,
       "end_time": 18.0,
@@ -625,50 +573,16 @@
         "reason": "CTA segment should focus attention on action",
         "source_motion_type": "scale_up",
         "segment_id": "seg_003",
+        "original_target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "resolved_target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
         "rhythm_aligned": false
       }
     }
   ],
   "transitions": [
     {
-      "transition_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_transition",
-      "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
-      "transition_type": "impact_cut",
-      "at_time": 0.0,
-      "duration": 0.12,
-      "parameters": {
-        "intensity": "high"
-      },
-      "metadata": {
-        "placement_type": "overlay",
-        "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
-        "reason": "hook/high viral potential needs strong visual interruption",
-        "segment_id": "seg_001",
-        "original_time": 0.0,
-        "rhythm_aligned": false
-      }
-    },
-    {
-      "transition_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_transition",
-      "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
-      "transition_type": "smooth_cut",
-      "at_time": 4.5,
-      "duration": 0.25,
-      "parameters": {
-        "intensity": "medium"
-      },
-      "metadata": {
-        "placement_type": "cutaway",
-        "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
-        "reason": "solution/main point with b-roll should use cutaway shot",
-        "segment_id": "seg_002",
-        "original_time": 4.5,
-        "rhythm_aligned": false
-      }
-    },
-    {
       "transition_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_transition",
-      "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
       "transition_type": "clean_cut",
       "at_time": 14.0,
       "duration": 0.18,
@@ -680,6 +594,8 @@
         "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
         "reason": "CTA segment should focus attention on action",
         "segment_id": "seg_003",
+        "original_target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "resolved_target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
         "original_time": 14.0,
         "rhythm_aligned": false
       }
@@ -690,8 +606,8 @@
     "semantic_segment_count": 3,
     "track_count": 5,
     "clip_count": 16,
-    "effect_count": 3,
-    "transition_count": 3,
+    "effect_count": 1,
+    "transition_count": 1,
     "rhythm_segment_count": 3,
     "single_source_of_truth": true
   }

@@ -1,6 +1,6 @@
 {
   "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-  "version": "14.12.0",
+  "version": "14.13.0",
   "duration": 18.0,
   "canvas": {
     "width": 1080,
@@ -22,10 +22,13 @@
       "input_id": "input_1",
       "input_type": "video",
       "local_path": "storage/uploads/demo_source_video.mp4",
-      "asset_id": null,
+      "asset_id": "demo_source_asset",
       "metadata": {
         "clip_id": "seg_001_source",
-        "track_type": "video_primary"
+        "track_type": "video_primary",
+        "source_asset_id": "demo_source_asset",
+        "storage_key": null,
+        "source": "timeline_compiler_test"
       }
     },
     {
@@ -257,62 +260,6 @@
       }
     },
     {
-      "instruction_id": "effect_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_camera",
-      "instruction_type": "apply_effect",
-      "track_type": "effect",
-      "start_time": 0.0,
-      "end_time": 3.2,
-      "duration": 3.2,
-      "layer": 100,
-      "input_id": null,
-      "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
-      "parameters": {
-        "effect_type": "camera_movement",
-        "movement_type": "ken_burns_zoom_in",
-        "crop_mode": "center_crop",
-        "scale_from": 1.0,
-        "scale_to": 1.12,
-        "x_from": 0.5,
-        "y_from": 0.5,
-        "x_to": 0.5,
-        "y_to": 0.5
-      },
-      "metadata": {
-        "placement_type": "overlay",
-        "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
-        "reason": "hook/high viral potential needs strong visual interruption",
-        "source_motion_type": "zoom_in",
-        "segment_id": "seg_001",
-        "rhythm_aligned": false,
-        "source_effect_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_camera"
-      }
-    },
-    {
-      "instruction_id": "transition_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_transition",
-      "instruction_type": "apply_transition",
-      "track_type": "transition",
-      "start_time": 0.0,
-      "end_time": 0.12,
-      "duration": 0.12,
-      "layer": 101,
-      "input_id": null,
-      "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
-      "parameters": {
-        "transition_type": "impact_cut",
-        "duration": 0.12,
-        "intensity": "high"
-      },
-      "metadata": {
-        "placement_type": "overlay",
-        "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
-        "reason": "hook/high viral potential needs strong visual interruption",
-        "segment_id": "seg_001",
-        "original_time": 0.0,
-        "rhythm_aligned": false,
-        "source_transition_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_transition"
-      }
-    },
-    {
       "instruction_id": "clip_instruction_seg_001_cue_2",
       "instruction_type": "draw_subtitle",
       "track_type": "subtitle",
@@ -541,62 +488,6 @@
       }
     },
     {
-      "instruction_id": "effect_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_camera",
-      "instruction_type": "apply_effect",
-      "track_type": "effect",
-      "start_time": 4.5,
-      "end_time": 8.0,
-      "duration": 3.5,
-      "layer": 100,
-      "input_id": null,
-      "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
-      "parameters": {
-        "effect_type": "camera_movement",
-        "movement_type": "slow_push_in",
-        "crop_mode": "center_crop",
-        "scale_from": 1.02,
-        "scale_to": 1.08,
-        "x_from": 0.5,
-        "y_from": 0.5,
-        "x_to": 0.5,
-        "y_to": 0.5
-      },
-      "metadata": {
-        "placement_type": "cutaway",
-        "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
-        "reason": "solution/main point with b-roll should use cutaway shot",
-        "source_motion_type": "slow_push",
-        "segment_id": "seg_002",
-        "rhythm_aligned": false,
-        "source_effect_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_camera"
-      }
-    },
-    {
-      "instruction_id": "transition_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_transition",
-      "instruction_type": "apply_transition",
-      "track_type": "transition",
-      "start_time": 4.5,
-      "end_time": 4.75,
-      "duration": 0.25,
-      "layer": 101,
-      "input_id": null,
-      "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
-      "parameters": {
-        "transition_type": "smooth_cut",
-        "duration": 0.25,
-        "intensity": "medium"
-      },
-      "metadata": {
-        "placement_type": "cutaway",
-        "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
-        "reason": "solution/main point with b-roll should use cutaway shot",
-        "segment_id": "seg_002",
-        "original_time": 4.5,
-        "rhythm_aligned": false,
-        "source_transition_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_transition"
-      }
-    },
-    {
       "instruction_id": "clip_instruction_seg_002_cue_2",
       "instruction_type": "draw_subtitle",
       "track_type": "subtitle",
@@ -755,7 +646,7 @@
       "duration": 4.0,
       "layer": 100,
       "input_id": null,
-      "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
       "parameters": {
         "effect_type": "camera_movement",
         "movement_type": "cta_scale_up",
@@ -773,6 +664,8 @@
         "reason": "CTA segment should focus attention on action",
         "source_motion_type": "scale_up",
         "segment_id": "seg_003",
+        "original_target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "resolved_target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
         "rhythm_aligned": false,
         "source_effect_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_camera"
       }
@@ -786,7 +679,7 @@
       "duration": 0.17999999999999972,
       "layer": 101,
       "input_id": null,
-      "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
       "parameters": {
         "transition_type": "clean_cut",
         "duration": 0.18,
@@ -797,75 +690,25 @@
         "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
         "reason": "CTA segment should focus attention on action",
         "segment_id": "seg_003",
+        "original_target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "resolved_target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
         "original_time": 14.0,
         "rhythm_aligned": false,
         "source_transition_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_transition"
       }
     }
   ],
-  "issues": [
-    {
-      "level": "error",
-      "code": "missing_target",
-      "message": "Effect or transition target does not exist.",
-      "source_id": "effect_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_camera",
-      "metadata": {
-        "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7"
-      }
-    },
-    {
-      "level": "error",
-      "code": "missing_target",
-      "message": "Effect or transition target does not exist.",
-      "source_id": "transition_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_transition",
-      "metadata": {
-        "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7"
-      }
-    },
-    {
-      "level": "error",
-      "code": "missing_target",
-      "message": "Effect or transition target does not exist.",
-      "source_id": "effect_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_camera",
-      "metadata": {
-        "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a"
-      }
-    },
-    {
-      "level": "error",
-      "code": "missing_target",
-      "message": "Effect or transition target does not exist.",
-      "source_id": "transition_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_transition",
-      "metadata": {
-        "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a"
-      }
-    },
-    {
-      "level": "error",
-      "code": "missing_target",
-      "message": "Effect or transition target does not exist.",
-      "source_id": "effect_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_camera",
-      "metadata": {
-        "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d"
-      }
-    },
-    {
-      "level": "error",
-      "code": "missing_target",
-      "message": "Effect or transition target does not exist.",
-      "source_id": "transition_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_transition",
-      "metadata": {
-        "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d"
-      }
-    }
-  ],
+  "issues": [],
   "metadata": {
     "runtime": "TimelineCompilerRuntime",
     "source_timeline_version": "14.11.0",
     "input_count": 7,
-    "instruction_count": 22,
-    "issue_count": 6,
-    "has_errors": true,
+    "instruction_count": 18,
+    "issue_count": 0,
+    "has_errors": false,
+    "compile_ready": true,
+    "assets_resolved": true,
+    "media_validated": false,
     "render_ready": false
   }
 }

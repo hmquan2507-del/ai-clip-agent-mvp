@@ -7,8 +7,8 @@ from pathlib import Path
 sys.path.append(
     str(Path(__file__).resolve().parents[1])
 )
-
 from app.timeline.compiler import (
+    TimelineSourceMedia,
     build_timeline_compiler_runtime,
 )
 from app.timeline.finalizer.models import (
@@ -115,11 +115,15 @@ def main() -> None:
     compiler = build_timeline_compiler_runtime()
 
     execution = compiler.compile(
-        timeline=timeline,
-        source_video_path=(
-            "storage/uploads/demo_source_video.mp4"
-        ),
-    )
+    timeline=timeline,
+    source_media=TimelineSourceMedia(
+        asset_id="demo_source_asset",
+        local_path="storage/uploads/demo_source_video.mp4",
+        metadata={
+            "source": "timeline_compiler_test",
+        },
+    ),
+)
 
     output_path = Path(
         "storage/demo_outputs/execution_timeline.json"

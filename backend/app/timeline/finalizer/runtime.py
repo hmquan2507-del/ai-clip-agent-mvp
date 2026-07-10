@@ -74,11 +74,13 @@ class TimelineFinalizerRuntime:
         effects = self._build_camera_effects(
             camera_result=camera_result,
             rhythm_result=rhythm_result,
+            broll_result=broll_result,
         )
 
         transitions = self._build_transitions(
             transition_result=transition_result,
             rhythm_result=rhythm_result,
+            broll_result=broll_result,
         )
 
         duration = self._calculate_duration(
@@ -251,46 +253,55 @@ class TimelineFinalizerRuntime:
         self,
         camera_result: CameraMovementResult,
         rhythm_result: SceneRhythmResult,
+        broll_result: BrollPlacementResult,
     ) -> list[FinalTimelineEffect]:
         effects: list[FinalTimelineEffect] = []
 
         for movement in camera_result.movements:
             aligned_start = self._aligned_event_time(
-                rhythm_result=rhythm_result,
-                segment_id=movement.segment_id,
-                event_type="motion_start",
-                fallback=movement.start_time,
-            )
+            rhythm_result=rhythm_result,
+            segment_id=movement.segment_id,
+            event_type="motion_start",
+            fallback=movement.start_time,
+        )
 
-            effects.append(
-                FinalTimelineEffect(
-                    effect_id=(
-                        f"{movement.segment_id}_"
-                        f"{movement.target_id}_camera"
+        timeline_target_id = self._resolve_timeline_target_id(
+            target_id=movement.target_id,
+            segment_id=movement.segment_id,
+            broll_result=broll_result,
+        )
+
+        effects.append(
+            FinalTimelineEffect(
+                effect_id=(
+                    f"{movement.segment_id}_"
+                    f"{movement.target_id}_camera"
+                ),
+                target_id=timeline_target_id,
+                effect_type="camera_movement",
+                start_time=aligned_start,
+                end_time=movement.end_time,
+                parameters={
+                    "movement_type": movement.movement_type,
+                    "crop_mode": movement.crop_mode,
+                    "scale_from": movement.scale_from,
+                    "scale_to": movement.scale_to,
+                    "x_from": movement.x_from,
+                    "y_from": movement.y_from,
+                    "x_to": movement.x_to,
+                    "y_to": movement.y_to,
+                },
+                metadata={
+                    **movement.metadata,
+                    "segment_id": movement.segment_id,
+                    "original_target_id": movement.target_id,
+                    "resolved_target_id": timeline_target_id,
+                    "rhythm_aligned": (
+                        aligned_start != movement.start_time
                     ),
-                    target_id=movement.target_id,
-                    effect_type="camera_movement",
-                    start_time=aligned_start,
-                    end_time=movement.end_time,
-                    parameters={
-                        "movement_type": movement.movement_type,
-                        "crop_mode": movement.crop_mode,
-                        "scale_from": movement.scale_from,
-                        "scale_to": movement.scale_to,
-                        "x_from": movement.x_from,
-                        "y_from": movement.y_from,
-                        "x_to": movement.x_to,
-                        "y_to": movement.y_to,
-                    },
-                    metadata={
-                        **movement.metadata,
-                        "segment_id": movement.segment_id,
-                        "rhythm_aligned": (
-                            aligned_start != movement.start_time
-                        ),
-                    },
-                )
+                },
             )
+        )
 
         return effects
 
@@ -298,6 +309,7 @@ class TimelineFinalizerRuntime:
         self,
         transition_result: TransitionPlanningResult,
         rhythm_result: SceneRhythmResult,
+        broll_result: BrollPlacementResult,
     ) -> list[FinalTimelineTransition]:
         transitions: list[FinalTimelineTransition] = []
 
@@ -307,31 +319,39 @@ class TimelineFinalizerRuntime:
                 segment_id=transition.segment_id,
                 event_type="transition",
                 fallback=transition.at_time,
-            )
+        )
 
-            transitions.append(
-                FinalTimelineTransition(
-                    transition_id=(
-                        f"{transition.segment_id}_"
-                        f"{transition.target_id}_transition"
+        timeline_target_id = self._resolve_timeline_target_id(
+            target_id=transition.target_id,
+            segment_id=transition.segment_id,
+            broll_result=broll_result,
+        )
+
+        transitions.append(
+            FinalTimelineTransition(
+                transition_id=(
+                    f"{transition.segment_id}_"
+                    f"{transition.target_id}_transition"
+                ),
+                target_id=timeline_target_id,
+                transition_type=transition.transition_type,
+                at_time=aligned_time,
+                duration=transition.duration,
+                parameters={
+                    "intensity": transition.intensity,
+                },
+                metadata={
+                    **transition.metadata,
+                    "segment_id": transition.segment_id,
+                    "original_target_id": transition.target_id,
+                    "resolved_target_id": timeline_target_id,
+                    "original_time": transition.at_time,
+                    "rhythm_aligned": (
+                        aligned_time != transition.at_time
                     ),
-                    target_id=transition.target_id,
-                    transition_type=transition.transition_type,
-                    at_time=aligned_time,
-                    duration=transition.duration,
-                    parameters={
-                        "intensity": transition.intensity,
-                    },
-                    metadata={
-                        **transition.metadata,
-                        "segment_id": transition.segment_id,
-                        "original_time": transition.at_time,
-                        "rhythm_aligned": (
-                            aligned_time != transition.at_time
-                        ),
-                    },
-                )
+                },
             )
+        )
 
         return transitions
 
@@ -503,3 +523,18 @@ class TimelineFinalizerRuntime:
             left.start_time < right.end_time
             and right.start_time < left.end_time
         )
+    
+    def _resolve_timeline_target_id(
+        self,
+        target_id: str,
+        segment_id: str,
+        broll_result: BrollPlacementResult,
+    ) -> str:
+        for placement in broll_result.placements:
+            if (
+            placement.asset_id == target_id
+            and placement.segment_id == segment_id
+            ):
+                return f"{placement.segment_id}_{placement.asset_id}"
+
+        return target_id
