@@ -1,0 +1,698 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "version": "14.11.0",
+  "duration": 18.0,
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30.0
+  },
+  "tracks": [
+    {
+      "track_id": "track_1_music_1",
+      "track_type": "music",
+      "layer": 1,
+      "clips": [
+        {
+          "clip_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+          "track_type": "music",
+          "start_time": 0.0,
+          "end_time": 18.0,
+          "duration": 18.0,
+          "layer": 1,
+          "asset_id": "c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+          "local_path": "storage/assets/music/internal_music/internal_music_corporate_background_music.mp3",
+          "content": null,
+          "volume": 0.18,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "source": "semantic_asset",
+            "ranking_score": null,
+            "resolver_metadata": {
+              "cache_reason": "keyword_cache_match",
+              "query": "corporate background music",
+              "asset_type": "music",
+              "memory_checked": true
+            },
+            "workflow_key": "music_workflow",
+            "workflow_provider_keys": [
+              "internal_music"
+            ],
+            "instruction": {
+              "editing_style": "viral",
+              "source": "mock_planner_ai_provider",
+              "planner_reason": "background music improves pacing for short-form edit",
+              "planner_priority": "medium",
+              "planner_confidence": 0.6
+            },
+            "provider_key": "internal_music",
+            "provider_asset_id": "corporate_background_music",
+            "license": "internal",
+            "title": "corporate_background_music",
+            "asset_role": "background"
+          }
+        }
+      ],
+      "metadata": {
+        "clip_count": 1
+      }
+    },
+    {
+      "track_id": "track_2_video_primary_1",
+      "track_type": "video_primary",
+      "layer": 1,
+      "clips": [
+        {
+          "clip_id": "seg_001_source",
+          "track_type": "video_primary",
+          "start_time": 0.0,
+          "end_time": 4.0,
+          "duration": 4.0,
+          "layer": 1,
+          "asset_id": null,
+          "local_path": null,
+          "content": null,
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_id": "seg_001",
+            "segment_type": "hook",
+            "emotion": "surprised",
+            "pacing": "fast",
+            "importance_score": 0.9,
+            "viral_potential_score": 0.95,
+            "source": "semantic_timeline"
+          }
+        },
+        {
+          "clip_id": "seg_002_source",
+          "track_type": "video_primary",
+          "start_time": 4.0,
+          "end_time": 10.0,
+          "duration": 6.0,
+          "layer": 1,
+          "asset_id": null,
+          "local_path": null,
+          "content": null,
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_id": "seg_002",
+            "segment_type": "solution",
+            "emotion": "excited",
+            "pacing": "fast",
+            "importance_score": 0.8,
+            "viral_potential_score": 0.75,
+            "source": "semantic_timeline"
+          }
+        },
+        {
+          "clip_id": "seg_003_source",
+          "track_type": "video_primary",
+          "start_time": 10.0,
+          "end_time": 18.0,
+          "duration": 8.0,
+          "layer": 1,
+          "asset_id": null,
+          "local_path": null,
+          "content": null,
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_id": "seg_003",
+            "segment_type": "cta",
+            "emotion": "inspirational",
+            "pacing": "normal",
+            "importance_score": 0.85,
+            "viral_potential_score": 0.8,
+            "source": "semantic_timeline"
+          }
+        }
+      ],
+      "metadata": {
+        "clip_count": 3
+      }
+    },
+    {
+      "track_id": "track_3_broll_2",
+      "track_type": "broll",
+      "layer": 2,
+      "clips": [
+        {
+          "clip_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+          "track_type": "broll",
+          "start_time": 0.0,
+          "end_time": 3.2,
+          "duration": 3.2,
+          "layer": 2,
+          "asset_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+          "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+          "content": null,
+          "volume": null,
+          "opacity": 1.0,
+          "speed": null,
+          "metadata": {
+            "shot_type": "broll_overlay",
+            "shot_priority": "critical",
+            "asset_title": "Pexels video 6342236",
+            "provider_key": "pexels",
+            "asset_role": "visual_support",
+            "segment_id": "seg_001",
+            "placement_type": "overlay",
+            "motion_hint": "zoom_in",
+            "transition_hint": "impact_cut",
+            "reason": "hook/high viral potential needs strong visual interruption",
+            "source": "smart_broll_placement"
+          }
+        },
+        {
+          "clip_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+          "track_type": "broll",
+          "start_time": 4.5,
+          "end_time": 8.0,
+          "duration": 3.5,
+          "layer": 2,
+          "asset_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+          "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+          "content": null,
+          "volume": null,
+          "opacity": 1.0,
+          "speed": null,
+          "metadata": {
+            "shot_type": "cutaway",
+            "shot_priority": "high",
+            "asset_title": "Pexels video 12896410",
+            "provider_key": "pexels",
+            "asset_role": "visual_support",
+            "segment_id": "seg_002",
+            "placement_type": "cutaway",
+            "motion_hint": "slow_push",
+            "transition_hint": "smooth_cut",
+            "reason": "solution/main point with b-roll should use cutaway shot",
+            "source": "smart_broll_placement"
+          }
+        },
+        {
+          "clip_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+          "track_type": "broll",
+          "start_time": 14.0,
+          "end_time": 18.0,
+          "duration": 4.0,
+          "layer": 2,
+          "asset_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+          "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+          "content": null,
+          "volume": null,
+          "opacity": 1.0,
+          "speed": null,
+          "metadata": {
+            "shot_type": "cta_screen",
+            "shot_priority": "high",
+            "asset_title": "Pexels video 12894327",
+            "provider_key": "pexels",
+            "asset_role": "visual_support",
+            "segment_id": "seg_003",
+            "placement_type": "cta_visual",
+            "motion_hint": "scale_up",
+            "transition_hint": "clean_cut",
+            "reason": "CTA segment should focus attention on action",
+            "source": "smart_broll_placement"
+          }
+        }
+      ],
+      "metadata": {
+        "clip_count": 3
+      }
+    },
+    {
+      "track_id": "track_4_sfx_2",
+      "track_type": "sfx",
+      "layer": 2,
+      "clips": [
+        {
+          "clip_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+          "track_type": "sfx",
+          "start_time": 0.0,
+          "end_time": 0.8,
+          "duration": 0.8,
+          "layer": 2,
+          "asset_id": "79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+          "local_path": "storage/assets/sound_effect/freesound/freesound_460469.mp3",
+          "content": null,
+          "volume": 0.75,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "source": "semantic_asset",
+            "ranking_score": null,
+            "resolver_metadata": {
+              "cache_reason": "keyword_cache_match",
+              "query": "whoosh transition",
+              "asset_type": "sound_effect",
+              "memory_checked": true
+            },
+            "workflow_key": "sound_effect_workflow",
+            "workflow_provider_keys": [
+              "freesound"
+            ],
+            "instruction": {
+              "segment_id": "seg_001",
+              "emotion": "surprised",
+              "source": "mock_planner_ai_provider",
+              "planner_reason": "high emotion segment benefits from transition sound effect",
+              "planner_priority": "high",
+              "planner_confidence": 0.8
+            },
+            "provider_key": "freesound",
+            "provider_asset_id": "460469",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "title": "VS_Short Whoosh 4.mp3",
+            "asset_role": "emphasis"
+          }
+        },
+        {
+          "clip_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+          "track_type": "sfx",
+          "start_time": 4.0,
+          "end_time": 4.8,
+          "duration": 0.7999999999999998,
+          "layer": 2,
+          "asset_id": "d096e6d1-f912-4677-931d-f37f57627e7e",
+          "local_path": "storage/assets/sound_effect/freesound/freesound_460473.mp3",
+          "content": null,
+          "volume": 0.75,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "source": "semantic_asset",
+            "ranking_score": 45.0,
+            "resolver_metadata": {
+              "query": "whoosh transition",
+              "asset_type": "sound_effect",
+              "search": {
+                "providers": [
+                  {
+                    "provider_key": "freesound",
+                    "result_count": 5,
+                    "metadata": {
+                      "count": 1012,
+                      "next": "https://freesound.org/apiv2/search/?&query=whoosh%20transition&weights=&page=2&page_size=5&fields=id,name,tags,description,duration,license,previews,url,username",
+                      "previous": null
+                    }
+                  }
+                ],
+                "total_results": 5
+              },
+              "ranking": {
+                "candidate_count": 5,
+                "accepted_count": 2,
+                "rejected_count": 3,
+                "limit": 10,
+                "commercial_use": true
+              },
+              "download": {
+                "source_url": "https://cdn.freesound.org/previews/460/460473_9658839-hq.mp3",
+                "filename": "freesound_460473.mp3",
+                "extension": ".mp3",
+                "source": "remote_file"
+              },
+              "ranking_reasons": [
+                "provider_priority:freesound:8.0",
+                "keyword_overlap:transition,whoosh:35.0",
+                "duration_close:+10"
+              ],
+              "ranking_penalties": [
+                "low_resolution:-8"
+              ],
+              "memory_checked": true,
+              "selected_provider_key": "freesound",
+              "selected_provider_asset_id": "460473"
+            },
+            "workflow_key": "sound_effect_workflow",
+            "workflow_provider_keys": [
+              "freesound"
+            ],
+            "instruction": {
+              "segment_id": "seg_002",
+              "emotion": "excited",
+              "source": "mock_planner_ai_provider",
+              "planner_reason": "high emotion segment benefits from transition sound effect",
+              "planner_priority": "high",
+              "planner_confidence": 0.8
+            },
+            "provider_key": "freesound",
+            "provider_asset_id": "460473",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "title": "VS_Short Whoosh 8.mp3",
+            "asset_role": "emphasis"
+          }
+        }
+      ],
+      "metadata": {
+        "clip_count": 2
+      }
+    },
+    {
+      "track_id": "track_5_subtitle_10",
+      "track_type": "subtitle",
+      "layer": 10,
+      "clips": [
+        {
+          "clip_id": "seg_001_cue_1",
+          "track_type": "subtitle",
+          "start_time": 0.0,
+          "end_time": 1.333,
+          "duration": 1.333,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "Sai lầm lớn nhất là bạn đang mất",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "hook",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_001",
+            "word_count": 8,
+            "characters_per_second": 24.0,
+            "importance_score": 0.9,
+            "highlight_words": [
+              "AI"
+            ]
+          }
+        },
+        {
+          "clip_id": "seg_001_cue_2",
+          "track_type": "subtitle",
+          "start_time": 1.333,
+          "end_time": 2.667,
+          "duration": 1.3339999999999999,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "quá nhiều thời gian để edit video thủ",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "hook",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_001",
+            "word_count": 8,
+            "characters_per_second": 27.75,
+            "importance_score": 0.9,
+            "highlight_words": [
+              "video",
+              "edit"
+            ]
+          }
+        },
+        {
+          "clip_id": "seg_001_cue_3",
+          "track_type": "subtitle",
+          "start_time": 2.667,
+          "end_time": 4.0,
+          "duration": 1.3330000000000002,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "công.",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "hook",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_001",
+            "word_count": 1,
+            "characters_per_second": 3.75,
+            "importance_score": 0.9,
+            "highlight_words": [
+              "công."
+            ]
+          }
+        },
+        {
+          "clip_id": "seg_002_cue_1",
+          "track_type": "subtitle",
+          "start_time": 4.0,
+          "end_time": 6.8,
+          "duration": 2.8,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "AI có thể tự động hiểu nội dung",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "solution",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_002",
+            "word_count": 8,
+            "characters_per_second": 11.07,
+            "importance_score": 0.8,
+            "highlight_words": [
+              "AI",
+              "tự động"
+            ]
+          }
+        },
+        {
+          "clip_id": "seg_002_cue_2",
+          "track_type": "subtitle",
+          "start_time": 6.8,
+          "end_time": 10.0,
+          "duration": 3.2,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "và dựng video nhanh hơn.",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "solution",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_002",
+            "word_count": 5,
+            "characters_per_second": 7.5,
+            "importance_score": 0.8,
+            "highlight_words": [
+              "video"
+            ]
+          }
+        },
+        {
+          "clip_id": "seg_003_cue_1",
+          "track_type": "subtitle",
+          "start_time": 10.0,
+          "end_time": 12.8,
+          "duration": 2.8000000000000007,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "Chỉ cần upload video, AI sẽ tự tìm",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "cta",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_003",
+            "word_count": 8,
+            "characters_per_second": 12.14,
+            "importance_score": 0.85,
+            "highlight_words": [
+              "AI",
+              "video",
+              "upload"
+            ]
+          }
+        },
+        {
+          "clip_id": "seg_003_cue_2",
+          "track_type": "subtitle",
+          "start_time": 12.8,
+          "end_time": 18.0,
+          "duration": 5.199999999999999,
+          "layer": 10,
+          "asset_id": null,
+          "local_path": null,
+          "content": "b-roll, nhạc, hiệu ứng và dựng timeline.",
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "metadata": {
+            "segment_type": "cta",
+            "source": "subtitle_timing_optimizer",
+            "segment_id": "seg_003",
+            "word_count": 7,
+            "characters_per_second": 7.69,
+            "importance_score": 0.85,
+            "highlight_words": [
+              "b-roll",
+              "nhạc",
+              "hiệu ứng",
+              "timeline"
+            ]
+          }
+        }
+      ],
+      "metadata": {
+        "clip_count": 7
+      }
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_camera",
+      "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "effect_type": "camera_movement",
+      "start_time": 0.0,
+      "end_time": 3.2,
+      "duration": 3.2,
+      "parameters": {
+        "movement_type": "ken_burns_zoom_in",
+        "crop_mode": "center_crop",
+        "scale_from": 1.0,
+        "scale_to": 1.12,
+        "x_from": 0.5,
+        "y_from": 0.5,
+        "x_to": 0.5,
+        "y_to": 0.5
+      },
+      "metadata": {
+        "placement_type": "overlay",
+        "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+        "reason": "hook/high viral potential needs strong visual interruption",
+        "source_motion_type": "zoom_in",
+        "segment_id": "seg_001",
+        "rhythm_aligned": false
+      }
+    },
+    {
+      "effect_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_camera",
+      "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "effect_type": "camera_movement",
+      "start_time": 4.5,
+      "end_time": 8.0,
+      "duration": 3.5,
+      "parameters": {
+        "movement_type": "slow_push_in",
+        "crop_mode": "center_crop",
+        "scale_from": 1.02,
+        "scale_to": 1.08,
+        "x_from": 0.5,
+        "y_from": 0.5,
+        "x_to": 0.5,
+        "y_to": 0.5
+      },
+      "metadata": {
+        "placement_type": "cutaway",
+        "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+        "reason": "solution/main point with b-roll should use cutaway shot",
+        "source_motion_type": "slow_push",
+        "segment_id": "seg_002",
+        "rhythm_aligned": false
+      }
+    },
+    {
+      "effect_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_camera",
+      "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "effect_type": "camera_movement",
+      "start_time": 14.0,
+      "end_time": 18.0,
+      "duration": 4.0,
+      "parameters": {
+        "movement_type": "cta_scale_up",
+        "crop_mode": "center_crop",
+        "scale_from": 1.0,
+        "scale_to": 1.1,
+        "x_from": 0.5,
+        "y_from": 0.5,
+        "x_to": 0.5,
+        "y_to": 0.5
+      },
+      "metadata": {
+        "placement_type": "cta_visual",
+        "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+        "reason": "CTA segment should focus attention on action",
+        "source_motion_type": "scale_up",
+        "segment_id": "seg_003",
+        "rhythm_aligned": false
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "transition_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7_transition",
+      "target_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "transition_type": "impact_cut",
+      "at_time": 0.0,
+      "duration": 0.12,
+      "parameters": {
+        "intensity": "high"
+      },
+      "metadata": {
+        "placement_type": "overlay",
+        "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+        "reason": "hook/high viral potential needs strong visual interruption",
+        "segment_id": "seg_001",
+        "original_time": 0.0,
+        "rhythm_aligned": false
+      }
+    },
+    {
+      "transition_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a_transition",
+      "target_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "transition_type": "smooth_cut",
+      "at_time": 4.5,
+      "duration": 0.25,
+      "parameters": {
+        "intensity": "medium"
+      },
+      "metadata": {
+        "placement_type": "cutaway",
+        "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+        "reason": "solution/main point with b-roll should use cutaway shot",
+        "segment_id": "seg_002",
+        "original_time": 4.5,
+        "rhythm_aligned": false
+      }
+    },
+    {
+      "transition_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_transition",
+      "target_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "transition_type": "clean_cut",
+      "at_time": 14.0,
+      "duration": 0.18,
+      "parameters": {
+        "intensity": "low"
+      },
+      "metadata": {
+        "placement_type": "cta_visual",
+        "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+        "reason": "CTA segment should focus attention on action",
+        "segment_id": "seg_003",
+        "original_time": 14.0,
+        "rhythm_aligned": false
+      }
+    }
+  ],
+  "metadata": {
+    "runtime": "TimelineFinalizerRuntime",
+    "semantic_segment_count": 3,
+    "track_count": 5,
+    "clip_count": 16,
+    "effect_count": 3,
+    "transition_count": 3,
+    "rhythm_segment_count": 3,
+    "single_source_of_truth": true
+  }
+}
