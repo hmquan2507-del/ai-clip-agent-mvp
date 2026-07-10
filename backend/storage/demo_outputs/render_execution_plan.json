@@ -1,0 +1,224 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "version": "15.1.0",
+  "nodes": [
+    {
+      "node_id": "prepare_inputs",
+      "node_type": "prepare_inputs",
+      "stage": "prepare",
+      "execution_level": 0,
+      "execution_index": 0,
+      "dependencies": [],
+      "status": "ready",
+      "priority": 10,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "decode_audio",
+      "node_type": "decode_audio",
+      "stage": "decode",
+      "execution_level": 1,
+      "execution_index": 1,
+      "dependencies": [
+        "prepare_inputs"
+      ],
+      "status": "pending",
+      "priority": 20,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "decode_video",
+      "node_type": "decode_video",
+      "stage": "decode",
+      "execution_level": 1,
+      "execution_index": 2,
+      "dependencies": [
+        "prepare_inputs"
+      ],
+      "status": "pending",
+      "priority": 20,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "compose_primary_video",
+      "node_type": "compose_primary_video",
+      "stage": "video",
+      "execution_level": 2,
+      "execution_index": 3,
+      "dependencies": [
+        "decode_video"
+      ],
+      "status": "pending",
+      "priority": 30,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "mix_audio",
+      "node_type": "mix_audio",
+      "stage": "audio",
+      "execution_level": 2,
+      "execution_index": 4,
+      "dependencies": [
+        "decode_audio"
+      ],
+      "status": "pending",
+      "priority": 70,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "overlay_broll",
+      "node_type": "overlay_broll",
+      "stage": "video",
+      "execution_level": 3,
+      "execution_index": 5,
+      "dependencies": [
+        "compose_primary_video"
+      ],
+      "status": "pending",
+      "priority": 40,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "apply_effects",
+      "node_type": "apply_effects",
+      "stage": "effect",
+      "execution_level": 4,
+      "execution_index": 6,
+      "dependencies": [
+        "overlay_broll"
+      ],
+      "status": "pending",
+      "priority": 50,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "apply_transitions",
+      "node_type": "apply_transitions",
+      "stage": "effect",
+      "execution_level": 5,
+      "execution_index": 7,
+      "dependencies": [
+        "apply_effects"
+      ],
+      "status": "pending",
+      "priority": 60,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "draw_subtitles",
+      "node_type": "draw_subtitles",
+      "stage": "subtitle",
+      "execution_level": 6,
+      "execution_index": 8,
+      "dependencies": [
+        "apply_transitions"
+      ],
+      "status": "pending",
+      "priority": 70,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "encode_video",
+      "node_type": "encode_video",
+      "stage": "encode",
+      "execution_level": 7,
+      "execution_index": 9,
+      "dependencies": [
+        "draw_subtitles",
+        "mix_audio"
+      ],
+      "status": "pending",
+      "priority": 90,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    },
+    {
+      "node_id": "write_artifacts",
+      "node_type": "write_artifacts",
+      "stage": "finalize",
+      "execution_level": 8,
+      "execution_index": 10,
+      "dependencies": [
+        "encode_video"
+      ],
+      "status": "pending",
+      "priority": 100,
+      "metadata": {
+        "source_graph_version": "15.0.0"
+      }
+    }
+  ],
+  "execution_order": [
+    "prepare_inputs",
+    "decode_audio",
+    "decode_video",
+    "compose_primary_video",
+    "mix_audio",
+    "overlay_broll",
+    "apply_effects",
+    "apply_transitions",
+    "draw_subtitles",
+    "encode_video",
+    "write_artifacts"
+  ],
+  "levels": [
+    [
+      "prepare_inputs"
+    ],
+    [
+      "decode_audio",
+      "decode_video"
+    ],
+    [
+      "compose_primary_video",
+      "mix_audio"
+    ],
+    [
+      "overlay_broll"
+    ],
+    [
+      "apply_effects"
+    ],
+    [
+      "apply_transitions"
+    ],
+    [
+      "draw_subtitles"
+    ],
+    [
+      "encode_video"
+    ],
+    [
+      "write_artifacts"
+    ]
+  ],
+  "issues": [],
+  "metadata": {
+    "scheduler": "RenderGraphScheduler",
+    "scheduled": true,
+    "node_count": 11,
+    "scheduled_node_count": 11,
+    "execution_level_count": 9,
+    "parallel_group_count": 2,
+    "initial_ready_node_count": 1
+  }
+}
