@@ -14,7 +14,10 @@ from app.render.ffmpeg.execution.models import (
     FFmpegExecutionResult,
     FFmpegProgressEvent,
 )
-
+from app.render.ffmpeg.execution.pipeline import (
+    FFmpegRenderPipeline,
+    FFmpegRenderPipelineResult,
+)
 __all__ = [
     "FFmpegCommand",
     "FFmpegCommandBuilder",
@@ -24,4 +27,6 @@ __all__ = [
     "FFmpegProgressEvent",
     "build_ffmpeg_command_builder",
     "build_ffmpeg_command_executor",
+    "FFmpegRenderPipeline",
+    "FFmpegRenderPipelineResult",
 ]

@@ -4,15 +4,15 @@ from app.render.execution.executor_runtime import (
     RenderExecutionRuntime,
 )
 from app.render.execution.executors import (
-    ArtifactExecutor,
     AudioMixExecutor,
     ComposeVideoExecutor,
     DecodeExecutor,
     EffectExecutor,
-    EncodeExecutor,
+    FFmpegEncodeNodeExecutor,
     OverlayExecutor,
     PrepareInputsNodeExecutor,
     SubtitleExecutor,
+    WriteArtifactsNodeExecutor,
 )
 from app.render.execution.registry import (
     RenderNodeExecutorRegistry,
@@ -55,8 +55,8 @@ def build_default_render_node_executor_registry(
             EffectExecutor(**options),
             SubtitleExecutor(**options),
             AudioMixExecutor(**options),
-            EncodeExecutor(**options),
-            ArtifactExecutor(**options),
+            FFmpegEncodeNodeExecutor(),
+            WriteArtifactsNodeExecutor(),
         ]
     )
 
