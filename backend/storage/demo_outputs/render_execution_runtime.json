@@ -5,24 +5,317 @@
     {
       "node_id": "prepare_inputs",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.529723+00:00",
-      "finished_at": "2026-07-10T07:46:14.530830+00:00",
-      "duration_seconds": 0.001118,
+      "started_at": "2026-07-10T08:14:06.999448+00:00",
+      "finished_at": "2026-07-10T08:14:07.678437+00:00",
+      "duration_seconds": 0.679012,
       "outputs": {
-        "prepared_input_count": 7
+        "manifest_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/prepared_inputs_manifest.json",
+        "prepared_input_count": 7,
+        "prepared_inputs": [
+          {
+            "input_id": "input_0",
+            "input_type": "audio",
+            "source_path": "storage/assets/music/internal_music/internal_music_corporate_background_music.mp3",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_0.mp3",
+            "asset_id": "c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+            "checksum": "f19e8fea303e408196e1dd3eab301d64d04c1120e23b53c235c85db5ac96a9fa",
+            "file_size": 289270,
+            "duration": 18.0,
+            "width": null,
+            "height": null,
+            "fps": null,
+            "video_codec": null,
+            "audio_codec": "mp3",
+            "has_video": false,
+            "has_audio": true,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+              "track_type": "music",
+              "validation": {
+                "local_path": "storage/assets/music/internal_music/internal_music_corporate_background_music.mp3",
+                "valid": true,
+                "duration": 18.0,
+                "width": null,
+                "height": null,
+                "fps": null,
+                "video_codec": null,
+                "audio_codec": "mp3",
+                "has_video": false,
+                "has_audio": true,
+                "errors": [],
+                "metadata": {
+                  "file_size": 289270,
+                  "format_name": "mp3"
+                }
+              }
+            }
+          },
+          {
+            "input_id": "input_1",
+            "input_type": "video",
+            "source_path": "storage/uploads/demo_source_video.mp4",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
+            "asset_id": "demo_source_asset",
+            "checksum": "173d08f0284a311b7b0ef82ea647ec31b34a6ab6328acb9fcb9e135b83555830",
+            "file_size": 216838,
+            "duration": 18.0,
+            "width": 1080,
+            "height": 1920,
+            "fps": 30.0,
+            "video_codec": "h264",
+            "audio_codec": "aac",
+            "has_video": true,
+            "has_audio": true,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "seg_001_source",
+              "track_type": "video_primary",
+              "source_asset_id": "demo_source_asset",
+              "storage_key": null,
+              "source": "timeline_compiler_test",
+              "validation": {
+                "local_path": "storage/uploads/demo_source_video.mp4",
+                "valid": true,
+                "duration": 18.0,
+                "width": 1080,
+                "height": 1920,
+                "fps": 30.0,
+                "video_codec": "h264",
+                "audio_codec": "aac",
+                "has_video": true,
+                "has_audio": true,
+                "errors": [],
+                "metadata": {
+                  "file_size": 216838,
+                  "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+                }
+              }
+            }
+          },
+          {
+            "input_id": "input_2",
+            "input_type": "video",
+            "source_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_2.mp4",
+            "asset_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+            "checksum": "8fe6a24d7000182340a591bf7c7564ec8dad76e8d2e29af2d2d07493ebe0c291",
+            "file_size": 4755199,
+            "duration": 10.01,
+            "width": 1080,
+            "height": 1920,
+            "fps": 23.976,
+            "video_codec": "h264",
+            "audio_codec": null,
+            "has_video": true,
+            "has_audio": false,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+              "track_type": "broll",
+              "validation": {
+                "local_path": "storage/assets/broll/pexels/pexels_6342236.mp4",
+                "valid": true,
+                "duration": 10.01,
+                "width": 1080,
+                "height": 1920,
+                "fps": 23.976,
+                "video_codec": "h264",
+                "audio_codec": null,
+                "has_video": true,
+                "has_audio": false,
+                "errors": [],
+                "metadata": {
+                  "file_size": 4755199,
+                  "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+                }
+              }
+            }
+          },
+          {
+            "input_id": "input_3",
+            "input_type": "video",
+            "source_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_3.mp4",
+            "asset_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+            "checksum": "22be31372b82485027666e00bc4fafa6be2823150529db22b9ad4e0a99d3bfdf",
+            "file_size": 7378765,
+            "duration": 10.01,
+            "width": 1440,
+            "height": 2560,
+            "fps": 23.976,
+            "video_codec": "h264",
+            "audio_codec": null,
+            "has_video": true,
+            "has_audio": false,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+              "track_type": "broll",
+              "validation": {
+                "local_path": "storage/assets/broll/pexels/pexels_12896410.mp4",
+                "valid": true,
+                "duration": 10.01,
+                "width": 1440,
+                "height": 2560,
+                "fps": 23.976,
+                "video_codec": "h264",
+                "audio_codec": null,
+                "has_video": true,
+                "has_audio": false,
+                "errors": [],
+                "metadata": {
+                  "file_size": 7378765,
+                  "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+                }
+              }
+            }
+          },
+          {
+            "input_id": "input_4",
+            "input_type": "video",
+            "source_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_4.mp4",
+            "asset_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+            "checksum": "a260e7c9fe8c390f362f7301eb326d4fa7b574d6836c18991097f007b194d0e7",
+            "file_size": 847762,
+            "duration": 10.01,
+            "width": 540,
+            "height": 960,
+            "fps": 23.976,
+            "video_codec": "h264",
+            "audio_codec": null,
+            "has_video": true,
+            "has_audio": false,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+              "track_type": "broll",
+              "validation": {
+                "local_path": "storage/assets/broll/pexels/pexels_12894327.mp4",
+                "valid": true,
+                "duration": 10.01,
+                "width": 540,
+                "height": 960,
+                "fps": 23.976,
+                "video_codec": "h264",
+                "audio_codec": null,
+                "has_video": true,
+                "has_audio": false,
+                "errors": [],
+                "metadata": {
+                  "file_size": 847762,
+                  "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+                }
+              }
+            }
+          },
+          {
+            "input_id": "input_5",
+            "input_type": "audio",
+            "source_path": "storage/assets/sound_effect/freesound/freesound_460469.mp3",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_5.mp3",
+            "asset_id": "79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+            "checksum": "cee627b4a2270cd89b5b1fa2bdf195651ce65c903509cb9871b05c0384ffb940",
+            "file_size": 30943,
+            "duration": 1.21576,
+            "width": null,
+            "height": null,
+            "fps": null,
+            "video_codec": null,
+            "audio_codec": "mp3",
+            "has_video": false,
+            "has_audio": true,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+              "track_type": "sfx",
+              "validation": {
+                "local_path": "storage/assets/sound_effect/freesound/freesound_460469.mp3",
+                "valid": true,
+                "duration": 1.21576,
+                "width": null,
+                "height": null,
+                "fps": null,
+                "video_codec": null,
+                "audio_codec": "mp3",
+                "has_video": false,
+                "has_audio": true,
+                "errors": [],
+                "metadata": {
+                  "file_size": 30943,
+                  "format_name": "mp3"
+                }
+              }
+            }
+          },
+          {
+            "input_id": "input_6",
+            "input_type": "audio",
+            "source_path": "storage/assets/sound_effect/freesound/freesound_460473.mp3",
+            "prepared_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_6.mp3",
+            "asset_id": "d096e6d1-f912-4677-931d-f37f57627e7e",
+            "checksum": "350fc14e3736f258a1190969f3d326baca5ea17c2f70206e10d7b9f92baae04b",
+            "file_size": 30266,
+            "duration": 1.21576,
+            "width": null,
+            "height": null,
+            "fps": null,
+            "video_codec": null,
+            "audio_codec": "mp3",
+            "has_video": false,
+            "has_audio": true,
+            "copied": false,
+            "linked": true,
+            "reused": false,
+            "metadata": {
+              "clip_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+              "track_type": "sfx",
+              "validation": {
+                "local_path": "storage/assets/sound_effect/freesound/freesound_460473.mp3",
+                "valid": true,
+                "duration": 1.21576,
+                "width": null,
+                "height": null,
+                "fps": null,
+                "video_codec": null,
+                "audio_codec": "mp3",
+                "has_video": false,
+                "has_audio": true,
+                "errors": [],
+                "metadata": {
+                  "file_size": 30266,
+                  "format_name": "mp3"
+                }
+              }
+            }
+          }
+        ]
       },
       "error": null,
       "metadata": {
-        "executor": "PrepareInputsExecutor",
-        "mock": true
+        "executor": "PrepareInputsNodeExecutor",
+        "mock": false
       }
     },
     {
       "node_id": "decode_audio",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.531085+00:00",
-      "finished_at": "2026-07-10T07:46:14.532176+00:00",
-      "duration_seconds": 0.001091,
+      "started_at": "2026-07-10T08:14:07.678794+00:00",
+      "finished_at": "2026-07-10T08:14:07.679906+00:00",
+      "duration_seconds": 0.001118,
       "outputs": {
         "node_id": "decode_audio",
         "node_type": "decode_audio",
@@ -37,9 +330,9 @@
     {
       "node_id": "decode_video",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.532306+00:00",
-      "finished_at": "2026-07-10T07:46:14.533386+00:00",
-      "duration_seconds": 0.001097,
+      "started_at": "2026-07-10T08:14:07.680094+00:00",
+      "finished_at": "2026-07-10T08:14:07.681188+00:00",
+      "duration_seconds": 0.001115,
       "outputs": {
         "node_id": "decode_video",
         "node_type": "decode_video",
@@ -54,9 +347,9 @@
     {
       "node_id": "compose_primary_video",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.533569+00:00",
-      "finished_at": "2026-07-10T07:46:14.534656+00:00",
-      "duration_seconds": 0.001092,
+      "started_at": "2026-07-10T08:14:07.681392+00:00",
+      "finished_at": "2026-07-10T08:14:07.682477+00:00",
+      "duration_seconds": 0.001091,
       "outputs": {
         "node_id": "compose_primary_video",
         "node_type": "compose_primary_video",
@@ -71,9 +364,9 @@
     {
       "node_id": "mix_audio",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.534732+00:00",
-      "finished_at": "2026-07-10T07:46:14.535830+00:00",
-      "duration_seconds": 0.001104,
+      "started_at": "2026-07-10T08:14:07.682628+00:00",
+      "finished_at": "2026-07-10T08:14:07.683723+00:00",
+      "duration_seconds": 0.001102,
       "outputs": {
         "node_id": "mix_audio",
         "node_type": "mix_audio",
@@ -88,9 +381,9 @@
     {
       "node_id": "overlay_broll",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.535953+00:00",
-      "finished_at": "2026-07-10T07:46:14.537036+00:00",
-      "duration_seconds": 0.001086,
+      "started_at": "2026-07-10T08:14:07.683896+00:00",
+      "finished_at": "2026-07-10T08:14:07.685002+00:00",
+      "duration_seconds": 0.001116,
       "outputs": {
         "node_id": "overlay_broll",
         "node_type": "overlay_broll",
@@ -105,9 +398,9 @@
     {
       "node_id": "apply_effects",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.537102+00:00",
-      "finished_at": "2026-07-10T07:46:14.538209+00:00",
-      "duration_seconds": 0.001116,
+      "started_at": "2026-07-10T08:14:07.685174+00:00",
+      "finished_at": "2026-07-10T08:14:07.686242+00:00",
+      "duration_seconds": 0.001072,
       "outputs": {
         "node_id": "apply_effects",
         "node_type": "apply_effects",
@@ -122,9 +415,9 @@
     {
       "node_id": "apply_transitions",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.538354+00:00",
-      "finished_at": "2026-07-10T07:46:14.539439+00:00",
-      "duration_seconds": 0.001085,
+      "started_at": "2026-07-10T08:14:07.686390+00:00",
+      "finished_at": "2026-07-10T08:14:07.687475+00:00",
+      "duration_seconds": 0.001093,
       "outputs": {
         "node_id": "apply_transitions",
         "node_type": "apply_transitions",
@@ -139,9 +432,9 @@
     {
       "node_id": "draw_subtitles",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.539504+00:00",
-      "finished_at": "2026-07-10T07:46:14.540601+00:00",
-      "duration_seconds": 0.001099,
+      "started_at": "2026-07-10T08:14:07.687640+00:00",
+      "finished_at": "2026-07-10T08:14:07.688740+00:00",
+      "duration_seconds": 0.001105,
       "outputs": {
         "node_id": "draw_subtitles",
         "node_type": "draw_subtitles",
@@ -156,8 +449,8 @@
     {
       "node_id": "encode_video",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.540661+00:00",
-      "finished_at": "2026-07-10T07:46:14.541754+00:00",
+      "started_at": "2026-07-10T08:14:07.688884+00:00",
+      "finished_at": "2026-07-10T08:14:07.689972+00:00",
       "duration_seconds": 0.001101,
       "outputs": {
         "mock_encoded_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/temp/mock_encoded.mp4"
@@ -171,9 +464,9 @@
     {
       "node_id": "write_artifacts",
       "status": "completed",
-      "started_at": "2026-07-10T07:46:14.541878+00:00",
-      "finished_at": "2026-07-10T07:46:14.542963+00:00",
-      "duration_seconds": 0.001085,
+      "started_at": "2026-07-10T08:14:07.690130+00:00",
+      "finished_at": "2026-07-10T08:14:07.691243+00:00",
+      "duration_seconds": 0.001118,
       "outputs": {
         "mock_final_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4"
       },
@@ -187,165 +480,165 @@
   "events": [
     {
       "event_type": "START",
-      "timestamp": "2026-07-10T07:46:14.529657+00:00",
+      "timestamp": "2026-07-10T08:14:06.999362+00:00",
       "node_id": null,
       "message": "Render execution started.",
       "metadata": {}
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.529705+00:00",
+      "timestamp": "2026-07-10T08:14:06.999424+00:00",
       "node_id": "prepare_inputs",
       "message": "Node started: prepare_inputs",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.530978+00:00",
+      "timestamp": "2026-07-10T08:14:07.678658+00:00",
       "node_id": "prepare_inputs",
       "message": "Node completed: prepare_inputs",
       "metadata": {
-        "duration_seconds": 0.001118
+        "duration_seconds": 0.679012
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.531054+00:00",
+      "timestamp": "2026-07-10T08:14:07.678748+00:00",
       "node_id": "decode_audio",
       "message": "Node started: decode_audio",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.532272+00:00",
+      "timestamp": "2026-07-10T08:14:07.680019+00:00",
       "node_id": "decode_audio",
       "message": "Node completed: decode_audio",
       "metadata": {
-        "duration_seconds": 0.001091
+        "duration_seconds": 0.001118
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.532294+00:00",
+      "timestamp": "2026-07-10T08:14:07.680066+00:00",
       "node_id": "decode_video",
       "message": "Node started: decode_video",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.533489+00:00",
+      "timestamp": "2026-07-10T08:14:07.681306+00:00",
       "node_id": "decode_video",
       "message": "Node completed: decode_video",
       "metadata": {
-        "duration_seconds": 0.001097
+        "duration_seconds": 0.001115
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.533545+00:00",
+      "timestamp": "2026-07-10T08:14:07.681365+00:00",
       "node_id": "compose_primary_video",
       "message": "Node started: compose_primary_video",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.534704+00:00",
+      "timestamp": "2026-07-10T08:14:07.682565+00:00",
       "node_id": "compose_primary_video",
       "message": "Node completed: compose_primary_video",
       "metadata": {
-        "duration_seconds": 0.001092
+        "duration_seconds": 0.001091
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.534721+00:00",
+      "timestamp": "2026-07-10T08:14:07.682602+00:00",
       "node_id": "mix_audio",
       "message": "Node started: mix_audio",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.535920+00:00",
+      "timestamp": "2026-07-10T08:14:07.683801+00:00",
       "node_id": "mix_audio",
       "message": "Node completed: mix_audio",
       "metadata": {
-        "duration_seconds": 0.001104
+        "duration_seconds": 0.001102
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.535943+00:00",
+      "timestamp": "2026-07-10T08:14:07.683869+00:00",
       "node_id": "overlay_broll",
       "message": "Node started: overlay_broll",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.537070+00:00",
+      "timestamp": "2026-07-10T08:14:07.685093+00:00",
       "node_id": "overlay_broll",
       "message": "Node completed: overlay_broll",
-      "metadata": {
-        "duration_seconds": 0.001086
-      }
-    },
-    {
-      "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.537091+00:00",
-      "node_id": "apply_effects",
-      "message": "Node started: apply_effects",
-      "metadata": {}
-    },
-    {
-      "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.538281+00:00",
-      "node_id": "apply_effects",
-      "message": "Node completed: apply_effects",
       "metadata": {
         "duration_seconds": 0.001116
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.538331+00:00",
+      "timestamp": "2026-07-10T08:14:07.685146+00:00",
+      "node_id": "apply_effects",
+      "message": "Node started: apply_effects",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T08:14:07.686314+00:00",
+      "node_id": "apply_effects",
+      "message": "Node completed: apply_effects",
+      "metadata": {
+        "duration_seconds": 0.001072
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T08:14:07.686365+00:00",
       "node_id": "apply_transitions",
       "message": "Node started: apply_transitions",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.539468+00:00",
+      "timestamp": "2026-07-10T08:14:07.687560+00:00",
       "node_id": "apply_transitions",
       "message": "Node completed: apply_transitions",
       "metadata": {
-        "duration_seconds": 0.001085
+        "duration_seconds": 0.001093
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.539494+00:00",
+      "timestamp": "2026-07-10T08:14:07.687614+00:00",
       "node_id": "draw_subtitles",
       "message": "Node started: draw_subtitles",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.540630+00:00",
+      "timestamp": "2026-07-10T08:14:07.688807+00:00",
       "node_id": "draw_subtitles",
       "message": "Node completed: draw_subtitles",
       "metadata": {
-        "duration_seconds": 0.001099
+        "duration_seconds": 0.001105
       }
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.540651+00:00",
+      "timestamp": "2026-07-10T08:14:07.688859+00:00",
       "node_id": "encode_video",
       "message": "Node started: encode_video",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.541806+00:00",
+      "timestamp": "2026-07-10T08:14:07.690047+00:00",
       "node_id": "encode_video",
       "message": "Node completed: encode_video",
       "metadata": {
@@ -354,23 +647,23 @@
     },
     {
       "event_type": "NODE_STARTED",
-      "timestamp": "2026-07-10T07:46:14.541856+00:00",
+      "timestamp": "2026-07-10T08:14:07.690103+00:00",
       "node_id": "write_artifacts",
       "message": "Node started: write_artifacts",
       "metadata": {}
     },
     {
       "event_type": "NODE_COMPLETED",
-      "timestamp": "2026-07-10T07:46:14.542984+00:00",
+      "timestamp": "2026-07-10T08:14:07.691292+00:00",
       "node_id": "write_artifacts",
       "message": "Node completed: write_artifacts",
       "metadata": {
-        "duration_seconds": 0.001085
+        "duration_seconds": 0.001118
       }
     },
     {
       "event_type": "FINISHED",
-      "timestamp": "2026-07-10T07:46:14.543011+00:00",
+      "timestamp": "2026-07-10T08:14:07.691360+00:00",
       "node_id": null,
       "message": "Render execution completed.",
       "metadata": {}
@@ -380,7 +673,7 @@
   "failed_node_count": 0,
   "skipped_node_count": 0,
   "progress": 100.0,
-  "duration_seconds": 0.013368,
+  "duration_seconds": 0.692013,
   "failed_node_id": null,
   "error": null,
   "metadata": {

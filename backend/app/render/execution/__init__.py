@@ -71,6 +71,13 @@ from app.render.execution.models import (
 from app.render.execution.registry import (
     RenderNodeExecutorRegistry,
 )
+from app.render.execution.preloader import (
+    PreparedRenderInput,
+    RenderAssetPreloadIssue,
+    RenderAssetPreloadResult,
+    RenderAssetPreloader,
+    build_render_asset_preloader,
+)
 
 __all__ = [
     "RenderArchitectureRuntime",
@@ -101,4 +108,9 @@ __all__ = [
     "RenderNodeExecutorRegistry",
     "build_default_render_node_executor_registry",
     "build_render_execution_runtime",
+    "PreparedRenderInput",
+    "RenderAssetPreloadIssue",
+    "RenderAssetPreloadResult",
+    "RenderAssetPreloader",
+    "build_render_asset_preloader",
 ]

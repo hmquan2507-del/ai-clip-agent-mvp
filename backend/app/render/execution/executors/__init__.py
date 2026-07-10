@@ -1,3 +1,6 @@
+from app.render.execution.executors.prepare import (
+    PrepareInputsNodeExecutor,
+)
 from app.render.execution.node_executor import (
     ArtifactExecutor,
     AudioMixExecutor,
@@ -6,7 +9,6 @@ from app.render.execution.node_executor import (
     EffectExecutor,
     EncodeExecutor,
     OverlayExecutor,
-    PrepareInputsExecutor,
     SubtitleExecutor,
 )
 
@@ -18,6 +20,6 @@ __all__ = [
     "EffectExecutor",
     "EncodeExecutor",
     "OverlayExecutor",
-    "PrepareInputsExecutor",
+    "PrepareInputsNodeExecutor",
     "SubtitleExecutor",
 ]

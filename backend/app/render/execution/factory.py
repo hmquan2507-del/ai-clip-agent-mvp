@@ -11,7 +11,7 @@ from app.render.execution.executors import (
     EffectExecutor,
     EncodeExecutor,
     OverlayExecutor,
-    PrepareInputsExecutor,
+    PrepareInputsNodeExecutor,
     SubtitleExecutor,
 )
 from app.render.execution.registry import (
@@ -48,7 +48,7 @@ def build_default_render_node_executor_registry(
 
     return RenderNodeExecutorRegistry(
         executors=[
-            PrepareInputsExecutor(**options),
+            PrepareInputsNodeExecutor(),
             DecodeExecutor(**options),
             ComposeVideoExecutor(**options),
             OverlayExecutor(**options),
