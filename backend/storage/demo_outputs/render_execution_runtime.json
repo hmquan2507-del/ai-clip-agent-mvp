@@ -1,0 +1,391 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "success": true,
+  "node_results": [
+    {
+      "node_id": "prepare_inputs",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.529723+00:00",
+      "finished_at": "2026-07-10T07:46:14.530830+00:00",
+      "duration_seconds": 0.001118,
+      "outputs": {
+        "prepared_input_count": 7
+      },
+      "error": null,
+      "metadata": {
+        "executor": "PrepareInputsExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "decode_audio",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.531085+00:00",
+      "finished_at": "2026-07-10T07:46:14.532176+00:00",
+      "duration_seconds": 0.001091,
+      "outputs": {
+        "node_id": "decode_audio",
+        "node_type": "decode_audio",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "DecodeExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "decode_video",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.532306+00:00",
+      "finished_at": "2026-07-10T07:46:14.533386+00:00",
+      "duration_seconds": 0.001097,
+      "outputs": {
+        "node_id": "decode_video",
+        "node_type": "decode_video",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "DecodeExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "compose_primary_video",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.533569+00:00",
+      "finished_at": "2026-07-10T07:46:14.534656+00:00",
+      "duration_seconds": 0.001092,
+      "outputs": {
+        "node_id": "compose_primary_video",
+        "node_type": "compose_primary_video",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "ComposeVideoExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "mix_audio",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.534732+00:00",
+      "finished_at": "2026-07-10T07:46:14.535830+00:00",
+      "duration_seconds": 0.001104,
+      "outputs": {
+        "node_id": "mix_audio",
+        "node_type": "mix_audio",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "AudioMixExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "overlay_broll",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.535953+00:00",
+      "finished_at": "2026-07-10T07:46:14.537036+00:00",
+      "duration_seconds": 0.001086,
+      "outputs": {
+        "node_id": "overlay_broll",
+        "node_type": "overlay_broll",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "OverlayExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "apply_effects",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.537102+00:00",
+      "finished_at": "2026-07-10T07:46:14.538209+00:00",
+      "duration_seconds": 0.001116,
+      "outputs": {
+        "node_id": "apply_effects",
+        "node_type": "apply_effects",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "EffectExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "apply_transitions",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.538354+00:00",
+      "finished_at": "2026-07-10T07:46:14.539439+00:00",
+      "duration_seconds": 0.001085,
+      "outputs": {
+        "node_id": "apply_transitions",
+        "node_type": "apply_transitions",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "EffectExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "draw_subtitles",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.539504+00:00",
+      "finished_at": "2026-07-10T07:46:14.540601+00:00",
+      "duration_seconds": 0.001099,
+      "outputs": {
+        "node_id": "draw_subtitles",
+        "node_type": "draw_subtitles",
+        "status": "mock_completed"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "SubtitleExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "encode_video",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.540661+00:00",
+      "finished_at": "2026-07-10T07:46:14.541754+00:00",
+      "duration_seconds": 0.001101,
+      "outputs": {
+        "mock_encoded_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/temp/mock_encoded.mp4"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "EncodeExecutor",
+        "mock": true
+      }
+    },
+    {
+      "node_id": "write_artifacts",
+      "status": "completed",
+      "started_at": "2026-07-10T07:46:14.541878+00:00",
+      "finished_at": "2026-07-10T07:46:14.542963+00:00",
+      "duration_seconds": 0.001085,
+      "outputs": {
+        "mock_final_path": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4"
+      },
+      "error": null,
+      "metadata": {
+        "executor": "ArtifactExecutor",
+        "mock": true
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_type": "START",
+      "timestamp": "2026-07-10T07:46:14.529657+00:00",
+      "node_id": null,
+      "message": "Render execution started.",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.529705+00:00",
+      "node_id": "prepare_inputs",
+      "message": "Node started: prepare_inputs",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.530978+00:00",
+      "node_id": "prepare_inputs",
+      "message": "Node completed: prepare_inputs",
+      "metadata": {
+        "duration_seconds": 0.001118
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.531054+00:00",
+      "node_id": "decode_audio",
+      "message": "Node started: decode_audio",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.532272+00:00",
+      "node_id": "decode_audio",
+      "message": "Node completed: decode_audio",
+      "metadata": {
+        "duration_seconds": 0.001091
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.532294+00:00",
+      "node_id": "decode_video",
+      "message": "Node started: decode_video",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.533489+00:00",
+      "node_id": "decode_video",
+      "message": "Node completed: decode_video",
+      "metadata": {
+        "duration_seconds": 0.001097
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.533545+00:00",
+      "node_id": "compose_primary_video",
+      "message": "Node started: compose_primary_video",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.534704+00:00",
+      "node_id": "compose_primary_video",
+      "message": "Node completed: compose_primary_video",
+      "metadata": {
+        "duration_seconds": 0.001092
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.534721+00:00",
+      "node_id": "mix_audio",
+      "message": "Node started: mix_audio",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.535920+00:00",
+      "node_id": "mix_audio",
+      "message": "Node completed: mix_audio",
+      "metadata": {
+        "duration_seconds": 0.001104
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.535943+00:00",
+      "node_id": "overlay_broll",
+      "message": "Node started: overlay_broll",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.537070+00:00",
+      "node_id": "overlay_broll",
+      "message": "Node completed: overlay_broll",
+      "metadata": {
+        "duration_seconds": 0.001086
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.537091+00:00",
+      "node_id": "apply_effects",
+      "message": "Node started: apply_effects",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.538281+00:00",
+      "node_id": "apply_effects",
+      "message": "Node completed: apply_effects",
+      "metadata": {
+        "duration_seconds": 0.001116
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.538331+00:00",
+      "node_id": "apply_transitions",
+      "message": "Node started: apply_transitions",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.539468+00:00",
+      "node_id": "apply_transitions",
+      "message": "Node completed: apply_transitions",
+      "metadata": {
+        "duration_seconds": 0.001085
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.539494+00:00",
+      "node_id": "draw_subtitles",
+      "message": "Node started: draw_subtitles",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.540630+00:00",
+      "node_id": "draw_subtitles",
+      "message": "Node completed: draw_subtitles",
+      "metadata": {
+        "duration_seconds": 0.001099
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.540651+00:00",
+      "node_id": "encode_video",
+      "message": "Node started: encode_video",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.541806+00:00",
+      "node_id": "encode_video",
+      "message": "Node completed: encode_video",
+      "metadata": {
+        "duration_seconds": 0.001101
+      }
+    },
+    {
+      "event_type": "NODE_STARTED",
+      "timestamp": "2026-07-10T07:46:14.541856+00:00",
+      "node_id": "write_artifacts",
+      "message": "Node started: write_artifacts",
+      "metadata": {}
+    },
+    {
+      "event_type": "NODE_COMPLETED",
+      "timestamp": "2026-07-10T07:46:14.542984+00:00",
+      "node_id": "write_artifacts",
+      "message": "Node completed: write_artifacts",
+      "metadata": {
+        "duration_seconds": 0.001085
+      }
+    },
+    {
+      "event_type": "FINISHED",
+      "timestamp": "2026-07-10T07:46:14.543011+00:00",
+      "node_id": null,
+      "message": "Render execution completed.",
+      "metadata": {}
+    }
+  ],
+  "completed_node_count": 11,
+  "failed_node_count": 0,
+  "skipped_node_count": 0,
+  "progress": 100.0,
+  "duration_seconds": 0.013368,
+  "failed_node_id": null,
+  "error": null,
+  "metadata": {
+    "runtime": "RenderExecutionRuntime",
+    "registry_executor_count": 9,
+    "execution_plan_version": "15.1.0"
+  }
+}

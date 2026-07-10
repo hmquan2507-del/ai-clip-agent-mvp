@@ -221,3 +221,90 @@ class RenderExecutionPlan:
             "issues": [issue.to_dict() for issue in self.issues],
             "metadata": self.metadata,
         }
+
+@dataclass
+class RenderNodeExecutionResult:
+    node_id: str
+    status: RenderNodeStatus | str
+    started_at: str
+    finished_at: str
+    duration_seconds: float
+
+    outputs: dict[str, Any] = field(default_factory=dict)
+    error: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "node_id": self.node_id,
+            "status": self._enum_value(self.status),
+            "started_at": self.started_at,
+            "finished_at": self.finished_at,
+            "duration_seconds": self.duration_seconds,
+            "outputs": self.outputs,
+            "error": self.error,
+            "metadata": self.metadata,
+        }
+
+    def _enum_value(self, value: Any) -> str:
+        return value.value if hasattr(value, "value") else str(value)
+
+
+@dataclass
+class RenderExecutionEvent:
+    event_type: str
+    timestamp: str
+    node_id: str | None = None
+    message: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "event_type": self.event_type,
+            "timestamp": self.timestamp,
+            "node_id": self.node_id,
+            "message": self.message,
+            "metadata": self.metadata,
+        }
+
+
+@dataclass
+class RenderExecutionSummary:
+    production_id: str
+    success: bool
+
+    node_results: list[RenderNodeExecutionResult]
+    events: list[RenderExecutionEvent]
+
+    completed_node_count: int
+    failed_node_count: int
+    skipped_node_count: int
+
+    progress: float
+    duration_seconds: float
+
+    failed_node_id: str | None = None
+    error: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "production_id": self.production_id,
+            "success": self.success,
+            "node_results": [
+                item.to_dict()
+                for item in self.node_results
+            ],
+            "events": [
+                item.to_dict()
+                for item in self.events
+            ],
+            "completed_node_count": self.completed_node_count,
+            "failed_node_count": self.failed_node_count,
+            "skipped_node_count": self.skipped_node_count,
+            "progress": self.progress,
+            "duration_seconds": self.duration_seconds,
+            "failed_node_id": self.failed_node_id,
+            "error": self.error,
+            "metadata": self.metadata,
+        }    

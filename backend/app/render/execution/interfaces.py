@@ -8,6 +8,7 @@ from app.render.execution.models import (
     RenderExecutionPlan,
     RenderGraph,
     RenderNode,
+    RenderNodeExecutionResult,
     RenderResult,
 )
 
@@ -52,7 +53,7 @@ class BaseRenderNodeExecutor(ABC):
         self,
         context: RenderContext,
         node: RenderNode,
-    ) -> dict:
+    ) -> RenderNodeExecutionResult:
         raise NotImplementedError
 
 
