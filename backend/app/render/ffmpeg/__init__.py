@@ -1,7 +1,13 @@
-from app.render.ffmpeg.ffmpeg_command_builder import FFmpegCommandBuilder
-from app.render.ffmpeg.ffmpeg_filter_builder import FFmpegFilterBuilder
-from app.render.ffmpeg.ffmpeg_runtime import FFmpegRuntime
-from app.render.ffmpeg.models import FFmpegCommand, FFmpegCommandPlan
+from app.render.ffmpeg.filtergraph import (
+    FFmpegFilterChain,
+    FFmpegFilterGraph,
+    FFmpegFilterGraphBuilder,
+    FFmpegFilterGraphIssue,
+    FFmpegFilterGraphValidator,
+    FFmpegInputArgument,
+    build_ffmpeg_filtergraph_builder,
+    build_ffmpeg_filtergraph_validator,
+)
 from app.render.ffmpeg.instructions import (
     FFmpegInputSpec,
     FFmpegInstructionCompiler,
@@ -15,12 +21,14 @@ from app.render.ffmpeg.instructions import (
     build_ffmpeg_instruction_compiler,
     build_ffmpeg_instruction_plan_validator,
 )
+
 __all__ = [
-    "FFmpegCommand",
-    "FFmpegCommandPlan",
-    "FFmpegFilterBuilder",
-    "FFmpegCommandBuilder",
-    "FFmpegRuntime",
+    "FFmpegFilterChain",
+    "FFmpegFilterGraph",
+    "FFmpegFilterGraphBuilder",
+    "FFmpegFilterGraphIssue",
+    "FFmpegFilterGraphValidator",
+    "FFmpegInputArgument",
     "FFmpegInputSpec",
     "FFmpegInstructionCompiler",
     "FFmpegInstructionIssue",
@@ -30,6 +38,8 @@ __all__ = [
     "FFmpegInstructionType",
     "FFmpegRenderInstruction",
     "FFmpegStreamType",
+    "build_ffmpeg_filtergraph_builder",
+    "build_ffmpeg_filtergraph_validator",
     "build_ffmpeg_instruction_compiler",
     "build_ffmpeg_instruction_plan_validator",
 ]

@@ -1,0 +1,658 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "version": "15.5.0",
+  "input_arguments": [
+    {
+      "input_id": "input_0",
+      "input_index": 0,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_0.mp3",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_0.mp3"
+      ],
+      "metadata": {
+        "input_type": "audio",
+        "asset_id": "c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+        "duration": 18.0,
+        "has_video": false,
+        "has_audio": true
+      }
+    },
+    {
+      "input_id": "input_1",
+      "input_index": 1,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4"
+      ],
+      "metadata": {
+        "input_type": "video",
+        "asset_id": "demo_source_asset",
+        "duration": 18.0,
+        "has_video": true,
+        "has_audio": true
+      }
+    },
+    {
+      "input_id": "input_2",
+      "input_index": 2,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_2.mp4",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_2.mp4"
+      ],
+      "metadata": {
+        "input_type": "video",
+        "asset_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+        "duration": 10.01,
+        "has_video": true,
+        "has_audio": false
+      }
+    },
+    {
+      "input_id": "input_3",
+      "input_index": 3,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_3.mp4",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_3.mp4"
+      ],
+      "metadata": {
+        "input_type": "video",
+        "asset_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+        "duration": 10.01,
+        "has_video": true,
+        "has_audio": false
+      }
+    },
+    {
+      "input_id": "input_4",
+      "input_index": 4,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_4.mp4",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_4.mp4"
+      ],
+      "metadata": {
+        "input_type": "video",
+        "asset_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "duration": 10.01,
+        "has_video": true,
+        "has_audio": false
+      }
+    },
+    {
+      "input_id": "input_5",
+      "input_index": 5,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_5.mp3",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_5.mp3"
+      ],
+      "metadata": {
+        "input_type": "audio",
+        "asset_id": "79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+        "duration": 1.21576,
+        "has_video": false,
+        "has_audio": true
+      }
+    },
+    {
+      "input_id": "input_6",
+      "input_index": 6,
+      "prepared_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_6.mp3",
+      "arguments": [
+        "-i",
+        "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_6.mp3"
+      ],
+      "metadata": {
+        "input_type": "audio",
+        "asset_id": "d096e6d1-f912-4677-931d-f37f57627e7e",
+        "duration": 1.21576,
+        "has_video": false,
+        "has_audio": true
+      }
+    }
+  ],
+  "chains": [
+    {
+      "chain_id": "primary_trim_chain_0",
+      "filter_text": "[1:v]trim=start=0:duration=4,setpts=(PTS-STARTPTS)/1[primary_trim_0]",
+      "input_labels": [
+        "1:v"
+      ],
+      "output_label": "primary_trim_0",
+      "stage": "primary_trim",
+      "order": 100,
+      "metadata": {
+        "timeline_target_id": "seg_001_source"
+      }
+    },
+    {
+      "chain_id": "primary_scale_chain_0",
+      "filter_text": "[primary_trim_0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_0]",
+      "input_labels": [
+        "primary_trim_0"
+      ],
+      "output_label": "primary_segment_0",
+      "stage": "primary_scale",
+      "order": 101,
+      "metadata": {}
+    },
+    {
+      "chain_id": "primary_trim_chain_1",
+      "filter_text": "[1:v]trim=start=4:duration=6,setpts=(PTS-STARTPTS)/1[primary_trim_1]",
+      "input_labels": [
+        "1:v"
+      ],
+      "output_label": "primary_trim_1",
+      "stage": "primary_trim",
+      "order": 110,
+      "metadata": {
+        "timeline_target_id": "seg_002_source"
+      }
+    },
+    {
+      "chain_id": "primary_scale_chain_1",
+      "filter_text": "[primary_trim_1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_1]",
+      "input_labels": [
+        "primary_trim_1"
+      ],
+      "output_label": "primary_segment_1",
+      "stage": "primary_scale",
+      "order": 111,
+      "metadata": {}
+    },
+    {
+      "chain_id": "primary_trim_chain_2",
+      "filter_text": "[1:v]trim=start=10:duration=8,setpts=(PTS-STARTPTS)/1[primary_trim_2]",
+      "input_labels": [
+        "1:v"
+      ],
+      "output_label": "primary_trim_2",
+      "stage": "primary_trim",
+      "order": 120,
+      "metadata": {
+        "timeline_target_id": "seg_003_source"
+      }
+    },
+    {
+      "chain_id": "primary_scale_chain_2",
+      "filter_text": "[primary_trim_2]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_2]",
+      "input_labels": [
+        "primary_trim_2"
+      ],
+      "output_label": "primary_segment_2",
+      "stage": "primary_scale",
+      "order": 121,
+      "metadata": {}
+    },
+    {
+      "chain_id": "primary_concat_chain",
+      "filter_text": "[primary_segment_0][primary_segment_1][primary_segment_2]concat=n=3:v=1:a=0[primary_video]",
+      "input_labels": [
+        "primary_segment_0",
+        "primary_segment_1",
+        "primary_segment_2"
+      ],
+      "output_label": "primary_video",
+      "stage": "primary_concat",
+      "order": 500,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_trim_chain_0",
+      "filter_text": "[2:v]trim=start=0:duration=3.2,setpts=PTS-STARTPTS[broll_trim_0]",
+      "input_labels": [
+        "2:v"
+      ],
+      "output_label": "broll_trim_0",
+      "stage": "broll_trim",
+      "order": 600,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_scale_chain_0",
+      "filter_text": "[broll_trim_0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_0]",
+      "input_labels": [
+        "broll_trim_0"
+      ],
+      "output_label": "broll_scaled_0",
+      "stage": "broll_scale",
+      "order": 601,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_delay_chain_0",
+      "filter_text": "[broll_scaled_0]setpts=PTS+0/TB[broll_delayed_0]",
+      "input_labels": [
+        "broll_scaled_0"
+      ],
+      "output_label": "broll_delayed_0",
+      "stage": "broll_timing",
+      "order": 602,
+      "metadata": {}
+    },
+    {
+      "chain_id": "overlay_chain_0",
+      "filter_text": "[primary_video][broll_delayed_0]overlay=x=0:y=0:enable='between(t,0,3.2)':eof_action=pass[video_overlay_0]",
+      "input_labels": [
+        "primary_video",
+        "broll_delayed_0"
+      ],
+      "output_label": "video_overlay_0",
+      "stage": "overlay",
+      "order": 603,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_trim_chain_1",
+      "filter_text": "[3:v]trim=start=0:duration=3.5,setpts=PTS-STARTPTS[broll_trim_1]",
+      "input_labels": [
+        "3:v"
+      ],
+      "output_label": "broll_trim_1",
+      "stage": "broll_trim",
+      "order": 610,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_scale_chain_1",
+      "filter_text": "[broll_trim_1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_1]",
+      "input_labels": [
+        "broll_trim_1"
+      ],
+      "output_label": "broll_scaled_1",
+      "stage": "broll_scale",
+      "order": 611,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_delay_chain_1",
+      "filter_text": "[broll_scaled_1]setpts=PTS+4.5/TB[broll_delayed_1]",
+      "input_labels": [
+        "broll_scaled_1"
+      ],
+      "output_label": "broll_delayed_1",
+      "stage": "broll_timing",
+      "order": 612,
+      "metadata": {}
+    },
+    {
+      "chain_id": "overlay_chain_1",
+      "filter_text": "[video_overlay_0][broll_delayed_1]overlay=x=0:y=0:enable='between(t,4.5,8)':eof_action=pass[video_overlay_1]",
+      "input_labels": [
+        "video_overlay_0",
+        "broll_delayed_1"
+      ],
+      "output_label": "video_overlay_1",
+      "stage": "overlay",
+      "order": 613,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_trim_chain_2",
+      "filter_text": "[4:v]trim=start=0:duration=4,setpts=PTS-STARTPTS[broll_trim_2]",
+      "input_labels": [
+        "4:v"
+      ],
+      "output_label": "broll_trim_2",
+      "stage": "broll_trim",
+      "order": 620,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_scale_chain_2",
+      "filter_text": "[broll_trim_2]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_2]",
+      "input_labels": [
+        "broll_trim_2"
+      ],
+      "output_label": "broll_scaled_2",
+      "stage": "broll_scale",
+      "order": 621,
+      "metadata": {}
+    },
+    {
+      "chain_id": "broll_delay_chain_2",
+      "filter_text": "[broll_scaled_2]setpts=PTS+14/TB[broll_delayed_2]",
+      "input_labels": [
+        "broll_scaled_2"
+      ],
+      "output_label": "broll_delayed_2",
+      "stage": "broll_timing",
+      "order": 622,
+      "metadata": {}
+    },
+    {
+      "chain_id": "overlay_chain_2",
+      "filter_text": "[video_overlay_1][broll_delayed_2]overlay=x=0:y=0:enable='between(t,14,18)':eof_action=pass[video_overlay_2]",
+      "input_labels": [
+        "video_overlay_1",
+        "broll_delayed_2"
+      ],
+      "output_label": "video_overlay_2",
+      "stage": "overlay",
+      "order": 623,
+      "metadata": {}
+    },
+    {
+      "chain_id": "effect_chain_0",
+      "filter_text": "[video_overlay_2]zoompan=z='min(1+(0.1)*on/max(1,120),1.1)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,setpts=PTS-STARTPTS[video_effect_0]",
+      "input_labels": [
+        "video_overlay_2"
+      ],
+      "output_label": "video_effect_0",
+      "stage": "effect",
+      "order": 1000,
+      "metadata": {
+        "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "enable_start": "14",
+        "enable_end": "18"
+      }
+    },
+    {
+      "chain_id": "transition_chain_0",
+      "filter_text": "[video_effect_0]fade=t=in:st=14:d=0.18[video_transition_0]",
+      "input_labels": [
+        "video_effect_0"
+      ],
+      "output_label": "video_transition_0",
+      "stage": "transition",
+      "order": 1100,
+      "metadata": {
+        "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+        "transition_type": "clean_cut"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_0",
+      "filter_text": "[video_transition_0]drawtext=text='Sai lầm lớn nhất là bạn đang mất':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,0,1.333)'[subtitle_video_0]",
+      "input_labels": [
+        "video_transition_0"
+      ],
+      "output_label": "subtitle_video_0",
+      "stage": "subtitle",
+      "order": 1200,
+      "metadata": {
+        "target_id": "seg_001_cue_1"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_1",
+      "filter_text": "[subtitle_video_0]drawtext=text='quá nhiều thời gian để edit video thủ':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,1.333,2.667)'[subtitle_video_1]",
+      "input_labels": [
+        "subtitle_video_0"
+      ],
+      "output_label": "subtitle_video_1",
+      "stage": "subtitle",
+      "order": 1201,
+      "metadata": {
+        "target_id": "seg_001_cue_2"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_2",
+      "filter_text": "[subtitle_video_1]drawtext=text='công.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,2.667,4)'[subtitle_video_2]",
+      "input_labels": [
+        "subtitle_video_1"
+      ],
+      "output_label": "subtitle_video_2",
+      "stage": "subtitle",
+      "order": 1202,
+      "metadata": {
+        "target_id": "seg_001_cue_3"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_3",
+      "filter_text": "[subtitle_video_2]drawtext=text='AI có thể tự động hiểu nội dung':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,4,6.8)'[subtitle_video_3]",
+      "input_labels": [
+        "subtitle_video_2"
+      ],
+      "output_label": "subtitle_video_3",
+      "stage": "subtitle",
+      "order": 1203,
+      "metadata": {
+        "target_id": "seg_002_cue_1"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_4",
+      "filter_text": "[subtitle_video_3]drawtext=text='và dựng video nhanh hơn.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,6.8,10)'[subtitle_video_4]",
+      "input_labels": [
+        "subtitle_video_3"
+      ],
+      "output_label": "subtitle_video_4",
+      "stage": "subtitle",
+      "order": 1204,
+      "metadata": {
+        "target_id": "seg_002_cue_2"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_5",
+      "filter_text": "[subtitle_video_4]drawtext=text='Chỉ cần upload video\\, AI sẽ tự tìm':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,10,12.8)'[subtitle_video_5]",
+      "input_labels": [
+        "subtitle_video_4"
+      ],
+      "output_label": "subtitle_video_5",
+      "stage": "subtitle",
+      "order": 1205,
+      "metadata": {
+        "target_id": "seg_003_cue_1"
+      }
+    },
+    {
+      "chain_id": "subtitle_chain_6",
+      "filter_text": "[subtitle_video_5]drawtext=text='b-roll\\, nhạc\\, hiệu ứng và dựng timeline.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,12.8,18)'[subtitle_video_6]",
+      "input_labels": [
+        "subtitle_video_5"
+      ],
+      "output_label": "subtitle_video_6",
+      "stage": "subtitle",
+      "order": 1206,
+      "metadata": {
+        "target_id": "seg_003_cue_2"
+      }
+    },
+    {
+      "chain_id": "audio_trim_chain_0",
+      "filter_text": "[0:a]atrim=start=0:duration=18,asetpts=PTS-STARTPTS[audio_trim_0]",
+      "input_labels": [
+        "0:a"
+      ],
+      "output_label": "audio_trim_0",
+      "stage": "audio_trim",
+      "order": 2000,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_volume_chain_0",
+      "filter_text": "[audio_trim_0]volume=0.18[audio_volume_0]",
+      "input_labels": [
+        "audio_trim_0"
+      ],
+      "output_label": "audio_volume_0",
+      "stage": "audio_volume",
+      "order": 2001,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_delay_chain_0",
+      "filter_text": "[audio_volume_0]adelay=0|0[audio_delay_0]",
+      "input_labels": [
+        "audio_volume_0"
+      ],
+      "output_label": "audio_delay_0",
+      "stage": "audio_delay",
+      "order": 2002,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_trim_chain_1",
+      "filter_text": "[5:a]atrim=start=0:duration=0.8,asetpts=PTS-STARTPTS[audio_trim_1]",
+      "input_labels": [
+        "5:a"
+      ],
+      "output_label": "audio_trim_1",
+      "stage": "audio_trim",
+      "order": 2010,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_volume_chain_1",
+      "filter_text": "[audio_trim_1]volume=0.75[audio_volume_1]",
+      "input_labels": [
+        "audio_trim_1"
+      ],
+      "output_label": "audio_volume_1",
+      "stage": "audio_volume",
+      "order": 2011,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_delay_chain_1",
+      "filter_text": "[audio_volume_1]adelay=0|0[audio_delay_1]",
+      "input_labels": [
+        "audio_volume_1"
+      ],
+      "output_label": "audio_delay_1",
+      "stage": "audio_delay",
+      "order": 2012,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_trim_chain_2",
+      "filter_text": "[6:a]atrim=start=0:duration=0.8,asetpts=PTS-STARTPTS[audio_trim_2]",
+      "input_labels": [
+        "6:a"
+      ],
+      "output_label": "audio_trim_2",
+      "stage": "audio_trim",
+      "order": 2020,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_volume_chain_2",
+      "filter_text": "[audio_trim_2]volume=0.75[audio_volume_2]",
+      "input_labels": [
+        "audio_trim_2"
+      ],
+      "output_label": "audio_volume_2",
+      "stage": "audio_volume",
+      "order": 2021,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_delay_chain_2",
+      "filter_text": "[audio_volume_2]adelay=4000|4000[audio_delay_2]",
+      "input_labels": [
+        "audio_volume_2"
+      ],
+      "output_label": "audio_delay_2",
+      "stage": "audio_delay",
+      "order": 2022,
+      "metadata": {}
+    },
+    {
+      "chain_id": "audio_mix_chain",
+      "filter_text": "[audio_delay_0][audio_delay_1][audio_delay_2]amix=inputs=3:duration=longest:dropout_transition=0,atrim=duration=18,asetpts=PTS-STARTPTS[audio_output]",
+      "input_labels": [
+        "audio_delay_0",
+        "audio_delay_1",
+        "audio_delay_2"
+      ],
+      "output_label": "audio_output",
+      "stage": "audio_mix",
+      "order": 3000,
+      "metadata": {}
+    }
+  ],
+  "filter_complex": "[1:v]trim=start=0:duration=4,setpts=(PTS-STARTPTS)/1[primary_trim_0];[primary_trim_0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_0];[1:v]trim=start=4:duration=6,setpts=(PTS-STARTPTS)/1[primary_trim_1];[primary_trim_1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_1];[1:v]trim=start=10:duration=8,setpts=(PTS-STARTPTS)/1[primary_trim_2];[primary_trim_2]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_2];[primary_segment_0][primary_segment_1][primary_segment_2]concat=n=3:v=1:a=0[primary_video];[2:v]trim=start=0:duration=3.2,setpts=PTS-STARTPTS[broll_trim_0];[broll_trim_0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_0];[broll_scaled_0]setpts=PTS+0/TB[broll_delayed_0];[primary_video][broll_delayed_0]overlay=x=0:y=0:enable='between(t,0,3.2)':eof_action=pass[video_overlay_0];[3:v]trim=start=0:duration=3.5,setpts=PTS-STARTPTS[broll_trim_1];[broll_trim_1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_1];[broll_scaled_1]setpts=PTS+4.5/TB[broll_delayed_1];[video_overlay_0][broll_delayed_1]overlay=x=0:y=0:enable='between(t,4.5,8)':eof_action=pass[video_overlay_1];[4:v]trim=start=0:duration=4,setpts=PTS-STARTPTS[broll_trim_2];[broll_trim_2]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_2];[broll_scaled_2]setpts=PTS+14/TB[broll_delayed_2];[video_overlay_1][broll_delayed_2]overlay=x=0:y=0:enable='between(t,14,18)':eof_action=pass[video_overlay_2];[video_overlay_2]zoompan=z='min(1+(0.1)*on/max(1,120),1.1)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,setpts=PTS-STARTPTS[video_effect_0];[video_effect_0]fade=t=in:st=14:d=0.18[video_transition_0];[video_transition_0]drawtext=text='Sai lầm lớn nhất là bạn đang mất':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,0,1.333)'[subtitle_video_0];[subtitle_video_0]drawtext=text='quá nhiều thời gian để edit video thủ':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,1.333,2.667)'[subtitle_video_1];[subtitle_video_1]drawtext=text='công.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,2.667,4)'[subtitle_video_2];[subtitle_video_2]drawtext=text='AI có thể tự động hiểu nội dung':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,4,6.8)'[subtitle_video_3];[subtitle_video_3]drawtext=text='và dựng video nhanh hơn.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,6.8,10)'[subtitle_video_4];[subtitle_video_4]drawtext=text='Chỉ cần upload video\\, AI sẽ tự tìm':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,10,12.8)'[subtitle_video_5];[subtitle_video_5]drawtext=text='b-roll\\, nhạc\\, hiệu ứng và dựng timeline.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,12.8,18)'[subtitle_video_6];[0:a]atrim=start=0:duration=18,asetpts=PTS-STARTPTS[audio_trim_0];[audio_trim_0]volume=0.18[audio_volume_0];[audio_volume_0]adelay=0|0[audio_delay_0];[5:a]atrim=start=0:duration=0.8,asetpts=PTS-STARTPTS[audio_trim_1];[audio_trim_1]volume=0.75[audio_volume_1];[audio_volume_1]adelay=0|0[audio_delay_1];[6:a]atrim=start=0:duration=0.8,asetpts=PTS-STARTPTS[audio_trim_2];[audio_trim_2]volume=0.75[audio_volume_2];[audio_volume_2]adelay=4000|4000[audio_delay_2];[audio_delay_0][audio_delay_1][audio_delay_2]amix=inputs=3:duration=longest:dropout_transition=0,atrim=duration=18,asetpts=PTS-STARTPTS[audio_output]",
+  "video_output_label": "subtitle_video_6",
+  "audio_output_label": "audio_output",
+  "map_arguments": [
+    "-map",
+    "[subtitle_video_6]",
+    "-map",
+    "[audio_output]"
+  ],
+  "output_arguments": [
+    "-c:v",
+    "libx264",
+    "-pix_fmt",
+    "yuv420p",
+    "-preset",
+    "medium",
+    "-crf",
+    "23",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "192k",
+    "-r",
+    "30.0",
+    "-t",
+    "18",
+    "-movflags",
+    "+faststart"
+  ],
+  "output_path": "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+  "issues": [],
+  "metadata": {
+    "builder": "FFmpegFilterGraphBuilder",
+    "source_instruction_plan_version": "15.4.0",
+    "input_count": 7,
+    "chain_count": 38,
+    "has_video_output": true,
+    "has_audio_output": true,
+    "contract_valid": true,
+    "issue_count": 0,
+    "ffmpeg_valid": true,
+    "ffmpeg_returncode": 0
+  },
+  "command_preview": [
+    "ffmpeg",
+    "-y",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_0.mp3",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_2.mp4",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_3.mp4",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_4.mp4",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_5.mp3",
+    "-i",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_6.mp3",
+    "-filter_complex",
+    "[1:v]trim=start=0:duration=4,setpts=(PTS-STARTPTS)/1[primary_trim_0];[primary_trim_0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_0];[1:v]trim=start=4:duration=6,setpts=(PTS-STARTPTS)/1[primary_trim_1];[primary_trim_1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_1];[1:v]trim=start=10:duration=8,setpts=(PTS-STARTPTS)/1[primary_trim_2];[primary_trim_2]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,format=yuv420p[primary_segment_2];[primary_segment_0][primary_segment_1][primary_segment_2]concat=n=3:v=1:a=0[primary_video];[2:v]trim=start=0:duration=3.2,setpts=PTS-STARTPTS[broll_trim_0];[broll_trim_0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_0];[broll_scaled_0]setpts=PTS+0/TB[broll_delayed_0];[primary_video][broll_delayed_0]overlay=x=0:y=0:enable='between(t,0,3.2)':eof_action=pass[video_overlay_0];[3:v]trim=start=0:duration=3.5,setpts=PTS-STARTPTS[broll_trim_1];[broll_trim_1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_1];[broll_scaled_1]setpts=PTS+4.5/TB[broll_delayed_1];[video_overlay_0][broll_delayed_1]overlay=x=0:y=0:enable='between(t,4.5,8)':eof_action=pass[video_overlay_1];[4:v]trim=start=0:duration=4,setpts=PTS-STARTPTS[broll_trim_2];[broll_trim_2]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=rgba[broll_scaled_2];[broll_scaled_2]setpts=PTS+14/TB[broll_delayed_2];[video_overlay_1][broll_delayed_2]overlay=x=0:y=0:enable='between(t,14,18)':eof_action=pass[video_overlay_2];[video_overlay_2]zoompan=z='min(1+(0.1)*on/max(1,120),1.1)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,setpts=PTS-STARTPTS[video_effect_0];[video_effect_0]fade=t=in:st=14:d=0.18[video_transition_0];[video_transition_0]drawtext=text='Sai lầm lớn nhất là bạn đang mất':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,0,1.333)'[subtitle_video_0];[subtitle_video_0]drawtext=text='quá nhiều thời gian để edit video thủ':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,1.333,2.667)'[subtitle_video_1];[subtitle_video_1]drawtext=text='công.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,2.667,4)'[subtitle_video_2];[subtitle_video_2]drawtext=text='AI có thể tự động hiểu nội dung':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,4,6.8)'[subtitle_video_3];[subtitle_video_3]drawtext=text='và dựng video nhanh hơn.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,6.8,10)'[subtitle_video_4];[subtitle_video_4]drawtext=text='Chỉ cần upload video\\, AI sẽ tự tìm':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,10,12.8)'[subtitle_video_5];[subtitle_video_5]drawtext=text='b-roll\\, nhạc\\, hiệu ứng và dựng timeline.':fontsize=54:fontcolor=FFFFFF:borderw=3:bordercolor=000000:x=(w-text_w)/2:y=h-text_h-120:enable='between(t,12.8,18)'[subtitle_video_6];[0:a]atrim=start=0:duration=18,asetpts=PTS-STARTPTS[audio_trim_0];[audio_trim_0]volume=0.18[audio_volume_0];[audio_volume_0]adelay=0|0[audio_delay_0];[5:a]atrim=start=0:duration=0.8,asetpts=PTS-STARTPTS[audio_trim_1];[audio_trim_1]volume=0.75[audio_volume_1];[audio_volume_1]adelay=0|0[audio_delay_1];[6:a]atrim=start=0:duration=0.8,asetpts=PTS-STARTPTS[audio_trim_2];[audio_trim_2]volume=0.75[audio_volume_2];[audio_volume_2]adelay=4000|4000[audio_delay_2];[audio_delay_0][audio_delay_1][audio_delay_2]amix=inputs=3:duration=longest:dropout_transition=0,atrim=duration=18,asetpts=PTS-STARTPTS[audio_output]",
+    "-map",
+    "[subtitle_video_6]",
+    "-map",
+    "[audio_output]",
+    "-c:v",
+    "libx264",
+    "-pix_fmt",
+    "yuv420p",
+    "-preset",
+    "medium",
+    "-crf",
+    "23",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "192k",
+    "-r",
+    "30.0",
+    "-t",
+    "18",
+    "-movflags",
+    "+faststart",
+    "storage/ffmpeg_filtergraph_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4"
+  ]
+}
