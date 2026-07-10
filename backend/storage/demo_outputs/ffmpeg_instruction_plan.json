@@ -1,0 +1,1028 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "version": "15.4.0",
+  "duration": 18.0,
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30.0
+  },
+  "inputs": [
+    {
+      "input_id": "input_0",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_0.mp3",
+      "input_type": "audio",
+      "ffmpeg_input_index": 0,
+      "asset_id": "c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "duration": 18.0,
+      "has_video": false,
+      "has_audio": true,
+      "metadata": {
+        "checksum": "f19e8fea303e408196e1dd3eab301d64d04c1120e23b53c235c85db5ac96a9fa",
+        "file_size": 289270,
+        "source_path": "storage/assets/music/internal_music/internal_music_corporate_background_music.mp3"
+      }
+    },
+    {
+      "input_id": "input_1",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
+      "input_type": "video",
+      "ffmpeg_input_index": 1,
+      "asset_id": "demo_source_asset",
+      "duration": 18.0,
+      "has_video": true,
+      "has_audio": true,
+      "metadata": {
+        "checksum": "173d08f0284a311b7b0ef82ea647ec31b34a6ab6328acb9fcb9e135b83555830",
+        "file_size": 216838,
+        "source_path": "storage/uploads/demo_source_video.mp4"
+      }
+    },
+    {
+      "input_id": "input_2",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_2.mp4",
+      "input_type": "video",
+      "ffmpeg_input_index": 2,
+      "asset_id": "ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "duration": 10.01,
+      "has_video": true,
+      "has_audio": false,
+      "metadata": {
+        "checksum": "8fe6a24d7000182340a591bf7c7564ec8dad76e8d2e29af2d2d07493ebe0c291",
+        "file_size": 4755199,
+        "source_path": "storage/assets/broll/pexels/pexels_6342236.mp4"
+      }
+    },
+    {
+      "input_id": "input_3",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_3.mp4",
+      "input_type": "video",
+      "ffmpeg_input_index": 3,
+      "asset_id": "f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "duration": 10.01,
+      "has_video": true,
+      "has_audio": false,
+      "metadata": {
+        "checksum": "22be31372b82485027666e00bc4fafa6be2823150529db22b9ad4e0a99d3bfdf",
+        "file_size": 7378765,
+        "source_path": "storage/assets/broll/pexels/pexels_12896410.mp4"
+      }
+    },
+    {
+      "input_id": "input_4",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_4.mp4",
+      "input_type": "video",
+      "ffmpeg_input_index": 4,
+      "asset_id": "558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "duration": 10.01,
+      "has_video": true,
+      "has_audio": false,
+      "metadata": {
+        "checksum": "a260e7c9fe8c390f362f7301eb326d4fa7b574d6836c18991097f007b194d0e7",
+        "file_size": 847762,
+        "source_path": "storage/assets/broll/pexels/pexels_12894327.mp4"
+      }
+    },
+    {
+      "input_id": "input_5",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_5.mp3",
+      "input_type": "audio",
+      "ffmpeg_input_index": 5,
+      "asset_id": "79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "duration": 1.21576,
+      "has_video": false,
+      "has_audio": true,
+      "metadata": {
+        "checksum": "cee627b4a2270cd89b5b1fa2bdf195651ce65c903509cb9871b05c0384ffb940",
+        "file_size": 30943,
+        "source_path": "storage/assets/sound_effect/freesound/freesound_460469.mp3"
+      }
+    },
+    {
+      "input_id": "input_6",
+      "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_6.mp3",
+      "input_type": "audio",
+      "ffmpeg_input_index": 6,
+      "asset_id": "d096e6d1-f912-4677-931d-f37f57627e7e",
+      "duration": 1.21576,
+      "has_video": false,
+      "has_audio": true,
+      "metadata": {
+        "checksum": "350fc14e3736f258a1190969f3d326baca5ea17c2f70206e10d7b9f92baae04b",
+        "file_size": 30266,
+        "source_path": "storage/assets/sound_effect/freesound/freesound_460473.mp3"
+      }
+    }
+  ],
+  "instructions": [
+    {
+      "instruction_id": "ffmpeg_audio_trim_clip_instruction_music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "instruction_type": "trim_audio",
+      "stream_type": "audio",
+      "start_time": 0.0,
+      "end_time": 18.0,
+      "duration": 18.0,
+      "source_input_id": "input_0",
+      "source_stream_label": "0:a",
+      "output_stream_label": "a_trim_music_c996d48e_9459_4f15_8a1e_e99bf97c2e41",
+      "target_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "layer": 1,
+      "order": 0,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 18.0,
+        "reset_pts": true
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_trim_clip_instruction_seg_001_source",
+      "instruction_type": "trim_video",
+      "stream_type": "video",
+      "start_time": 0.0,
+      "end_time": 4.0,
+      "duration": 4.0,
+      "source_input_id": "input_1",
+      "source_stream_label": "1:v",
+      "output_stream_label": "v_trim_seg_001_source",
+      "target_id": "seg_001_source",
+      "layer": 1,
+      "order": 1,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 4.0,
+        "reset_pts": true,
+        "speed": 1.0
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_001_source"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_scale_clip_instruction_seg_001_source",
+      "instruction_type": "scale",
+      "stream_type": "video",
+      "start_time": 0.0,
+      "end_time": 4.0,
+      "duration": 4.0,
+      "source_input_id": null,
+      "source_stream_label": "v_trim_seg_001_source",
+      "output_stream_label": "v_scaled_seg_001_source",
+      "target_id": "seg_001_source",
+      "layer": 1,
+      "order": 2,
+      "parameters": {
+        "width": 1080,
+        "height": 1920,
+        "fit_mode": "cover",
+        "pixel_format": "yuv420p"
+      },
+      "dependencies": [
+        "ffmpeg_trim_clip_instruction_seg_001_source"
+      ],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_001_source"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_volume_clip_instruction_music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "instruction_type": "volume",
+      "stream_type": "audio",
+      "start_time": 0.0,
+      "end_time": 18.0,
+      "duration": 18.0,
+      "source_input_id": null,
+      "source_stream_label": "a_trim_music_c996d48e_9459_4f15_8a1e_e99bf97c2e41",
+      "output_stream_label": "a_volume_music_c996d48e_9459_4f15_8a1e_e99bf97c2e41",
+      "target_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "layer": 1,
+      "order": 3,
+      "parameters": {
+        "volume": 0.18
+      },
+      "dependencies": [
+        "ffmpeg_audio_trim_clip_instruction_music_c996d48e-9459-4f15-8a1e-e99bf97c2e41"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_audio_delay_clip_instruction_music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "instruction_type": "audio_delay",
+      "stream_type": "audio",
+      "start_time": 0.0,
+      "end_time": 18.0,
+      "duration": 18.0,
+      "source_input_id": null,
+      "source_stream_label": "a_volume_music_c996d48e_9459_4f15_8a1e_e99bf97c2e41",
+      "output_stream_label": "a_delay_music_c996d48e_9459_4f15_8a1e_e99bf97c2e41",
+      "target_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
+      "layer": 1,
+      "order": 4,
+      "parameters": {
+        "delay_ms": 0
+      },
+      "dependencies": [
+        "ffmpeg_volume_clip_instruction_music_c996d48e-9459-4f15-8a1e-e99bf97c2e41"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_audio_trim_clip_instruction_sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "instruction_type": "trim_audio",
+      "stream_type": "audio",
+      "start_time": 0.0,
+      "end_time": 0.8,
+      "duration": 0.8,
+      "source_input_id": "input_5",
+      "source_stream_label": "5:a",
+      "output_stream_label": "a_trim_sfx_79e8f3b3_57f4_489a_a6b5_d48d355a5f80",
+      "target_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "layer": 2,
+      "order": 5,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 0.8,
+        "reset_pts": true
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_trim_clip_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "instruction_type": "trim_video",
+      "stream_type": "video",
+      "start_time": 0.0,
+      "end_time": 3.2,
+      "duration": 3.2,
+      "source_input_id": "input_2",
+      "source_stream_label": "2:v",
+      "output_stream_label": "overlay_trim_seg_001_ba654057_0ff0_40dd_9b0a_c91832c7c1e7",
+      "target_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "layer": 2,
+      "order": 6,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 3.2,
+        "reset_pts": true,
+        "speed": 1.0
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_scale_clip_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "instruction_type": "scale",
+      "stream_type": "video",
+      "start_time": 0.0,
+      "end_time": 3.2,
+      "duration": 3.2,
+      "source_input_id": null,
+      "source_stream_label": "overlay_trim_seg_001_ba654057_0ff0_40dd_9b0a_c91832c7c1e7",
+      "output_stream_label": "overlay_scaled_seg_001_ba654057_0ff0_40dd_9b0a_c91832c7c1e7",
+      "target_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "layer": 2,
+      "order": 7,
+      "parameters": {
+        "width": 1080,
+        "height": 1920,
+        "fit_mode": "cover",
+        "opacity": 1.0
+      },
+      "dependencies": [
+        "ffmpeg_trim_clip_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_volume_clip_instruction_sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "instruction_type": "volume",
+      "stream_type": "audio",
+      "start_time": 0.0,
+      "end_time": 0.8,
+      "duration": 0.8,
+      "source_input_id": null,
+      "source_stream_label": "a_trim_sfx_79e8f3b3_57f4_489a_a6b5_d48d355a5f80",
+      "output_stream_label": "a_volume_sfx_79e8f3b3_57f4_489a_a6b5_d48d355a5f80",
+      "target_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "layer": 2,
+      "order": 8,
+      "parameters": {
+        "volume": 0.75
+      },
+      "dependencies": [
+        "ffmpeg_audio_trim_clip_instruction_sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_audio_delay_clip_instruction_sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "instruction_type": "audio_delay",
+      "stream_type": "audio",
+      "start_time": 0.0,
+      "end_time": 0.8,
+      "duration": 0.8,
+      "source_input_id": null,
+      "source_stream_label": "a_volume_sfx_79e8f3b3_57f4_489a_a6b5_d48d355a5f80",
+      "output_stream_label": "a_delay_sfx_79e8f3b3_57f4_489a_a6b5_d48d355a5f80",
+      "target_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
+      "layer": 2,
+      "order": 9,
+      "parameters": {
+        "delay_ms": 0
+      },
+      "dependencies": [
+        "ffmpeg_volume_clip_instruction_sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_overlay_clip_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "instruction_type": "overlay",
+      "stream_type": "video",
+      "start_time": 0.0,
+      "end_time": 3.2,
+      "duration": 3.2,
+      "source_input_id": null,
+      "source_stream_label": "overlay_scaled_seg_001_ba654057_0ff0_40dd_9b0a_c91832c7c1e7",
+      "output_stream_label": "overlay_output_seg_001_ba654057_0ff0_40dd_9b0a_c91832c7c1e7",
+      "target_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
+      "layer": 2,
+      "order": 10,
+      "parameters": {
+        "x": 0,
+        "y": 0,
+        "enable_start": 0.0,
+        "enable_end": 3.2,
+        "opacity": 1.0
+      },
+      "dependencies": [
+        "ffmpeg_scale_clip_instruction_seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_001_cue_1",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 0.0,
+      "end_time": 1.333,
+      "duration": 1.333,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_001_cue_1",
+      "layer": 10,
+      "order": 11,
+      "parameters": {
+        "text": "Sai lầm lớn nhất là bạn đang mất",
+        "enable_start": 0.0,
+        "enable_end": 1.333,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "AI"
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_001_cue_1"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_encode_output",
+      "instruction_type": "encode",
+      "stream_type": "output",
+      "start_time": 0.0,
+      "end_time": 18.0,
+      "duration": 18.0,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": null,
+      "layer": 1000,
+      "order": 12,
+      "parameters": {
+        "video_codec": "libx264",
+        "audio_codec": "aac",
+        "pixel_format": "yuv420p",
+        "preset": "medium",
+        "crf": 23,
+        "video_bitrate": null,
+        "audio_bitrate": "192k",
+        "width": 1080,
+        "height": 1920,
+        "fps": 30.0,
+        "output_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+        "overwrite": true
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_001_cue_2",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 1.333,
+      "end_time": 2.667,
+      "duration": 1.3339999999999999,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_001_cue_2",
+      "layer": 10,
+      "order": 13,
+      "parameters": {
+        "text": "quá nhiều thời gian để edit video thủ",
+        "enable_start": 1.333,
+        "enable_end": 2.667,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "video",
+          "edit"
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_001_cue_2"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_001_cue_3",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 2.667,
+      "end_time": 4.0,
+      "duration": 1.3330000000000002,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_001_cue_3",
+      "layer": 10,
+      "order": 14,
+      "parameters": {
+        "text": "công.",
+        "enable_start": 2.667,
+        "enable_end": 4.0,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "công."
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_001_cue_3"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_trim_clip_instruction_seg_002_source",
+      "instruction_type": "trim_video",
+      "stream_type": "video",
+      "start_time": 4.0,
+      "end_time": 10.0,
+      "duration": 6.0,
+      "source_input_id": "input_1",
+      "source_stream_label": "1:v",
+      "output_stream_label": "v_trim_seg_002_source",
+      "target_id": "seg_002_source",
+      "layer": 1,
+      "order": 15,
+      "parameters": {
+        "trim_start": 4.0,
+        "trim_duration": 6.0,
+        "reset_pts": true,
+        "speed": 1.0
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_002_source"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_scale_clip_instruction_seg_002_source",
+      "instruction_type": "scale",
+      "stream_type": "video",
+      "start_time": 4.0,
+      "end_time": 10.0,
+      "duration": 6.0,
+      "source_input_id": null,
+      "source_stream_label": "v_trim_seg_002_source",
+      "output_stream_label": "v_scaled_seg_002_source",
+      "target_id": "seg_002_source",
+      "layer": 1,
+      "order": 16,
+      "parameters": {
+        "width": 1080,
+        "height": 1920,
+        "fit_mode": "cover",
+        "pixel_format": "yuv420p"
+      },
+      "dependencies": [
+        "ffmpeg_trim_clip_instruction_seg_002_source"
+      ],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_002_source"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_audio_trim_clip_instruction_sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+      "instruction_type": "trim_audio",
+      "stream_type": "audio",
+      "start_time": 4.0,
+      "end_time": 4.8,
+      "duration": 0.7999999999999998,
+      "source_input_id": "input_6",
+      "source_stream_label": "6:a",
+      "output_stream_label": "a_trim_sfx_d096e6d1_f912_4677_931d_f37f57627e7e",
+      "target_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+      "layer": 2,
+      "order": 17,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 0.7999999999999998,
+        "reset_pts": true
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_volume_clip_instruction_sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+      "instruction_type": "volume",
+      "stream_type": "audio",
+      "start_time": 4.0,
+      "end_time": 4.8,
+      "duration": 0.7999999999999998,
+      "source_input_id": null,
+      "source_stream_label": "a_trim_sfx_d096e6d1_f912_4677_931d_f37f57627e7e",
+      "output_stream_label": "a_volume_sfx_d096e6d1_f912_4677_931d_f37f57627e7e",
+      "target_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+      "layer": 2,
+      "order": 18,
+      "parameters": {
+        "volume": 0.75
+      },
+      "dependencies": [
+        "ffmpeg_audio_trim_clip_instruction_sfx_d096e6d1-f912-4677-931d-f37f57627e7e"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_audio_delay_clip_instruction_sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+      "instruction_type": "audio_delay",
+      "stream_type": "audio",
+      "start_time": 4.0,
+      "end_time": 4.8,
+      "duration": 0.7999999999999998,
+      "source_input_id": null,
+      "source_stream_label": "a_volume_sfx_d096e6d1_f912_4677_931d_f37f57627e7e",
+      "output_stream_label": "a_delay_sfx_d096e6d1_f912_4677_931d_f37f57627e7e",
+      "target_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
+      "layer": 2,
+      "order": 19,
+      "parameters": {
+        "delay_ms": 4000
+      },
+      "dependencies": [
+        "ffmpeg_volume_clip_instruction_sfx_d096e6d1-f912-4677-931d-f37f57627e7e"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_002_cue_1",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 4.0,
+      "end_time": 6.8,
+      "duration": 2.8,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_002_cue_1",
+      "layer": 10,
+      "order": 20,
+      "parameters": {
+        "text": "AI có thể tự động hiểu nội dung",
+        "enable_start": 4.0,
+        "enable_end": 6.8,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "AI",
+          "tự động"
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_002_cue_1"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_trim_clip_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "instruction_type": "trim_video",
+      "stream_type": "video",
+      "start_time": 4.5,
+      "end_time": 8.0,
+      "duration": 3.5,
+      "source_input_id": "input_3",
+      "source_stream_label": "3:v",
+      "output_stream_label": "overlay_trim_seg_002_f179b2f2_8b58_4654_8a4e_852b9298607a",
+      "target_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "layer": 2,
+      "order": 21,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 3.5,
+        "reset_pts": true,
+        "speed": 1.0
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_scale_clip_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "instruction_type": "scale",
+      "stream_type": "video",
+      "start_time": 4.5,
+      "end_time": 8.0,
+      "duration": 3.5,
+      "source_input_id": null,
+      "source_stream_label": "overlay_trim_seg_002_f179b2f2_8b58_4654_8a4e_852b9298607a",
+      "output_stream_label": "overlay_scaled_seg_002_f179b2f2_8b58_4654_8a4e_852b9298607a",
+      "target_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "layer": 2,
+      "order": 22,
+      "parameters": {
+        "width": 1080,
+        "height": 1920,
+        "fit_mode": "cover",
+        "opacity": 1.0
+      },
+      "dependencies": [
+        "ffmpeg_trim_clip_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_overlay_clip_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "instruction_type": "overlay",
+      "stream_type": "video",
+      "start_time": 4.5,
+      "end_time": 8.0,
+      "duration": 3.5,
+      "source_input_id": null,
+      "source_stream_label": "overlay_scaled_seg_002_f179b2f2_8b58_4654_8a4e_852b9298607a",
+      "output_stream_label": "overlay_output_seg_002_f179b2f2_8b58_4654_8a4e_852b9298607a",
+      "target_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
+      "layer": 2,
+      "order": 23,
+      "parameters": {
+        "x": 0,
+        "y": 0,
+        "enable_start": 4.5,
+        "enable_end": 8.0,
+        "opacity": 1.0
+      },
+      "dependencies": [
+        "ffmpeg_scale_clip_instruction_seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_002_cue_2",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 6.8,
+      "end_time": 10.0,
+      "duration": 3.2,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_002_cue_2",
+      "layer": 10,
+      "order": 24,
+      "parameters": {
+        "text": "và dựng video nhanh hơn.",
+        "enable_start": 6.8,
+        "enable_end": 10.0,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "video"
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_002_cue_2"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_trim_clip_instruction_seg_003_source",
+      "instruction_type": "trim_video",
+      "stream_type": "video",
+      "start_time": 10.0,
+      "end_time": 18.0,
+      "duration": 8.0,
+      "source_input_id": "input_1",
+      "source_stream_label": "1:v",
+      "output_stream_label": "v_trim_seg_003_source",
+      "target_id": "seg_003_source",
+      "layer": 1,
+      "order": 25,
+      "parameters": {
+        "trim_start": 10.0,
+        "trim_duration": 8.0,
+        "reset_pts": true,
+        "speed": 1.0
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_003_source"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_scale_clip_instruction_seg_003_source",
+      "instruction_type": "scale",
+      "stream_type": "video",
+      "start_time": 10.0,
+      "end_time": 18.0,
+      "duration": 8.0,
+      "source_input_id": null,
+      "source_stream_label": "v_trim_seg_003_source",
+      "output_stream_label": "v_scaled_seg_003_source",
+      "target_id": "seg_003_source",
+      "layer": 1,
+      "order": 26,
+      "parameters": {
+        "width": 1080,
+        "height": 1920,
+        "fit_mode": "cover",
+        "pixel_format": "yuv420p"
+      },
+      "dependencies": [
+        "ffmpeg_trim_clip_instruction_seg_003_source"
+      ],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_003_source"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_003_cue_1",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 10.0,
+      "end_time": 12.8,
+      "duration": 2.8000000000000007,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_003_cue_1",
+      "layer": 10,
+      "order": 27,
+      "parameters": {
+        "text": "Chỉ cần upload video, AI sẽ tự tìm",
+        "enable_start": 10.0,
+        "enable_end": 12.8,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "AI",
+          "video",
+          "upload"
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_003_cue_1"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_subtitle_clip_instruction_seg_003_cue_2",
+      "instruction_type": "draw_subtitle",
+      "stream_type": "subtitle",
+      "start_time": 12.8,
+      "end_time": 18.0,
+      "duration": 5.199999999999999,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_003_cue_2",
+      "layer": 10,
+      "order": 28,
+      "parameters": {
+        "text": "b-roll, nhạc, hiệu ứng và dựng timeline.",
+        "enable_start": 12.8,
+        "enable_end": 18.0,
+        "font_family": "Noto Sans",
+        "font_size": 54,
+        "font_color": "#FFFFFF",
+        "stroke_color": "#000000",
+        "stroke_width": 3,
+        "position": "bottom",
+        "highlight_words": [
+          "b-roll",
+          "nhạc",
+          "hiệu ứng",
+          "timeline"
+        ]
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "clip_instruction_seg_003_cue_2"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_trim_clip_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "instruction_type": "trim_video",
+      "stream_type": "video",
+      "start_time": 14.0,
+      "end_time": 18.0,
+      "duration": 4.0,
+      "source_input_id": "input_4",
+      "source_stream_label": "4:v",
+      "output_stream_label": "overlay_trim_seg_003_558da4ff_fa83_474a_9f36_6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "layer": 2,
+      "order": 29,
+      "parameters": {
+        "trim_start": 0.0,
+        "trim_duration": 4.0,
+        "reset_pts": true,
+        "speed": 1.0
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_scale_clip_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "instruction_type": "scale",
+      "stream_type": "video",
+      "start_time": 14.0,
+      "end_time": 18.0,
+      "duration": 4.0,
+      "source_input_id": null,
+      "source_stream_label": "overlay_trim_seg_003_558da4ff_fa83_474a_9f36_6ce06875a68d",
+      "output_stream_label": "overlay_scaled_seg_003_558da4ff_fa83_474a_9f36_6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "layer": 2,
+      "order": 30,
+      "parameters": {
+        "width": 1080,
+        "height": 1920,
+        "fit_mode": "cover",
+        "opacity": 1.0
+      },
+      "dependencies": [
+        "ffmpeg_trim_clip_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_overlay_clip_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "instruction_type": "overlay",
+      "stream_type": "video",
+      "start_time": 14.0,
+      "end_time": 18.0,
+      "duration": 4.0,
+      "source_input_id": null,
+      "source_stream_label": "overlay_scaled_seg_003_558da4ff_fa83_474a_9f36_6ce06875a68d",
+      "output_stream_label": "overlay_output_seg_003_558da4ff_fa83_474a_9f36_6ce06875a68d",
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "layer": 2,
+      "order": 31,
+      "parameters": {
+        "x": 0,
+        "y": 0,
+        "enable_start": 14.0,
+        "enable_end": 18.0,
+        "opacity": 1.0
+      },
+      "dependencies": [
+        "ffmpeg_scale_clip_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d"
+      ],
+      "status": "valid",
+      "metadata": {}
+    },
+    {
+      "instruction_id": "ffmpeg_effect_effect_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_camera",
+      "instruction_type": "apply_video_effect",
+      "stream_type": "video",
+      "start_time": 14.0,
+      "end_time": 18.0,
+      "duration": 4.0,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "layer": 100,
+      "order": 32,
+      "parameters": {
+        "effect_type": "camera_movement",
+        "movement_type": "cta_scale_up",
+        "crop_mode": "center_crop",
+        "scale_from": 1.0,
+        "scale_to": 1.1,
+        "x_from": 0.5,
+        "y_from": 0.5,
+        "x_to": 0.5,
+        "y_to": 0.5
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "effect_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_camera"
+      }
+    },
+    {
+      "instruction_id": "ffmpeg_transition_transition_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_transition",
+      "instruction_type": "apply_transition",
+      "stream_type": "video",
+      "start_time": 14.0,
+      "end_time": 14.18,
+      "duration": 0.17999999999999972,
+      "source_input_id": null,
+      "source_stream_label": null,
+      "output_stream_label": null,
+      "target_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
+      "layer": 101,
+      "order": 33,
+      "parameters": {
+        "transition_type": "clean_cut",
+        "duration": 0.18,
+        "intensity": "low"
+      },
+      "dependencies": [],
+      "status": "valid",
+      "metadata": {
+        "source_timeline_instruction": "transition_instruction_seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d_transition"
+      }
+    }
+  ],
+  "issues": [],
+  "metadata": {
+    "compiler": "FFmpegInstructionCompiler",
+    "input_count": 7,
+    "instruction_count": 34,
+    "issue_count": 0,
+    "source_execution_timeline_version": "14.13.0",
+    "valid": true,
+    "valid_instruction_count": 34
+  }
+}
