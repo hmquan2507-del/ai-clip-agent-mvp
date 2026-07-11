@@ -1,0 +1,37 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "success": true,
+  "returncode": 0,
+  "output_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+  "command": {
+    "binary": "ffmpeg",
+    "arguments": [],
+    "command": [
+      "ffmpeg"
+    ],
+    "output_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+    "duration": 18.0,
+    "metadata": {
+      "source": "render_recovery_runtime",
+      "reconstructed": true
+    }
+  },
+  "started_at": "2026-07-11T04:38:11.587281+00:00",
+  "finished_at": "2026-07-11T04:38:23.125347+00:00",
+  "duration_seconds": 11.538012,
+  "progress_events": [],
+  "issues": [],
+  "stderr_tail": null,
+  "output_file_size": 8368750,
+  "output_duration": 18.0,
+  "output_width": 1080,
+  "output_height": 1920,
+  "output_fps": 30.0,
+  "output_video_codec": "h264",
+  "output_audio_codec": "aac",
+  "metadata": {
+    "executor": "FFmpegEncodeNodeExecutor",
+    "recovery_enabled": true,
+    "reconstructed_execution_payload": true
+  }
+}

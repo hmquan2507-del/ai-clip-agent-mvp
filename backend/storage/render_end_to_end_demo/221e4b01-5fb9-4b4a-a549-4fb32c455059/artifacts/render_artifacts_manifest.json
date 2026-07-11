@@ -1,0 +1,69 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "success": true,
+  "artifacts": [
+    {
+      "artifact_id": "final_video",
+      "artifact_type": "final_video",
+      "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+      "mime_type": "video/mp4",
+      "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd",
+      "file_size": 8368750,
+      "duration": 18.0,
+      "width": 1080,
+      "height": 1920,
+      "fps": 30.0,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "metadata": {
+        "source_output_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+        "ffmpeg_returncode": 0
+      }
+    },
+    {
+      "artifact_id": "thumbnail",
+      "artifact_type": "thumbnail",
+      "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
+      "mime_type": "image/jpeg",
+      "checksum": "3488b10b5ec85a1c1df216ca8f6036bcd5f7881af30c64d4fb065304598c359e",
+      "file_size": 202647,
+      "duration": null,
+      "width": null,
+      "height": null,
+      "fps": null,
+      "video_codec": null,
+      "audio_codec": null,
+      "metadata": {
+        "source_video": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+        "capture_time": 1.0
+      }
+    },
+    {
+      "artifact_id": "render_report",
+      "artifact_type": "render_report",
+      "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
+      "mime_type": "application/json",
+      "checksum": "1e1fe6f3ae54bce18b82a8cae206137380850036435f93b844d5166c9308a1a8",
+      "file_size": 1065,
+      "duration": null,
+      "width": null,
+      "height": null,
+      "fps": null,
+      "video_codec": null,
+      "audio_codec": null,
+      "metadata": {
+        "success": true,
+        "returncode": 0
+      }
+    }
+  ],
+  "issues": [],
+  "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+  "metadata": {
+    "runtime": "RenderArtifactStore",
+    "artifact_count": 3,
+    "issue_count": 0,
+    "generate_thumbnail": true,
+    "generate_report": true
+  }
+}

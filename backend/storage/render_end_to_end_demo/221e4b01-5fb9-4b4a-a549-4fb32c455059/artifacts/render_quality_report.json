@@ -1,0 +1,193 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "output_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+  "status": "approved",
+  "quality_score": 100.0,
+  "checks": [
+    {
+      "check_type": "media_validation",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output passed media validation.",
+      "expected": null,
+      "actual": {
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+        "valid": true,
+        "duration": 18.0,
+        "width": 1080,
+        "height": 1920,
+        "fps": 30.0,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "has_video": true,
+        "has_audio": true,
+        "errors": [],
+        "metadata": {
+          "file_size": 8368750,
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
+        }
+      },
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "file_integrity",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output file integrity passed.",
+      "expected": null,
+      "actual": {
+        "file_size": 8368750,
+        "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd"
+      },
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "duration",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output duration matches timeline.",
+      "expected": 18.0,
+      "actual": 18.0,
+      "intervals": [],
+      "metadata": {
+        "difference_seconds": 0.0
+      }
+    },
+    {
+      "check_type": "resolution",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output resolution is correct.",
+      "expected": {
+        "width": 1080,
+        "height": 1920
+      },
+      "actual": {
+        "width": 1080,
+        "height": 1920
+      },
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "fps",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output FPS is correct.",
+      "expected": 30.0,
+      "actual": 30.0,
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "video_codec",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output video codec is supported.",
+      "expected": [
+        "av1",
+        "h264",
+        "hevc",
+        "vp9"
+      ],
+      "actual": "h264",
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "audio_codec",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Output audio codec is supported.",
+      "expected": [
+        "aac",
+        "mp3",
+        "opus",
+        "vorbis"
+      ],
+      "actual": "aac",
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "black_frame",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Black-frame detection completed.",
+      "expected": null,
+      "actual": {
+        "black_duration": 0,
+        "black_ratio": 0.0
+      },
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "silence",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Silence detection completed.",
+      "expected": null,
+      "actual": {
+        "silence_duration": 0,
+        "silence_ratio": 0.0
+      },
+      "intervals": [],
+      "metadata": {}
+    },
+    {
+      "check_type": "artifact_integrity",
+      "status": "pass",
+      "score": 100.0,
+      "message": "Final artifact integrity passed.",
+      "expected": null,
+      "actual": {
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+        "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd",
+        "file_size": 8368750
+      },
+      "intervals": [],
+      "metadata": {}
+    }
+  ],
+  "approved": true,
+  "warning_count": 0,
+  "failure_count": 0,
+  "report_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_quality_report.json",
+  "metadata": {
+    "runtime": "RenderQualityGate",
+    "thresholds": {
+      "duration_tolerance_seconds": 0.5,
+      "expected_width": 1080,
+      "expected_height": 1920,
+      "expected_fps": 30.0,
+      "fps_tolerance": 0.5,
+      "allowed_video_codecs": [
+        "av1",
+        "h264",
+        "hevc",
+        "vp9"
+      ],
+      "allowed_audio_codecs": [
+        "aac",
+        "mp3",
+        "opus",
+        "vorbis"
+      ],
+      "black_frame_min_duration": 1.0,
+      "black_frame_picture_threshold": 0.98,
+      "black_frame_pixel_threshold": 0.1,
+      "silence_min_duration": 2.0,
+      "silence_noise_threshold_db": -50.0,
+      "max_black_ratio_warning": 0.1,
+      "max_black_ratio_reject": 0.3,
+      "max_silence_ratio_warning": 0.25,
+      "max_silence_ratio_reject": 0.6,
+      "minimum_quality_score": 70.0,
+      "warning_quality_score": 85.0
+    },
+    "check_count": 10
+  }
+}
