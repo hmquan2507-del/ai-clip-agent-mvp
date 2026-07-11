@@ -1,0 +1,62 @@
+[
+  {
+    "stage": "primary_concat",
+    "render_success": true,
+    "returncode": 0,
+    "output_label": "primary_video",
+    "output_path": "storage/demo_outputs/debug_video_stages/primary_concat.mp4",
+    "black_detected": false,
+    "black_duration": 0.0,
+    "black_ratio": 0.0,
+    "black_lines": [],
+    "error": null
+  },
+  {
+    "stage": "overlay",
+    "render_success": true,
+    "returncode": 0,
+    "output_label": "video_overlay_2",
+    "output_path": "storage/demo_outputs/debug_video_stages/overlay.mp4",
+    "black_detected": false,
+    "black_duration": 0.0,
+    "black_ratio": 0.0,
+    "black_lines": [],
+    "error": null
+  },
+  {
+    "stage": "effect",
+    "render_success": true,
+    "returncode": 0,
+    "output_label": "video_effect_0",
+    "output_path": "storage/demo_outputs/debug_video_stages/effect.mp4",
+    "black_detected": false,
+    "black_duration": 0.0,
+    "black_ratio": 0.0,
+    "black_lines": [],
+    "error": null
+  },
+  {
+    "stage": "transition",
+    "render_success": true,
+    "returncode": 0,
+    "output_label": "video_transition_0",
+    "output_path": "storage/demo_outputs/debug_video_stages/transition.mp4",
+    "black_detected": false,
+    "black_duration": 0.0,
+    "black_ratio": 0.0,
+    "black_lines": [],
+    "error": null
+  },
+  {
+    "stage": "subtitle",
+    "render_success": true,
+    "returncode": 0,
+    "output_label": "subtitle_video_6",
+    "output_path": "storage/demo_outputs/debug_video_stages/subtitle.mp4",
+    "black_detected": false,
+    "black_duration": 0.0,
+    "black_ratio": 0.0,
+    "black_lines": [],
+    "error": null
+  }
+]

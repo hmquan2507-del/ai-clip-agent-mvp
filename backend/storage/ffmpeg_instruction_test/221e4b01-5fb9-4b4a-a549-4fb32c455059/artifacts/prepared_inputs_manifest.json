@@ -48,8 +48,8 @@
       "source_path": "storage/uploads/demo_source_video.mp4",
       "prepared_path": "storage/ffmpeg_instruction_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
       "asset_id": "demo_source_asset",
-      "checksum": "173d08f0284a311b7b0ef82ea647ec31b34a6ab6328acb9fcb9e135b83555830",
-      "file_size": 216838,
+      "checksum": "f764ab109eb770f29b64d9265d1b9306c2ac6f7582df32b485f8c8f35f717d9a",
+      "file_size": 15782943,
       "duration": 18.0,
       "width": 1080,
       "height": 1920,
@@ -59,8 +59,8 @@
       "has_video": true,
       "has_audio": true,
       "copied": false,
-      "linked": false,
-      "reused": true,
+      "linked": true,
+      "reused": false,
       "metadata": {
         "clip_id": "seg_001_source",
         "track_type": "video_primary",
@@ -80,7 +80,7 @@
           "has_audio": true,
           "errors": [],
           "metadata": {
-            "file_size": 216838,
+            "file_size": 15782943,
             "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
           }
         }

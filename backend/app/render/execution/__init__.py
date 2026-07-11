@@ -101,7 +101,17 @@ from app.render.execution.recovery import (
     build_render_failure_classifier,
     build_render_recovery_runtime,
 )
-
+from app.render.execution.quality import (
+    RenderQualityCheck,
+    RenderQualityCheckStatus,
+    RenderQualityCheckType,
+    RenderQualityGate,
+    RenderQualityInterval,
+    RenderQualityReport,
+    RenderQualityStatus,
+    RenderQualityThresholds,
+    build_render_quality_gate,
+)
 __all__ = [
     "RenderArchitectureRuntime",
     "RenderArtifact",
@@ -155,4 +165,13 @@ __all__ = [
     "build_render_cleanup_runtime",
     "build_render_failure_classifier",
     "build_render_recovery_runtime",
+    "RenderQualityCheck",
+    "RenderQualityCheckStatus",
+    "RenderQualityCheckType",
+    "RenderQualityGate",
+    "RenderQualityInterval",
+    "RenderQualityReport",
+    "RenderQualityStatus",
+    "RenderQualityThresholds",
+    "build_render_quality_gate",
 ]

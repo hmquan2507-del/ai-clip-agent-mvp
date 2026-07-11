@@ -16,13 +16,13 @@
       "reconstructed": true
     }
   },
-  "started_at": "2026-07-11T02:52:58.413425+00:00",
-  "finished_at": "2026-07-11T02:53:09.306224+00:00",
-  "duration_seconds": 10.892768,
+  "started_at": "2026-07-11T04:21:45.003153+00:00",
+  "finished_at": "2026-07-11T04:21:56.638157+00:00",
+  "duration_seconds": 11.63497,
   "progress_events": [],
   "issues": [],
   "stderr_tail": null,
-  "output_file_size": 1245119,
+  "output_file_size": 8368750,
   "output_duration": 18.0,
   "output_width": 1080,
   "output_height": 1920,

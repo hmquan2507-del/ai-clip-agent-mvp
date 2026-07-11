@@ -6,9 +6,9 @@
       {
         "node_id": "prepare_inputs",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:57.292967+00:00",
-        "finished_at": "2026-07-11T02:52:58.411720+00:00",
-        "duration_seconds": 1.118775,
+        "started_at": "2026-07-11T04:21:44.217267+00:00",
+        "finished_at": "2026-07-11T04:21:45.001567+00:00",
+        "duration_seconds": 0.784322,
         "outputs": {
           "manifest_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/prepared_inputs_manifest.json",
           "prepared_input_count": 7,
@@ -30,8 +30,8 @@
               "has_video": false,
               "has_audio": true,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "music_c996d48e-9459-4f15-8a1e-e99bf97c2e41",
                 "track_type": "music",
@@ -60,8 +60,8 @@
               "source_path": "storage/uploads/demo_source_video.mp4",
               "prepared_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
               "asset_id": "demo_source_asset",
-              "checksum": "173d08f0284a311b7b0ef82ea647ec31b34a6ab6328acb9fcb9e135b83555830",
-              "file_size": 216838,
+              "checksum": "f764ab109eb770f29b64d9265d1b9306c2ac6f7582df32b485f8c8f35f717d9a",
+              "file_size": 15782943,
               "duration": 18.0,
               "width": 1080,
               "height": 1920,
@@ -71,8 +71,8 @@
               "has_video": true,
               "has_audio": true,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "seg_001_source",
                 "track_type": "video_primary",
@@ -92,7 +92,7 @@
                   "has_audio": true,
                   "errors": [],
                   "metadata": {
-                    "file_size": 216838,
+                    "file_size": 15782943,
                     "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
                   }
                 }
@@ -115,8 +115,8 @@
               "has_video": true,
               "has_audio": false,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "seg_001_ba654057-0ff0-40dd-9b0a-c91832c7c1e7",
                 "track_type": "broll",
@@ -156,8 +156,8 @@
               "has_video": true,
               "has_audio": false,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "seg_002_f179b2f2-8b58-4654-8a4e-852b9298607a",
                 "track_type": "broll",
@@ -197,8 +197,8 @@
               "has_video": true,
               "has_audio": false,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "seg_003_558da4ff-fa83-474a-9f36-6ce06875a68d",
                 "track_type": "broll",
@@ -238,8 +238,8 @@
               "has_video": false,
               "has_audio": true,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "sfx_79e8f3b3-57f4-489a-a6b5-d48d355a5f80",
                 "track_type": "sfx",
@@ -279,8 +279,8 @@
               "has_video": false,
               "has_audio": true,
               "copied": false,
-              "linked": false,
-              "reused": true,
+              "linked": true,
+              "reused": false,
               "metadata": {
                 "clip_id": "sfx_d096e6d1-f912-4677-931d-f37f57627e7e",
                 "track_type": "sfx",
@@ -314,8 +314,8 @@
       {
         "node_id": "decode_audio",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.412071+00:00",
-        "finished_at": "2026-07-11T02:52:58.412087+00:00",
+        "started_at": "2026-07-11T04:21:45.001916+00:00",
+        "finished_at": "2026-07-11T04:21:45.001932+00:00",
         "duration_seconds": 1.6e-05,
         "outputs": {
           "node_id": "decode_audio",
@@ -331,9 +331,9 @@
       {
         "node_id": "decode_video",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.412257+00:00",
-        "finished_at": "2026-07-11T02:52:58.412269+00:00",
-        "duration_seconds": 1.1e-05,
+        "started_at": "2026-07-11T04:21:45.002104+00:00",
+        "finished_at": "2026-07-11T04:21:45.002116+00:00",
+        "duration_seconds": 1.2e-05,
         "outputs": {
           "node_id": "decode_video",
           "node_type": "decode_video",
@@ -348,8 +348,8 @@
       {
         "node_id": "compose_primary_video",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.412460+00:00",
-        "finished_at": "2026-07-11T02:52:58.412472+00:00",
+        "started_at": "2026-07-11T04:21:45.002280+00:00",
+        "finished_at": "2026-07-11T04:21:45.002290+00:00",
         "duration_seconds": 1.1e-05,
         "outputs": {
           "node_id": "compose_primary_video",
@@ -365,9 +365,9 @@
       {
         "node_id": "mix_audio",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.412679+00:00",
-        "finished_at": "2026-07-11T02:52:58.412689+00:00",
-        "duration_seconds": 1e-05,
+        "started_at": "2026-07-11T04:21:45.002440+00:00",
+        "finished_at": "2026-07-11T04:21:45.002449+00:00",
+        "duration_seconds": 9e-06,
         "outputs": {
           "node_id": "mix_audio",
           "node_type": "mix_audio",
@@ -382,8 +382,8 @@
       {
         "node_id": "overlay_broll",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.412834+00:00",
-        "finished_at": "2026-07-11T02:52:58.412843+00:00",
+        "started_at": "2026-07-11T04:21:45.002585+00:00",
+        "finished_at": "2026-07-11T04:21:45.002594+00:00",
         "duration_seconds": 9e-06,
         "outputs": {
           "node_id": "overlay_broll",
@@ -399,9 +399,9 @@
       {
         "node_id": "apply_effects",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.412981+00:00",
-        "finished_at": "2026-07-11T02:52:58.412989+00:00",
-        "duration_seconds": 2.2e-05,
+        "started_at": "2026-07-11T04:21:45.002749+00:00",
+        "finished_at": "2026-07-11T04:21:45.002758+00:00",
+        "duration_seconds": 9e-06,
         "outputs": {
           "node_id": "apply_effects",
           "node_type": "apply_effects",
@@ -416,9 +416,9 @@
       {
         "node_id": "apply_transitions",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.413135+00:00",
-        "finished_at": "2026-07-11T02:52:58.413144+00:00",
-        "duration_seconds": 9e-06,
+        "started_at": "2026-07-11T04:21:45.002884+00:00",
+        "finished_at": "2026-07-11T04:21:45.002892+00:00",
+        "duration_seconds": 8e-06,
         "outputs": {
           "node_id": "apply_transitions",
           "node_type": "apply_transitions",
@@ -433,9 +433,9 @@
       {
         "node_id": "draw_subtitles",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.413274+00:00",
-        "finished_at": "2026-07-11T02:52:58.413282+00:00",
-        "duration_seconds": 8e-06,
+        "started_at": "2026-07-11T04:21:45.003012+00:00",
+        "finished_at": "2026-07-11T04:21:45.003027+00:00",
+        "duration_seconds": 9e-06,
         "outputs": {
           "node_id": "draw_subtitles",
           "node_type": "draw_subtitles",
@@ -450,12 +450,12 @@
       {
         "node_id": "encode_video",
         "status": "completed",
-        "started_at": "2026-07-11T02:52:58.413425+00:00",
-        "finished_at": "2026-07-11T02:53:09.306349+00:00",
-        "duration_seconds": 10.892931,
+        "started_at": "2026-07-11T04:21:45.003153+00:00",
+        "finished_at": "2026-07-11T04:21:56.638266+00:00",
+        "duration_seconds": 11.635119,
         "outputs": {
           "output_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
-          "output_file_size": 1245119,
+          "output_file_size": 8368750,
           "output_duration": 18.0,
           "output_width": 1080,
           "output_height": 1920,
@@ -464,7 +464,7 @@
           "audio_codec": "aac",
           "attempt_count": 1,
           "diagnostics_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/recovery_diagnostics.json",
-          "progress_event_count": 19
+          "progress_event_count": 20
         },
         "error": null,
         "metadata": {
@@ -476,21 +476,22 @@
             0.0,
             0.0,
             0.0,
-            5.37,
-            12.41,
-            17.41,
-            22.22,
-            26.67,
-            34.63,
-            42.78,
-            49.63,
-            56.67,
-            63.7,
-            67.41,
-            73.15,
-            78.7,
-            83.52,
-            83.52,
+            3.52,
+            10.74,
+            15.37,
+            20.56,
+            25.0,
+            30.19,
+            37.59,
+            45.19,
+            52.22,
+            58.7,
+            64.81,
+            69.44,
+            74.81,
+            79.63,
+            84.63,
+            84.63,
             100.0
           ]
         }
@@ -498,9 +499,9 @@
       {
         "node_id": "write_artifacts",
         "status": "completed",
-        "started_at": "2026-07-11T02:53:09.306578+00:00",
-        "finished_at": "2026-07-11T02:53:09.678985+00:00",
-        "duration_seconds": 0.372422,
+        "started_at": "2026-07-11T04:21:56.638521+00:00",
+        "finished_at": "2026-07-11T04:21:57.112466+00:00",
+        "duration_seconds": 0.473957,
         "outputs": {
           "artifact_count": 3,
           "manifest_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
@@ -510,8 +511,8 @@
               "artifact_type": "final_video",
               "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
               "mime_type": "video/mp4",
-              "checksum": "4315fb09911591175abbeeb5ee6b0437bbd59aeedd2f08cccd378a3cd5448db7",
-              "file_size": 1245119,
+              "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd",
+              "file_size": 8368750,
               "duration": 18.0,
               "width": 1080,
               "height": 1920,
@@ -528,8 +529,8 @@
               "artifact_type": "thumbnail",
               "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
               "mime_type": "image/jpeg",
-              "checksum": "a77af39426408316229f77248aa59e0a95177e3596715e7b5807ac3678999b1b",
-              "file_size": 29534,
+              "checksum": "3488b10b5ec85a1c1df216ca8f6036bcd5f7881af30c64d4fb065304598c359e",
+              "file_size": 202647,
               "duration": null,
               "width": null,
               "height": null,
@@ -546,8 +547,8 @@
               "artifact_type": "render_report",
               "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
               "mime_type": "application/json",
-              "checksum": "0c16b550b6627a80517bf594780cad758ac157165ea2e4d2088334d07a30aa80",
-              "file_size": 1077,
+              "checksum": "035be3d0485e7138297519242dcc0ab488041a224a99a77ef9fd132d1c256c84",
+              "file_size": 1076,
               "duration": null,
               "width": null,
               "height": null,
@@ -571,37 +572,37 @@
     "events": [
       {
         "event_type": "START",
-        "timestamp": "2026-07-11T02:52:57.292873+00:00",
+        "timestamp": "2026-07-11T04:21:44.217166+00:00",
         "node_id": null,
         "message": "Render execution started.",
         "metadata": {}
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:57.292940+00:00",
+        "timestamp": "2026-07-11T04:21:44.217238+00:00",
         "node_id": "prepare_inputs",
         "message": "Node started: prepare_inputs",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.411930+00:00",
+        "timestamp": "2026-07-11T04:21:45.001774+00:00",
         "node_id": "prepare_inputs",
         "message": "Node completed: prepare_inputs",
         "metadata": {
-          "duration_seconds": 1.118775
+          "duration_seconds": 0.784322
         }
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.412021+00:00",
+        "timestamp": "2026-07-11T04:21:45.001863+00:00",
         "node_id": "decode_audio",
         "message": "Node started: decode_audio",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.412185+00:00",
+        "timestamp": "2026-07-11T04:21:45.002032+00:00",
         "node_id": "decode_audio",
         "message": "Node completed: decode_audio",
         "metadata": {
@@ -610,30 +611,30 @@
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.412230+00:00",
+        "timestamp": "2026-07-11T04:21:45.002077+00:00",
         "node_id": "decode_video",
         "message": "Node started: decode_video",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.412372+00:00",
+        "timestamp": "2026-07-11T04:21:45.002200+00:00",
         "node_id": "decode_video",
         "message": "Node completed: decode_video",
         "metadata": {
-          "duration_seconds": 1.1e-05
+          "duration_seconds": 1.2e-05
         }
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.412430+00:00",
+        "timestamp": "2026-07-11T04:21:45.002253+00:00",
         "node_id": "compose_primary_video",
         "message": "Node started: compose_primary_video",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.412576+00:00",
+        "timestamp": "2026-07-11T04:21:45.002378+00:00",
         "node_id": "compose_primary_video",
         "message": "Node completed: compose_primary_video",
         "metadata": {
@@ -642,30 +643,30 @@
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.412645+00:00",
+        "timestamp": "2026-07-11T04:21:45.002414+00:00",
         "node_id": "mix_audio",
         "message": "Node started: mix_audio",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.412756+00:00",
+        "timestamp": "2026-07-11T04:21:45.002512+00:00",
         "node_id": "mix_audio",
         "message": "Node completed: mix_audio",
         "metadata": {
-          "duration_seconds": 1e-05
+          "duration_seconds": 9e-06
         }
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.412809+00:00",
+        "timestamp": "2026-07-11T04:21:45.002561+00:00",
         "node_id": "overlay_broll",
         "message": "Node started: overlay_broll",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.412910+00:00",
+        "timestamp": "2026-07-11T04:21:45.002675+00:00",
         "node_id": "overlay_broll",
         "message": "Node completed: overlay_broll",
         "metadata": {
@@ -674,87 +675,87 @@
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.412956+00:00",
+        "timestamp": "2026-07-11T04:21:45.002725+00:00",
         "node_id": "apply_effects",
         "message": "Node started: apply_effects",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.413062+00:00",
+        "timestamp": "2026-07-11T04:21:45.002814+00:00",
         "node_id": "apply_effects",
         "message": "Node completed: apply_effects",
-        "metadata": {
-          "duration_seconds": 2.2e-05
-        }
-      },
-      {
-        "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.413112+00:00",
-        "node_id": "apply_transitions",
-        "message": "Node started: apply_transitions",
-        "metadata": {}
-      },
-      {
-        "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.413202+00:00",
-        "node_id": "apply_transitions",
-        "message": "Node completed: apply_transitions",
         "metadata": {
           "duration_seconds": 9e-06
         }
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.413250+00:00",
-        "node_id": "draw_subtitles",
-        "message": "Node started: draw_subtitles",
+        "timestamp": "2026-07-11T04:21:45.002861+00:00",
+        "node_id": "apply_transitions",
+        "message": "Node started: apply_transitions",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:52:58.413350+00:00",
-        "node_id": "draw_subtitles",
-        "message": "Node completed: draw_subtitles",
+        "timestamp": "2026-07-11T04:21:45.002942+00:00",
+        "node_id": "apply_transitions",
+        "message": "Node completed: apply_transitions",
         "metadata": {
           "duration_seconds": 8e-06
         }
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:52:58.413398+00:00",
+        "timestamp": "2026-07-11T04:21:45.002989+00:00",
+        "node_id": "draw_subtitles",
+        "message": "Node started: draw_subtitles",
+        "metadata": {}
+      },
+      {
+        "event_type": "NODE_COMPLETED",
+        "timestamp": "2026-07-11T04:21:45.003082+00:00",
+        "node_id": "draw_subtitles",
+        "message": "Node completed: draw_subtitles",
+        "metadata": {
+          "duration_seconds": 9e-06
+        }
+      },
+      {
+        "event_type": "NODE_STARTED",
+        "timestamp": "2026-07-11T04:21:45.003128+00:00",
         "node_id": "encode_video",
         "message": "Node started: encode_video",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:53:09.306460+00:00",
+        "timestamp": "2026-07-11T04:21:56.638398+00:00",
         "node_id": "encode_video",
         "message": "Node completed: encode_video",
         "metadata": {
-          "duration_seconds": 10.892931
+          "duration_seconds": 11.635119
         }
       },
       {
         "event_type": "NODE_STARTED",
-        "timestamp": "2026-07-11T02:53:09.306534+00:00",
+        "timestamp": "2026-07-11T04:21:56.638476+00:00",
         "node_id": "write_artifacts",
         "message": "Node started: write_artifacts",
         "metadata": {}
       },
       {
         "event_type": "NODE_COMPLETED",
-        "timestamp": "2026-07-11T02:53:09.679064+00:00",
+        "timestamp": "2026-07-11T04:21:57.112529+00:00",
         "node_id": "write_artifacts",
         "message": "Node completed: write_artifacts",
         "metadata": {
-          "duration_seconds": 0.372422
+          "duration_seconds": 0.473957
         }
       },
       {
         "event_type": "FINISHED",
-        "timestamp": "2026-07-11T02:53:09.679127+00:00",
+        "timestamp": "2026-07-11T04:21:57.112578+00:00",
         "node_id": null,
         "message": "Render execution completed.",
         "metadata": {}
@@ -764,7 +765,7 @@
     "failed_node_count": 0,
     "skipped_node_count": 0,
     "progress": 100.0,
-    "duration_seconds": 12.386269,
+    "duration_seconds": 12.895424,
     "failed_node_id": null,
     "error": null,
     "metadata": {
@@ -2755,8 +2756,8 @@
         "artifact_type": "final_video",
         "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
         "mime_type": "video/mp4",
-        "checksum": "4315fb09911591175abbeeb5ee6b0437bbd59aeedd2f08cccd378a3cd5448db7",
-        "size": 1245119,
+        "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd",
+        "size": 8368750,
         "metadata": {
           "source_output_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
           "ffmpeg_returncode": 0,
@@ -2773,8 +2774,8 @@
         "artifact_type": "thumbnail",
         "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
         "mime_type": "image/jpeg",
-        "checksum": "a77af39426408316229f77248aa59e0a95177e3596715e7b5807ac3678999b1b",
-        "size": 29534,
+        "checksum": "3488b10b5ec85a1c1df216ca8f6036bcd5f7881af30c64d4fb065304598c359e",
+        "size": 202647,
         "metadata": {
           "source_video": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
           "capture_time": 1.0,
@@ -2791,8 +2792,8 @@
         "artifact_type": "render_report",
         "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
         "mime_type": "application/json",
-        "checksum": "0c16b550b6627a80517bf594780cad758ac157165ea2e4d2088334d07a30aa80",
-        "size": 1077,
+        "checksum": "035be3d0485e7138297519242dcc0ab488041a224a99a77ef9fd132d1c256c84",
+        "size": 1076,
         "metadata": {
           "success": true,
           "returncode": 0,
@@ -3095,8 +3096,8 @@
             "source_path": "storage/uploads/demo_source_video.mp4",
             "prepared_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/working/prepared_inputs/input_1.mp4",
             "asset_id": "demo_source_asset",
-            "checksum": "173d08f0284a311b7b0ef82ea647ec31b34a6ab6328acb9fcb9e135b83555830",
-            "file_size": 216838,
+            "checksum": "f764ab109eb770f29b64d9265d1b9306c2ac6f7582df32b485f8c8f35f717d9a",
+            "file_size": 15782943,
             "duration": 18.0,
             "width": 1080,
             "height": 1920,
@@ -3127,7 +3128,7 @@
                 "has_audio": true,
                 "errors": [],
                 "metadata": {
-                  "file_size": 216838,
+                  "file_size": 15782943,
                   "format_name": "mov,mp4,m4a,3gp,3g2,mj2"
                 }
               }
@@ -3347,10 +3348,10 @@
           "attempts": [
             {
               "attempt_number": 1,
-              "started_at": "2026-07-11T02:52:58.413441+00:00",
-              "finished_at": "2026-07-11T02:53:09.225556+00:00",
+              "started_at": "2026-07-11T04:21:45.003169+00:00",
+              "finished_at": "2026-07-11T04:21:56.536324+00:00",
               "success": true,
-              "duration_seconds": 10.812124,
+              "duration_seconds": 11.533165,
               "category": null,
               "retry_decision": null,
               "error": null,
@@ -3413,9 +3414,9 @@
               "reconstructed": true
             }
           },
-          "started_at": "2026-07-11T02:52:58.413425+00:00",
-          "finished_at": "2026-07-11T02:53:09.306224+00:00",
-          "duration_seconds": 10.892768,
+          "started_at": "2026-07-11T04:21:45.003153+00:00",
+          "finished_at": "2026-07-11T04:21:56.638157+00:00",
+          "duration_seconds": 11.63497,
           "progress_events": [
             {
               "progress": 0.0,
@@ -3457,7 +3458,7 @@
               }
             },
             {
-              "progress": 5.37,
+              "progress": 3.52,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3470,7 +3471,7 @@
               }
             },
             {
-              "progress": 12.41,
+              "progress": 10.74,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3483,7 +3484,7 @@
               }
             },
             {
-              "progress": 17.41,
+              "progress": 15.37,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3496,7 +3497,7 @@
               }
             },
             {
-              "progress": 22.22,
+              "progress": 20.56,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3509,7 +3510,7 @@
               }
             },
             {
-              "progress": 26.67,
+              "progress": 25.0,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3522,7 +3523,7 @@
               }
             },
             {
-              "progress": 34.63,
+              "progress": 30.19,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3535,7 +3536,7 @@
               }
             },
             {
-              "progress": 42.78,
+              "progress": 37.59,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3548,7 +3549,7 @@
               }
             },
             {
-              "progress": 49.63,
+              "progress": 45.19,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3561,7 +3562,7 @@
               }
             },
             {
-              "progress": 56.67,
+              "progress": 52.22,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3574,7 +3575,7 @@
               }
             },
             {
-              "progress": 63.7,
+              "progress": 58.7,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3587,7 +3588,7 @@
               }
             },
             {
-              "progress": 67.41,
+              "progress": 64.81,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3600,7 +3601,7 @@
               }
             },
             {
-              "progress": 73.15,
+              "progress": 69.44,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3613,7 +3614,7 @@
               }
             },
             {
-              "progress": 78.7,
+              "progress": 74.81,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3626,7 +3627,7 @@
               }
             },
             {
-              "progress": 83.52,
+              "progress": 79.63,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3639,7 +3640,20 @@
               }
             },
             {
-              "progress": 83.52,
+              "progress": 84.63,
+              "out_time_seconds": 0.0,
+              "speed": null,
+              "frame": null,
+              "fps": null,
+              "bitrate": null,
+              "total_size": null,
+              "status": "continue",
+              "metadata": {
+                "reconstructed": true
+              }
+            },
+            {
+              "progress": 84.63,
               "out_time_seconds": 0.0,
               "speed": null,
               "frame": null,
@@ -3667,7 +3681,7 @@
           ],
           "issues": [],
           "stderr_tail": null,
-          "output_file_size": 1245119,
+          "output_file_size": 8368750,
           "output_duration": 18.0,
           "output_width": 1080,
           "output_height": 1920,
@@ -3685,7 +3699,7 @@
         "failed_node_count": 0,
         "skipped_node_count": 0,
         "event_count": 24,
-        "execution_duration_seconds": 12.386269
+        "execution_duration_seconds": 12.895424
       }
     },
     "metadata": {

@@ -764,12 +764,15 @@ class FFmpegFilterGraphBuilder:
         transitions = self._instructions_by_type(
             plan,
             FFmpegInstructionType.APPLY_TRANSITION.value,
-        )
+    )
 
         for index, instruction in enumerate(
             sorted(
                 transitions,
-                key=lambda item: item.order,
+                key=lambda item: (
+                    item.start_time,
+                    item.order,
+                    ),
             )
         ):
             output_label = (
@@ -783,52 +786,129 @@ class FFmpegFilterGraphBuilder:
                 )
             )
 
-            if transition_type in {
-                "smooth_cut",
-                "clean_cut",
-            }:
-                filter_text = (
-                    f"[{current_label}]"
-                    f"fade=t=in:"
-                    f"st={self._number(instruction.start_time)}:"
-                    f"d={self._number(instruction.duration)}"
-                    f"[{output_label}]"
-                )
-            elif transition_type == "impact_cut":
-                filter_text = (
-                    f"[{current_label}]"
-                    f"eq=contrast=1.08:"
-                    f"brightness=0.01"
-                    f"[{output_label}]"
-                )
-            else:
-                filter_text = (
-                    f"[{current_label}]"
-                    f"null"
-                    f"[{output_label}]"
-                )
+        start_time = self._number(
+            instruction.start_time
+        )
 
-            chains.append(
-                FFmpegFilterChain(
-                    chain_id=(
-                        f"transition_chain_{index}"
-                    ),
-                    filter_text=filter_text,
-                    input_labels=[current_label],
-                    output_label=output_label,
-                    stage="transition",
-                    order=1100 + index,
-                    metadata={
-                        "target_id": instruction.target_id,
-                        "transition_type": transition_type,
-                    },
-                )
+        end_time = self._number(
+            instruction.end_time
+        )
+
+        if transition_type == "impact_cut":
+            filter_text = (
+                f"[{current_label}]"
+                f"eq="
+                f"contrast='if(between(t,"
+                f"{start_time},{end_time}),"
+                f"1.08,1)':"
+                f"brightness='if(between(t,"
+                f"{start_time},{end_time}),"
+                f"0.01,0)'"
+                f"[{output_label}]"
             )
 
-            current_label = output_label
+        elif transition_type in {
+            "smooth_cut",
+            "clean_cut",
+        }:
+            # Chưa có from_clip/to_clip contract đầy đủ
+            # để dùng xfade. Giữ stream nguyên vẹn thay
+            # vì fade-in toàn stream và tạo màn hình đen.
+            filter_text = (
+                f"[{current_label}]"
+                f"null"
+                f"[{output_label}]"
+            )
+
+        elif transition_type == "flash":
+            filter_text = (
+                f"[{current_label}]"
+                f"eq="
+                f"brightness='if(between(t,"
+                f"{start_time},{end_time}),"
+                f"0.12,0)':"
+                f"contrast='if(between(t,"
+                f"{start_time},{end_time}),"
+                f"1.15,1)'"
+                f"[{output_label}]"
+            )
+
+        elif transition_type == "dip_to_black":
+            midpoint = (
+                instruction.start_time
+                + instruction.duration / 2.0
+            )
+
+            midpoint_value = self._number(
+                midpoint
+            )
+
+            half_duration = max(
+                instruction.duration / 2.0,
+                0.001,
+            )
+
+            half_duration_value = self._number(
+                half_duration
+            )
+
+            # Chỉ giảm sáng trong đúng vùng transition,
+            # không biến toàn bộ stream trước đó thành đen.
+            filter_text = (
+                f"[{current_label}]"
+                f"lutyuv="
+                f"y='if(between(t,"
+                f"{start_time},{midpoint_value}),"
+                f"val*(1-(t-{start_time})/"
+                f"{half_duration_value}),"
+                f"if(between(t,"
+                f"{midpoint_value},{end_time}),"
+                f"val*((t-{midpoint_value})/"
+                f"{half_duration_value}),"
+                f"val))'"
+                f"[{output_label}]"
+            )
+
+        else:
+            filter_text = (
+                f"[{current_label}]"
+                f"null"
+                f"[{output_label}]"
+            )
+
+        chains.append(
+            FFmpegFilterChain(
+                chain_id=(
+                    f"transition_chain_{index}"
+                ),
+                filter_text=filter_text,
+                input_labels=[current_label],
+                output_label=output_label,
+                stage="transition",
+                order=1100 + index,
+                metadata={
+                    "target_id": (
+                        instruction.target_id
+                    ),
+                    "transition_type": (
+                        transition_type
+                    ),
+                    "start_time": (
+                        instruction.start_time
+                    ),
+                    "end_time": (
+                        instruction.end_time
+                    ),
+                    "transition_runtime_mode": (
+                        "single_stream_safe"
+                    ),
+                },
+            )
+        )
+
+        current_label = output_label
 
         return current_label
-
     def _build_subtitle_pipeline(
         self,
         plan: FFmpegInstructionPlan,
