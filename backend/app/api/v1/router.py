@@ -12,6 +12,9 @@ from app.api.v1.sound_effect import router as sound_effect_router
 from app.api.v1.music import router as music_router
 from app.api.v1.render import router as render_router
 from app.api.v1.content_understanding import router as content_understanding_router
+from app.product.api import (
+    router as product_workspace_router,
+)
 api_router = APIRouter(prefix="/api/v1")
 
 api_router.include_router(productions_router)
@@ -26,3 +29,6 @@ api_router.include_router(sound_effect_router)
 api_router.include_router(music_router)
 api_router.include_router(render_router)
 api_router.include_router(content_understanding_router)
+api_router.include_router(
+    product_workspace_router
+)

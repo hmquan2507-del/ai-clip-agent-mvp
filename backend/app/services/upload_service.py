@@ -5,7 +5,9 @@ from fastapi import UploadFile
 from sqlalchemy.orm import Session
 
 from app.db.enums import AssetType, UploadStatus
-from app.db.models.asset import Asset
+from app.db.models.production_asset import (
+    ProductionAsset,
+)
 from app.repositories.production_repository import ProductionRepository
 from app.services.upload_validation_service import (
     UploadValidationError,
@@ -30,7 +32,7 @@ class UploadService:
         self,
         production_id: UUID,
         file: UploadFile,
-    ) -> Asset:
+        ) -> ProductionAsset:        
         production = self.production_repository.get_by_id(production_id)
 
         if production is None:
@@ -56,7 +58,7 @@ class UploadService:
         except Exception:
             size_bytes = None
 
-        asset = Asset(
+        asset = ProductionAsset(
             production_id=production_id,
             type=AssetType.SOURCE_VIDEO,
             filename=filename,

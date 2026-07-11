@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 
-from app.db.models.asset import Asset
+from app.db.models.production_asset import (
+    ProductionAsset,
+)
 from app.db.models.queue_job import QueueJob
 
 
@@ -10,14 +12,19 @@ class TranscriptRepository:
 
     def get_source_video_asset(self, production_id):
         return (
-            self.db.query(Asset)
-            .filter(Asset.production_id == production_id)
-            .filter(Asset.type == "SOURCE_VIDEO")
-            .filter(Asset.deleted_at.is_(None))
-            .order_by(Asset.created_at.desc())
-            .first()
+            self.db.query(ProductionAsset)
+            .filter(
+            ProductionAsset.production_id
+            == str(production_id),
+            ProductionAsset.type
+            == AssetType.SOURCE_VIDEO.value,
+            ProductionAsset.deleted_at.is_(None),
         )
-
+        .order_by(
+            ProductionAsset.created_at.desc()
+    )
+    .first()
+)
     def save_transcript_result(
         self,
         job: QueueJob,
