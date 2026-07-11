@@ -85,6 +85,23 @@ from app.render.execution.artifact import (
     StoredRenderArtifact,
     build_render_artifact_store,
 )
+from app.render.execution.recovery import (
+    RenderCleanupMode,
+    RenderCleanupResult,
+    RenderCleanupRuntime,
+    RenderFailureCategory,
+    RenderFailureClassification,
+    RenderFailureClassifier,
+    RenderRecoveryResult,
+    RenderRecoveryRuntime,
+    RenderRetryAttempt,
+    RenderRetryDecision,
+    RenderRetryPolicy,
+    build_render_cleanup_runtime,
+    build_render_failure_classifier,
+    build_render_recovery_runtime,
+)
+
 __all__ = [
     "RenderArchitectureRuntime",
     "RenderArtifact",
@@ -124,4 +141,18 @@ __all__ = [
     "RenderArtifactStoreResult",
     "StoredRenderArtifact",
     "build_render_artifact_store",
+    "RenderCleanupMode",
+    "RenderCleanupResult",
+    "RenderCleanupRuntime",
+    "RenderFailureCategory",
+    "RenderFailureClassification",
+    "RenderFailureClassifier",
+    "RenderRecoveryResult",
+    "RenderRecoveryRuntime",
+    "RenderRetryAttempt",
+    "RenderRetryDecision",
+    "RenderRetryPolicy",
+    "build_render_cleanup_runtime",
+    "build_render_failure_classifier",
+    "build_render_recovery_runtime",
 ]

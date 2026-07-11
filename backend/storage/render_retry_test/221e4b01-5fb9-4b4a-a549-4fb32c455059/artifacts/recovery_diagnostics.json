@@ -1,0 +1,68 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "success": true,
+  "attempt_count": 2,
+  "attempts": [
+    {
+      "attempt_number": 1,
+      "started_at": "2026-07-11T02:52:57.112520+00:00",
+      "finished_at": "2026-07-11T02:52:57.112970+00:00",
+      "success": false,
+      "duration_seconds": 0.000423,
+      "category": "ffmpeg_process_error",
+      "retry_decision": "retry_after_cleanup",
+      "error": "FFmpeg process returned an error.",
+      "output_path": "storage/render_retry_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+      "cleanup_paths": [],
+      "metadata": {
+        "classification": {
+          "category": "ffmpeg_process_error",
+          "retry_decision": "retry_after_cleanup",
+          "cleanup_mode": "partial",
+          "reason": "FFmpeg process returned an error.",
+          "retry_delay_seconds": 0.0,
+          "metadata": {
+            "returncode": 1
+          }
+        },
+        "cleanup": {
+          "success": true,
+          "removed_paths": [],
+          "preserved_paths": [],
+          "issues": [],
+          "metadata": {
+            "cleanup_mode": "partial",
+            "preserve_diagnostics": true
+          }
+        },
+        "returncode": 1,
+        "execution_issues": [
+          {
+            "level": "error",
+            "code": "ffmpeg_nonzero_exit",
+            "message": "temporary failure",
+            "metadata": {}
+          }
+        ]
+      }
+    },
+    {
+      "attempt_number": 2,
+      "started_at": "2026-07-11T02:52:57.113007+00:00",
+      "finished_at": "2026-07-11T02:52:57.113155+00:00",
+      "success": true,
+      "duration_seconds": 0.000152,
+      "category": null,
+      "retry_decision": null,
+      "error": null,
+      "output_path": "storage/render_retry_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+      "cleanup_paths": [],
+      "metadata": {
+        "returncode": 0,
+        "issue_count": 0
+      }
+    }
+  ],
+  "final_error": null,
+  "created_at": "2026-07-11T02:52:57.113380+00:00"
+}

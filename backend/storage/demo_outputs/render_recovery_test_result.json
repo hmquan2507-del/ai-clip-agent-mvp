@@ -1,0 +1,40 @@
+{
+  "timeout": {
+    "category": "ffmpeg_timeout",
+    "retry_decision": "retry_after_cleanup",
+    "cleanup_mode": "partial",
+    "reason": "FFmpeg execution timed out.",
+    "retry_delay_seconds": 0.0,
+    "metadata": {}
+  },
+  "process": {
+    "category": "ffmpeg_process_error",
+    "retry_decision": "retry_after_cleanup",
+    "cleanup_mode": "partial",
+    "reason": "FFmpeg process returned an error.",
+    "retry_delay_seconds": 0.0,
+    "metadata": {
+      "returncode": 1
+    }
+  },
+  "missing_binary": {
+    "category": "ffmpeg_not_installed",
+    "retry_decision": "do_not_retry",
+    "cleanup_mode": "none",
+    "reason": "FFmpeg executable is unavailable.",
+    "retry_delay_seconds": 0.0,
+    "metadata": {}
+  },
+  "cleanup": {
+    "success": true,
+    "removed_paths": [
+      "storage/render_recovery_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4"
+    ],
+    "preserved_paths": [],
+    "issues": [],
+    "metadata": {
+      "cleanup_mode": "partial",
+      "preserve_diagnostics": true
+    }
+  }
+}
