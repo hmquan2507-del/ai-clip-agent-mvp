@@ -1,0 +1,179 @@
+{
+  "production": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "name": "Video giới thiệu AI Clip Agent",
+    "status": "ready_for_review",
+    "stage": "review",
+    "progress": {
+      "stage": "review",
+      "progress": 100.0,
+      "message": "Video đã sẵn sàng để xem và chỉnh sửa.",
+      "status": "ready_for_review",
+      "estimated_seconds_remaining": null,
+      "updated_at": "2026-07-11T09:00:55.103746+00:00",
+      "metadata": {}
+    },
+    "version": 3,
+    "platform": "tiktok",
+    "editing_style": "viral",
+    "language": "vi",
+    "allowed_actions": [
+      "open_review",
+      "edit_timeline",
+      "save_timeline",
+      "render_preview",
+      "render_final",
+      "delete_production"
+    ],
+    "artifacts": [
+      {
+        "artifact_id": "final_video",
+        "artifact_type": "final_video",
+        "local_path": "storage/artifacts/final.mp4",
+        "download_url": null,
+        "file_size": 8368750,
+        "mime_type": "video/mp4",
+        "metadata": {
+          "duration": 18.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0
+        }
+      },
+      {
+        "artifact_id": "thumbnail",
+        "artifact_type": "thumbnail",
+        "local_path": "storage/artifacts/thumbnail.jpg",
+        "download_url": null,
+        "file_size": 45000,
+        "mime_type": "image/jpeg",
+        "metadata": {}
+      }
+    ],
+    "failure": null,
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "adapter": "ProductProductionAdapter",
+      "source_status": "ready"
+    }
+  },
+  "timeline": {
+    "available": true,
+    "version": "14.11.0",
+    "duration": 18.0,
+    "track_count": 2,
+    "clip_count": 3,
+    "effect_count": 1,
+    "transition_count": 1,
+    "canvas": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30
+    },
+    "tracks": [
+      {
+        "track_id": "video_primary",
+        "track_type": "video_primary",
+        "clips": [
+          {
+            "clip_id": "clip_1",
+            "start_time": 0,
+            "end_time": 18,
+            "local_path": null
+          }
+        ]
+      },
+      {
+        "track_id": "broll",
+        "track_type": "broll",
+        "clips": [
+          {
+            "clip_id": "broll_1",
+            "start_time": 0,
+            "end_time": 4,
+            "local_path": "storage/assets/broll.mp4"
+          },
+          {
+            "clip_id": "broll_2",
+            "start_time": 10,
+            "end_time": 14,
+            "local_path": "storage/assets/broll_2.mp4"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "adapter": "ProductTimelineAdapter",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "tracks_included": true
+    }
+  },
+  "preview": {
+    "available": true,
+    "video_path": "storage/artifacts/final.mp4",
+    "video_url": null,
+    "thumbnail_path": "storage/artifacts/thumbnail.jpg",
+    "thumbnail_url": null,
+    "duration": 18.0,
+    "width": 1080,
+    "height": 1920,
+    "fps": 30.0,
+    "metadata": {
+      "adapter": "ProductArtifactAdapter",
+      "video_artifact_id": "final_video"
+    }
+  },
+  "quality": {
+    "available": true,
+    "approved": true,
+    "status": "approved",
+    "quality_score": 100.0,
+    "warning_count": 0,
+    "failure_count": 0,
+    "report_path": "storage/artifacts/render_quality_report.json",
+    "checks": [
+      {
+        "check_type": "black_frame",
+        "status": "pass"
+      }
+    ],
+    "metadata": {
+      "adapter": "ProductQualityAdapter"
+    }
+  },
+  "artifacts": [
+    {
+      "artifact_id": "final_video",
+      "artifact_type": "final_video",
+      "local_path": "storage/artifacts/final.mp4",
+      "download_url": null,
+      "file_size": 8368750,
+      "mime_type": "video/mp4",
+      "metadata": {
+        "duration": 18.0,
+        "width": 1080,
+        "height": 1920,
+        "fps": 30.0
+      }
+    },
+    {
+      "artifact_id": "thumbnail",
+      "artifact_type": "thumbnail",
+      "local_path": "storage/artifacts/thumbnail.jpg",
+      "download_url": null,
+      "file_size": 45000,
+      "mime_type": "image/jpeg",
+      "metadata": {}
+    }
+  ],
+  "ai_summary": {
+    "story_type": "problem_solution",
+    "editing_style": "viral"
+  },
+  "issues": [],
+  "metadata": {
+    "builder": "ProductSnapshotBuilder",
+    "contract_version": "16.0.2"
+  }
+}

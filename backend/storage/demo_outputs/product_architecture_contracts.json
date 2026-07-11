@@ -1,0 +1,150 @@
+{
+  "flow": [
+    {
+      "status": "uploading",
+      "stage": "upload",
+      "allowed_actions": [
+        "cancel_upload"
+      ]
+    },
+    {
+      "status": "uploaded",
+      "stage": "upload",
+      "allowed_actions": [
+        "start_upload",
+        "run_ai_pipeline",
+        "delete_production"
+      ]
+    },
+    {
+      "status": "queued",
+      "stage": "queue",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "transcribing",
+      "stage": "transcript",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "analyzing",
+      "stage": "content_analysis",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "planning",
+      "stage": "ai_planning",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "resolving_assets",
+      "stage": "asset_resolution",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "building_timeline",
+      "stage": "timeline",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "rendering_preview",
+      "stage": "preview_render",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "ready_for_review",
+      "stage": "review",
+      "allowed_actions": [
+        "open_review",
+        "edit_timeline",
+        "save_timeline",
+        "render_preview",
+        "render_final",
+        "delete_production"
+      ]
+    },
+    {
+      "status": "rendering_final",
+      "stage": "final_render",
+      "allowed_actions": [
+        "cancel_pipeline"
+      ]
+    },
+    {
+      "status": "quality_check",
+      "stage": "quality",
+      "allowed_actions": []
+    },
+    {
+      "status": "completed",
+      "stage": "export",
+      "allowed_actions": [
+        "open_review",
+        "edit_timeline",
+        "render_final",
+        "download_video",
+        "download_subtitle",
+        "download_thumbnail",
+        "download_timeline",
+        "delete_production"
+      ]
+    }
+  ],
+  "invalid_transition_blocked": true,
+  "snapshot": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "name": "Video giới thiệu AI Clip Agent",
+    "status": "ready_for_review",
+    "stage": "review",
+    "progress": {
+      "stage": "review",
+      "progress": 100.0,
+      "message": "Video đã sẵn sàng để xem và chỉnh sửa.",
+      "status": "ready_for_review",
+      "estimated_seconds_remaining": null,
+      "updated_at": "2026-07-11T09:00:55.009939+00:00",
+      "metadata": {}
+    },
+    "version": 1,
+    "platform": "tiktok",
+    "editing_style": "viral",
+    "language": "vi",
+    "allowed_actions": [
+      "open_review",
+      "edit_timeline",
+      "save_timeline",
+      "render_preview",
+      "render_final",
+      "delete_production"
+    ],
+    "artifacts": [],
+    "failure": null,
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {}
+  },
+  "event": {
+    "event_type": "review_ready",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "stage": "review",
+    "status": "ready_for_review",
+    "progress": 100.0,
+    "message": "Video đã sẵn sàng để xem và chỉnh sửa.",
+    "created_at": "2026-07-11T09:00:55.010010+00:00",
+    "metadata": {}
+  }
+}
