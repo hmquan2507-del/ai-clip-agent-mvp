@@ -1,0 +1,511 @@
+{
+  "timeline": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "version": "16.1.4",
+    "duration": 17.0,
+    "fps": 30.0,
+    "minimum_clip_duration": 0.03333333333333333,
+    "width": null,
+    "height": null,
+    "track_count": 2,
+    "clip_count": 4,
+    "revision": 2,
+    "dirty": true,
+    "dirty_status": "dirty",
+    "created_at": "2026-07-13T10:27:06.596604+00:00",
+    "updated_at": "2026-07-13T10:27:06.598092+00:00",
+    "tracks": [
+      {
+        "track_id": "video_primary",
+        "track_type": "video_primary",
+        "name": null,
+        "position": 0,
+        "layer": 0,
+        "locked": false,
+        "muted": false,
+        "hidden": false,
+        "enabled": true,
+        "overlap_policy": "forbid",
+        "clip_count": 2,
+        "clips": [
+          {
+            "clip_id": "clip_1",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 0.0,
+            "end_time": 3.0,
+            "duration": 3.0,
+            "source_start": 0.0,
+            "source_end": 3.0,
+            "source_duration": 30.0,
+            "source_range_duration": 3.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          {
+            "clip_id": "clip_2",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 4.0,
+            "end_time": 7.0,
+            "duration": 3.0,
+            "source_start": 4.0,
+            "source_end": 7.0,
+            "source_duration": 30.0,
+            "source_range_duration": 3.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          }
+        ],
+        "metadata": {}
+      },
+      {
+        "track_id": "video_overlay",
+        "track_type": "video_overlay",
+        "name": null,
+        "position": 1,
+        "layer": 0,
+        "locked": false,
+        "muted": false,
+        "hidden": false,
+        "enabled": true,
+        "overlap_policy": "allow",
+        "clip_count": 2,
+        "clips": [
+          {
+            "clip_id": "clip_1_paste_6fea4ea5_0",
+            "track_id": "video_overlay",
+            "clip_type": "video",
+            "start_time": 10.0,
+            "end_time": 13.0,
+            "duration": 3.0,
+            "source_start": 0.0,
+            "source_end": 3.0,
+            "source_duration": 30.0,
+            "source_range_duration": 3.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {
+              "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+              "clipboard_source_clip_id": "clip_1",
+              "paste_group_id": "6fea4ea5"
+            }
+          },
+          {
+            "clip_id": "clip_2_paste_6fea4ea5_1",
+            "track_id": "video_overlay",
+            "clip_type": "video",
+            "start_time": 14.0,
+            "end_time": 17.0,
+            "duration": 3.0,
+            "source_start": 4.0,
+            "source_end": 7.0,
+            "source_duration": 30.0,
+            "source_range_duration": 3.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {
+              "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+              "clipboard_source_clip_id": "clip_2",
+              "paste_group_id": "6fea4ea5"
+            }
+          }
+        ],
+        "metadata": {}
+      }
+    ],
+    "metadata": {}
+  },
+  "content": {
+    "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "action": "copy",
+    "status": "ready",
+    "available": true,
+    "item_count": 2,
+    "clip_count": 2,
+    "source_track_ids": [
+      "video_primary"
+    ],
+    "anchor_time": 0.0,
+    "total_duration": 7.0,
+    "created_at": "2026-07-13T10:27:06.597423+00:00",
+    "items": [
+      {
+        "item_id": "f9c638a7-6303-4368-ba5f-aad37856bda9",
+        "item_type": "clip",
+        "source_clip_id": "clip_1",
+        "source_track_id": "video_primary",
+        "relative_start": 0.0,
+        "relative_end": 3.0,
+        "duration": 3.0,
+        "source_order": 0,
+        "clip": {
+          "clip_id": "clip_1",
+          "track_id": "video_primary",
+          "clip_type": "video",
+          "start_time": 0.0,
+          "end_time": 3.0,
+          "duration": 3.0,
+          "source_start": 0.0,
+          "source_end": 3.0,
+          "source_duration": 30.0,
+          "source_range_duration": 3.0,
+          "asset_id": null,
+          "local_path": null,
+          "text": null,
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "enabled": true,
+          "metadata": {}
+        },
+        "metadata": {}
+      },
+      {
+        "item_id": "f3bad305-2a31-43be-b89d-34df94ce0185",
+        "item_type": "clip",
+        "source_clip_id": "clip_2",
+        "source_track_id": "video_primary",
+        "relative_start": 4.0,
+        "relative_end": 7.0,
+        "duration": 3.0,
+        "source_order": 1,
+        "clip": {
+          "clip_id": "clip_2",
+          "track_id": "video_primary",
+          "clip_type": "video",
+          "start_time": 4.0,
+          "end_time": 7.0,
+          "duration": 3.0,
+          "source_start": 4.0,
+          "source_end": 7.0,
+          "source_duration": 30.0,
+          "source_range_duration": 3.0,
+          "asset_id": null,
+          "local_path": null,
+          "text": null,
+          "volume": null,
+          "opacity": null,
+          "speed": null,
+          "enabled": true,
+          "metadata": {}
+        },
+        "metadata": {}
+      }
+    ],
+    "metadata": {}
+  },
+  "state": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "status": "ready",
+    "available": true,
+    "item_count": 2,
+    "clip_count": 2,
+    "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+    "last_action": "copy",
+    "source_track_ids": [
+      "video_primary"
+    ]
+  },
+  "history_state": {
+    "entry_count": 3,
+    "maximum_history_size": 3,
+    "latest_entry_id": "39e47a73-2678-41f8-a726-bd0c83a02848"
+  },
+  "history": [
+    {
+      "entry_id": "b46c04c4-8597-4be0-836c-d5e94223356e",
+      "created_at": "2026-07-13T10:27:06.597450+00:00",
+      "content": {
+        "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "action": "copy",
+        "status": "ready",
+        "available": true,
+        "item_count": 2,
+        "clip_count": 2,
+        "source_track_ids": [
+          "video_primary"
+        ],
+        "anchor_time": 0.0,
+        "total_duration": 7.0,
+        "created_at": "2026-07-13T10:27:06.597423+00:00",
+        "items": [
+          {
+            "item_id": "f9c638a7-6303-4368-ba5f-aad37856bda9",
+            "item_type": "clip",
+            "source_clip_id": "clip_1",
+            "source_track_id": "video_primary",
+            "relative_start": 0.0,
+            "relative_end": 3.0,
+            "duration": 3.0,
+            "source_order": 0,
+            "clip": {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 3.0,
+              "duration": 3.0,
+              "source_start": 0.0,
+              "source_end": 3.0,
+              "source_duration": 30.0,
+              "source_range_duration": 3.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            "metadata": {}
+          },
+          {
+            "item_id": "f3bad305-2a31-43be-b89d-34df94ce0185",
+            "item_type": "clip",
+            "source_clip_id": "clip_2",
+            "source_track_id": "video_primary",
+            "relative_start": 4.0,
+            "relative_end": 7.0,
+            "duration": 3.0,
+            "source_order": 1,
+            "clip": {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 4.0,
+              "end_time": 7.0,
+              "duration": 3.0,
+              "source_start": 4.0,
+              "source_end": 7.0,
+              "source_duration": 30.0,
+              "source_range_duration": 3.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            "metadata": {}
+          }
+        ],
+        "metadata": {}
+      },
+      "metadata": {
+        "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+        "action": "copy",
+        "item_count": 2
+      }
+    },
+    {
+      "entry_id": "f34af4ef-8762-4007-9eef-040a723d3d3a",
+      "created_at": "2026-07-13T10:27:06.602725+00:00",
+      "content": {
+        "clipboard_id": "969e34a1-69c2-4755-a6f0-9172e867b683",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "action": "cut",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "source_track_ids": [
+          "video_primary"
+        ],
+        "anchor_time": 0.0,
+        "total_duration": 3.0,
+        "created_at": "2026-07-13T10:27:06.601434+00:00",
+        "items": [
+          {
+            "item_id": "5c11d5d9-ccb4-42ca-9908-b88a7f055e9e",
+            "item_type": "clip",
+            "source_clip_id": "clip_1",
+            "source_track_id": "video_primary",
+            "relative_start": 0.0,
+            "relative_end": 3.0,
+            "duration": 3.0,
+            "source_order": 0,
+            "clip": {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 3.0,
+              "duration": 3.0,
+              "source_start": 0.0,
+              "source_end": 3.0,
+              "source_duration": 30.0,
+              "source_range_duration": 3.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            "metadata": {}
+          }
+        ],
+        "metadata": {}
+      },
+      "metadata": {
+        "clipboard_id": "969e34a1-69c2-4755-a6f0-9172e867b683",
+        "action": "cut",
+        "item_count": 1
+      }
+    },
+    {
+      "entry_id": "39e47a73-2678-41f8-a726-bd0c83a02848",
+      "created_at": "2026-07-13T10:27:06.603795+00:00",
+      "content": {
+        "clipboard_id": "73feaf35-14ef-417e-8a8f-e5cd4780a02a",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "action": "copy",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "source_track_ids": [
+          "video_primary"
+        ],
+        "anchor_time": 4.0,
+        "total_duration": 3.0,
+        "created_at": "2026-07-13T10:27:06.603778+00:00",
+        "items": [
+          {
+            "item_id": "42ee9b59-364b-43f3-b3f1-f6e656d52eb4",
+            "item_type": "clip",
+            "source_clip_id": "clip_2",
+            "source_track_id": "video_primary",
+            "relative_start": 0.0,
+            "relative_end": 3.0,
+            "duration": 3.0,
+            "source_order": 0,
+            "clip": {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 4.0,
+              "end_time": 7.0,
+              "duration": 3.0,
+              "source_start": 4.0,
+              "source_end": 7.0,
+              "source_duration": 30.0,
+              "source_range_duration": 3.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            "metadata": {}
+          }
+        ],
+        "metadata": {}
+      },
+      "metadata": {
+        "clipboard_id": "73feaf35-14ef-417e-8a8f-e5cd4780a02a",
+        "action": "copy",
+        "item_count": 1
+      }
+    }
+  ],
+  "events": [
+    {
+      "event_type": "clips_copied",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+      "item_count": 2,
+      "created_at": "2026-07-13T10:27:06.597543+00:00",
+      "metadata": {}
+    },
+    {
+      "event_type": "clips_pasted",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+      "item_count": 2,
+      "created_at": "2026-07-13T10:27:06.599105+00:00",
+      "metadata": {
+        "paste_time": 10.0,
+        "paste_group_id": "6fea4ea5",
+        "pasted_clip_ids": [
+          "clip_1_paste_6fea4ea5_0",
+          "clip_2_paste_6fea4ea5_1"
+        ],
+        "track_mapping": {
+          "video_primary": "video_overlay"
+        }
+      }
+    },
+    {
+      "event_type": "clip_copied",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "969e34a1-69c2-4755-a6f0-9172e867b683",
+      "item_count": 1,
+      "created_at": "2026-07-13T10:27:06.601546+00:00",
+      "metadata": {}
+    },
+    {
+      "event_type": "clip_cut",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "969e34a1-69c2-4755-a6f0-9172e867b683",
+      "item_count": 1,
+      "created_at": "2026-07-13T10:27:06.602837+00:00",
+      "metadata": {
+        "clip_ids": [
+          "clip_1"
+        ]
+      }
+    },
+    {
+      "event_type": "clip_copied",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "73feaf35-14ef-417e-8a8f-e5cd4780a02a",
+      "item_count": 1,
+      "created_at": "2026-07-13T10:27:06.603914+00:00",
+      "metadata": {}
+    },
+    {
+      "event_type": "history_restored",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "3eb9c26b-96b7-4240-9141-ff49864022bc",
+      "item_count": 2,
+      "created_at": "2026-07-13T10:27:06.604150+00:00",
+      "metadata": {
+        "entry_id": "b46c04c4-8597-4be0-836c-d5e94223356e"
+      }
+    }
+  ]
+}

@@ -1,0 +1,956 @@
+{
+  "before_clear": {
+    "timeline": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "version": "16.1.4",
+      "duration": 10.0,
+      "fps": 30.0,
+      "minimum_clip_duration": 0.03333333333333333,
+      "width": null,
+      "height": null,
+      "track_count": 2,
+      "clip_count": 3,
+      "revision": 1,
+      "dirty": false,
+      "dirty_status": "clean",
+      "created_at": "2026-07-13T10:08:31.868888+00:00",
+      "updated_at": "2026-07-13T10:08:31.868930+00:00",
+      "tracks": [
+        {
+          "track_id": "video_primary",
+          "track_type": "video_primary",
+          "name": null,
+          "position": 0,
+          "layer": 0,
+          "locked": false,
+          "muted": false,
+          "hidden": false,
+          "enabled": true,
+          "overlap_policy": "forbid",
+          "clip_count": 2,
+          "clips": [
+            {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 4.0,
+              "duration": 4.0,
+              "source_start": 0.0,
+              "source_end": 4.0,
+              "source_duration": 30.0,
+              "source_range_duration": 4.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 6.0,
+              "end_time": 10.0,
+              "duration": 4.0,
+              "source_start": 6.0,
+              "source_end": 10.0,
+              "source_duration": 30.0,
+              "source_range_duration": 4.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        },
+        {
+          "track_id": "subtitle",
+          "track_type": "subtitle",
+          "name": null,
+          "position": 1,
+          "layer": 0,
+          "locked": false,
+          "muted": false,
+          "hidden": false,
+          "enabled": true,
+          "overlap_policy": "allow",
+          "clip_count": 1,
+          "clips": [
+            {
+              "clip_id": "subtitle_1",
+              "track_id": "subtitle",
+              "clip_type": "subtitle",
+              "start_time": 2.0,
+              "end_time": 5.0,
+              "duration": 3.0,
+              "source_start": null,
+              "source_end": null,
+              "source_duration": null,
+              "source_range_duration": null,
+              "asset_id": null,
+              "local_path": null,
+              "text": "AI tự động chỉnh sửa video cho bạn.",
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        }
+      ],
+      "metadata": {}
+    },
+    "content": {
+      "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "action": "copy",
+      "status": "ready",
+      "available": true,
+      "item_count": 3,
+      "clip_count": 3,
+      "source_track_ids": [
+        "video_primary",
+        "subtitle"
+      ],
+      "anchor_time": 0.0,
+      "total_duration": 10.0,
+      "created_at": "2026-07-13T10:08:31.870161+00:00",
+      "items": [
+        {
+          "item_id": "d5dcc1de-892b-4d5b-b6a8-de35e1e27349",
+          "item_type": "clip",
+          "source_clip_id": "clip_1",
+          "source_track_id": "video_primary",
+          "relative_start": 0.0,
+          "relative_end": 4.0,
+          "duration": 4.0,
+          "source_order": 0,
+          "clip": {
+            "clip_id": "clip_1",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 0.0,
+            "end_time": 4.0,
+            "duration": 4.0,
+            "source_start": 0.0,
+            "source_end": 4.0,
+            "source_duration": 30.0,
+            "source_range_duration": 4.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          "metadata": {}
+        },
+        {
+          "item_id": "c2e90776-35f7-4adf-a366-7036d1548845",
+          "item_type": "clip",
+          "source_clip_id": "subtitle_1",
+          "source_track_id": "subtitle",
+          "relative_start": 2.0,
+          "relative_end": 5.0,
+          "duration": 3.0,
+          "source_order": 1,
+          "clip": {
+            "clip_id": "subtitle_1",
+            "track_id": "subtitle",
+            "clip_type": "subtitle",
+            "start_time": 2.0,
+            "end_time": 5.0,
+            "duration": 3.0,
+            "source_start": null,
+            "source_end": null,
+            "source_duration": null,
+            "source_range_duration": null,
+            "asset_id": null,
+            "local_path": null,
+            "text": "AI tự động chỉnh sửa video cho bạn.",
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          "metadata": {}
+        },
+        {
+          "item_id": "6fd9e345-d83a-4d66-b888-cbdecfe9b183",
+          "item_type": "clip",
+          "source_clip_id": "clip_2",
+          "source_track_id": "video_primary",
+          "relative_start": 6.0,
+          "relative_end": 10.0,
+          "duration": 4.0,
+          "source_order": 2,
+          "clip": {
+            "clip_id": "clip_2",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 6.0,
+            "end_time": 10.0,
+            "duration": 4.0,
+            "source_start": 6.0,
+            "source_end": 10.0,
+            "source_duration": 30.0,
+            "source_range_duration": 4.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          "metadata": {}
+        }
+      ],
+      "metadata": {}
+    },
+    "state": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "status": "ready",
+      "available": true,
+      "item_count": 3,
+      "clip_count": 3,
+      "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+      "last_action": "copy",
+      "source_track_ids": [
+        "video_primary",
+        "subtitle"
+      ]
+    },
+    "history_state": {
+      "entry_count": 2,
+      "maximum_history_size": 20,
+      "latest_entry_id": "b39b74e6-75b9-41a7-8779-1907e7907eba"
+    },
+    "history": [
+      {
+        "entry_id": "e341270d-5ecc-440b-8c9e-8d92f1fb2702",
+        "created_at": "2026-07-13T10:08:31.869585+00:00",
+        "content": {
+          "clipboard_id": "c97db787-be83-4d2d-9c54-c61a2323eb8f",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "copy",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "source_track_ids": [
+            "video_primary"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 4.0,
+          "created_at": "2026-07-13T10:08:31.869553+00:00",
+          "items": [
+            {
+              "item_id": "219fb887-dffc-4fcb-ba27-96a4742f39b0",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": 0.0,
+                "source_end": 4.0,
+                "source_duration": 30.0,
+                "source_range_duration": 4.0,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        },
+        "metadata": {
+          "clipboard_id": "c97db787-be83-4d2d-9c54-c61a2323eb8f",
+          "action": "copy",
+          "item_count": 1
+        }
+      },
+      {
+        "entry_id": "b39b74e6-75b9-41a7-8779-1907e7907eba",
+        "created_at": "2026-07-13T10:08:31.870183+00:00",
+        "content": {
+          "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "copy",
+          "status": "ready",
+          "available": true,
+          "item_count": 3,
+          "clip_count": 3,
+          "source_track_ids": [
+            "video_primary",
+            "subtitle"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 10.0,
+          "created_at": "2026-07-13T10:08:31.870161+00:00",
+          "items": [
+            {
+              "item_id": "d5dcc1de-892b-4d5b-b6a8-de35e1e27349",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": 0.0,
+                "source_end": 4.0,
+                "source_duration": 30.0,
+                "source_range_duration": 4.0,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            },
+            {
+              "item_id": "c2e90776-35f7-4adf-a366-7036d1548845",
+              "item_type": "clip",
+              "source_clip_id": "subtitle_1",
+              "source_track_id": "subtitle",
+              "relative_start": 2.0,
+              "relative_end": 5.0,
+              "duration": 3.0,
+              "source_order": 1,
+              "clip": {
+                "clip_id": "subtitle_1",
+                "track_id": "subtitle",
+                "clip_type": "subtitle",
+                "start_time": 2.0,
+                "end_time": 5.0,
+                "duration": 3.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": "AI tự động chỉnh sửa video cho bạn.",
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            },
+            {
+              "item_id": "6fd9e345-d83a-4d66-b888-cbdecfe9b183",
+              "item_type": "clip",
+              "source_clip_id": "clip_2",
+              "source_track_id": "video_primary",
+              "relative_start": 6.0,
+              "relative_end": 10.0,
+              "duration": 4.0,
+              "source_order": 2,
+              "clip": {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 6.0,
+                "end_time": 10.0,
+                "duration": 4.0,
+                "source_start": 6.0,
+                "source_end": 10.0,
+                "source_duration": 30.0,
+                "source_range_duration": 4.0,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        },
+        "metadata": {
+          "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+          "action": "copy",
+          "item_count": 3
+        }
+      }
+    ],
+    "events": [
+      {
+        "event_type": "clip_copied",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "c97db787-be83-4d2d-9c54-c61a2323eb8f",
+        "item_count": 1,
+        "created_at": "2026-07-13T10:08:31.869700+00:00",
+        "metadata": {}
+      },
+      {
+        "event_type": "clips_copied",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+        "item_count": 3,
+        "created_at": "2026-07-13T10:08:31.870293+00:00",
+        "metadata": {}
+      },
+      {
+        "event_type": "copy_failed",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+        "item_count": 3,
+        "created_at": "2026-07-13T10:08:31.870666+00:00",
+        "metadata": {
+          "error": "Không tìm thấy clip: missing_clip"
+        }
+      }
+    ]
+  },
+  "after_clear": {
+    "timeline": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "version": "16.1.4",
+      "duration": 10.0,
+      "fps": 30.0,
+      "minimum_clip_duration": 0.03333333333333333,
+      "width": null,
+      "height": null,
+      "track_count": 2,
+      "clip_count": 3,
+      "revision": 1,
+      "dirty": false,
+      "dirty_status": "clean",
+      "created_at": "2026-07-13T10:08:31.868888+00:00",
+      "updated_at": "2026-07-13T10:08:31.868930+00:00",
+      "tracks": [
+        {
+          "track_id": "video_primary",
+          "track_type": "video_primary",
+          "name": null,
+          "position": 0,
+          "layer": 0,
+          "locked": false,
+          "muted": false,
+          "hidden": false,
+          "enabled": true,
+          "overlap_policy": "forbid",
+          "clip_count": 2,
+          "clips": [
+            {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 4.0,
+              "duration": 4.0,
+              "source_start": 0.0,
+              "source_end": 4.0,
+              "source_duration": 30.0,
+              "source_range_duration": 4.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 6.0,
+              "end_time": 10.0,
+              "duration": 4.0,
+              "source_start": 6.0,
+              "source_end": 10.0,
+              "source_duration": 30.0,
+              "source_range_duration": 4.0,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        },
+        {
+          "track_id": "subtitle",
+          "track_type": "subtitle",
+          "name": null,
+          "position": 1,
+          "layer": 0,
+          "locked": false,
+          "muted": false,
+          "hidden": false,
+          "enabled": true,
+          "overlap_policy": "allow",
+          "clip_count": 1,
+          "clips": [
+            {
+              "clip_id": "subtitle_1",
+              "track_id": "subtitle",
+              "clip_type": "subtitle",
+              "start_time": 2.0,
+              "end_time": 5.0,
+              "duration": 3.0,
+              "source_start": null,
+              "source_end": null,
+              "source_duration": null,
+              "source_range_duration": null,
+              "asset_id": null,
+              "local_path": null,
+              "text": "AI tự động chỉnh sửa video cho bạn.",
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        }
+      ],
+      "metadata": {}
+    },
+    "content": {
+      "clipboard_id": "88f3fd28-fb37-45a9-9943-96ef2b4715b2",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "action": "copy",
+      "status": "empty",
+      "available": false,
+      "item_count": 0,
+      "clip_count": 0,
+      "source_track_ids": [],
+      "anchor_time": 0.0,
+      "total_duration": 0.0,
+      "created_at": "2026-07-13T10:08:31.871311+00:00",
+      "items": [],
+      "metadata": {}
+    },
+    "state": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "status": "empty",
+      "available": false,
+      "item_count": 0,
+      "clip_count": 0,
+      "clipboard_id": "88f3fd28-fb37-45a9-9943-96ef2b4715b2",
+      "last_action": null,
+      "source_track_ids": []
+    },
+    "history_state": {
+      "entry_count": 2,
+      "maximum_history_size": 20,
+      "latest_entry_id": "b39b74e6-75b9-41a7-8779-1907e7907eba"
+    },
+    "history": [
+      {
+        "entry_id": "e341270d-5ecc-440b-8c9e-8d92f1fb2702",
+        "created_at": "2026-07-13T10:08:31.869585+00:00",
+        "content": {
+          "clipboard_id": "c97db787-be83-4d2d-9c54-c61a2323eb8f",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "copy",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "source_track_ids": [
+            "video_primary"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 4.0,
+          "created_at": "2026-07-13T10:08:31.869553+00:00",
+          "items": [
+            {
+              "item_id": "219fb887-dffc-4fcb-ba27-96a4742f39b0",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": 0.0,
+                "source_end": 4.0,
+                "source_duration": 30.0,
+                "source_range_duration": 4.0,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        },
+        "metadata": {
+          "clipboard_id": "c97db787-be83-4d2d-9c54-c61a2323eb8f",
+          "action": "copy",
+          "item_count": 1
+        }
+      },
+      {
+        "entry_id": "b39b74e6-75b9-41a7-8779-1907e7907eba",
+        "created_at": "2026-07-13T10:08:31.870183+00:00",
+        "content": {
+          "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "copy",
+          "status": "ready",
+          "available": true,
+          "item_count": 3,
+          "clip_count": 3,
+          "source_track_ids": [
+            "video_primary",
+            "subtitle"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 10.0,
+          "created_at": "2026-07-13T10:08:31.870161+00:00",
+          "items": [
+            {
+              "item_id": "d5dcc1de-892b-4d5b-b6a8-de35e1e27349",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": 0.0,
+                "source_end": 4.0,
+                "source_duration": 30.0,
+                "source_range_duration": 4.0,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            },
+            {
+              "item_id": "c2e90776-35f7-4adf-a366-7036d1548845",
+              "item_type": "clip",
+              "source_clip_id": "subtitle_1",
+              "source_track_id": "subtitle",
+              "relative_start": 2.0,
+              "relative_end": 5.0,
+              "duration": 3.0,
+              "source_order": 1,
+              "clip": {
+                "clip_id": "subtitle_1",
+                "track_id": "subtitle",
+                "clip_type": "subtitle",
+                "start_time": 2.0,
+                "end_time": 5.0,
+                "duration": 3.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": "AI tự động chỉnh sửa video cho bạn.",
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            },
+            {
+              "item_id": "6fd9e345-d83a-4d66-b888-cbdecfe9b183",
+              "item_type": "clip",
+              "source_clip_id": "clip_2",
+              "source_track_id": "video_primary",
+              "relative_start": 6.0,
+              "relative_end": 10.0,
+              "duration": 4.0,
+              "source_order": 2,
+              "clip": {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 6.0,
+                "end_time": 10.0,
+                "duration": 4.0,
+                "source_start": 6.0,
+                "source_end": 10.0,
+                "source_duration": 30.0,
+                "source_range_duration": 4.0,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        },
+        "metadata": {
+          "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+          "action": "copy",
+          "item_count": 3
+        }
+      }
+    ],
+    "events": [
+      {
+        "event_type": "clip_copied",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "c97db787-be83-4d2d-9c54-c61a2323eb8f",
+        "item_count": 1,
+        "created_at": "2026-07-13T10:08:31.869700+00:00",
+        "metadata": {}
+      },
+      {
+        "event_type": "clips_copied",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+        "item_count": 3,
+        "created_at": "2026-07-13T10:08:31.870293+00:00",
+        "metadata": {}
+      },
+      {
+        "event_type": "copy_failed",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+        "item_count": 3,
+        "created_at": "2026-07-13T10:08:31.870666+00:00",
+        "metadata": {
+          "error": "Không tìm thấy clip: missing_clip"
+        }
+      },
+      {
+        "event_type": "clipboard_cleared",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "88f3fd28-fb37-45a9-9943-96ef2b4715b2",
+        "item_count": 0,
+        "created_at": "2026-07-13T10:08:31.871413+00:00",
+        "metadata": {
+          "previous_clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806"
+        }
+      }
+    ]
+  },
+  "missing_result": {
+    "success": false,
+    "content": {
+      "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "action": "copy",
+      "status": "ready",
+      "available": true,
+      "item_count": 3,
+      "clip_count": 3,
+      "source_track_ids": [
+        "video_primary",
+        "subtitle"
+      ],
+      "anchor_time": 0.0,
+      "total_duration": 10.0,
+      "created_at": "2026-07-13T10:08:31.870161+00:00",
+      "items": [
+        {
+          "item_id": "d5dcc1de-892b-4d5b-b6a8-de35e1e27349",
+          "item_type": "clip",
+          "source_clip_id": "clip_1",
+          "source_track_id": "video_primary",
+          "relative_start": 0.0,
+          "relative_end": 4.0,
+          "duration": 4.0,
+          "source_order": 0,
+          "clip": {
+            "clip_id": "clip_1",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 0.0,
+            "end_time": 4.0,
+            "duration": 4.0,
+            "source_start": 0.0,
+            "source_end": 4.0,
+            "source_duration": 30.0,
+            "source_range_duration": 4.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          "metadata": {}
+        },
+        {
+          "item_id": "c2e90776-35f7-4adf-a366-7036d1548845",
+          "item_type": "clip",
+          "source_clip_id": "subtitle_1",
+          "source_track_id": "subtitle",
+          "relative_start": 2.0,
+          "relative_end": 5.0,
+          "duration": 3.0,
+          "source_order": 1,
+          "clip": {
+            "clip_id": "subtitle_1",
+            "track_id": "subtitle",
+            "clip_type": "subtitle",
+            "start_time": 2.0,
+            "end_time": 5.0,
+            "duration": 3.0,
+            "source_start": null,
+            "source_end": null,
+            "source_duration": null,
+            "source_range_duration": null,
+            "asset_id": null,
+            "local_path": null,
+            "text": "AI tự động chỉnh sửa video cho bạn.",
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          "metadata": {}
+        },
+        {
+          "item_id": "6fd9e345-d83a-4d66-b888-cbdecfe9b183",
+          "item_type": "clip",
+          "source_clip_id": "clip_2",
+          "source_track_id": "video_primary",
+          "relative_start": 6.0,
+          "relative_end": 10.0,
+          "duration": 4.0,
+          "source_order": 2,
+          "clip": {
+            "clip_id": "clip_2",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 6.0,
+            "end_time": 10.0,
+            "duration": 4.0,
+            "source_start": 6.0,
+            "source_end": 10.0,
+            "source_duration": 30.0,
+            "source_range_duration": 4.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          },
+          "metadata": {}
+        }
+      ],
+      "metadata": {}
+    },
+    "state": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "status": "ready",
+      "available": true,
+      "item_count": 3,
+      "clip_count": 3,
+      "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+      "last_action": "copy",
+      "source_track_ids": [
+        "video_primary",
+        "subtitle"
+      ]
+    },
+    "event": {
+      "event_type": "copy_failed",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "clipboard_id": "21ecf6a6-ec5a-4846-9653-904d0aa13806",
+      "item_count": 3,
+      "created_at": "2026-07-13T10:08:31.870666+00:00",
+      "metadata": {
+        "error": "Không tìm thấy clip: missing_clip"
+      }
+    },
+    "timeline_history_result": null,
+    "error": "Không tìm thấy clip: missing_clip"
+  }
+}

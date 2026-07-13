@@ -1,0 +1,286 @@
+{
+  "valid_timeline": {
+    "valid": true,
+    "issue_count": 0,
+    "issues": [],
+    "metadata": {
+      "track_count": 3,
+      "clip_count": 2
+    }
+  },
+  "valid_move": {
+    "valid": true,
+    "issue_count": 0,
+    "issues": [],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_2",
+        "track_id": "video_primary",
+        "clip_type": "video",
+        "start_time": 4.0,
+        "end_time": 10.0,
+        "duration": 6.0,
+        "source_start": 4.0,
+        "source_end": 10.0,
+        "source_duration": 18.0,
+        "source_range_duration": 6.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "overlap_move": {
+    "valid": false,
+    "issue_count": 1,
+    "issues": [
+      {
+        "code": "clip_overlap",
+        "message": "Clip overlaps another clip on a non-overlapping track.",
+        "clip_id": "clip_2",
+        "track_id": "video_primary",
+        "metadata": {
+          "conflicting_clip_ids": [
+            "clip_1"
+          ],
+          "candidate_start": 2.0,
+          "candidate_end": 8.0
+        }
+      }
+    ],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_2",
+        "track_id": "video_primary",
+        "clip_type": "video",
+        "start_time": 2.0,
+        "end_time": 8.0,
+        "duration": 6.0,
+        "source_start": 4.0,
+        "source_end": 10.0,
+        "source_duration": 18.0,
+        "source_range_duration": 6.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "locked_move": {
+    "valid": false,
+    "issue_count": 1,
+    "issues": [
+      {
+        "code": "track_locked",
+        "message": "Timeline track is locked: locked_video",
+        "clip_id": null,
+        "track_id": "locked_video",
+        "metadata": {}
+      }
+    ],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_1",
+        "track_id": "locked_video",
+        "clip_type": "video",
+        "start_time": 0.0,
+        "end_time": 4.0,
+        "duration": 4.0,
+        "source_start": 0.0,
+        "source_end": 4.0,
+        "source_duration": 18.0,
+        "source_range_duration": 4.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "trim_start": {
+    "valid": true,
+    "issue_count": 0,
+    "issues": [],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_2",
+        "track_id": "video_primary",
+        "clip_type": "video",
+        "start_time": 5.0,
+        "end_time": 10.0,
+        "duration": 5.0,
+        "source_start": 5.0,
+        "source_end": 10.0,
+        "source_duration": 18.0,
+        "source_range_duration": 5.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "invalid_trim": {
+    "valid": false,
+    "issue_count": 1,
+    "issues": [
+      {
+        "code": "clip_too_short",
+        "message": "Clip duration is shorter than one timeline frame.",
+        "clip_id": "clip_1",
+        "track_id": "video_primary",
+        "metadata": {
+          "duration": 0.01,
+          "minimum_duration": 0.03333333333333333
+        }
+      }
+    ],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_1",
+        "track_id": "video_primary",
+        "clip_type": "video",
+        "start_time": 0.0,
+        "end_time": 0.01,
+        "duration": 0.01,
+        "source_start": 0.0,
+        "source_end": 0.009999999999999787,
+        "source_duration": 18.0,
+        "source_range_duration": 0.009999999999999787,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "valid_insert": {
+    "valid": true,
+    "issue_count": 0,
+    "issues": [],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_3",
+        "track_id": "video_primary",
+        "clip_type": "video",
+        "start_time": 10.0,
+        "end_time": 14.0,
+        "duration": 4.0,
+        "source_start": 10.0,
+        "source_end": 14.0,
+        "source_duration": 18.0,
+        "source_range_duration": 4.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "incompatible_insert": {
+    "valid": false,
+    "issue_count": 1,
+    "issues": [
+      {
+        "code": "track_type_mismatch",
+        "message": "Track does not accept this clip type.",
+        "clip_id": "clip_3",
+        "track_id": "music",
+        "metadata": {
+          "track_type": "music",
+          "clip_type": "video",
+          "accepted_clip_types": [
+            "audio",
+            "music"
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "candidate": {
+        "clip_id": "clip_3",
+        "track_id": "music",
+        "clip_type": "video",
+        "start_time": 10.0,
+        "end_time": 14.0,
+        "duration": 4.0,
+        "source_start": 10.0,
+        "source_end": 14.0,
+        "source_duration": 18.0,
+        "source_range_duration": 4.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  },
+  "source_overflow": {
+    "valid": false,
+    "issue_count": 1,
+    "issues": [
+      {
+        "code": "source_duration_exceeded",
+        "message": "Clip source_end exceeds the source media duration.",
+        "clip_id": "overflow",
+        "track_id": "video_primary",
+        "metadata": {
+          "source_end": 20.0,
+          "source_duration": 18.0
+        }
+      }
+    ],
+    "metadata": {
+      "candidate": {
+        "clip_id": "overflow",
+        "track_id": "video_primary",
+        "clip_type": "video",
+        "start_time": 10.0,
+        "end_time": 14.0,
+        "duration": 4.0,
+        "source_start": 16.0,
+        "source_end": 20.0,
+        "source_duration": 18.0,
+        "source_range_duration": 4.0,
+        "asset_id": null,
+        "local_path": null,
+        "text": null,
+        "volume": null,
+        "opacity": null,
+        "speed": null,
+        "enabled": true,
+        "metadata": {}
+      }
+    }
+  }
+}

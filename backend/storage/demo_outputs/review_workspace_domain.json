@@ -1,0 +1,64 @@
+{
+    "production_id": "prod_12345",
+    "version": 1,
+    "preview": {
+        "available": true,
+        "video_url": "/storage/preview/prod_12345.mp4",
+        "thumbnail_url": "/storage/preview/prod_12345.jpg",
+        "duration": 120.5,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30.0
+    },
+    "timeline": {
+        "version": "v2",
+        "duration": 120.5,
+        "track_count": 3,
+        "clip_count": 0,
+        "tracks": [
+            {
+                "id": "track1"
+            },
+            {
+                "id": "track2"
+            },
+            {
+                "id": "track3"
+            }
+        ]
+    },
+    "review": {
+        "is_approved": false,
+        "notes": []
+    },
+    "export": {
+        "is_exported": false,
+        "export_url": null,
+        "export_format": null
+    },
+    "ai": {
+        "suggestions": [],
+        "metadata": {
+            "suggestion_count": 5,
+            "tags": [
+                "funny",
+                "cat"
+            ]
+        }
+    },
+    "selection": {
+        "selected_clip_ids": []
+    },
+    "metadata": {
+        "builder": "ProductSnapshotBuilder",
+        "contract_version": "16.0.2",
+        "workspace_service": "ProductWorkspaceService",
+        "source_metadata": {
+            "timeline_loaded": true,
+            "artifact_count": 2,
+            "quality_loaded": true,
+            "ai_summary_loaded": true,
+            "issue_count": 0
+        }
+    }
+}
