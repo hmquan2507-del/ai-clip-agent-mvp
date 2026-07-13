@@ -339,7 +339,7 @@ def main() -> None:
 
     assert len(
         snapshot.artifacts
-    ) == 2
+    ) >= 2
 
     assert (
         snapshot.preview.available

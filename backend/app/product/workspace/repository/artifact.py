@@ -32,12 +32,9 @@ class RepositoryArtifactWorkspaceAdapter(
         self,
         artifact_repository: Any | None = None,
         *,
-        storage_roots: list[str | Path]
-        | None = None,
+        storage_roots: list[str | Path] | None = None,
     ):
-        self.artifact_repository = (
-            artifact_repository
-        )
+        self.artifact_repository = artifact_repository
 
         self.storage_roots = [
             Path(item)
@@ -47,6 +44,7 @@ class RepositoryArtifactWorkspaceAdapter(
                     "storage/production_render",
                     "storage/render_end_to_end_demo",
                     "storage/render_execution_integration",
+                    "storage/render_quality_test",
                 ]
             )
         ]
@@ -55,43 +53,41 @@ class RepositoryArtifactWorkspaceAdapter(
         self,
         production_id: str,
     ) -> list[Any]:
-        normalized_id = (
-            normalize_production_id(
-                production_id
-            )
+        normalized_id = normalize_production_id(
+            production_id
         )
 
-        repository_result = (
-            call_first_supported(
-                self.artifact_repository,
-                self.METHOD_NAMES,
-                production_id=normalized_id,
-                default=None,
-            )
+        repository_result = call_first_supported(
+            self.artifact_repository,
+            self.METHOD_NAMES,
+            production_id=normalized_id,
+            default=None,
         )
 
-        repository_artifacts = (
-            ensure_list(
-                repository_result
-            )
+        repository_rows = ensure_list(
+            repository_result
         )
 
-        if repository_artifacts:
-            first = (
-                repository_artifacts[0]
-            )
+        repository_artifacts: list[
+            dict[str, Any]
+        ] = []
 
+        if repository_rows:
             if isinstance(
-                first,
+                repository_rows[0],
                 dict,
             ):
-                return repository_artifacts
-
-            return (
-                self._adapt_runtime_artifacts(
-                    repository_artifacts
+                repository_artifacts = [
+                    dict(item)
+                    for item in repository_rows
+                    if isinstance(item, dict)
+                ]
+            else:
+                repository_artifacts = (
+                    self._adapt_runtime_artifacts(
+                        repository_rows
+                    )
                 )
-            )
 
         manifest_artifacts = (
             self._load_manifest_artifacts(
@@ -99,23 +95,23 @@ class RepositoryArtifactWorkspaceAdapter(
             )
         )
 
-        if manifest_artifacts:
-            return manifest_artifacts
-
-        return (
+        scanned_artifacts = (
             self._scan_artifact_directories(
                 normalized_id
             )
+        )
+
+        return self._merge_artifacts(
+            repository_artifacts,
+            manifest_artifacts,
+            scanned_artifacts,
         )
 
     def _adapt_runtime_artifacts(
         self,
         rows: list[Any],
     ) -> list[dict[str, Any]]:
-        latest_by_key: dict[
-            str,
-            Any,
-        ] = {}
+        latest_by_key: dict[str, Any] = {}
 
         for row in rows:
             artifact_key = str(
@@ -170,34 +166,13 @@ class RepositoryArtifactWorkspaceAdapter(
         for artifact_key, row in (
             latest_by_key.items()
         ):
-            payload: dict[
-                str,
-                Any
-            ] = {}
-
-            raw_payload = getattr(
-                row,
-                "payload_json",
-                None,
+            payload = self._parse_payload_json(
+                getattr(
+                    row,
+                    "payload_json",
+                    None,
+                )
             )
-
-            if isinstance(
-                raw_payload,
-                str,
-            ) and raw_payload.strip():
-                try:
-                    parsed = json.loads(
-                        raw_payload
-                    )
-
-                    if isinstance(
-                        parsed,
-                        dict,
-                    ):
-                        payload = parsed
-
-                except json.JSONDecodeError:
-                    payload = {}
 
             artifact_type = str(
                 payload.get(
@@ -217,18 +192,28 @@ class RepositoryArtifactWorkspaceAdapter(
             ):
                 metadata = {}
 
-            local_path = payload.get(
-                "local_path",
+            local_path = (
                 payload.get(
-                    "path",
-                ),
+                    "local_path"
+                )
+                or payload.get(
+                    "output_path"
+                )
+                or payload.get(
+                    "final_video_path"
+                )
+                or payload.get(
+                    "path"
+                )
             )
 
-            download_url = payload.get(
-                "download_url",
+            download_url = (
                 payload.get(
-                    "signed_url",
-                ),
+                    "download_url"
+                )
+                or payload.get(
+                    "signed_url"
+                )
             )
 
             file_size = payload.get(
@@ -237,6 +222,20 @@ class RepositoryArtifactWorkspaceAdapter(
                     "size",
                 ),
             )
+
+            mime_type = payload.get(
+                "mime_type"
+            )
+
+            if (
+                mime_type is None
+                and local_path
+            ):
+                mime_type = (
+                    mimetypes.guess_type(
+                        str(local_path)
+                    )[0]
+                )
 
             result.append(
                 {
@@ -257,15 +256,63 @@ class RepositoryArtifactWorkspaceAdapter(
                         download_url
                     ),
                     "mime_type": (
-                        payload.get(
-                            "mime_type"
-                        )
+                        mime_type
                     ),
                     "file_size": (
                         file_size
                     ),
                     "metadata": {
                         **metadata,
+                        "duration": payload.get(
+                            "duration",
+                            payload.get(
+                                "output_duration",
+                            ),
+                        ),
+                        "width": payload.get(
+                            "width",
+                            payload.get(
+                                "output_width",
+                            ),
+                        ),
+                        "height": payload.get(
+                            "height",
+                            payload.get(
+                                "output_height",
+                            ),
+                        ),
+                        "fps": payload.get(
+                            "fps",
+                            payload.get(
+                                "output_fps",
+                            ),
+                        ),
+                        "video_codec": (
+                            payload.get(
+                                "video_codec",
+                                payload.get(
+                                    "output_video_codec",
+                                ),
+                            )
+                        ),
+                        "audio_codec": (
+                            payload.get(
+                                "audio_codec",
+                                payload.get(
+                                    "output_audio_codec",
+                                ),
+                            )
+                        ),
+                        "output_path": (
+                            payload.get(
+                                "output_path"
+                            )
+                        ),
+                        "final_video_path": (
+                            payload.get(
+                                "final_video_path"
+                            )
+                        ),
                         "artifact_key": (
                             artifact_key
                         ),
@@ -276,12 +323,10 @@ class RepositoryArtifactWorkspaceAdapter(
                                 None,
                             )
                         ),
-                        "checksum": (
-                            getattr(
-                                row,
-                                "checksum",
-                                None,
-                            )
+                        "checksum": getattr(
+                            row,
+                            "checksum",
+                            None,
                         ),
                         "source": (
                             "RuntimeArtifactRepository"
@@ -295,7 +340,7 @@ class RepositoryArtifactWorkspaceAdapter(
     def _load_manifest_artifacts(
         self,
         production_id: str,
-    ) -> list[Any]:
+    ) -> list[dict[str, Any]]:
         for root in self.storage_roots:
             manifest_path = (
                 root
@@ -314,15 +359,135 @@ class RepositoryArtifactWorkspaceAdapter(
             ):
                 continue
 
-            artifacts = payload.get(
-                "artifacts"
+            raw_artifacts = payload.get(
+                "artifacts",
+                [],
             )
 
-            if isinstance(
-                artifacts,
+            if not isinstance(
+                raw_artifacts,
                 list,
             ):
-                return artifacts
+                continue
+
+            result: list[
+                dict[str, Any]
+            ] = []
+
+            for item in raw_artifacts:
+                if not isinstance(
+                    item,
+                    dict,
+                ):
+                    continue
+
+                item_metadata = item.get(
+                    "metadata",
+                    {},
+                )
+
+                if not isinstance(
+                    item_metadata,
+                    dict,
+                ):
+                    item_metadata = {}
+
+                local_path = item.get(
+                    "local_path"
+                )
+
+                mime_type = item.get(
+                    "mime_type"
+                )
+
+                if (
+                    mime_type is None
+                    and local_path
+                ):
+                    mime_type = (
+                        mimetypes.guess_type(
+                            str(local_path)
+                        )[0]
+                    )
+
+                result.append(
+                    {
+                        "artifact_id": str(
+                            item.get(
+                                "artifact_id",
+                                item.get(
+                                    "artifact_type",
+                                    "",
+                                ),
+                            )
+                        ),
+                        "artifact_type": str(
+                            item.get(
+                                "artifact_type",
+                                "unknown",
+                            )
+                        ),
+                        "local_path": (
+                            local_path
+                        ),
+                        "download_url": (
+                            item.get(
+                                "download_url"
+                            )
+                        ),
+                        "mime_type": (
+                            mime_type
+                        ),
+                        "file_size": (
+                            item.get(
+                                "file_size"
+                            )
+                        ),
+                        "metadata": {
+                            **item_metadata,
+                            "duration": (
+                                item.get(
+                                    "duration"
+                                )
+                            ),
+                            "width": item.get(
+                                "width"
+                            ),
+                            "height": item.get(
+                                "height"
+                            ),
+                            "fps": item.get(
+                                "fps"
+                            ),
+                            "video_codec": (
+                                item.get(
+                                    "video_codec"
+                                )
+                            ),
+                            "audio_codec": (
+                                item.get(
+                                    "audio_codec"
+                                )
+                            ),
+                            "checksum": (
+                                item.get(
+                                    "checksum"
+                                )
+                            ),
+                            "manifest_path": (
+                                str(
+                                    manifest_path
+                                )
+                            ),
+                            "source": (
+                                "render_artifact_manifest"
+                            ),
+                        },
+                    }
+                )
+
+            if result:
+                return result
 
         return []
 
@@ -330,16 +495,11 @@ class RepositoryArtifactWorkspaceAdapter(
         self,
         production_id: str,
     ) -> list[dict[str, Any]]:
-        artifacts: list[
-            dict[str, Any]
-        ] = []
-
         type_map = {
             "final.mp4": "final_video",
-            "preview.mp4": (
-                "preview_video"
-            ),
+            "preview.mp4": "preview_video",
             "thumbnail.jpg": "thumbnail",
+            "thumbnail.jpeg": "thumbnail",
             "thumbnail.png": "thumbnail",
             "render_report.json": (
                 "render_report"
@@ -350,7 +510,14 @@ class RepositoryArtifactWorkspaceAdapter(
             "recovery_diagnostics.json": (
                 "recovery_diagnostics"
             ),
+            "render_artifacts_manifest.json": (
+                "artifact_manifest"
+            ),
         }
+
+        artifacts: list[
+            dict[str, Any]
+        ] = []
 
         for root in self.storage_roots:
             artifact_directory = (
@@ -365,22 +532,24 @@ class RepositoryArtifactWorkspaceAdapter(
             ):
                 continue
 
-            for path in (
+            root_artifacts: list[
+                dict[str, Any]
+            ] = []
+
+            for path in sorted(
                 artifact_directory.iterdir()
             ):
                 if not path.is_file():
                     continue
 
-                artifact_type = (
-                    type_map.get(
-                        path.name
-                    )
+                artifact_type = type_map.get(
+                    path.name
                 )
 
                 if artifact_type is None:
                     continue
 
-                artifacts.append(
+                root_artifacts.append(
                     {
                         "artifact_id": (
                             artifact_type
@@ -388,9 +557,10 @@ class RepositoryArtifactWorkspaceAdapter(
                         "artifact_type": (
                             artifact_type
                         ),
-                        "local_path": (
-                            str(path)
+                        "local_path": str(
+                            path
                         ),
+                        "download_url": None,
                         "mime_type": (
                             mimetypes.guess_type(
                                 path.name
@@ -400,6 +570,12 @@ class RepositoryArtifactWorkspaceAdapter(
                             path.stat().st_size
                         ),
                         "metadata": {
+                            "filename": (
+                                path.name
+                            ),
+                            "storage_root": (
+                                str(root)
+                            ),
                             "source": (
                                 "filesystem_scan"
                             ),
@@ -407,7 +583,101 @@ class RepositoryArtifactWorkspaceAdapter(
                     }
                 )
 
-            if artifacts:
-                break
+            if root_artifacts:
+                artifacts.extend(
+                    root_artifacts
+                )
 
         return artifacts
+
+    def _merge_artifacts(
+        self,
+        *sources: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        merged: list[
+            dict[str, Any]
+        ] = []
+
+        seen: set[
+            tuple[str, str, str]
+        ] = set()
+
+        for source in sources:
+            for item in source:
+                if not isinstance(
+                    item,
+                    dict,
+                ):
+                    continue
+
+                artifact_type = str(
+                    item.get(
+                        "artifact_type",
+                        "unknown",
+                    )
+                )
+
+                artifact_id = str(
+                    item.get(
+                        "artifact_id",
+                        "",
+                    )
+                )
+
+                local_path = str(
+                    item.get(
+                        "local_path",
+                        "",
+                    )
+                    or ""
+                )
+
+                identity = (
+                    artifact_type,
+                    artifact_id,
+                    local_path,
+                )
+
+                if identity in seen:
+                    continue
+
+                seen.add(identity)
+                merged.append(item)
+
+        return merged
+
+    def _parse_payload_json(
+        self,
+        value: Any,
+    ) -> dict[str, Any]:
+        if isinstance(
+            value,
+            dict,
+        ):
+            return dict(value)
+
+        if not isinstance(
+            value,
+            str,
+        ):
+            return {}
+
+        stripped = value.strip()
+
+        if not stripped:
+            return {}
+
+        try:
+            payload = json.loads(
+                stripped
+            )
+        except json.JSONDecodeError:
+            return {}
+
+        if not isinstance(
+            payload,
+            dict,
+        ):
+            return {}
+
+        return payload

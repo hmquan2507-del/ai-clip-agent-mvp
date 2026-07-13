@@ -13,7 +13,7 @@
         "message": "Video đã sẵn sàng để xem và chỉnh sửa.",
         "status": "ready_for_review",
         "estimated_seconds_remaining": null,
-        "updated_at": "2026-07-11T09:17:29.278822+00:00",
+        "updated_at": "2026-07-13T02:37:50.312740+00:00",
         "metadata": {}
       },
       "version": 5,
@@ -51,6 +51,186 @@
           "file_size": 50000,
           "mime_type": "image/jpeg",
           "metadata": {}
+        },
+        {
+          "artifact_id": "final_video",
+          "artifact_type": "final_video",
+          "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+          "download_url": null,
+          "file_size": 8368750,
+          "mime_type": "video/mp4",
+          "metadata": {
+            "source_output_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+            "ffmpeg_returncode": 0,
+            "duration": 18.0,
+            "width": 1080,
+            "height": 1920,
+            "fps": 30.0,
+            "video_codec": "h264",
+            "audio_codec": "aac",
+            "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd",
+            "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+            "source": "render_artifact_manifest"
+          }
+        },
+        {
+          "artifact_id": "thumbnail",
+          "artifact_type": "thumbnail",
+          "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
+          "download_url": null,
+          "file_size": 202647,
+          "mime_type": "image/jpeg",
+          "metadata": {
+            "source_video": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+            "capture_time": 1.0,
+            "duration": null,
+            "width": null,
+            "height": null,
+            "fps": null,
+            "video_codec": null,
+            "audio_codec": null,
+            "checksum": "3488b10b5ec85a1c1df216ca8f6036bcd5f7881af30c64d4fb065304598c359e",
+            "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+            "source": "render_artifact_manifest"
+          }
+        },
+        {
+          "artifact_id": "render_report",
+          "artifact_type": "render_report",
+          "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
+          "download_url": null,
+          "file_size": 1065,
+          "mime_type": "application/json",
+          "metadata": {
+            "success": true,
+            "returncode": 0,
+            "duration": null,
+            "width": null,
+            "height": null,
+            "fps": null,
+            "video_codec": null,
+            "audio_codec": null,
+            "checksum": "1e1fe6f3ae54bce18b82a8cae206137380850036435f93b844d5166c9308a1a8",
+            "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+            "source": "render_artifact_manifest"
+          }
+        },
+        {
+          "artifact_id": "recovery_diagnostics",
+          "artifact_type": "recovery_diagnostics",
+          "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/recovery_diagnostics.json",
+          "download_url": null,
+          "file_size": 699,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "recovery_diagnostics.json",
+            "storage_root": "storage/render_end_to_end_demo",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "artifact_manifest",
+          "artifact_type": "artifact_manifest",
+          "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+          "download_url": null,
+          "file_size": 2311,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "render_artifacts_manifest.json",
+            "storage_root": "storage/render_end_to_end_demo",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "quality_report",
+          "artifact_type": "quality_report",
+          "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_quality_report.json",
+          "download_url": null,
+          "file_size": 4927,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "render_quality_report.json",
+            "storage_root": "storage/render_end_to_end_demo",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "final_video",
+          "artifact_type": "final_video",
+          "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+          "download_url": null,
+          "file_size": 8368750,
+          "mime_type": "video/mp4",
+          "metadata": {
+            "filename": "final.mp4",
+            "storage_root": "storage/render_execution_integration",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "recovery_diagnostics",
+          "artifact_type": "recovery_diagnostics",
+          "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/recovery_diagnostics.json",
+          "download_url": null,
+          "file_size": 705,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "recovery_diagnostics.json",
+            "storage_root": "storage/render_execution_integration",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "artifact_manifest",
+          "artifact_type": "artifact_manifest",
+          "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+          "download_url": null,
+          "file_size": 2347,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "render_artifacts_manifest.json",
+            "storage_root": "storage/render_execution_integration",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "render_report",
+          "artifact_type": "render_report",
+          "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
+          "download_url": null,
+          "file_size": 1076,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "render_report.json",
+            "storage_root": "storage/render_execution_integration",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "thumbnail",
+          "artifact_type": "thumbnail",
+          "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
+          "download_url": null,
+          "file_size": 202647,
+          "mime_type": "image/jpeg",
+          "metadata": {
+            "filename": "thumbnail.jpg",
+            "storage_root": "storage/render_execution_integration",
+            "source": "filesystem_scan"
+          }
+        },
+        {
+          "artifact_id": "quality_report",
+          "artifact_type": "quality_report",
+          "local_path": "storage/render_quality_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_quality_report.json",
+          "download_url": null,
+          "file_size": 4942,
+          "mime_type": "application/json",
+          "metadata": {
+            "filename": "render_quality_report.json",
+            "storage_root": "storage/render_quality_test",
+            "source": "filesystem_scan"
+          }
         }
       ],
       "failure": null,
@@ -155,6 +335,186 @@
         "file_size": 50000,
         "mime_type": "image/jpeg",
         "metadata": {}
+      },
+      {
+        "artifact_id": "final_video",
+        "artifact_type": "final_video",
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+        "download_url": null,
+        "file_size": 8368750,
+        "mime_type": "video/mp4",
+        "metadata": {
+          "source_output_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/output/final.mp4",
+          "ffmpeg_returncode": 0,
+          "duration": 18.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "checksum": "a54270717fb92ff37a1f9d54a7855b451cefcf9cd3955b81036bcacc6d6bd2bd",
+          "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+          "source": "render_artifact_manifest"
+        }
+      },
+      {
+        "artifact_id": "thumbnail",
+        "artifact_type": "thumbnail",
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
+        "download_url": null,
+        "file_size": 202647,
+        "mime_type": "image/jpeg",
+        "metadata": {
+          "source_video": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+          "capture_time": 1.0,
+          "duration": null,
+          "width": null,
+          "height": null,
+          "fps": null,
+          "video_codec": null,
+          "audio_codec": null,
+          "checksum": "3488b10b5ec85a1c1df216ca8f6036bcd5f7881af30c64d4fb065304598c359e",
+          "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+          "source": "render_artifact_manifest"
+        }
+      },
+      {
+        "artifact_id": "render_report",
+        "artifact_type": "render_report",
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
+        "download_url": null,
+        "file_size": 1065,
+        "mime_type": "application/json",
+        "metadata": {
+          "success": true,
+          "returncode": 0,
+          "duration": null,
+          "width": null,
+          "height": null,
+          "fps": null,
+          "video_codec": null,
+          "audio_codec": null,
+          "checksum": "1e1fe6f3ae54bce18b82a8cae206137380850036435f93b844d5166c9308a1a8",
+          "manifest_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+          "source": "render_artifact_manifest"
+        }
+      },
+      {
+        "artifact_id": "recovery_diagnostics",
+        "artifact_type": "recovery_diagnostics",
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/recovery_diagnostics.json",
+        "download_url": null,
+        "file_size": 699,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "recovery_diagnostics.json",
+          "storage_root": "storage/render_end_to_end_demo",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "artifact_manifest",
+        "artifact_type": "artifact_manifest",
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+        "download_url": null,
+        "file_size": 2311,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "render_artifacts_manifest.json",
+          "storage_root": "storage/render_end_to_end_demo",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "quality_report",
+        "artifact_type": "quality_report",
+        "local_path": "storage/render_end_to_end_demo/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_quality_report.json",
+        "download_url": null,
+        "file_size": 4927,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "render_quality_report.json",
+          "storage_root": "storage/render_end_to_end_demo",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "final_video",
+        "artifact_type": "final_video",
+        "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/final.mp4",
+        "download_url": null,
+        "file_size": 8368750,
+        "mime_type": "video/mp4",
+        "metadata": {
+          "filename": "final.mp4",
+          "storage_root": "storage/render_execution_integration",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "recovery_diagnostics",
+        "artifact_type": "recovery_diagnostics",
+        "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/recovery_diagnostics.json",
+        "download_url": null,
+        "file_size": 705,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "recovery_diagnostics.json",
+          "storage_root": "storage/render_execution_integration",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "artifact_manifest",
+        "artifact_type": "artifact_manifest",
+        "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_artifacts_manifest.json",
+        "download_url": null,
+        "file_size": 2347,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "render_artifacts_manifest.json",
+          "storage_root": "storage/render_execution_integration",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "render_report",
+        "artifact_type": "render_report",
+        "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_report.json",
+        "download_url": null,
+        "file_size": 1076,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "render_report.json",
+          "storage_root": "storage/render_execution_integration",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "thumbnail",
+        "artifact_type": "thumbnail",
+        "local_path": "storage/render_execution_integration/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/thumbnail.jpg",
+        "download_url": null,
+        "file_size": 202647,
+        "mime_type": "image/jpeg",
+        "metadata": {
+          "filename": "thumbnail.jpg",
+          "storage_root": "storage/render_execution_integration",
+          "source": "filesystem_scan"
+        }
+      },
+      {
+        "artifact_id": "quality_report",
+        "artifact_type": "quality_report",
+        "local_path": "storage/render_quality_test/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts/render_quality_report.json",
+        "download_url": null,
+        "file_size": 4942,
+        "mime_type": "application/json",
+        "metadata": {
+          "filename": "render_quality_report.json",
+          "storage_root": "storage/render_quality_test",
+          "source": "filesystem_scan"
+        }
       }
     ],
     "ai_summary": {
@@ -174,7 +534,7 @@
       "workspace_service": "ProductWorkspaceService",
       "source_metadata": {
         "timeline_loaded": true,
-        "artifact_count": 2,
+        "artifact_count": 14,
         "quality_loaded": true,
         "ai_summary_loaded": true,
         "issue_count": 0
@@ -182,9 +542,9 @@
     }
   },
   "cache_hit": false,
-  "loaded_at": "2026-07-11T09:17:29.279018+00:00",
+  "loaded_at": "2026-07-13T02:37:50.313184+00:00",
   "errors": [],
   "metadata": {
-    "duration_seconds": 0.000278
+    "duration_seconds": 0.009034
   }
 }

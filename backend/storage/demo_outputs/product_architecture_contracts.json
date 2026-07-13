@@ -116,7 +116,7 @@
       "message": "Video đã sẵn sàng để xem và chỉnh sửa.",
       "status": "ready_for_review",
       "estimated_seconds_remaining": null,
-      "updated_at": "2026-07-11T09:17:29.035376+00:00",
+      "updated_at": "2026-07-13T02:37:50.033026+00:00",
       "metadata": {}
     },
     "version": 1,
@@ -144,7 +144,7 @@
     "status": "ready_for_review",
     "progress": 100.0,
     "message": "Video đã sẵn sàng để xem và chỉnh sửa.",
-    "created_at": "2026-07-11T09:17:29.035443+00:00",
+    "created_at": "2026-07-13T02:37:50.033096+00:00",
     "metadata": {}
   }
 }
