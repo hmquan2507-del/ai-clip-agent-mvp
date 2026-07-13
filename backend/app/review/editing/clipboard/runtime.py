@@ -145,6 +145,7 @@ class TimelineClipboardRuntime:
             clip_ids=clip_ids,
             action=TimelineClipboardAction.CUT,
             save_history=False,
+            emit_event=False,
         )
 
         if not copy_result.success:
@@ -353,6 +354,7 @@ class TimelineClipboardRuntime:
         clip_ids: list[str],
         action: TimelineClipboardAction,
         save_history: bool,
+        emit_event: bool = True,
     ) -> TimelineClipboardResult:
         normalized_ids = list(
             dict.fromkeys(
@@ -421,6 +423,9 @@ class TimelineClipboardRuntime:
 
         if save_history:
             self._append_history(self._content)
+
+        if not emit_event:
+            return self._success()
 
         event_type = (
             TimelineClipboardEventType.CLIP_COPIED
