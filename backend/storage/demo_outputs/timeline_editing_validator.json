@@ -216,8 +216,8 @@
           "track_type": "music",
           "clip_type": "video",
           "accepted_clip_types": [
-            "audio",
-            "music"
+            "music",
+            "audio"
           ]
         }
       }

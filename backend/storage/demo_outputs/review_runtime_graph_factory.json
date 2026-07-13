@@ -1,0 +1,41 @@
+{
+  "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+  "production_ids_match": true,
+  "shared_store": true,
+  "timeline_revision": 2,
+  "timeline_dirty": true,
+  "track_count": 2,
+  "clip_count": 2,
+  "preview_available": true,
+  "selection_track_count": 2,
+  "selection_clip_count": 2,
+  "history": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "can_undo": true,
+    "can_redo": false,
+    "undo_count": 1,
+    "redo_count": 0,
+    "current_revision": 2,
+    "maximum_history_size": 25,
+    "next_undo_label": "Cắt cuối clip",
+    "next_redo_label": null
+  },
+  "clipboard": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "status": "empty",
+    "available": false,
+    "item_count": 0,
+    "clip_count": 0,
+    "clipboard_id": "e8a9f6a9-4dc4-4fed-8712-32bc90f6bd69",
+    "last_action": null,
+    "source_track_ids": []
+  },
+  "components": {
+    "preview": "PreviewSessionRuntime",
+    "selection": "TimelineSelectionRuntime",
+    "timeline_store": "TimelineRuntimeStore",
+    "mutation": "TimelineMutationRuntime",
+    "history": "TimelineCommandHistoryRuntime",
+    "clipboard": "TimelineClipboardRuntime"
+  }
+}

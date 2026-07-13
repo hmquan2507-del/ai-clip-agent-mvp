@@ -12,8 +12,8 @@
     "revision": 1,
     "dirty": false,
     "dirty_status": "clean",
-    "created_at": "2026-07-13T10:08:31.726896+00:00",
-    "updated_at": "2026-07-13T10:08:31.726936+00:00",
+    "created_at": "2026-07-13T17:55:02.861152+00:00",
+    "updated_at": "2026-07-13T17:55:02.861172+00:00",
     "tracks": [
       {
         "track_id": "video_overlay",
@@ -102,8 +102,8 @@
     "revision": 4,
     "dirty": true,
     "dirty_status": "dirty",
-    "created_at": "2026-07-13T10:08:31.726896+00:00",
-    "updated_at": "2026-07-13T10:08:31.729112+00:00",
+    "created_at": "2026-07-13T17:55:02.861152+00:00",
+    "updated_at": "2026-07-13T17:55:02.864047+00:00",
     "tracks": [
       {
         "track_id": "video_overlay",
@@ -224,8 +224,8 @@
     "revision": 4,
     "dirty": true,
     "dirty_status": "dirty",
-    "created_at": "2026-07-13T10:08:31.726896+00:00",
-    "updated_at": "2026-07-13T10:08:31.731544+00:00",
+    "created_at": "2026-07-13T17:55:02.861152+00:00",
+    "updated_at": "2026-07-13T17:55:02.867169+00:00",
     "tracks": [
       {
         "track_id": "video_overlay",
@@ -295,8 +295,8 @@
       "revision": 1,
       "dirty": false,
       "dirty_status": "clean",
-      "created_at": "2026-07-13T10:08:31.726896+00:00",
-      "updated_at": "2026-07-13T10:08:31.726936+00:00",
+      "created_at": "2026-07-13T17:55:02.861152+00:00",
+      "updated_at": "2026-07-13T17:55:02.861172+00:00",
       "tracks": [
         {
           "track_id": "video_overlay",
@@ -389,71 +389,71 @@
       {
         "action": "execute",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "61aa3500-bcee-49be-822f-53b2ff3b8164",
+        "command_id": "83f445b8-9c47-44a3-ab21-af32f90b40aa",
         "operation_type": "move_clip",
         "undo_count": 1,
         "redo_count": 0,
-        "created_at": "2026-07-13T10:08:31.728073+00:00",
+        "created_at": "2026-07-13T17:55:02.862426+00:00",
         "metadata": {}
       },
       {
         "action": "execute",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "2bcbb62d-447a-45f2-b28c-fb5f1a3f053a",
+        "command_id": "fe632365-ebc3-4d6b-9b56-3c102444451a",
         "operation_type": "trim_clip_start",
         "undo_count": 2,
         "redo_count": 0,
-        "created_at": "2026-07-13T10:08:31.728844+00:00",
+        "created_at": "2026-07-13T17:55:02.863652+00:00",
         "metadata": {}
       },
       {
         "action": "execute",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "fc9a6690-9959-444f-8d5d-bc7671d1210b",
+        "command_id": "63cd4aeb-d090-46c6-b0c2-0ff135c18f6e",
         "operation_type": "duplicate_clip",
         "undo_count": 3,
         "redo_count": 0,
-        "created_at": "2026-07-13T10:08:31.729641+00:00",
+        "created_at": "2026-07-13T17:55:02.864678+00:00",
         "metadata": {}
       },
       {
         "action": "undo",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "fc9a6690-9959-444f-8d5d-bc7671d1210b",
+        "command_id": "63cd4aeb-d090-46c6-b0c2-0ff135c18f6e",
         "operation_type": "duplicate_clip",
         "undo_count": 2,
         "redo_count": 1,
-        "created_at": "2026-07-13T10:08:31.730366+00:00",
+        "created_at": "2026-07-13T17:55:02.865647+00:00",
         "metadata": {}
       },
       {
         "action": "undo",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "2bcbb62d-447a-45f2-b28c-fb5f1a3f053a",
+        "command_id": "fe632365-ebc3-4d6b-9b56-3c102444451a",
         "operation_type": "trim_clip_start",
         "undo_count": 1,
         "redo_count": 2,
-        "created_at": "2026-07-13T10:08:31.730772+00:00",
+        "created_at": "2026-07-13T17:55:02.866088+00:00",
         "metadata": {}
       },
       {
         "action": "redo",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "2bcbb62d-447a-45f2-b28c-fb5f1a3f053a",
+        "command_id": "fe632365-ebc3-4d6b-9b56-3c102444451a",
         "operation_type": "trim_clip_start",
         "undo_count": 2,
         "redo_count": 1,
-        "created_at": "2026-07-13T10:08:31.731266+00:00",
+        "created_at": "2026-07-13T17:55:02.866848+00:00",
         "metadata": {}
       },
       {
         "action": "execute",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-        "command_id": "35c77e15-ad9a-4b4d-9a6d-2eee985bfa14",
+        "command_id": "41617e3c-0ada-4f0f-8a6f-d9bb1bc3303e",
         "operation_type": "delete_clip",
         "undo_count": 3,
         "redo_count": 0,
-        "created_at": "2026-07-13T10:08:31.731940+00:00",
+        "created_at": "2026-07-13T17:55:02.867677+00:00",
         "metadata": {}
       },
       {
@@ -463,12 +463,13 @@
         "operation_type": null,
         "undo_count": 0,
         "redo_count": 0,
-        "created_at": "2026-07-13T10:08:31.732459+00:00",
+        "created_at": "2026-07-13T17:55:02.869150+00:00",
         "metadata": {}
       }
     ],
     "metadata": {
-      "runtime": "TimelineCommandHistoryRuntime"
+      "runtime": "TimelineCommandHistoryRuntime",
+      "store_revision": 1
     }
   },
   "reset_result": {
@@ -486,8 +487,8 @@
       "revision": 1,
       "dirty": false,
       "dirty_status": "clean",
-      "created_at": "2026-07-13T10:08:31.726896+00:00",
-      "updated_at": "2026-07-13T10:08:31.726936+00:00",
+      "created_at": "2026-07-13T17:55:02.861152+00:00",
+      "updated_at": "2026-07-13T17:55:02.861172+00:00",
       "tracks": [
         {
           "track_id": "video_overlay",
@@ -583,7 +584,7 @@
       "operation_type": null,
       "undo_count": 0,
       "redo_count": 0,
-      "created_at": "2026-07-13T10:08:31.732459+00:00",
+      "created_at": "2026-07-13T17:55:02.869150+00:00",
       "metadata": {}
     },
     "error": null

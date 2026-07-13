@@ -1,0 +1,227 @@
+{
+  "checks": {
+    "shared_store": true,
+    "failures_no_commit": true,
+    "move_single_commit": true,
+    "redo_branch_cleared": true,
+    "copy_no_timeline_change": true,
+    "paste_atomic": true,
+    "undo_paste": true,
+    "redo_paste": true,
+    "cut_and_undo": true,
+    "clipboard_failures_no_commit": true,
+    "timeline_snapshot_isolated": true,
+    "clipboard_content_isolated": true,
+    "history_command_isolated": true,
+    "store_change_log_isolated": true,
+    "change_reasons_valid": true,
+    "reset_to_initial": true,
+    "source_unchanged": true,
+    "final_change_count": true,
+    "final_history_event_count": true
+  },
+  "store_changes": [
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 1,
+      "current_revision": 2,
+      "reason": "mutation.move_clip",
+      "created_at": "2026-07-13T17:55:03.446606+00:00",
+      "metadata": {
+        "operation_type": "move_clip",
+        "clip_id": "clip_3",
+        "track_id": "video_overlay"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 2,
+      "current_revision": 3,
+      "reason": "mutation.trim_clip_start",
+      "created_at": "2026-07-13T17:55:03.447077+00:00",
+      "metadata": {
+        "operation_type": "trim_clip_start",
+        "clip_id": "clip_1",
+        "track_id": "video_primary"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 3,
+      "current_revision": 4,
+      "reason": "mutation.duplicate_clip",
+      "created_at": "2026-07-13T17:55:03.448729+00:00",
+      "metadata": {
+        "operation_type": "duplicate_clip",
+        "clip_id": "clip_1_copy",
+        "track_id": "video_overlay"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 4,
+      "current_revision": 3,
+      "reason": "history.undo",
+      "created_at": "2026-07-13T17:55:03.449992+00:00",
+      "metadata": {
+        "command_id": "d9d9bf82-c5e9-4cf0-a814-bb5e4cd3a5b9",
+        "operation_type": "duplicate_clip"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 3,
+      "current_revision": 4,
+      "reason": "history.redo",
+      "created_at": "2026-07-13T17:55:03.450620+00:00",
+      "metadata": {
+        "command_id": "d9d9bf82-c5e9-4cf0-a814-bb5e4cd3a5b9",
+        "operation_type": "duplicate_clip"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 4,
+      "current_revision": 3,
+      "reason": "history.undo",
+      "created_at": "2026-07-13T17:55:03.451066+00:00",
+      "metadata": {
+        "command_id": "d9d9bf82-c5e9-4cf0-a814-bb5e4cd3a5b9",
+        "operation_type": "duplicate_clip"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 3,
+      "current_revision": 4,
+      "reason": "mutation.delete_clip",
+      "created_at": "2026-07-13T17:55:03.451861+00:00",
+      "metadata": {
+        "operation_type": "delete_clip",
+        "clip_id": null,
+        "track_id": "video_primary"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 4,
+      "current_revision": 5,
+      "reason": "mutation.paste_clips",
+      "created_at": "2026-07-13T17:55:03.453871+00:00",
+      "metadata": {
+        "operation_type": "paste_clips",
+        "inserted_clip_ids": [
+          "clip_1_paste_1eefcb9c_0",
+          "clip_3_paste_1eefcb9c_1"
+        ],
+        "affected_track_ids": [
+          "video_overlay"
+        ],
+        "clip_count": 2
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 5,
+      "current_revision": 4,
+      "reason": "history.undo",
+      "created_at": "2026-07-13T17:55:03.456086+00:00",
+      "metadata": {
+        "command_id": "4a946b44-3592-4938-8d2f-dde95afa4c36",
+        "operation_type": "paste_clips"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 4,
+      "current_revision": 5,
+      "reason": "history.redo",
+      "created_at": "2026-07-13T17:55:03.456915+00:00",
+      "metadata": {
+        "command_id": "4a946b44-3592-4938-8d2f-dde95afa4c36",
+        "operation_type": "paste_clips"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 5,
+      "current_revision": 6,
+      "reason": "mutation.cut_clips",
+      "created_at": "2026-07-13T17:55:03.458118+00:00",
+      "metadata": {
+        "operation_type": "cut_clips",
+        "removed_clip_ids": [
+          "clip_1"
+        ],
+        "removed_clips": [
+          {
+            "clip_id": "clip_1",
+            "track_id": "video_primary",
+            "clip_type": "video",
+            "start_time": 1.0,
+            "end_time": 3.0,
+            "duration": 2.0,
+            "source_start": 1.0,
+            "source_end": 3.0,
+            "source_duration": 30.0,
+            "source_range_duration": 2.0,
+            "asset_id": null,
+            "local_path": null,
+            "text": null,
+            "volume": null,
+            "opacity": null,
+            "speed": null,
+            "enabled": true,
+            "metadata": {}
+          }
+        ],
+        "affected_track_ids": [
+          "video_primary"
+        ],
+        "clip_count": 1
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 6,
+      "current_revision": 5,
+      "reason": "history.undo",
+      "created_at": "2026-07-13T17:55:03.460243+00:00",
+      "metadata": {
+        "command_id": "a2df8627-aca7-4ebf-8232-045da7bceb93",
+        "operation_type": "cut_clips"
+      }
+    },
+    {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "previous_revision": 5,
+      "current_revision": 1,
+      "reason": "reset",
+      "created_at": "2026-07-13T17:55:03.465129+00:00",
+      "metadata": {}
+    }
+  ],
+  "history_state": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "can_undo": false,
+    "can_redo": false,
+    "undo_count": 0,
+    "redo_count": 0,
+    "current_revision": 1,
+    "maximum_history_size": 20,
+    "next_undo_label": null,
+    "next_redo_label": null
+  },
+  "clipboard_state": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "status": "ready",
+    "available": true,
+    "item_count": 1,
+    "clip_count": 1,
+    "clipboard_id": "ae6890f2-0e05-4086-91aa-bbe01846b553",
+    "last_action": "cut",
+    "source_track_ids": [
+      "video_primary"
+    ]
+  }
+}

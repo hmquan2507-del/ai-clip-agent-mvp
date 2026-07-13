@@ -1,0 +1,40 @@
+{
+  "checks": {
+    "first_copy": true,
+    "locked_cut_rollback": true,
+    "multi_copy": true,
+    "missing_mapping_blocked": true,
+    "invalid_mapping_atomic": true,
+    "paste_single_event": true,
+    "cut_single_event": true,
+    "cut_undo_works": true,
+    "history_limit_enforced": true,
+    "restore_works": true,
+    "clear_history_preserves_content": true,
+    "clear_content_works": true,
+    "source_unchanged": true
+  },
+  "store_change_count": 3,
+  "history_state": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "can_undo": true,
+    "can_redo": true,
+    "undo_count": 1,
+    "redo_count": 1,
+    "current_revision": 2,
+    "maximum_history_size": 100,
+    "next_undo_label": "Dán clip",
+    "next_redo_label": "Cắt clip"
+  },
+  "clipboard_state": {
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "status": "empty",
+    "available": false,
+    "item_count": 0,
+    "clip_count": 0,
+    "clipboard_id": "d44aa8f8-335f-428a-acc0-92a92a3deed1",
+    "last_action": null,
+    "source_track_ids": []
+  },
+  "clipboard_event_count": 12
+}

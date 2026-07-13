@@ -40,8 +40,8 @@
       "current_frame": 30,
       "total_frames": 540,
       "revision": 16,
-      "created_at": "2026-07-13T07:15:08.404635+00:00",
-      "updated_at": "2026-07-13T07:15:08.405610+00:00",
+      "created_at": "2026-07-13T17:55:02.075022+00:00",
+      "updated_at": "2026-07-13T17:55:02.077091+00:00",
       "error": null,
       "metadata": {
         "runtime": "PreviewSessionRuntime",
@@ -54,7 +54,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 1,
         "current_time": 0.0,
-        "created_at": "2026-07-13T07:15:08.404751+00:00",
+        "created_at": "2026-07-13T17:55:02.075136+00:00",
         "metadata": {
           "source_available": true
         }
@@ -64,7 +64,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 1,
         "current_time": 0.0,
-        "created_at": "2026-07-13T07:15:08.404766+00:00",
+        "created_at": "2026-07-13T17:55:02.075155+00:00",
         "metadata": {}
       },
       {
@@ -72,7 +72,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 2,
         "current_time": 0.0,
-        "created_at": "2026-07-13T07:15:08.404879+00:00",
+        "created_at": "2026-07-13T17:55:02.075683+00:00",
         "metadata": {}
       },
       {
@@ -80,7 +80,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 3,
         "current_time": 2.0,
-        "created_at": "2026-07-13T07:15:08.404952+00:00",
+        "created_at": "2026-07-13T17:55:02.075922+00:00",
         "metadata": {
           "tick": 2.0,
           "position": 2.0
@@ -91,7 +91,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 4,
         "current_time": 5.5,
-        "created_at": "2026-07-13T07:15:08.405037+00:00",
+        "created_at": "2026-07-13T17:55:02.076100+00:00",
         "metadata": {
           "position": 5.5
         }
@@ -101,7 +101,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 5,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405114+00:00",
+        "created_at": "2026-07-13T17:55:02.076295+00:00",
         "metadata": {
           "position": 7.0
         }
@@ -111,7 +111,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 6,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405180+00:00",
+        "created_at": "2026-07-13T17:55:02.076439+00:00",
         "metadata": {
           "volume": 0.45
         }
@@ -121,7 +121,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 7,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405215+00:00",
+        "created_at": "2026-07-13T17:55:02.076543+00:00",
         "metadata": {
           "muted": true
         }
@@ -131,7 +131,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 8,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405254+00:00",
+        "created_at": "2026-07-13T17:55:02.076623+00:00",
         "metadata": {
           "playback_rate": 1.5
         }
@@ -141,7 +141,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 9,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405287+00:00",
+        "created_at": "2026-07-13T17:55:02.076673+00:00",
         "metadata": {
           "zoom": 1.25
         }
@@ -151,7 +151,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 10,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405315+00:00",
+        "created_at": "2026-07-13T17:55:02.076717+00:00",
         "metadata": {
           "loop_enabled": true
         }
@@ -161,7 +161,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 11,
         "current_time": 7.033333333333333,
-        "created_at": "2026-07-13T07:15:08.405352+00:00",
+        "created_at": "2026-07-13T17:55:02.076774+00:00",
         "metadata": {
           "position": 7.033333333333333
         }
@@ -171,7 +171,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 11,
         "current_time": 7.033333333333333,
-        "created_at": "2026-07-13T07:15:08.405378+00:00",
+        "created_at": "2026-07-13T17:55:02.076805+00:00",
         "metadata": {
           "direction": "forward",
           "frame_count": 1,
@@ -183,7 +183,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 12,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405430+00:00",
+        "created_at": "2026-07-13T17:55:02.076873+00:00",
         "metadata": {
           "position": 7.0
         }
@@ -193,7 +193,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 12,
         "current_time": 7.0,
-        "created_at": "2026-07-13T07:15:08.405454+00:00",
+        "created_at": "2026-07-13T17:55:02.076903+00:00",
         "metadata": {
           "direction": "backward",
           "frame_count": 1,
@@ -205,7 +205,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 13,
         "current_time": 17.5,
-        "created_at": "2026-07-13T07:15:08.405500+00:00",
+        "created_at": "2026-07-13T17:55:02.076968+00:00",
         "metadata": {
           "position": 17.5
         }
@@ -215,7 +215,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 14,
         "current_time": 17.5,
-        "created_at": "2026-07-13T07:15:08.405531+00:00",
+        "created_at": "2026-07-13T17:55:02.077006+00:00",
         "metadata": {}
       },
       {
@@ -223,7 +223,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 15,
         "current_time": 1.0,
-        "created_at": "2026-07-13T07:15:08.405569+00:00",
+        "created_at": "2026-07-13T17:55:02.077045+00:00",
         "metadata": {
           "looped": true,
           "position": 1.0
@@ -234,7 +234,7 @@
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "state_revision": 16,
         "current_time": 1.0,
-        "created_at": "2026-07-13T07:15:08.405617+00:00",
+        "created_at": "2026-07-13T17:55:02.077099+00:00",
         "metadata": {}
       }
     ],
@@ -261,8 +261,8 @@
       "current_frame": 0,
       "total_frames": 540,
       "revision": 2,
-      "created_at": "2026-07-13T07:15:08.404635+00:00",
-      "updated_at": "2026-07-13T07:15:08.405705+00:00",
+      "created_at": "2026-07-13T17:55:02.075022+00:00",
+      "updated_at": "2026-07-13T17:55:02.077195+00:00",
       "error": null,
       "metadata": {
         "runtime": "PreviewSessionRuntime",
@@ -274,7 +274,7 @@
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
       "state_revision": 2,
       "current_time": 0.0,
-      "created_at": "2026-07-13T07:15:08.405715+00:00",
+      "created_at": "2026-07-13T17:55:02.077204+00:00",
       "metadata": {}
     },
     "error": null

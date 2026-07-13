@@ -10,6 +10,15 @@ from app.review.session.models import (
     ReviewRuntimeSessionSnapshot,
     ReviewRuntimeSessionState,
 )
+from app.review.session.graph import (
+    ReviewRuntimeGraph,
+)
+from app.review.session.factory import (
+    ReviewRuntimeGraphSource,
+    build_review_runtime_graph,
+    build_review_runtime_graph_from_snapshot,
+    build_review_runtime_graph_from_workspace,
+)
 
 
 __all__ = [
@@ -21,4 +30,9 @@ __all__ = [
     "ReviewRuntimeSessionResult",
     "ReviewRuntimeSessionSnapshot",
     "ReviewRuntimeSessionState",
+    "ReviewRuntimeGraph",
+    "ReviewRuntimeGraphSource",
+    "build_review_runtime_graph",
+    "build_review_runtime_graph_from_snapshot",
+    "build_review_runtime_graph_from_workspace",
 ]
