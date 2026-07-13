@@ -20,7 +20,8 @@ from app.review.editing import (
     EditableTrackType,
     TimelineOverlapPolicy,
     build_clipboard_from_history_runtime,
-    build_timeline_history_runtime,
+    build_history_from_store,
+    build_timeline_runtime_store,
 )
 
 
@@ -89,10 +90,12 @@ def build_timeline() -> EditableTimeline:
 
 
 def main() -> None:
-    history = (
-        build_timeline_history_runtime(
-            build_timeline()
-        )
+    source_timeline = build_timeline()
+    store = build_timeline_runtime_store(
+        source_timeline
+    )
+    history = build_history_from_store(
+        store
     )
 
     clipboard = (
@@ -130,20 +133,19 @@ def main() -> None:
         paste_result.success,
     )
     print(
-    "paste_error:",
-    paste_result.error,
-)
-
+        "paste_error:",
+        paste_result.error,
+    )
     print(
-    "timeline_history_result:",
-    (
-        paste_result
-        .timeline_history_result
-        .to_dict()
-        if paste_result.timeline_history_result
-        else None
-    ),
-)
+        "history_result_success:",
+        (
+            paste_result
+            .timeline_history_result
+            .success
+            if paste_result.timeline_history_result
+            else False
+        ),
+    )
 
     pasted_ids = []
 
@@ -259,6 +261,85 @@ def main() -> None:
         restore_result.success,
     )
 
+    shared_store = (
+        clipboard.store is store
+        and history.store is store
+        and history.mutation_runtime.store
+        is store
+    )
+
+    snapshot_clone = clipboard.snapshot()
+    snapshot_clone.mark_dirty()
+    snapshot_isolated = (
+        snapshot_clone.revision
+        == store.revision + 1
+        and clipboard.timeline.revision
+        == store.revision
+    )
+
+    exposed_content = clipboard.content
+    exposed_content.items[0].clip.start_time = (
+        999.0
+    )
+    content_isolated = (
+        clipboard.content.items[0]
+        .clip.start_time
+        != 999.0
+    )
+
+    exposed_history = (
+        clipboard.history_entries
+    )
+    exposed_history[0].content.items[
+        0
+    ].clip.start_time = 999.0
+    clipboard_history_isolated = (
+        clipboard.history_entries[0]
+        .content.items[0].clip.start_time
+        != 999.0
+    )
+
+    exposed_events = clipboard.events
+    exposed_events[-1].metadata[
+        "tampered"
+    ] = True
+    event_isolated = (
+        "tampered"
+        not in clipboard.events[-1].metadata
+    )
+
+    source_unchanged = (
+        source_timeline.revision == 1
+        and source_timeline.dirty is False
+        and source_timeline.clip_count == 2
+    )
+
+    print("shared_store:", shared_store)
+    print(
+        "store_change_count:",
+        len(store.changes),
+    )
+    print(
+        "snapshot_isolated:",
+        snapshot_isolated,
+    )
+    print(
+        "content_isolated:",
+        content_isolated,
+    )
+    print(
+        "clipboard_history_isolated:",
+        clipboard_history_isolated,
+    )
+    print(
+        "event_isolated:",
+        event_isolated,
+    )
+    print(
+        "source_unchanged:",
+        source_unchanged,
+    )
+
     output_path = Path(
         "storage/demo_outputs/"
         "timeline_clipboard_runtime.json"
@@ -311,6 +392,19 @@ def main() -> None:
     assert (
         restore_result.content.item_count
         >= 1
+    )
+
+    assert shared_store is True
+    assert len(store.changes) == 5
+    assert snapshot_isolated is True
+    assert content_isolated is True
+    assert clipboard_history_isolated is True
+    assert event_isolated is True
+    assert source_unchanged is True
+
+    assert not hasattr(
+        clipboard,
+        "_timeline",
     )
 
     print(

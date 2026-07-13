@@ -19,7 +19,9 @@ from app.review.editing import (
     EditableTimelineTrack,
     EditableTrackType,
     TimelineOverlapPolicy,
+    build_clipboard_from_store,
     build_timeline_clipboard_runtime,
+    build_timeline_runtime_store,
 )
 
 
@@ -104,8 +106,14 @@ def build_timeline() -> EditableTimeline:
 
 def main() -> None:
     timeline = build_timeline()
+    store = build_timeline_runtime_store(
+        timeline
+    )
+    clipboard = build_clipboard_from_store(
+        store
+    )
 
-    clipboard = (
+    legacy_clipboard = (
         build_timeline_clipboard_runtime(
             timeline
         )
@@ -204,6 +212,81 @@ def main() -> None:
     print(
         "timeline_unchanged:",
         original_unchanged,
+    )
+
+    shared_store = clipboard.store is store
+
+    snapshot_clone = clipboard.snapshot()
+    snapshot_clone.mark_dirty()
+    snapshot_isolated = (
+        snapshot_clone.revision == 2
+        and store.revision == 1
+    )
+
+    exposed_content = clipboard.content
+    exposed_content.items[0].clip.start_time = (
+        999.0
+    )
+    content_isolated = (
+        clipboard.content.items[0]
+        .clip.start_time
+        != 999.0
+    )
+
+    exposed_entries = (
+        clipboard.history_entries
+    )
+    exposed_entries[-1].content.items[
+        0
+    ].clip.start_time = 999.0
+    history_isolated = (
+        clipboard.history_entries[-1]
+        .content.items[0].clip.start_time
+        != 999.0
+    )
+
+    exposed_events = clipboard.events
+    exposed_events[-1].metadata[
+        "tampered"
+    ] = True
+    events_isolated = (
+        "tampered"
+        not in clipboard.events[-1].metadata
+    )
+
+    legacy_factory_works = (
+        legacy_clipboard.store.production_id
+        == timeline.production_id
+        and not hasattr(
+            legacy_clipboard,
+            "_timeline",
+        )
+    )
+
+    print("shared_store:", shared_store)
+    print(
+        "store_change_count:",
+        len(store.changes),
+    )
+    print(
+        "snapshot_isolated:",
+        snapshot_isolated,
+    )
+    print(
+        "content_isolated:",
+        content_isolated,
+    )
+    print(
+        "history_isolated:",
+        history_isolated,
+    )
+    print(
+        "events_isolated:",
+        events_isolated,
+    )
+    print(
+        "legacy_factory_works:",
+        legacy_factory_works,
     )
 
     clipboard_before_clear = (
@@ -321,6 +404,18 @@ def main() -> None:
     )
 
     assert original_unchanged is True
+    assert shared_store is True
+    assert len(store.changes) == 0
+    assert snapshot_isolated is True
+    assert content_isolated is True
+    assert history_isolated is True
+    assert events_isolated is True
+    assert legacy_factory_works is True
+
+    assert not hasattr(
+        clipboard,
+        "_timeline",
+    )
 
     assert clear_result.success is True
     assert clipboard.has_content is False
