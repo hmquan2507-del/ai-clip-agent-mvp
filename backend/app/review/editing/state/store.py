@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from copy import deepcopy
 from threading import RLock
 from typing import Any
 
@@ -49,7 +50,8 @@ class TimelineRuntimeStore:
     def changes(
         self,
     ) -> list[TimelineStateChange]:
-        return list(self._changes)
+        with self._lock:
+            return deepcopy(self._changes)
 
     def snapshot(self) -> EditableTimeline:
         with self._lock:
@@ -147,9 +149,13 @@ class TimelineRuntimeStore:
         self,
         change: TimelineStateChange,
     ) -> None:
-        self._changes.append(change)
+        self._changes.append(
+            deepcopy(change)
+        )
 
         for listener in list(
             self._listeners
         ):
-            listener(change)
+            listener(
+                deepcopy(change)
+            )

@@ -81,6 +81,21 @@ def main() -> None:
 
     assert store.snapshot().revision == 1
 
+    exposed_changes = store.changes
+    exposed_changes[0].metadata[
+        "tampered"
+    ] = True
+
+    assert (
+        "tampered"
+        not in store.changes[0].metadata
+    )
+
+    print(
+        "change_log_isolated:",
+        True,
+    )
+
     print(
         "\nDONE: Timeline runtime "
         "store test completed."
