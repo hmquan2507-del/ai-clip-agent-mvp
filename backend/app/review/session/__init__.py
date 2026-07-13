@@ -19,6 +19,10 @@ from app.review.session.factory import (
     build_review_runtime_graph_from_snapshot,
     build_review_runtime_graph_from_workspace,
 )
+from app.review.session.runtime import (
+    ReviewRuntimeSession,
+    ReviewRuntimeSessionEventCallback,
+)
 
 
 __all__ = [
@@ -35,4 +39,6 @@ __all__ = [
     "build_review_runtime_graph",
     "build_review_runtime_graph_from_snapshot",
     "build_review_runtime_graph_from_workspace",
+    "ReviewRuntimeSession",
+    "ReviewRuntimeSessionEventCallback",
 ]

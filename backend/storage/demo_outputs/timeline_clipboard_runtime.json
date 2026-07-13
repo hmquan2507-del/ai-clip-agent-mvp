@@ -12,8 +12,8 @@
     "revision": 2,
     "dirty": true,
     "dirty_status": "dirty",
-    "created_at": "2026-07-13T17:55:03.246492+00:00",
-    "updated_at": "2026-07-13T17:55:03.247632+00:00",
+    "created_at": "2026-07-13T18:13:55.208263+00:00",
+    "updated_at": "2026-07-13T18:13:55.209454+00:00",
     "tracks": [
       {
         "track_id": "video_primary",
@@ -85,7 +85,7 @@
         "clip_count": 2,
         "clips": [
           {
-            "clip_id": "clip_1_paste_682c0852_0",
+            "clip_id": "clip_1_paste_af5a2530_0",
             "track_id": "video_overlay",
             "clip_type": "video",
             "start_time": 10.0,
@@ -103,13 +103,13 @@
             "speed": null,
             "enabled": true,
             "metadata": {
-              "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+              "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
               "clipboard_source_clip_id": "clip_1",
-              "paste_group_id": "682c0852"
+              "paste_group_id": "af5a2530"
             }
           },
           {
-            "clip_id": "clip_2_paste_682c0852_1",
+            "clip_id": "clip_2_paste_af5a2530_1",
             "track_id": "video_overlay",
             "clip_type": "video",
             "start_time": 14.0,
@@ -127,9 +127,9 @@
             "speed": null,
             "enabled": true,
             "metadata": {
-              "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+              "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
               "clipboard_source_clip_id": "clip_2",
-              "paste_group_id": "682c0852"
+              "paste_group_id": "af5a2530"
             }
           }
         ],
@@ -139,7 +139,7 @@
     "metadata": {}
   },
   "content": {
-    "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+    "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
     "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
     "action": "copy",
     "status": "ready",
@@ -151,10 +151,10 @@
     ],
     "anchor_time": 0.0,
     "total_duration": 7.0,
-    "created_at": "2026-07-13T17:55:03.247026+00:00",
+    "created_at": "2026-07-13T18:13:55.208705+00:00",
     "items": [
       {
-        "item_id": "27f14260-4d26-49f6-812d-7fee75675b89",
+        "item_id": "10b25b59-b0d4-4e04-9e34-a7422b8a042a",
         "item_type": "clip",
         "source_clip_id": "clip_1",
         "source_track_id": "video_primary",
@@ -185,7 +185,7 @@
         "metadata": {}
       },
       {
-        "item_id": "1369db30-6e63-4b64-95c4-5a9f1166c316",
+        "item_id": "a63cbc0f-8060-47ce-acf6-de61129072d4",
         "item_type": "clip",
         "source_clip_id": "clip_2",
         "source_track_id": "video_primary",
@@ -224,7 +224,7 @@
     "available": true,
     "item_count": 2,
     "clip_count": 2,
-    "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+    "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
     "last_action": "copy",
     "source_track_ids": [
       "video_primary"
@@ -233,14 +233,14 @@
   "history_state": {
     "entry_count": 3,
     "maximum_history_size": 3,
-    "latest_entry_id": "d8a47c79-1e55-4ab7-97fe-d984426343f8"
+    "latest_entry_id": "86bab94b-af0e-48ab-b578-5ee25b26352b"
   },
   "history": [
     {
-      "entry_id": "e0e20d99-b3f8-4374-9bef-f4ee964880e7",
-      "created_at": "2026-07-13T17:55:03.247105+00:00",
+      "entry_id": "65308757-9bb3-40b8-b238-397623d567b5",
+      "created_at": "2026-07-13T18:13:55.208783+00:00",
       "content": {
-        "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+        "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "action": "copy",
         "status": "ready",
@@ -252,10 +252,10 @@
         ],
         "anchor_time": 0.0,
         "total_duration": 7.0,
-        "created_at": "2026-07-13T17:55:03.247026+00:00",
+        "created_at": "2026-07-13T18:13:55.208705+00:00",
         "items": [
           {
-            "item_id": "27f14260-4d26-49f6-812d-7fee75675b89",
+            "item_id": "10b25b59-b0d4-4e04-9e34-a7422b8a042a",
             "item_type": "clip",
             "source_clip_id": "clip_1",
             "source_track_id": "video_primary",
@@ -286,7 +286,7 @@
             "metadata": {}
           },
           {
-            "item_id": "1369db30-6e63-4b64-95c4-5a9f1166c316",
+            "item_id": "a63cbc0f-8060-47ce-acf6-de61129072d4",
             "item_type": "clip",
             "source_clip_id": "clip_2",
             "source_track_id": "video_primary",
@@ -320,16 +320,16 @@
         "metadata": {}
       },
       "metadata": {
-        "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+        "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
         "action": "copy",
         "item_count": 2
       }
     },
     {
-      "entry_id": "6ab5660e-ae4c-4fd0-b443-05a2737354e4",
-      "created_at": "2026-07-13T17:55:03.252915+00:00",
+      "entry_id": "3e921b93-1c7c-47e6-bf1d-2d517c1a056d",
+      "created_at": "2026-07-13T18:13:55.214007+00:00",
       "content": {
-        "clipboard_id": "61b0e1a0-0137-4b7b-a35a-112b6d54df31",
+        "clipboard_id": "872b8db5-fa91-450c-8f2c-807ea3a441a6",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "action": "cut",
         "status": "ready",
@@ -341,10 +341,10 @@
         ],
         "anchor_time": 0.0,
         "total_duration": 3.0,
-        "created_at": "2026-07-13T17:55:03.251470+00:00",
+        "created_at": "2026-07-13T18:13:55.212576+00:00",
         "items": [
           {
-            "item_id": "8fad5a74-e434-44c4-91f6-de935ce58ab2",
+            "item_id": "88a549ba-0602-47b7-9954-94637a2d1b83",
             "item_type": "clip",
             "source_clip_id": "clip_1",
             "source_track_id": "video_primary",
@@ -378,16 +378,16 @@
         "metadata": {}
       },
       "metadata": {
-        "clipboard_id": "61b0e1a0-0137-4b7b-a35a-112b6d54df31",
+        "clipboard_id": "872b8db5-fa91-450c-8f2c-807ea3a441a6",
         "action": "cut",
         "item_count": 1
       }
     },
     {
-      "entry_id": "d8a47c79-1e55-4ab7-97fe-d984426343f8",
-      "created_at": "2026-07-13T17:55:03.254647+00:00",
+      "entry_id": "86bab94b-af0e-48ab-b578-5ee25b26352b",
+      "created_at": "2026-07-13T18:13:55.215534+00:00",
       "content": {
-        "clipboard_id": "60cb7b16-c84a-4226-8270-d2dd2e220da0",
+        "clipboard_id": "a57f241e-aa2e-465a-a38d-4bb9481d2d10",
         "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
         "action": "copy",
         "status": "ready",
@@ -399,10 +399,10 @@
         ],
         "anchor_time": 4.0,
         "total_duration": 3.0,
-        "created_at": "2026-07-13T17:55:03.254597+00:00",
+        "created_at": "2026-07-13T18:13:55.215486+00:00",
         "items": [
           {
-            "item_id": "b311e5fe-1dba-440a-9577-1f8b808ce174",
+            "item_id": "3ad89897-e2d9-4914-8bcb-e3a3700cef55",
             "item_type": "clip",
             "source_clip_id": "clip_2",
             "source_track_id": "video_primary",
@@ -436,7 +436,7 @@
         "metadata": {}
       },
       "metadata": {
-        "clipboard_id": "60cb7b16-c84a-4226-8270-d2dd2e220da0",
+        "clipboard_id": "a57f241e-aa2e-465a-a38d-4bb9481d2d10",
         "action": "copy",
         "item_count": 1
       }
@@ -446,23 +446,23 @@
     {
       "event_type": "clips_copied",
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-      "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+      "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
       "item_count": 2,
-      "created_at": "2026-07-13T17:55:03.247118+00:00",
+      "created_at": "2026-07-13T18:13:55.208795+00:00",
       "metadata": {}
     },
     {
       "event_type": "clips_pasted",
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-      "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+      "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
       "item_count": 2,
-      "created_at": "2026-07-13T17:55:03.249155+00:00",
+      "created_at": "2026-07-13T18:13:55.210646+00:00",
       "metadata": {
         "paste_time": 10.0,
-        "paste_group_id": "682c0852",
+        "paste_group_id": "af5a2530",
         "pasted_clip_ids": [
-          "clip_1_paste_682c0852_0",
-          "clip_2_paste_682c0852_1"
+          "clip_1_paste_af5a2530_0",
+          "clip_2_paste_af5a2530_1"
         ],
         "track_mapping": {
           "video_primary": "video_overlay"
@@ -472,9 +472,9 @@
     {
       "event_type": "clip_cut",
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-      "clipboard_id": "61b0e1a0-0137-4b7b-a35a-112b6d54df31",
+      "clipboard_id": "872b8db5-fa91-450c-8f2c-807ea3a441a6",
       "item_count": 1,
-      "created_at": "2026-07-13T17:55:03.252926+00:00",
+      "created_at": "2026-07-13T18:13:55.214017+00:00",
       "metadata": {
         "clip_ids": [
           "clip_1"
@@ -484,19 +484,19 @@
     {
       "event_type": "clip_copied",
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-      "clipboard_id": "60cb7b16-c84a-4226-8270-d2dd2e220da0",
+      "clipboard_id": "a57f241e-aa2e-465a-a38d-4bb9481d2d10",
       "item_count": 1,
-      "created_at": "2026-07-13T17:55:03.254659+00:00",
+      "created_at": "2026-07-13T18:13:55.215543+00:00",
       "metadata": {}
     },
     {
       "event_type": "history_restored",
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
-      "clipboard_id": "ee0b71b6-80b2-44a1-89aa-9b4dd372a914",
+      "clipboard_id": "79bbacad-4287-4318-9806-207b3d8ae84f",
       "item_count": 2,
-      "created_at": "2026-07-13T17:55:03.255234+00:00",
+      "created_at": "2026-07-13T18:13:55.215820+00:00",
       "metadata": {
-        "entry_id": "e0e20d99-b3f8-4374-9bef-f4ee964880e7"
+        "entry_id": "65308757-9bb3-40b8-b238-397623d567b5"
       }
     }
   ],

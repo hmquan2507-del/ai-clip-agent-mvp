@@ -218,6 +218,13 @@ class ReviewRuntimeSessionSnapshot:
         default_factory=dict
     )
 
+    def __post_init__(self) -> None:
+        if not self.production_ids_match:
+            raise ValueError(
+                "Review runtime snapshot components "
+                "must use the same production_id."
+            )
+
     @property
     def session_id(self) -> str:
         return self.session.session_id
@@ -225,6 +232,53 @@ class ReviewRuntimeSessionSnapshot:
     @property
     def production_id(self) -> str:
         return self.session.production_id
+
+    @property
+    def component_production_ids(
+        self,
+    ) -> tuple[str, ...]:
+        return (
+            self.session.production_id,
+            self.workspace.production_id,
+            self.timeline.production_id,
+            self.preview_source.production_id,
+            self.preview_state.production_id,
+            self.preview_sync.production_id,
+            self.selection_catalog.production_id,
+            self.selection_state.production_id,
+            self.history_state.production_id,
+            self.clipboard_state.production_id,
+            self.clipboard_content.production_id,
+        )
+
+    @property
+    def production_ids_match(self) -> bool:
+        return (
+            len(
+                set(
+                    self.component_production_ids
+                )
+            )
+            == 1
+        )
+
+    @property
+    def workspace_timeline_consistent(
+        self,
+    ) -> bool:
+        return (
+            self.workspace.timeline.duration
+            == self.timeline.duration
+            and self.workspace.timeline.track_count
+            == self.timeline.track_count
+            and self.workspace.timeline.clip_count
+            == self.timeline.clip_count
+            and self.workspace.timeline.tracks
+            == [
+                track.to_dict()
+                for track in self.timeline.tracks
+            ]
+        )
 
     def clone(
         self,
@@ -282,6 +336,14 @@ class ReviewRuntimeSessionSnapshot:
                     ),
                 },
                 "created_at": self.created_at,
+                "consistency": {
+                    "production_ids_match": (
+                        self.production_ids_match
+                    ),
+                    "workspace_timeline_consistent": (
+                        self.workspace_timeline_consistent
+                    ),
+                },
                 "metadata": self.metadata,
             }
         )

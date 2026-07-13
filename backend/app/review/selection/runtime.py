@@ -39,7 +39,7 @@ class TimelineSelectionRuntime:
             TimelineSelectionEventCallback | None
         ) = None,
     ):
-        self.catalog = catalog
+        self.catalog = deepcopy(catalog)
         self.validator = (
             validator
             or TimelineSelectionValidator()
@@ -81,6 +81,190 @@ class TimelineSelectionRuntime:
                 ),
             },
         )
+
+    def synchronize_catalog(
+        self,
+        catalog: TimelineSelectionCatalog,
+    ) -> TimelineSelectionResult:
+        if (
+            catalog.production_id
+            != self.catalog.production_id
+        ):
+            return self._fail(
+                "Selection catalog production_id "
+                "does not match runtime."
+            )
+
+        previous_track_ids = set(
+            self._state.selected_track_ids
+        )
+        previous_clip_ids = set(
+            self._state.selected_clip_ids
+        )
+
+        next_catalog = deepcopy(catalog)
+
+        selected_track_ids = [
+            track_id
+            for track_id
+            in self._state.selected_track_ids
+            if track_id
+            in next_catalog.track_ids
+        ]
+
+        selected_clip_ids = [
+            clip_id
+            for clip_id
+            in self._state.selected_clip_ids
+            if clip_id
+            in next_catalog.clip_ids
+        ]
+
+        for clip_id in selected_clip_ids:
+            clip = next_catalog.get_clip(
+                clip_id
+            )
+
+            if (
+                clip is not None
+                and clip.track_id
+                not in selected_track_ids
+            ):
+                selected_track_ids.append(
+                    clip.track_id
+                )
+
+        self.catalog = next_catalog
+
+        self._state.selected_track_ids = (
+            selected_track_ids
+        )
+        self._state.selected_clip_ids = (
+            selected_clip_ids
+        )
+
+        if (
+            self._state.active_clip_id
+            not in self.catalog.clip_ids
+        ):
+            self._state.active_clip_id = None
+
+        if self._state.active_clip_id:
+            active_clip = self.catalog.get_clip(
+                self._state.active_clip_id
+            )
+            self._state.active_track_id = (
+                active_clip.track_id
+                if active_clip
+                else None
+            )
+        elif (
+            self._state.active_track_id
+            not in self.catalog.track_ids
+        ):
+            self._state.active_track_id = None
+
+        if (
+            self._state.hovered_clip_id
+            not in self.catalog.clip_ids
+        ):
+            self._state.hovered_clip_id = None
+
+        if self._state.hovered_clip_id:
+            hovered_clip = self.catalog.get_clip(
+                self._state.hovered_clip_id
+            )
+            self._state.hovered_track_id = (
+                hovered_clip.track_id
+                if hovered_clip
+                else None
+            )
+        elif (
+            self._state.hovered_track_id
+            not in self.catalog.track_ids
+        ):
+            self._state.hovered_track_id = None
+
+        self._set_cursor_value(
+            self._state.cursor_time
+        )
+
+        if self._state.selected_range:
+            if self.catalog.duration <= 0:
+                self._state.selected_range = None
+            else:
+                range_start = min(
+                    self.catalog.duration,
+                    self._state
+                    .selected_range.start_time,
+                )
+                range_end = min(
+                    self.catalog.duration,
+                    self._state
+                    .selected_range.end_time,
+                )
+
+                self._state.selected_range = (
+                    TimelineTimeRange(
+                        start_time=range_start,
+                        end_time=range_end,
+                    )
+                )
+
+        self._state.metadata[
+            "timeline_duration"
+        ] = self.catalog.duration
+        self._state.metadata["fps"] = (
+            self.catalog.fps
+        )
+
+        self._recalculate_mode()
+
+        if (
+            self._state.focus
+            == TimelineSelectionFocus.CLIP
+            and not self._state
+            .selected_clip_ids
+        ):
+            self._state.focus = (
+                TimelineSelectionFocus.TRACK
+                if self._state
+                .selected_track_ids
+                else TimelineSelectionFocus
+                .TIMELINE
+            )
+
+        self._touch()
+
+        removed_track_ids = sorted(
+            previous_track_ids
+            - set(selected_track_ids)
+        )
+        removed_clip_ids = sorted(
+            previous_clip_ids
+            - set(selected_clip_ids)
+        )
+
+        event = self._emit(
+            TimelineSelectionEventType
+            .CATALOG_SYNCHRONIZED,
+            metadata={
+                "track_count": len(
+                    self.catalog.tracks
+                ),
+                "clip_count": len(
+                    self.catalog.clips
+                ),
+                "removed_track_ids": (
+                    removed_track_ids
+                ),
+                "removed_clip_ids": (
+                    removed_clip_ids
+                ),
+            },
+        )
+
+        return self._success(event)
 
     @property
     def state(

@@ -23,6 +23,9 @@ class TimelineSelectionFocus(StrEnum):
 
 class TimelineSelectionEventType(StrEnum):
     SESSION_CREATED = "session_created"
+    CATALOG_SYNCHRONIZED = (
+        "catalog_synchronized"
+    )
 
     TRACK_SELECTED = "track_selected"
     CLIP_SELECTED = "clip_selected"
