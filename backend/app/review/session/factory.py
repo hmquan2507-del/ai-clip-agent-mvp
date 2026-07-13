@@ -52,6 +52,10 @@ from app.review.selection.runtime import (
 from app.review.session.graph import (
     ReviewRuntimeGraph,
 )
+from app.review.session.runtime import (
+    ReviewRuntimeSession,
+    ReviewRuntimeSessionEventCallback,
+)
 
 
 ReviewRuntimeGraphSource = (
@@ -176,6 +180,42 @@ def build_review_runtime_graph_from_workspace(
     return build_review_runtime_graph(
         workspace,
         **kwargs,
+    )
+
+
+def build_review_runtime_session(
+    source: ReviewRuntimeGraphSource,
+    *,
+    session_event_callback: (
+        ReviewRuntimeSessionEventCallback
+        | None
+    ) = None,
+    **graph_options: Any,
+) -> ReviewRuntimeSession:
+    graph = build_review_runtime_graph(
+        source,
+        **graph_options,
+    )
+
+    return ReviewRuntimeSession(
+        graph,
+        event_callback=(
+            session_event_callback
+        ),
+    )
+
+
+def build_review_runtime_session_from_graph(
+    graph: ReviewRuntimeGraph,
+    *,
+    event_callback: (
+        ReviewRuntimeSessionEventCallback
+        | None
+    ) = None,
+) -> ReviewRuntimeSession:
+    return ReviewRuntimeSession(
+        graph,
+        event_callback=event_callback,
     )
 
 

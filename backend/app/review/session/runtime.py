@@ -257,6 +257,121 @@ class ReviewRuntimeSession:
 
         return snapshot.clone()
 
+    def reset(
+            self,
+        ) -> ReviewRuntimeSessionResult:
+        if self.closed:
+            return ReviewRuntimeSessionResult(
+                success=False,
+                state=self.state,
+                error=(
+                    "Closed review runtime session "
+                    "cannot be reset."
+                ),
+            )
+
+        history_result = (
+            self.graph.history_runtime.reset()
+        )
+
+        if not history_result.success:
+            return ReviewRuntimeSessionResult(
+                success=False,
+                state=self.state,
+                error=(
+                    history_result.error
+                    or (
+                        "Timeline history reset "
+                        "failed."
+                    )
+                ),
+            )
+
+        preview_result = (
+            self.graph.preview_runtime.reset()
+        )
+        selection_result = (
+            self.graph.selection_runtime.reset()
+        )
+        clipboard_result = (
+            self.graph.clipboard_runtime.clear()
+        )
+        clipboard_history_result = (
+            self.graph.clipboard_runtime
+            .clear_history()
+        )
+
+        component_errors = [
+            result.error
+            for result in (
+                preview_result,
+                selection_result,
+                clipboard_result,
+                clipboard_history_result,
+            )
+            if not result.success
+            and result.error
+        ]
+
+        if component_errors:
+            message = "; ".join(
+                component_errors
+            )
+            self._set_error(message)
+
+            return ReviewRuntimeSessionResult(
+                success=False,
+                state=self.state,
+                error=message,
+            )
+
+        timeline = (
+            self.graph.timeline_store.snapshot()
+        )
+
+        self._preview_sync = (
+            self._build_preview_sync(
+                timeline,
+                reason="session_reset",
+            )
+        )
+
+        self._state = replace(
+            self._state,
+            status=(
+                ReviewRuntimeSessionStatus.READY
+            ),
+            timeline_revision=(
+                timeline.revision
+            ),
+            dirty=timeline.dirty,
+            revision=(
+                self._state.revision + 1
+            ),
+            updated_at=utc_now_iso(),
+            error=None,
+        )
+
+        event = self._emit(
+            ReviewRuntimeSessionEventType
+            .SESSION_RESET,
+            metadata={
+                "timeline_revision": (
+                    timeline.revision
+                ),
+                "preview_reset": True,
+                "selection_reset": True,
+                "clipboard_reset": True,
+                "history_reset": True,
+            },
+        )
+
+        return ReviewRuntimeSessionResult(
+            success=True,
+            state=self.state,
+            snapshot=self.snapshot(),
+            event=event,
+        )
     def clear_events(self) -> None:
         self._events.clear()
 
