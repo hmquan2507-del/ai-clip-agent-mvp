@@ -25,6 +25,7 @@ from app.review.editing.validator import (
 )
 from app.review.editing.runtime import (
     TimelineMutationRuntime,
+    build_mutation_runtime_from_store,
     build_timeline_mutation_runtime,
 )
 from app.review.editing.history import (
@@ -79,6 +80,7 @@ __all__ = [
     "build_editable_timeline_from_workspace",
     "TimelineMutationResult",
     "TimelineMutationRuntime",
+    "build_mutation_runtime_from_store",
     "build_timeline_mutation_runtime",
     "TimelineCommandHistoryRuntime",
     "TimelineHistoryAction",

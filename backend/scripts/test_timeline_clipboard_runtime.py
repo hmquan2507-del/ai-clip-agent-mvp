@@ -176,12 +176,32 @@ def main() -> None:
         undo_paste.success,
     )
 
+    assert undo_paste.success is True
+
+    for clip_id in pasted_ids:
+        assert (
+            history.timeline.get_clip(
+                clip_id
+            )
+            is None
+        )
+
     redo_paste = history.redo()
 
     print(
         "redo_paste:",
         redo_paste.success,
     )
+
+    assert redo_paste.success is True
+
+    for clip_id in pasted_ids:
+        assert (
+            history.timeline.get_clip(
+                clip_id
+            )
+            is not None
+        )
 
     cut_result = clipboard.cut_clip(
         "clip_1"
@@ -266,26 +286,6 @@ def main() -> None:
     assert copy_result.success is True
     assert paste_result.success is True
     assert len(pasted_ids) == 2
-
-    assert undo_paste.success is True
-
-    for clip_id in pasted_ids:
-        assert (
-            history.timeline.get_clip(
-                clip_id
-            )
-            is None
-        )
-
-    assert redo_paste.success is True
-
-    for clip_id in pasted_ids:
-        assert (
-            history.timeline.get_clip(
-                clip_id
-            )
-            is not None
-        )
 
     assert cut_result.success is True
     assert clip_removed is True

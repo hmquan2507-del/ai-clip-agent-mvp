@@ -55,6 +55,12 @@ class TimelineRuntimeStore:
         with self._lock:
             return self._timeline.clone()
 
+    def initial_snapshot(
+        self,
+    ) -> EditableTimeline:
+        with self._lock:
+            return self._initial_timeline.clone()
+
     def replace(
         self,
         timeline: EditableTimeline,
