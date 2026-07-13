@@ -37,6 +37,7 @@ from app.review.editing.history import (
     TimelineHistoryState,
     TimelineHistoryStatus,
     build_history_from_mutation_runtime,
+    build_history_from_store,
     build_timeline_history_runtime,
 )
 from app.review.editing.clipboard import (
@@ -90,6 +91,7 @@ __all__ = [
     "TimelineHistoryState",
     "TimelineHistoryStatus",
     "build_history_from_mutation_runtime",
+    "build_history_from_store",
     "build_timeline_history_runtime",
     "TimelineClipboardAction",
     "TimelineClipboardContent",

@@ -1,13 +1,10 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any, Callable
 
-from app.review.editing.enums import (
-    TimelineEditingOperationType,
-)
-from app.review.editing.history.enums import (
-    TimelineHistoryAction,
-)
+from app.review.editing.enums import TimelineEditingOperationType
+from app.review.editing.history.enums import TimelineHistoryAction
 from app.review.editing.history.models import (
     TimelineHistoryCommand,
     TimelineHistoryEvent,
@@ -19,15 +16,11 @@ from app.review.editing.models import (
     EditableTimelineClip,
     TimelineMutationResult,
 )
-from app.review.editing.runtime import (
-    TimelineMutationRuntime,
-)
+from app.review.editing.runtime import TimelineMutationRuntime
+from app.review.editing.state.store import TimelineRuntimeStore
 
 
-MutationCallable = Callable[
-    [],
-    TimelineMutationResult,
-]
+MutationCallable = Callable[[], TimelineMutationResult]
 
 
 class TimelineCommandHistoryRuntime:
@@ -37,34 +30,17 @@ class TimelineCommandHistoryRuntime:
         *,
         maximum_history_size: int = 100,
     ):
-        self.mutation_runtime = (
-            mutation_runtime
-        )
+        self.mutation_runtime = mutation_runtime
+        self.store: TimelineRuntimeStore = mutation_runtime.store
+        self.maximum_history_size = max(1, int(maximum_history_size))
 
-        self.maximum_history_size = max(
-            1,
-            int(maximum_history_size),
-        )
-
-        self._initial_timeline = (
-            mutation_runtime.snapshot()
-        )
-
-        self._undo_stack: list[
-            TimelineHistoryCommand
-        ] = []
-
-        self._redo_stack: list[
-            TimelineHistoryCommand
-        ] = []
-
-        self._events: list[
-            TimelineHistoryEvent
-        ] = []
+        self._undo_stack: list[TimelineHistoryCommand] = []
+        self._redo_stack: list[TimelineHistoryCommand] = []
+        self._events: list[TimelineHistoryEvent] = []
 
     @property
     def timeline(self) -> EditableTimeline:
-        return self.mutation_runtime.snapshot()
+        return self.store.snapshot()
 
     @property
     def can_undo(self) -> bool:
@@ -75,44 +51,31 @@ class TimelineCommandHistoryRuntime:
         return bool(self._redo_stack)
 
     @property
-    def undo_commands(
-        self,
-    ) -> list[TimelineHistoryCommand]:
-        return list(self._undo_stack)
+    def undo_commands(self) -> list[TimelineHistoryCommand]:
+        return deepcopy(self._undo_stack)
 
     @property
-    def redo_commands(
-        self,
-    ) -> list[TimelineHistoryCommand]:
-        return list(self._redo_stack)
+    def redo_commands(self) -> list[TimelineHistoryCommand]:
+        return deepcopy(self._redo_stack)
 
     @property
-    def events(
-        self,
-    ) -> list[TimelineHistoryEvent]:
-        return list(self._events)
+    def events(self) -> list[TimelineHistoryEvent]:
+        return deepcopy(self._events)
+
+    def snapshot(self) -> EditableTimeline:
+        return self.store.snapshot()
 
     def state(self) -> TimelineHistoryState:
-        timeline = self.timeline
+        timeline = self.store.snapshot()
 
         return TimelineHistoryState(
-            production_id=(
-                timeline.production_id
-            ),
+            production_id=timeline.production_id,
             can_undo=self.can_undo,
             can_redo=self.can_redo,
-            undo_count=len(
-                self._undo_stack
-            ),
-            redo_count=len(
-                self._redo_stack
-            ),
-            current_revision=(
-                timeline.revision
-            ),
-            maximum_history_size=(
-                self.maximum_history_size
-            ),
+            undo_count=len(self._undo_stack),
+            redo_count=len(self._redo_stack),
+            current_revision=timeline.revision,
+            maximum_history_size=self.maximum_history_size,
             next_undo_label=(
                 self._undo_stack[-1].label
                 if self._undo_stack
@@ -133,91 +96,88 @@ class TimelineCommandHistoryRuntime:
         mutation: MutationCallable,
         metadata: dict[str, Any] | None = None,
     ) -> TimelineHistoryResult:
-        before = self.timeline
+        before = self.store.snapshot()
 
         try:
             mutation_result = mutation()
         except Exception as error:
-            return self._failure(
-                str(error)
-            )
+            return self._failure(str(error))
 
         if not mutation_result.success:
             return TimelineHistoryResult(
                 success=False,
-                timeline=self.timeline,
+                timeline=self.store.snapshot(),
                 state=self.state(),
-                mutation_result=(
-                    mutation_result
-                ),
+                mutation_result=mutation_result,
                 error=mutation_result.error,
             )
 
-        after = self.timeline
+        after = self.store.snapshot()
+
+        if after.production_id != before.production_id:
+            return self._failure(
+                "History mutation changed timeline production_id."
+            )
 
         command = TimelineHistoryCommand.create(
             operation_type=operation_type,
             label=label,
             before=before,
             after=after,
-            editing_event=(
-                mutation_result.event
-            ),
+            editing_event=mutation_result.event,
             metadata=metadata,
         )
 
-        self._undo_stack.append(
-            command
-        )
-
+        self._undo_stack.append(command)
         self._trim_undo_stack()
 
-        # Một edit mới sau undo phải xóa
-        # toàn bộ nhánh redo cũ.
+        # Một edit mới sau undo phải xóa toàn bộ redo branch cũ.
         self._redo_stack.clear()
 
         event = self._emit(
-            action=(
-                TimelineHistoryAction.EXECUTE
-            ),
-            command=command,
+            action=TimelineHistoryAction.EXECUTE,
+            command=deepcopy(command),
         )
 
         return TimelineHistoryResult(
             success=True,
-            timeline=self.timeline,
+            timeline=self.store.snapshot(),
             state=self.state(),
-            mutation_result=(
-                mutation_result
-            ),
-            command=command,
+            mutation_result=mutation_result,
+            command=deepcopy(command),
             event=event,
         )
 
     def undo(self) -> TimelineHistoryResult:
         if not self._undo_stack:
+            return self._failure("Không còn thao tác để hoàn tác.")
+
+        command = self._undo_stack[-1]
+        replace_result = self.store.replace(
+            command.before,
+            reason="history.undo",
+            metadata={
+                "command_id": command.command_id,
+                "operation_type": command.operation_type.value,
+            },
+        )
+
+        if not replace_result.success:
             return self._failure(
-                "Không còn thao tác để hoàn tác."
+                replace_result.error or "Không thể hoàn tác timeline."
             )
 
-        command = self._undo_stack.pop()
-
-        self.mutation_runtime.replace_timeline(
-            command.before
-        )
-
-        self._redo_stack.append(
-            command
-        )
+        self._undo_stack.pop()
+        self._redo_stack.append(command)
 
         event = self._emit(
             action=TimelineHistoryAction.UNDO,
-            command=command,
+            command=deepcopy(command),
         )
 
         return TimelineHistoryResult(
             success=True,
-            timeline=self.timeline,
+            timeline=replace_result.timeline,
             state=self.state(),
             command=command,
             event=event,
@@ -225,20 +185,25 @@ class TimelineCommandHistoryRuntime:
 
     def redo(self) -> TimelineHistoryResult:
         if not self._redo_stack:
+            return self._failure("Không còn thao tác để làm lại.")
+
+        command = self._redo_stack[-1]
+        replace_result = self.store.replace(
+            command.after,
+            reason="history.redo",
+            metadata={
+                "command_id": command.command_id,
+                "operation_type": command.operation_type.value,
+            },
+        )
+
+        if not replace_result.success:
             return self._failure(
-                "Không còn thao tác để làm lại."
+                replace_result.error or "Không thể làm lại timeline."
             )
 
-        command = self._redo_stack.pop()
-
-        self.mutation_runtime.replace_timeline(
-            command.after
-        )
-
-        self._undo_stack.append(
-            command
-        )
-
+        self._redo_stack.pop()
+        self._undo_stack.append(command)
         self._trim_undo_stack()
 
         event = self._emit(
@@ -248,52 +213,38 @@ class TimelineCommandHistoryRuntime:
 
         return TimelineHistoryResult(
             success=True,
-            timeline=self.timeline,
+            timeline=replace_result.timeline,
             state=self.state(),
             command=command,
             event=event,
         )
 
-    def clear_history(
-        self,
-    ) -> TimelineHistoryResult:
+    def clear_history(self) -> TimelineHistoryResult:
         self._undo_stack.clear()
         self._redo_stack.clear()
 
-        event = self._emit(
-            action=TimelineHistoryAction.CLEAR
-        )
+        event = self._emit(action=TimelineHistoryAction.CLEAR)
 
         return TimelineHistoryResult(
             success=True,
-            timeline=self.timeline,
+            timeline=self.store.snapshot(),
             state=self.state(),
             event=event,
         )
 
-    def reset(
-        self,
-    ) -> TimelineHistoryResult:
-        self.mutation_runtime.replace_timeline(
-            self._initial_timeline,
-            clear_events=True,
-        )
-
+    def reset(self) -> TimelineHistoryResult:
+        timeline = self.mutation_runtime.reset()
         self._undo_stack.clear()
         self._redo_stack.clear()
 
-        event = self._emit(
-            action=TimelineHistoryAction.RESET
-        )
+        event = self._emit(action=TimelineHistoryAction.RESET)
 
         return TimelineHistoryResult(
             success=True,
-            timeline=self.timeline,
+            timeline=timeline,
             state=self.state(),
             event=event,
         )
-
-    # Convenience commands
 
     def move_clip(
         self,
@@ -303,23 +254,14 @@ class TimelineCommandHistoryRuntime:
         target_track_id: str | None = None,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .MOVE_CLIP
-            ),
+            operation_type=TimelineEditingOperationType.MOVE_CLIP,
             label="Di chuyển clip",
-            mutation=lambda: (
-                self.mutation_runtime.move_clip(
-                    clip_id,
-                    new_start_time,
-                    target_track_id=(
-                        target_track_id
-                    ),
-                )
+            mutation=lambda: self.mutation_runtime.move_clip(
+                clip_id,
+                new_start_time,
+                target_track_id=target_track_id,
             ),
-            metadata={
-                "clip_id": clip_id,
-            },
+            metadata={"clip_id": clip_id},
         )
 
     def trim_clip_start(
@@ -328,21 +270,13 @@ class TimelineCommandHistoryRuntime:
         new_start_time: float,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .TRIM_CLIP_START
-            ),
+            operation_type=TimelineEditingOperationType.TRIM_CLIP_START,
             label="Cắt đầu clip",
-            mutation=lambda: (
-                self.mutation_runtime
-                .trim_clip_start(
-                    clip_id,
-                    new_start_time,
-                )
+            mutation=lambda: self.mutation_runtime.trim_clip_start(
+                clip_id,
+                new_start_time,
             ),
-            metadata={
-                "clip_id": clip_id,
-            },
+            metadata={"clip_id": clip_id},
         )
 
     def trim_clip_end(
@@ -351,21 +285,13 @@ class TimelineCommandHistoryRuntime:
         new_end_time: float,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .TRIM_CLIP_END
-            ),
+            operation_type=TimelineEditingOperationType.TRIM_CLIP_END,
             label="Cắt cuối clip",
-            mutation=lambda: (
-                self.mutation_runtime
-                .trim_clip_end(
-                    clip_id,
-                    new_end_time,
-                )
+            mutation=lambda: self.mutation_runtime.trim_clip_end(
+                clip_id,
+                new_end_time,
             ),
-            metadata={
-                "clip_id": clip_id,
-            },
+            metadata={"clip_id": clip_id},
         )
 
     def insert_clip(
@@ -374,17 +300,11 @@ class TimelineCommandHistoryRuntime:
         clip: EditableTimelineClip,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .INSERT_CLIP
-            ),
+            operation_type=TimelineEditingOperationType.INSERT_CLIP,
             label="Thêm clip",
-            mutation=lambda: (
-                self.mutation_runtime
-                .insert_clip(
-                    track_id,
-                    clip,
-                )
+            mutation=lambda: self.mutation_runtime.insert_clip(
+                track_id,
+                clip,
             ),
             metadata={
                 "track_id": track_id,
@@ -400,24 +320,14 @@ class TimelineCommandHistoryRuntime:
         right_clip_id: str | None = None,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .SPLIT_CLIP
-            ),
+            operation_type=TimelineEditingOperationType.SPLIT_CLIP,
             label="Chia clip",
-            mutation=lambda: (
-                self.mutation_runtime
-                .split_clip(
-                    clip_id,
-                    split_time,
-                    right_clip_id=(
-                        right_clip_id
-                    ),
-                )
+            mutation=lambda: self.mutation_runtime.split_clip(
+                clip_id,
+                split_time,
+                right_clip_id=right_clip_id,
             ),
-            metadata={
-                "clip_id": clip_id,
-            },
+            metadata={"clip_id": clip_id},
         )
 
     def duplicate_clip(
@@ -429,29 +339,15 @@ class TimelineCommandHistoryRuntime:
         target_track_id: str | None = None,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .DUPLICATE_CLIP
-            ),
+            operation_type=TimelineEditingOperationType.DUPLICATE_CLIP,
             label="Nhân bản clip",
-            mutation=lambda: (
-                self.mutation_runtime
-                .duplicate_clip(
-                    clip_id,
-                    new_clip_id=(
-                        new_clip_id
-                    ),
-                    new_start_time=(
-                        new_start_time
-                    ),
-                    target_track_id=(
-                        target_track_id
-                    ),
-                )
+            mutation=lambda: self.mutation_runtime.duplicate_clip(
+                clip_id,
+                new_clip_id=new_clip_id,
+                new_start_time=new_start_time,
+                target_track_id=target_track_id,
             ),
-            metadata={
-                "clip_id": clip_id,
-            },
+            metadata={"clip_id": clip_id},
         )
 
     def delete_clip(
@@ -461,17 +357,11 @@ class TimelineCommandHistoryRuntime:
         close_gap: bool = False,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .DELETE_CLIP
-            ),
+            operation_type=TimelineEditingOperationType.DELETE_CLIP,
             label="Xóa clip",
-            mutation=lambda: (
-                self.mutation_runtime
-                .delete_clip(
-                    clip_id,
-                    close_gap=close_gap,
-                )
+            mutation=lambda: self.mutation_runtime.delete_clip(
+                clip_id,
+                close_gap=close_gap,
             ),
             metadata={
                 "clip_id": clip_id,
@@ -486,22 +376,14 @@ class TimelineCommandHistoryRuntime:
         gap_end: float,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .CLOSE_GAP
-            ),
+            operation_type=TimelineEditingOperationType.CLOSE_GAP,
             label="Đóng khoảng trống",
-            mutation=lambda: (
-                self.mutation_runtime
-                .close_gap(
-                    track_id,
-                    gap_start,
-                    gap_end,
-                )
+            mutation=lambda: self.mutation_runtime.close_gap(
+                track_id,
+                gap_start,
+                gap_end,
             ),
-            metadata={
-                "track_id": track_id,
-            },
+            metadata={"track_id": track_id},
         )
 
     def close_all_gaps(
@@ -509,17 +391,9 @@ class TimelineCommandHistoryRuntime:
         track_id: str,
     ) -> TimelineHistoryResult:
         return self.execute(
-            operation_type=(
-                TimelineEditingOperationType
-                .CLOSE_GAP
-            ),
+            operation_type=TimelineEditingOperationType.CLOSE_GAP,
             label="Đóng mọi khoảng trống",
-            mutation=lambda: (
-                self.mutation_runtime
-                .close_all_gaps(
-                    track_id
-                )
-            ),
+            mutation=lambda: self.mutation_runtime.close_all_gaps(track_id),
             metadata={
                 "track_id": track_id,
                 "close_all": True,
@@ -528,35 +402,23 @@ class TimelineCommandHistoryRuntime:
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "timeline": self.timeline.to_dict(),
+            "timeline": self.store.snapshot().to_dict(),
             "state": self.state().to_dict(),
             "undo_stack": [
-                command.to_dict()
-                for command
-                in self._undo_stack
+                command.to_dict() for command in self._undo_stack
             ],
             "redo_stack": [
-                command.to_dict()
-                for command
-                in self._redo_stack
+                command.to_dict() for command in self._redo_stack
             ],
-            "events": [
-                event.to_dict()
-                for event in self._events
-            ],
+            "events": [event.to_dict() for event in self._events],
             "metadata": {
-                "runtime": (
-                    "TimelineCommandHistoryRuntime"
-                ),
+                "runtime": "TimelineCommandHistoryRuntime",
+                "store_revision": self.store.revision,
             },
         }
 
     def _trim_undo_stack(self) -> None:
-        overflow = (
-            len(self._undo_stack)
-            - self.maximum_history_size
-        )
-
+        overflow = len(self._undo_stack) - self.maximum_history_size
         if overflow > 0:
             del self._undo_stack[:overflow]
 
@@ -564,41 +426,27 @@ class TimelineCommandHistoryRuntime:
         self,
         *,
         action: TimelineHistoryAction,
-        command: TimelineHistoryCommand
-        | None = None,
+        command: TimelineHistoryCommand | None = None,
     ) -> TimelineHistoryEvent:
         state = self.state()
+        timeline = self.store.snapshot()
 
         event = TimelineHistoryEvent(
             action=action,
-            production_id=(
-                self.timeline.production_id
-            ),
-            command_id=(
-                command.command_id
-                if command
-                else None
-            ),
-            operation_type=(
-                command.operation_type
-                if command
-                else None
-            ),
+            production_id=timeline.production_id,
+            command_id=command.command_id if command else None,
+            operation_type=command.operation_type if command else None,
             undo_count=state.undo_count,
             redo_count=state.redo_count,
         )
 
         self._events.append(event)
+        return deepcopy(event)
 
-        return event
-
-    def _failure(
-        self,
-        message: str,
-    ) -> TimelineHistoryResult:
+    def _failure(self, message: str) -> TimelineHistoryResult:
         return TimelineHistoryResult(
             success=False,
-            timeline=self.timeline,
+            timeline=self.store.snapshot(),
             state=self.state(),
             error=message,
         )

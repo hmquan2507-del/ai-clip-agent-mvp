@@ -4,6 +4,7 @@ from app.review.editing.history.enums import (
 )
 from app.review.editing.history.factory import (
     build_history_from_mutation_runtime,
+    build_history_from_store,
     build_timeline_history_runtime,
 )
 from app.review.editing.history.models import (
@@ -12,9 +13,7 @@ from app.review.editing.history.models import (
     TimelineHistoryResult,
     TimelineHistoryState,
 )
-from app.review.editing.history.runtime import (
-    TimelineCommandHistoryRuntime,
-)
+from app.review.editing.history.runtime import TimelineCommandHistoryRuntime
 
 __all__ = [
     "TimelineCommandHistoryRuntime",
@@ -25,5 +24,6 @@ __all__ = [
     "TimelineHistoryState",
     "TimelineHistoryStatus",
     "build_history_from_mutation_runtime",
+    "build_history_from_store",
     "build_timeline_history_runtime",
 ]

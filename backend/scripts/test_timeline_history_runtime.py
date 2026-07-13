@@ -19,7 +19,8 @@ from app.review.editing import (
     EditableTimelineTrack,
     EditableTrackType,
     TimelineOverlapPolicy,
-    build_timeline_history_runtime,
+    build_history_from_store,
+    build_timeline_runtime_store,
 )
 
 
@@ -92,11 +93,13 @@ def build_timeline() -> EditableTimeline:
 
 
 def main() -> None:
-    history = (
-        build_timeline_history_runtime(
-            build_timeline(),
-            maximum_history_size=3,
-        )
+    source_timeline = build_timeline()
+    store = build_timeline_runtime_store(
+        source_timeline
+    )
+    history = build_history_from_store(
+        store,
+        maximum_history_size=3,
     )
 
     print(
@@ -260,6 +263,37 @@ def main() -> None:
         history.timeline.to_dict()
     )
 
+    exposed_command = history.undo_commands[-1]
+    exposed_before_clip = (
+        exposed_command.before.get_clip(
+            "clip_2"
+        )
+    )
+
+    if exposed_before_clip is not None:
+        exposed_before_clip.start_time = 999.0
+
+    internal_before_clip = (
+        history.undo_commands[-1]
+        .before.get_clip("clip_2")
+    )
+
+    command_snapshot_isolated = (
+        internal_before_clip is not None
+        and internal_before_clip.start_time
+        != 999.0
+    )
+
+    exposed_events = history.events
+    exposed_events[-1].metadata[
+        "tampered"
+    ] = True
+
+    event_snapshot_isolated = (
+        "tampered"
+        not in history.events[-1].metadata
+    )
+
     reset_result = history.reset()
 
     reset_state = history.state()
@@ -286,6 +320,29 @@ def main() -> None:
         reset_clip_2.track_id
         if reset_clip_2
         else None
+    )
+
+    snapshot_clone = history.snapshot()
+    snapshot_clone.mark_dirty()
+
+    shared_store = (
+        history.store is store
+        and history.mutation_runtime.store
+        is store
+    )
+
+    snapshot_isolated = (
+        snapshot_clone.revision == 2
+        and history.timeline.revision == 1
+    )
+
+    source_unchanged = (
+        source_timeline.revision == 1
+        and source_timeline.dirty is False
+        and source_timeline
+        .get_clip("clip_2")
+        .track_id
+        == "video_primary"
     )
 
     output_path = Path(
@@ -388,6 +445,30 @@ def main() -> None:
     print(
         "event_count:",
         len(history.events),
+    )
+    print(
+        "shared_store:",
+        shared_store,
+    )
+    print(
+        "store_change_count:",
+        len(store.changes),
+    )
+    print(
+        "snapshot_isolated:",
+        snapshot_isolated,
+    )
+    print(
+        "source_unchanged:",
+        source_unchanged,
+    )
+    print(
+        "command_snapshot_isolated:",
+        command_snapshot_isolated,
+    )
+    print(
+        "event_snapshot_isolated:",
+        event_snapshot_isolated,
     )
     print(
         "output:",
@@ -510,6 +591,18 @@ def main() -> None:
     assert (
         history.timeline.revision
         == 1
+    )
+
+    assert shared_store is True
+    assert len(store.changes) == 8
+    assert snapshot_isolated is True
+    assert source_unchanged is True
+    assert command_snapshot_isolated is True
+    assert event_snapshot_isolated is True
+
+    assert not hasattr(
+        history,
+        "_initial_timeline",
     )
 
     print(
