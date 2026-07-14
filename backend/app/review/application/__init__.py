@@ -2,6 +2,8 @@ from app.review.application.errors import (
     ReviewRuntimeSessionConflictError,
     ReviewRuntimeSessionNotFoundError,
     ReviewRuntimeSessionOperationError,
+    ReviewTimelineCommandOperationError,
+    ReviewTimelineRevisionConflictError,
     ReviewWorkspaceApplicationError,
 )
 from app.review.application.factory import (
@@ -9,6 +11,10 @@ from app.review.application.factory import (
 )
 from app.review.application.interfaces import (
     ReviewWorkspaceApplicationServiceInterface,
+)
+from app.review.application.models import (
+    ReviewTimelineCommandResult,
+    ReviewTimelineCommandType,
 )
 from app.review.application.service import (
     ReviewWorkspaceApplicationConfig,
@@ -20,8 +26,12 @@ __all__ = [
     "ReviewRuntimeSessionConflictError",
     "ReviewRuntimeSessionNotFoundError",
     "ReviewRuntimeSessionOperationError",
+    "ReviewTimelineCommandOperationError",
+    "ReviewTimelineRevisionConflictError",
     "ReviewWorkspaceApplicationError",
     "ReviewWorkspaceApplicationServiceInterface",
+    "ReviewTimelineCommandResult",
+    "ReviewTimelineCommandType",
     "ReviewWorkspaceApplicationConfig",
     "ReviewWorkspaceApplicationService",
     "build_review_workspace_application_service",

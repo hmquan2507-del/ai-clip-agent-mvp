@@ -2,14 +2,21 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
+from app.review.application.models import (
+    ReviewTimelineCommandResult,
+)
 from app.review.session.models import (
     ReviewRuntimeSessionResult,
     ReviewRuntimeSessionSnapshot,
 )
-from app.review.session.runtime import ReviewRuntimeSession
+from app.review.session.runtime import (
+    ReviewRuntimeSession,
+)
 
 
-class ReviewWorkspaceApplicationServiceInterface(ABC):
+class ReviewWorkspaceApplicationServiceInterface(
+    ABC
+):
     @abstractmethod
     def open_session(
         self,
@@ -57,5 +64,116 @@ class ReviewWorkspaceApplicationServiceInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def cleanup_expired_sessions(self) -> list[str]:
+    def move_clip(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        new_start_time: float,
+        target_track_id: str | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def trim_clip_start(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        new_start_time: float,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def trim_clip_end(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        new_end_time: float,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def split_clip(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        split_time: float,
+        right_clip_id: str | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def duplicate_clip(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        new_clip_id: str | None = None,
+        new_start_time: float | None = None,
+        target_track_id: str | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete_clip(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        close_gap: bool = False,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def close_gap(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        track_id: str,
+        gap_start: float,
+        gap_end: float,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def undo_timeline(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def redo_timeline(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def cleanup_expired_sessions(
+        self,
+    ) -> list[str]:
         raise NotImplementedError

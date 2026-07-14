@@ -1,0 +1,57 @@
+{
+  "checks": {
+    "legacy_contract_preserved": true,
+    "timeline_contract_valid": true,
+    "operations_complete": true,
+    "move_contract_valid": true,
+    "trim_contracts_valid": true,
+    "split_contract_valid": true,
+    "duplicate_contract_valid": true,
+    "delete_defaults_valid": true,
+    "close_gap_contract_valid": true,
+    "history_contracts_valid": true,
+    "invalid_session_blocked": true,
+    "negative_time_blocked": true,
+    "invalid_revision_blocked": true,
+    "invalid_gap_blocked": true,
+    "extra_fields_blocked": true,
+    "response_contract_valid": true,
+    "response_isolated": true,
+    "serialization_valid": true
+  },
+  "response": {
+    "contract_version": "16.4.1",
+    "success": true,
+    "operation": "move_clip",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "review-session-001",
+    "snapshot": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "timeline": {
+        "revision": 4,
+        "dirty": true
+      }
+    },
+    "command": {
+      "command_id": "command-001",
+      "operation_type": "move_clip",
+      "label": "Di chuyển clip"
+    },
+    "event": {
+      "action": "execute",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+    },
+    "history": {
+      "can_undo": true,
+      "can_redo": false,
+      "undo_count": 1,
+      "redo_count": 0,
+      "current_revision": 4
+    },
+    "metadata": {
+      "expected_revision": 3,
+      "current_revision": 4
+    }
+  }
+}

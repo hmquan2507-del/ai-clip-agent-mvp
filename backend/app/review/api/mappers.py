@@ -8,10 +8,12 @@ from app.product import (
     ProductWorkspaceNotFoundError,
 )
 from app.review.api.contracts import (
+    ReviewTimelineCommandOperation,
     ReviewWorkspaceAPIErrorCode,
     ReviewWorkspaceAPIOperation,
 )
 from app.review.api.schemas import (
+    ReviewTimelineCommandResponse,
     ReviewWorkspaceAPIErrorDetail,
     ReviewWorkspaceCloseResponse,
     ReviewWorkspaceErrorResponse,
@@ -23,6 +25,7 @@ from app.review.application import (
     ReviewRuntimeSessionConflictError,
     ReviewRuntimeSessionNotFoundError,
     ReviewRuntimeSessionOperationError,
+    ReviewTimelineCommandResult,
     ReviewWorkspaceApplicationError,
 )
 from app.review.session import (
@@ -131,6 +134,53 @@ class ReviewWorkspaceAPIMapper:
         )
 
     @staticmethod
+    def timeline_command_response(
+        result: ReviewTimelineCommandResult,
+        *,
+        metadata: dict[str, Any] | None = None,
+    ) -> ReviewTimelineCommandResponse:
+        response_metadata = deepcopy(
+            result.metadata
+        )
+
+        response_metadata.update(
+            {
+                "previous_revision": (
+                    result.previous_revision
+                ),
+                "current_revision": (
+                    result.current_revision
+                ),
+                "expected_revision": (
+                    result.expected_revision
+                ),
+            }
+        )
+
+        response_metadata.update(
+            deepcopy(metadata or {})
+        )
+
+        return ReviewTimelineCommandResponse(
+            operation=(
+                ReviewTimelineCommandOperation(
+                    result.operation.value
+                )
+            ),
+            production_id=(
+                result.production_id
+            ),
+            session_id=result.session_id,
+            snapshot=(
+                result.snapshot.to_dict()
+            ),
+            command=result.command,
+            event=result.event,
+            history=result.history,
+            metadata=response_metadata,
+        )
+
+    @staticmethod
     def error_response(
         error: Exception,
         *,
@@ -141,6 +191,10 @@ class ReviewWorkspaceAPIMapper:
         code, message = (
             ReviewWorkspaceAPIMapper
             ._classify_error(error)
+        )
+
+        resolved_metadata = deepcopy(
+            metadata or {}
         )
 
         if isinstance(
@@ -156,6 +210,26 @@ class ReviewWorkspaceAPIMapper:
                 or session_id
             )
 
+            application_payload = (
+                error.to_dict()
+            )
+
+            for key in (
+                "code",
+                "message",
+                "production_id",
+                "session_id",
+            ):
+                application_payload.pop(
+                    key,
+                    None,
+                )
+
+            if application_payload:
+                resolved_metadata[
+                    "application_error"
+                ] = application_payload
+
         return ReviewWorkspaceErrorResponse(
             error=ReviewWorkspaceAPIErrorDetail(
                 code=code,
@@ -163,9 +237,7 @@ class ReviewWorkspaceAPIMapper:
                 technical_message=str(error),
                 production_id=production_id,
                 session_id=session_id,
-                metadata=deepcopy(
-                    metadata or {}
-                ),
+                metadata=resolved_metadata,
             )
         )
 

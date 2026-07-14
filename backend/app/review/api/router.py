@@ -22,12 +22,22 @@ from app.review.api.mappers import (
 )
 from app.review.api.schemas import (
     CloseReviewWorkspaceRequest,
+    CloseTimelineGapRequest,
+    DeleteTimelineClipRequest,
+    DuplicateTimelineClipRequest,
+    MoveTimelineClipRequest,
     OpenReviewWorkspaceRequest,
+    RedoTimelineCommandRequest,
     ResetReviewWorkspaceRequest,
+    ReviewTimelineCommandResponse,
     ReviewWorkspaceCloseResponse,
     ReviewWorkspaceResetResponse,
     ReviewWorkspaceSessionResponse,
     ReviewWorkspaceSnapshotResponse,
+    SplitTimelineClipRequest,
+    TrimTimelineClipEndRequest,
+    TrimTimelineClipStartRequest,
+    UndoTimelineCommandRequest,
 )
 from app.review.application.service import (
     ReviewWorkspaceApplicationService,
@@ -86,7 +96,6 @@ def open_review_session(
                 ),
             )
         )
-
     except Exception as error:
         return _error_response(
             error,
@@ -99,9 +108,7 @@ def open_review_session(
     response_model=(
         ReviewWorkspaceSessionResponse
     ),
-    summary=(
-        "Lấy phiên review đang hoạt động"
-    ),
+    summary="Lấy phiên review đang hoạt động",
 )
 def get_review_session(
     production_id: UUID,
@@ -137,7 +144,6 @@ def get_review_session(
                 ),
             )
         )
-
     except Exception as error:
         return _error_response(
             error,
@@ -151,9 +157,7 @@ def get_review_session(
     response_model=(
         ReviewWorkspaceSnapshotResponse
     ),
-    summary=(
-        "Lấy snapshot review workspace"
-    ),
+    summary="Lấy snapshot review workspace",
 )
 def get_review_snapshot(
     production_id: UUID,
@@ -183,7 +187,6 @@ def get_review_snapshot(
             ReviewWorkspaceAPIMapper
             .snapshot_response(snapshot)
         )
-
     except Exception as error:
         return _error_response(
             error,
@@ -197,9 +200,7 @@ def get_review_snapshot(
     response_model=(
         ReviewWorkspaceResetResponse
     ),
-    summary=(
-        "Reset phiên review về timeline ban đầu"
-    ),
+    summary="Reset phiên review về timeline ban đầu",
 )
 def reset_review_session(
     production_id: UUID,
@@ -225,7 +226,6 @@ def reset_review_session(
             ReviewWorkspaceAPIMapper
             .reset_response(snapshot)
         )
-
     except Exception as error:
         return _error_response(
             error,
@@ -239,9 +239,7 @@ def reset_review_session(
     response_model=(
         ReviewWorkspaceCloseResponse
     ),
-    summary=(
-        "Đóng phiên review workspace"
-    ),
+    summary="Đóng phiên review workspace",
 )
 def close_review_session(
     production_id: UUID,
@@ -267,7 +265,349 @@ def close_review_session(
             ReviewWorkspaceAPIMapper
             .close_response(result)
         )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
 
+
+@router.post(
+    "/timeline/move",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Di chuyển clip trên timeline",
+)
+def move_timeline_clip(
+    production_id: UUID,
+    request: MoveTimelineClipRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.move_clip(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            new_start_time=request.new_start_time,
+            target_track_id=request.target_track_id,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/trim-start",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Cắt đầu clip trên timeline",
+)
+def trim_timeline_clip_start(
+    production_id: UUID,
+    request: TrimTimelineClipStartRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.trim_clip_start(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            new_start_time=request.new_start_time,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/trim-end",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Cắt cuối clip trên timeline",
+)
+def trim_timeline_clip_end(
+    production_id: UUID,
+    request: TrimTimelineClipEndRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.trim_clip_end(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            new_end_time=request.new_end_time,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/split",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Chia clip trên timeline",
+)
+def split_timeline_clip(
+    production_id: UUID,
+    request: SplitTimelineClipRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.split_clip(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            split_time=request.split_time,
+            right_clip_id=request.right_clip_id,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/duplicate",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Nhân bản clip trên timeline",
+)
+def duplicate_timeline_clip(
+    production_id: UUID,
+    request: DuplicateTimelineClipRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.duplicate_clip(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            new_clip_id=request.new_clip_id,
+            new_start_time=request.new_start_time,
+            target_track_id=request.target_track_id,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/delete",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Xóa clip khỏi timeline",
+)
+def delete_timeline_clip(
+    production_id: UUID,
+    request: DeleteTimelineClipRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.delete_clip(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            close_gap=request.close_gap,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/close-gap",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Đóng khoảng trống trên timeline",
+)
+def close_timeline_gap(
+    production_id: UUID,
+    request: CloseTimelineGapRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.close_gap(
+            normalized_id,
+            session_id=request.session_id,
+            track_id=request.track_id,
+            gap_start=request.gap_start,
+            gap_end=request.gap_end,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/undo",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Hoàn tác timeline command",
+)
+def undo_timeline_command(
+    production_id: UUID,
+    request: UndoTimelineCommandRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.undo_timeline(
+            normalized_id,
+            session_id=request.session_id,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/redo",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Thực hiện lại timeline command",
+)
+def redo_timeline_command(
+    production_id: UUID,
+    request: RedoTimelineCommandRequest,
+    service: (
+        ReviewWorkspaceApplicationService
+    ) = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        result = service.redo_timeline(
+            normalized_id,
+            session_id=request.session_id,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .timeline_command_response(result)
+        )
     except Exception as error:
         return _error_response(
             error,
@@ -346,6 +686,4 @@ def _status_code_for_error(
             status.HTTP_422_UNPROCESSABLE_ENTITY
         )
 
-    return (
-        status.HTTP_500_INTERNAL_SERVER_ERROR
-    )
+    return status.HTTP_500_INTERNAL_SERVER_ERROR

@@ -1,0 +1,444 @@
+{
+  "checks": {
+    "all_commands_work": true,
+    "all_commands_delegated": true,
+    "expected_revision_forwarded": true,
+    "revision_conflict_mapped": true,
+    "validation_blocked_before_service": true,
+    "openapi_routes_complete": true,
+    "response_count_valid": true
+  },
+  "responses": {
+    "move": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "move_clip",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "move_clip"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "move_clip"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": 1
+      }
+    },
+    "trim-start": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "trim_clip_start",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "trim_clip_start"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "trim_clip_start"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "trim-end": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "trim_clip_end",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "trim_clip_end"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "trim_clip_end"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "split": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "split_clip",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "split_clip"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "split_clip"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "duplicate": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "duplicate_clip",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "duplicate_clip"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "duplicate_clip"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "delete": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "delete_clip",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "delete_clip"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "delete_clip"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "close-gap": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "close_gap",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "close_gap"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "close_gap"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "undo": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "undo",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "undo"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "undo"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    },
+    "redo": {
+      "contract_version": "16.4.1",
+      "success": true,
+      "operation": "redo",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "snapshot": {
+        "session": {
+          "session_id": "review-session-001",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059"
+        },
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "dirty": true
+        },
+        "history": {
+          "can_undo": true,
+          "can_redo": false,
+          "undo_count": 1,
+          "redo_count": 0
+        }
+      },
+      "command": {
+        "command_id": "command-001",
+        "operation_type": "redo"
+      },
+      "event": {
+        "action": "execute",
+        "operation_type": "redo"
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "current_revision": 2,
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0
+      },
+      "metadata": {
+        "controller_test": true,
+        "previous_revision": 1,
+        "current_revision": 2,
+        "expected_revision": null
+      }
+    }
+  },
+  "conflict": {
+    "contract_version": "16.2.3",
+    "success": false,
+    "error": {
+      "code": "review_session_conflict",
+      "message": "Phiên review đang xung đột với yêu cầu hiện tại.",
+      "technical_message": "Synthetic revision conflict.",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "metadata": {
+        "application_error": {
+          "expected_revision": 999,
+          "current_revision": 1
+        }
+      }
+    }
+  }
+}

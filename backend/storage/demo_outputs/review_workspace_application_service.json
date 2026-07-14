@@ -24,6 +24,22 @@
       "maximum_history_size": 25,
       "maximum_clipboard_history_size": 10
     },
+    "timeline_commands": {
+      "history_backed": true,
+      "expected_revision": true,
+      "atomic_lock": true,
+      "operations": [
+        "move_clip",
+        "trim_clip_start",
+        "trim_clip_end",
+        "split_clip",
+        "duplicate_clip",
+        "delete_clip",
+        "close_gap",
+        "undo",
+        "redo"
+      ]
+    },
     "registry": {
       "registry": "InMemoryReviewRuntimeSessionRegistry",
       "ttl_seconds": 1800.0,

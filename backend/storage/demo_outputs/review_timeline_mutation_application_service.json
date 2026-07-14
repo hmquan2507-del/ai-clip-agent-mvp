@@ -1,0 +1,80 @@
+{
+  "checks": {
+    "interface_contract_valid": true,
+    "conflict_blocked": true,
+    "conflict_read_only": true,
+    "move_valid": true,
+    "all_mutations_operational": true,
+    "undo_redo_operational": true,
+    "failure_mapped": true,
+    "failure_read_only": true,
+    "result_isolated": true,
+    "serialization_valid": true,
+    "summary_valid": true
+  },
+  "result": {
+    "operation": "move_clip",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "review-session-001",
+    "previous_revision": 1,
+    "current_revision": 2,
+    "expected_revision": 1,
+    "snapshot": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-001",
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "revision": 2
+      }
+    },
+    "command": {
+      "command_id": "command-move_clip",
+      "operation_type": "move_clip",
+      "before_revision": 1,
+      "after_revision": 2
+    },
+    "event": {
+      "action": "execute",
+      "operation_type": "move_clip"
+    },
+    "history": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "current_revision": 2,
+      "can_undo": true,
+      "can_redo": false,
+      "undo_count": 1,
+      "redo_count": 0
+    },
+    "metadata": {
+      "clip_id": "clip_1",
+      "new_start_time": 1.0,
+      "target_track_id": null
+    }
+  },
+  "service": {
+    "service": "ReviewWorkspaceApplicationService",
+    "config": {
+      "maximum_history_size": 100,
+      "maximum_clipboard_history_size": 20
+    },
+    "timeline_commands": {
+      "history_backed": true,
+      "expected_revision": true,
+      "atomic_lock": true,
+      "operations": [
+        "move_clip",
+        "trim_clip_start",
+        "trim_clip_end",
+        "split_clip",
+        "duplicate_clip",
+        "delete_clip",
+        "close_gap",
+        "undo",
+        "redo"
+      ]
+    },
+    "registry": {
+      "session_count": 1
+    }
+  }
+}

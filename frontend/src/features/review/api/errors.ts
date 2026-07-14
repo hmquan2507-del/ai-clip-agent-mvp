@@ -31,10 +31,36 @@ export class ReviewWorkspaceAPIError extends Error {
     this.name = "ReviewWorkspaceAPIError";
     this.code = options.code;
     this.status = options.status;
-    this.technicalMessage = options.technicalMessage ?? null;
-    this.productionId = options.productionId ?? null;
-    this.sessionId = options.sessionId ?? null;
+    this.technicalMessage =
+      options.technicalMessage ?? null;
+    this.productionId =
+      options.productionId ?? null;
+    this.sessionId =
+      options.sessionId ?? null;
     this.metadata = options.metadata ?? {};
+  }
+
+  get isRevisionConflict(): boolean {
+    return (
+      this.status === 409 &&
+      this.code === "review_session_conflict" &&
+      this.expectedRevision !== null &&
+      this.currentRevision !== null
+    );
+  }
+
+  get expectedRevision(): number | null {
+    return readApplicationErrorNumber(
+      this.metadata,
+      "expected_revision",
+    );
+  }
+
+  get currentRevision(): number | null {
+    return readApplicationErrorNumber(
+      this.metadata,
+      "current_revision",
+    );
   }
 
   static fromResponse(
@@ -49,8 +75,10 @@ export class ReviewWorkspaceAPIError extends Error {
           status: response.status,
           technicalMessage:
             payload.error.technical_message,
-          productionId: payload.error.production_id,
-          sessionId: payload.error.session_id,
+          productionId:
+            payload.error.production_id,
+          sessionId:
+            payload.error.session_id,
           metadata: payload.error.metadata,
         },
       );
@@ -62,7 +90,8 @@ export class ReviewWorkspaceAPIError extends Error {
       {
         code: "http_error",
         status: response.status,
-        technicalMessage: response.statusText || null,
+        technicalMessage:
+          response.statusText || null,
       },
     );
   }
@@ -86,6 +115,27 @@ export function isReviewWorkspaceErrorResponse(
   );
 }
 
+function readApplicationErrorNumber(
+  metadata: JsonObject,
+  key: string,
+): number | null {
+  const applicationError =
+    metadata.application_error;
+
+  if (!isRecord(applicationError)) {
+    return null;
+  }
+
+  const value = applicationError[key];
+
+  return (
+    typeof value === "number" &&
+    Number.isInteger(value)
+  )
+    ? value
+    : null;
+}
+
 function extractFastAPIMessage(
   payload: unknown,
 ): string | null {
@@ -100,7 +150,8 @@ function extractFastAPIMessage(
   if (Array.isArray(payload.detail)) {
     const messages = payload.detail
       .map((item) =>
-        isRecord(item) && typeof item.msg === "string"
+        isRecord(item) &&
+        typeof item.msg === "string"
           ? item.msg
           : null,
       )
