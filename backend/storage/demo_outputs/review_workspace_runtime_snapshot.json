@@ -1,6 +1,6 @@
 {
   "session": {
-    "session_id": "6862214f-8817-479e-9cd2-723f17b771da",
+    "session_id": "5dae3601-369e-4275-b1ba-84bff7a3a0a1",
     "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
     "status": "ready",
     "active": true,
@@ -9,8 +9,8 @@
     "timeline_revision": 2,
     "dirty": true,
     "revision": 2,
-    "created_at": "2026-07-13T18:39:08.464628+00:00",
-    "updated_at": "2026-07-13T18:39:08.466415+00:00",
+    "created_at": "2026-07-14T01:48:34.113493+00:00",
+    "updated_at": "2026-07-14T01:48:34.114877+00:00",
     "closed_at": null,
     "error": null,
     "metadata": {
@@ -128,7 +128,7 @@
     },
     "metadata": {
       "runtime_session": {
-        "session_id": "6862214f-8817-479e-9cd2-723f17b771da",
+        "session_id": "5dae3601-369e-4275-b1ba-84bff7a3a0a1",
         "session_revision": 2,
         "timeline_revision": 2,
         "timeline_dirty": true
@@ -148,8 +148,8 @@
     "revision": 2,
     "dirty": true,
     "dirty_status": "dirty",
-    "created_at": "2026-07-13T18:39:08.464055+00:00",
-    "updated_at": "2026-07-13T18:39:08.465818+00:00",
+    "created_at": "2026-07-14T01:48:34.112917+00:00",
+    "updated_at": "2026-07-14T01:48:34.114395+00:00",
     "tracks": [
       {
         "track_id": "video_primary",
@@ -259,8 +259,8 @@
       "current_frame": 0,
       "total_frames": 240,
       "revision": 1,
-      "created_at": "2026-07-13T18:39:08.464124+00:00",
-      "updated_at": "2026-07-13T18:39:08.464129+00:00",
+      "created_at": "2026-07-14T01:48:34.112977+00:00",
+      "updated_at": "2026-07-14T01:48:34.112981+00:00",
       "error": null,
       "metadata": {
         "runtime": "PreviewSessionRuntime",
@@ -276,7 +276,7 @@
       "active_timeline_revision": 2,
       "preview_timeline_revision": 1,
       "reason": "mutation.trim_clip_end",
-      "updated_at": "2026-07-13T18:39:08.466404+00:00",
+      "updated_at": "2026-07-14T01:48:34.114866+00:00",
       "metadata": {
         "signature_matches": false
       }
@@ -362,8 +362,8 @@
       "has_selection": true,
       "selected_count": 2,
       "revision": 3,
-      "created_at": "2026-07-13T18:39:08.464304+00:00",
-      "updated_at": "2026-07-13T18:39:08.466250+00:00",
+      "created_at": "2026-07-14T01:48:34.113170+00:00",
+      "updated_at": "2026-07-14T01:48:34.114718+00:00",
       "metadata": {
         "runtime": "TimelineSelectionRuntime",
         "timeline_duration": 7.0,
@@ -389,14 +389,14 @@
       "available": true,
       "item_count": 1,
       "clip_count": 1,
-      "clipboard_id": "3586b02c-0c72-49ee-803a-a6cffee7aba0",
+      "clipboard_id": "6ef9b0dd-3cc5-45a0-9fd2-96024c433690",
       "last_action": "copy",
       "source_track_ids": [
         "video_primary"
       ]
     },
     "content": {
-      "clipboard_id": "3586b02c-0c72-49ee-803a-a6cffee7aba0",
+      "clipboard_id": "6ef9b0dd-3cc5-45a0-9fd2-96024c433690",
       "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
       "action": "copy",
       "status": "ready",
@@ -408,10 +408,10 @@
       ],
       "anchor_time": 4.0,
       "total_duration": 4.0,
-      "created_at": "2026-07-13T18:39:08.465280+00:00",
+      "created_at": "2026-07-14T01:48:34.114032+00:00",
       "items": [
         {
-          "item_id": "d8ce45cd-6b58-4f6a-9e7a-7fac515f4447",
+          "item_id": "cd44da2a-1c66-4667-a8c3-9fae2eba4017",
           "item_type": "clip",
           "source_clip_id": "clip_2",
           "source_track_id": "video_primary",
@@ -445,7 +445,7 @@
       "metadata": {}
     }
   },
-  "created_at": "2026-07-13T18:39:08.469565+00:00",
+  "created_at": "2026-07-14T01:48:34.117101+00:00",
   "consistency": {
     "production_ids_match": true,
     "workspace_timeline_consistent": true

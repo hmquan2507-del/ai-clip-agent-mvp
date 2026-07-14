@@ -25,6 +25,13 @@ from app.review.session.runtime import (
     ReviewRuntimeSession,
     ReviewRuntimeSessionEventCallback,
 )
+from app.review.session.registry import (
+    InMemoryReviewRuntimeSessionRegistry,
+    RegistryClock,
+    ReviewRuntimeSessionRegistryEntry,
+    ReviewRuntimeSessionRegistryInterface,
+    build_in_memory_review_runtime_session_registry,
+)
 
 
 __all__ = [
@@ -45,4 +52,9 @@ __all__ = [
     "build_review_runtime_session_from_graph",
     "ReviewRuntimeSession",
     "ReviewRuntimeSessionEventCallback",
+    "InMemoryReviewRuntimeSessionRegistry",
+    "RegistryClock",
+    "ReviewRuntimeSessionRegistryEntry",
+    "ReviewRuntimeSessionRegistryInterface",
+    "build_in_memory_review_runtime_session_registry",
 ]

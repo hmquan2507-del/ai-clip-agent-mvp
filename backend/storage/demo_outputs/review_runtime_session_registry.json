@@ -1,0 +1,25 @@
+{
+  "registry": {
+    "registry": "InMemoryReviewRuntimeSessionRegistry",
+    "ttl_seconds": 10.0,
+    "session_count": 0,
+    "entries": []
+  },
+  "checks": {
+    "interface_contract": true,
+    "registration_works": true,
+    "wrong_session_id_blocked": true,
+    "entry_isolated": true,
+    "duplicate_blocked": true,
+    "replace_closes_previous": true,
+    "production_isolation": true,
+    "thread_safe_access": true,
+    "ttl_cleanup_works": true,
+    "wrong_remove_blocked": true,
+    "optional_close_works": true,
+    "clear_closes_sessions": true,
+    "closed_registration_blocked": true,
+    "source_unchanged": true,
+    "serialization_valid": true
+  }
+}
