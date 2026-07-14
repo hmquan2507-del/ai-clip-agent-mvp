@@ -1,0 +1,34 @@
+{
+  "checks": {
+    "interface_contract_valid": true,
+    "open_ready": true,
+    "open_idempotent": true,
+    "conflict_blocked": true,
+    "conflict_payload_valid": true,
+    "lookup_valid": true,
+    "wrong_session_blocked": true,
+    "edit_visible": true,
+    "reset_integrated": true,
+    "replace_integrated": true,
+    "concurrent_open_atomic": true,
+    "cleanup_delegated": true,
+    "close_integrated": true,
+    "missing_session_blocked": true,
+    "missing_workspace_propagated": true,
+    "source_unchanged": true,
+    "serialization_valid": true
+  },
+  "service": {
+    "service": "ReviewWorkspaceApplicationService",
+    "config": {
+      "maximum_history_size": 25,
+      "maximum_clipboard_history_size": 10
+    },
+    "registry": {
+      "registry": "InMemoryReviewRuntimeSessionRegistry",
+      "ttl_seconds": 1800.0,
+      "session_count": 0,
+      "entries": []
+    }
+  }
+}
