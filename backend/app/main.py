@@ -43,6 +43,9 @@ from app.api.v1.runtime_artifact_replay import (
 )
 from app.api.v1.ai_provider_health import router as ai_provider_health_router
 
+from fastapi.middleware.cors import CORSMiddleware
+from app.core.config import settings
+
 configure_logging()
 
 app = FastAPI(
@@ -51,6 +54,14 @@ app = FastAPI(
 )
 
 app.add_middleware(RequestIDMiddleware)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["X-Request-ID"],
+)
 app.include_router(hook_detection_router, prefix="/api/v1")
 app.include_router(api_router)
 app.include_router(health_router)

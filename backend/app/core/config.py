@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     environment: str = "development"
 
+    cors_allowed_origins: str = (
+    "http://localhost:3000,http://127.0.0.1:3000"
+    )
     # =========================
     # Database
     # =========================
@@ -106,6 +109,12 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
-
+    @property
+    def cors_origins(self) -> list[str]:
+        return [
+        origin.strip()
+        for origin in self.cors_allowed_origins.split(",")
+        if origin.strip()
+    ]
 
 settings = Settings()

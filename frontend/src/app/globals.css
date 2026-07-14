@@ -22,5 +22,216 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+.review-editor-theme {
+  color-scheme: dark;
+
+  --review-bg: #070910;
+  --review-bg-elevated: #090c14;
+
+  --review-surface-1: #0d111b;
+  --review-surface-2: #111622;
+  --review-surface-3: #171d2b;
+  --review-surface-hover: #1b2232;
+  --review-surface-floating:
+    rgb(15 20 31 / 92%);
+
+  --review-text: #f4f6fb;
+  --review-text-muted: #a8b0c1;
+  --review-text-subtle: #727c91;
+  --review-text-disabled: #50596b;
+
+  --review-border-subtle:
+    rgb(151 164 190 / 8%);
+  --review-border:
+    rgb(151 164 190 / 14%);
+  --review-border-strong:
+    rgb(166 180 207 / 22%);
+  --review-border-hover:
+    rgb(185 198 224 / 34%);
+
+  --review-accent: #7c5cff;
+  --review-accent-hover: #8d73ff;
+  --review-accent-active: #6c4aef;
+  --review-accent-soft:
+    rgb(124 92 255 / 12%);
+  --review-accent-ring:
+    rgb(124 92 255 / 12%);
+  --review-accent-border:
+    rgb(139 113 255 / 32%);
+  --review-accent-text: #b9a9ff;
+
+  --review-cyan: #27d3ee;
+  --review-cyan-soft:
+    rgb(39 211 238 / 12%);
+
+  --review-info-soft:
+    rgb(39 169 255 / 11%);
+  --review-info-border:
+    rgb(55 178 255 / 28%);
+  --review-info-text: #70c9ff;
+
+  --review-success-soft:
+    rgb(36 201 138 / 11%);
+  --review-success-border:
+    rgb(47 211 150 / 28%);
+  --review-success-text: #65dfa9;
+
+  --review-warning-soft:
+    rgb(246 177 61 / 11%);
+  --review-warning-border:
+    rgb(246 177 61 / 30%);
+  --review-warning-text: #f8c76e;
+
+  --review-danger-soft:
+    rgb(244 82 117 / 11%);
+  --review-danger-border:
+    rgb(244 82 117 / 30%);
+  --review-danger-text: #ff819d;
+  --review-danger-hover:
+    rgb(244 82 117 / 18%);
+
+  --review-focus:
+    rgb(139 113 255 / 75%);
+  --review-selection:
+    rgb(124 92 255 / 28%);
+
+  --review-radius-panel: 14px;
+  --review-radius-control: 10px;
+
+  --review-shadow-panel:
+    0 18px 50px rgb(0 0 0 / 18%);
+
+  --review-shadow-floating:
+    0 24px 80px rgb(0 0 0 / 42%);
+
+  --review-shadow-accent:
+    0 8px 24px rgb(91 60 224 / 28%);
+
+  --review-timeline-ruler: #0b0f18;
+  --review-timeline-grid:
+    rgb(160 176 205 / 9%);
+  --review-timeline-playhead: #ff557d;
+
+  --review-clip-video: #6654d9;
+  --review-clip-broll: #207f9c;
+  --review-clip-subtitle: #bd7a26;
+  --review-clip-audio: #218a63;
+
+  background:
+    radial-gradient(
+      circle at 48% -20%,
+      rgb(104 76 222 / 12%),
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 100% 30%,
+      rgb(30 155 183 / 7%),
+      transparent 28rem
+    ),
+    var(--review-bg);
+}
+
+.review-editor-theme ::selection {
+  background:
+    var(--review-selection);
+  color:
+    var(--review-text);
+}
+
+.review-editor-theme * {
+  scrollbar-color:
+    var(--review-border-strong)
+    transparent;
+
+  scrollbar-width: thin;
+}
+
+.review-editor-theme *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.review-editor-theme *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.review-editor-theme *::-webkit-scrollbar-thumb {
+  border:
+    2px solid transparent;
+
+  border-radius: 999px;
+
+  background:
+    var(--review-border-strong);
+
+  background-clip:
+    padding-box;
+}
+
+.review-editor-theme *::-webkit-scrollbar-thumb:hover {
+  background:
+    var(--review-border-hover);
+
+  background-clip:
+    padding-box;
+}
+
+.review-skeleton {
+  position: relative;
+  overflow: hidden;
+}
+
+.review-skeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+
+  transform:
+    translateX(-100%);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 5%),
+      transparent
+    );
+
+  animation:
+    review-skeleton-shimmer
+    1.6s
+    infinite;
+}
+
+@keyframes review-skeleton-shimmer {
+  100% {
+    transform:
+      translateX(100%);
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .review-editor-theme *,
+  .review-editor-theme *::before,
+  .review-editor-theme *::after {
+    scroll-behavior:
+      auto !important;
+
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
 }
