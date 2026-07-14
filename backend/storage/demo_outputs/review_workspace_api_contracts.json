@@ -19,12 +19,12 @@
       "success": true,
       "operation": "open_session",
       "production_id": "review-api-contracts-1",
-      "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+      "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
       "metadata": {
         "reused": false
       },
       "session": {
-        "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+        "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
         "production_id": "review-api-contracts-1",
         "status": "ready",
         "active": true,
@@ -33,8 +33,8 @@
         "timeline_revision": 1,
         "dirty": false,
         "revision": 1,
-        "created_at": "2026-07-14T02:15:51.387220+00:00",
-        "updated_at": "2026-07-14T02:15:51.387235+00:00",
+        "created_at": "2026-07-14T02:29:03.482835+00:00",
+        "updated_at": "2026-07-14T02:29:03.482847+00:00",
         "closed_at": null,
         "error": null,
         "metadata": {
@@ -43,7 +43,7 @@
       },
       "snapshot": {
         "session": {
-          "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+          "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
           "production_id": "review-api-contracts-1",
           "status": "ready",
           "active": true,
@@ -52,8 +52,8 @@
           "timeline_revision": 1,
           "dirty": false,
           "revision": 1,
-          "created_at": "2026-07-14T02:15:51.387220+00:00",
-          "updated_at": "2026-07-14T02:15:51.387235+00:00",
+          "created_at": "2026-07-14T02:29:03.482835+00:00",
+          "updated_at": "2026-07-14T02:29:03.482847+00:00",
           "closed_at": null,
           "error": null,
           "metadata": {
@@ -181,7 +181,7 @@
               "issue_count": 0
             },
             "runtime_session": {
-              "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+              "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
               "session_revision": 1,
               "timeline_revision": 1,
               "timeline_dirty": false
@@ -201,8 +201,8 @@
           "revision": 1,
           "dirty": false,
           "dirty_status": "clean",
-          "created_at": "2026-07-14T02:15:51.386477+00:00",
-          "updated_at": "2026-07-14T02:15:51.386488+00:00",
+          "created_at": "2026-07-14T02:29:03.482237+00:00",
+          "updated_at": "2026-07-14T02:29:03.482246+00:00",
           "tracks": [
             {
               "track_id": "video_primary",
@@ -312,8 +312,8 @@
             "current_frame": 0,
             "total_frames": 240,
             "revision": 1,
-            "created_at": "2026-07-14T02:15:51.386552+00:00",
-            "updated_at": "2026-07-14T02:15:51.386557+00:00",
+            "created_at": "2026-07-14T02:29:03.482298+00:00",
+            "updated_at": "2026-07-14T02:29:03.482303+00:00",
             "error": null,
             "metadata": {
               "runtime": "PreviewSessionRuntime",
@@ -329,7 +329,7 @@
             "active_timeline_revision": 1,
             "preview_timeline_revision": 1,
             "reason": "session_created",
-            "updated_at": "2026-07-14T02:15:51.387527+00:00",
+            "updated_at": "2026-07-14T02:29:03.483084+00:00",
             "metadata": {
               "signature_matches": true
             }
@@ -411,8 +411,8 @@
             "has_selection": false,
             "selected_count": 0,
             "revision": 1,
-            "created_at": "2026-07-14T02:15:51.386783+00:00",
-            "updated_at": "2026-07-14T02:15:51.386791+00:00",
+            "created_at": "2026-07-14T02:29:03.482485+00:00",
+            "updated_at": "2026-07-14T02:29:03.482491+00:00",
             "metadata": {
               "runtime": "TimelineSelectionRuntime",
               "timeline_duration": 8.0,
@@ -438,12 +438,12 @@
             "available": false,
             "item_count": 0,
             "clip_count": 0,
-            "clipboard_id": "09cc8a85-eaa3-4e73-9d38-8702453eef22",
+            "clipboard_id": "e7cd098e-0602-4abe-bb46-5cd3fcb85245",
             "last_action": null,
             "source_track_ids": []
           },
           "content": {
-            "clipboard_id": "09cc8a85-eaa3-4e73-9d38-8702453eef22",
+            "clipboard_id": "e7cd098e-0602-4abe-bb46-5cd3fcb85245",
             "production_id": "review-api-contracts-1",
             "action": "copy",
             "status": "empty",
@@ -453,12 +453,12 @@
             "source_track_ids": [],
             "anchor_time": 0.0,
             "total_duration": 0.0,
-            "created_at": "2026-07-14T02:15:51.387073+00:00",
+            "created_at": "2026-07-14T02:29:03.482703+00:00",
             "items": [],
             "metadata": {}
           }
         },
-        "created_at": "2026-07-14T02:15:51.388221+00:00",
+        "created_at": "2026-07-14T02:29:03.483622+00:00",
         "consistency": {
           "production_ids_match": true,
           "workspace_timeline_consistent": true
@@ -475,11 +475,11 @@
       "success": true,
       "operation": "get_snapshot",
       "production_id": "review-api-contracts-1",
-      "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+      "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
       "metadata": {},
       "snapshot": {
         "session": {
-          "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+          "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
           "production_id": "review-api-contracts-1",
           "status": "ready",
           "active": true,
@@ -488,8 +488,8 @@
           "timeline_revision": 1,
           "dirty": false,
           "revision": 1,
-          "created_at": "2026-07-14T02:15:51.387220+00:00",
-          "updated_at": "2026-07-14T02:15:51.387235+00:00",
+          "created_at": "2026-07-14T02:29:03.482835+00:00",
+          "updated_at": "2026-07-14T02:29:03.482847+00:00",
           "closed_at": null,
           "error": null,
           "metadata": {
@@ -617,7 +617,7 @@
               "issue_count": 0
             },
             "runtime_session": {
-              "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+              "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
               "session_revision": 1,
               "timeline_revision": 1,
               "timeline_dirty": false
@@ -637,8 +637,8 @@
           "revision": 1,
           "dirty": false,
           "dirty_status": "clean",
-          "created_at": "2026-07-14T02:15:51.386477+00:00",
-          "updated_at": "2026-07-14T02:15:51.386488+00:00",
+          "created_at": "2026-07-14T02:29:03.482237+00:00",
+          "updated_at": "2026-07-14T02:29:03.482246+00:00",
           "tracks": [
             {
               "track_id": "video_primary",
@@ -748,8 +748,8 @@
             "current_frame": 0,
             "total_frames": 240,
             "revision": 1,
-            "created_at": "2026-07-14T02:15:51.386552+00:00",
-            "updated_at": "2026-07-14T02:15:51.386557+00:00",
+            "created_at": "2026-07-14T02:29:03.482298+00:00",
+            "updated_at": "2026-07-14T02:29:03.482303+00:00",
             "error": null,
             "metadata": {
               "runtime": "PreviewSessionRuntime",
@@ -765,7 +765,7 @@
             "active_timeline_revision": 1,
             "preview_timeline_revision": 1,
             "reason": "session_created",
-            "updated_at": "2026-07-14T02:15:51.387527+00:00",
+            "updated_at": "2026-07-14T02:29:03.483084+00:00",
             "metadata": {
               "signature_matches": true
             }
@@ -847,8 +847,8 @@
             "has_selection": false,
             "selected_count": 0,
             "revision": 1,
-            "created_at": "2026-07-14T02:15:51.386783+00:00",
-            "updated_at": "2026-07-14T02:15:51.386791+00:00",
+            "created_at": "2026-07-14T02:29:03.482485+00:00",
+            "updated_at": "2026-07-14T02:29:03.482491+00:00",
             "metadata": {
               "runtime": "TimelineSelectionRuntime",
               "timeline_duration": 8.0,
@@ -874,12 +874,12 @@
             "available": false,
             "item_count": 0,
             "clip_count": 0,
-            "clipboard_id": "09cc8a85-eaa3-4e73-9d38-8702453eef22",
+            "clipboard_id": "e7cd098e-0602-4abe-bb46-5cd3fcb85245",
             "last_action": null,
             "source_track_ids": []
           },
           "content": {
-            "clipboard_id": "09cc8a85-eaa3-4e73-9d38-8702453eef22",
+            "clipboard_id": "e7cd098e-0602-4abe-bb46-5cd3fcb85245",
             "production_id": "review-api-contracts-1",
             "action": "copy",
             "status": "empty",
@@ -889,12 +889,12 @@
             "source_track_ids": [],
             "anchor_time": 0.0,
             "total_duration": 0.0,
-            "created_at": "2026-07-14T02:15:51.387073+00:00",
+            "created_at": "2026-07-14T02:29:03.482703+00:00",
             "items": [],
             "metadata": {}
           }
         },
-        "created_at": "2026-07-14T02:15:51.389657+00:00",
+        "created_at": "2026-07-14T02:29:03.484767+00:00",
         "consistency": {
           "production_ids_match": true,
           "workspace_timeline_consistent": true
@@ -910,11 +910,11 @@
       "success": true,
       "operation": "reset_session",
       "production_id": "review-api-contracts-1",
-      "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+      "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
       "metadata": {},
       "snapshot": {
         "session": {
-          "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+          "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
           "production_id": "review-api-contracts-1",
           "status": "ready",
           "active": true,
@@ -923,8 +923,8 @@
           "timeline_revision": 1,
           "dirty": false,
           "revision": 4,
-          "created_at": "2026-07-14T02:15:51.387220+00:00",
-          "updated_at": "2026-07-14T02:15:51.394719+00:00",
+          "created_at": "2026-07-14T02:29:03.482835+00:00",
+          "updated_at": "2026-07-14T02:29:03.489194+00:00",
           "closed_at": null,
           "error": null,
           "metadata": {
@@ -1052,7 +1052,7 @@
               "issue_count": 0
             },
             "runtime_session": {
-              "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+              "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
               "session_revision": 4,
               "timeline_revision": 1,
               "timeline_dirty": false
@@ -1072,8 +1072,8 @@
           "revision": 1,
           "dirty": false,
           "dirty_status": "clean",
-          "created_at": "2026-07-14T02:15:51.386477+00:00",
-          "updated_at": "2026-07-14T02:15:51.386488+00:00",
+          "created_at": "2026-07-14T02:29:03.482237+00:00",
+          "updated_at": "2026-07-14T02:29:03.482246+00:00",
           "tracks": [
             {
               "track_id": "video_primary",
@@ -1183,8 +1183,8 @@
             "current_frame": 0,
             "total_frames": 240,
             "revision": 2,
-            "created_at": "2026-07-14T02:15:51.386552+00:00",
-            "updated_at": "2026-07-14T02:15:51.394251+00:00",
+            "created_at": "2026-07-14T02:29:03.482298+00:00",
+            "updated_at": "2026-07-14T02:29:03.488741+00:00",
             "error": null,
             "metadata": {
               "runtime": "PreviewSessionRuntime",
@@ -1200,7 +1200,7 @@
             "active_timeline_revision": 1,
             "preview_timeline_revision": 1,
             "reason": "session_reset",
-            "updated_at": "2026-07-14T02:15:51.394706+00:00",
+            "updated_at": "2026-07-14T02:29:03.489184+00:00",
             "metadata": {
               "signature_matches": true
             }
@@ -1282,8 +1282,8 @@
             "has_selection": false,
             "selected_count": 0,
             "revision": 2,
-            "created_at": "2026-07-14T02:15:51.386783+00:00",
-            "updated_at": "2026-07-14T02:15:51.394311+00:00",
+            "created_at": "2026-07-14T02:29:03.482485+00:00",
+            "updated_at": "2026-07-14T02:29:03.488791+00:00",
             "metadata": {
               "runtime": "TimelineSelectionRuntime",
               "timeline_duration": 8.0,
@@ -1309,12 +1309,12 @@
             "available": false,
             "item_count": 0,
             "clip_count": 0,
-            "clipboard_id": "32c6a05d-0594-4190-ad81-47461cdebe4b",
+            "clipboard_id": "13ffa7fb-232b-4be6-90c9-d176eb1d9e2b",
             "last_action": null,
             "source_track_ids": []
           },
           "content": {
-            "clipboard_id": "32c6a05d-0594-4190-ad81-47461cdebe4b",
+            "clipboard_id": "13ffa7fb-232b-4be6-90c9-d176eb1d9e2b",
             "production_id": "review-api-contracts-1",
             "action": "copy",
             "status": "empty",
@@ -1324,12 +1324,12 @@
             "source_track_ids": [],
             "anchor_time": 0.0,
             "total_duration": 0.0,
-            "created_at": "2026-07-14T02:15:51.394366+00:00",
+            "created_at": "2026-07-14T02:29:03.488887+00:00",
             "items": [],
             "metadata": {}
           }
         },
-        "created_at": "2026-07-14T02:15:51.395261+00:00",
+        "created_at": "2026-07-14T02:29:03.489612+00:00",
         "consistency": {
           "production_ids_match": true,
           "workspace_timeline_consistent": true
@@ -1345,10 +1345,10 @@
       "success": true,
       "operation": "close_session",
       "production_id": "review-api-contracts-1",
-      "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+      "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
       "metadata": {},
       "state": {
-        "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+        "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
         "production_id": "review-api-contracts-1",
         "status": "closed",
         "active": false,
@@ -1357,9 +1357,9 @@
         "timeline_revision": 1,
         "dirty": false,
         "revision": 5,
-        "created_at": "2026-07-14T02:15:51.387220+00:00",
-        "updated_at": "2026-07-14T02:15:51.396489+00:00",
-        "closed_at": "2026-07-14T02:15:51.396489+00:00",
+        "created_at": "2026-07-14T02:29:03.482835+00:00",
+        "updated_at": "2026-07-14T02:29:03.490596+00:00",
+        "closed_at": "2026-07-14T02:29:03.490596+00:00",
         "error": null,
         "metadata": {
           "runtime": "ReviewRuntimeSession"
@@ -1367,11 +1367,11 @@
       },
       "event": {
         "event_type": "session_closed",
-        "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+        "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
         "production_id": "review-api-contracts-1",
         "session_revision": 5,
         "timeline_revision": 1,
-        "created_at": "2026-07-14T02:15:51.396524+00:00",
+        "created_at": "2026-07-14T02:29:03.490625+00:00",
         "metadata": {}
       }
     },
@@ -1383,7 +1383,7 @@
         "message": "Phiên review đang xung đột với yêu cầu hiện tại.",
         "technical_message": "Active session conflict.",
         "production_id": "review-api-contracts-1",
-        "session_id": "a3c6ab1c-1f50-4ca6-843b-214e7edcf55c",
+        "session_id": "a4092fe5-4ac9-41e3-a7d6-e606abe5a988",
         "metadata": {}
       }
     }
