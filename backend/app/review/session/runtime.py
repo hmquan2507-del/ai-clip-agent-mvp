@@ -257,9 +257,120 @@ class ReviewRuntimeSession:
 
         return snapshot.clone()
 
+    def select_clip(
+        self,
+        clip_id: str,
+        *,
+        additive: bool = False,
+        move_cursor: bool = False,
+    ) -> ReviewRuntimeSessionResult:
+        if self.closed:
+            return ReviewRuntimeSessionResult(
+                success=False,
+                state=self.state,
+                error=(
+                    "Closed review runtime session "
+                    "cannot change selection."
+                ),
+            )
+
+        selection_result = (
+            self.graph.selection_runtime
+            .select_clip(
+                clip_id,
+                additive=additive,
+                move_cursor=move_cursor,
+            )
+        )
+
+        if not selection_result.success:
+            return ReviewRuntimeSessionResult(
+                success=False,
+                state=self.state,
+                error=(
+                    selection_result.error
+                    or (
+                        "Timeline clip selection "
+                        "failed."
+                    )
+                ),
+            )
+
+        timeline = (
+            self.graph.timeline_store.snapshot()
+        )
+
+        selection_state = (
+            self.graph.selection_runtime.state
+        )
+
+        self._state = replace(
+            self._state,
+            status=(
+                ReviewRuntimeSessionStatus.READY
+            ),
+            timeline_revision=(
+                timeline.revision
+            ),
+            dirty=timeline.dirty,
+            revision=(
+                self._state.revision + 1
+            ),
+            updated_at=utc_now_iso(),
+            error=None,
+        )
+
+        event = self._emit(
+            ReviewRuntimeSessionEventType
+            .SELECTION_CHANGED,
+            metadata={
+                "clip_id": clip_id,
+                "additive": additive,
+                "cursor_moved": move_cursor,
+                "selection_revision": (
+                    selection_state.revision
+                ),
+                "selection_event_type": (
+                    selection_result.event
+                    .event_type.value
+                    if selection_result.event
+                    else None
+                ),
+                "selected_clip_ids": list(
+                    selection_state
+                    .selected_clip_ids
+                ),
+                "selected_track_ids": list(
+                    selection_state
+                    .selected_track_ids
+                ),
+                "active_clip_id": (
+                    selection_state
+                    .active_clip_id
+                ),
+                "active_track_id": (
+                    selection_state
+                    .active_track_id
+                ),
+                "cursor_time": (
+                    selection_state.cursor_time
+                ),
+                "cursor_frame": (
+                    selection_state.cursor_frame
+                ),
+            },
+        )
+
+        return ReviewRuntimeSessionResult(
+            success=True,
+            state=self.state,
+            snapshot=self.snapshot(),
+            event=event,
+        )
+
     def reset(
-            self,
-        ) -> ReviewRuntimeSessionResult:
+        self,
+    ) -> ReviewRuntimeSessionResult:
         if self.closed:
             return ReviewRuntimeSessionResult(
                 success=False,
@@ -372,6 +483,7 @@ class ReviewRuntimeSession:
             snapshot=self.snapshot(),
             event=event,
         )
+
     def clear_events(self) -> None:
         self._events.clear()
 

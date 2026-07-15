@@ -9,6 +9,7 @@ import {
   type ReviewRuntimeSessionState,
   type ReviewTimelineCommandOperation,
   type ReviewTimelineCommandResponse,
+  type ReviewWorkspaceSnapshotResponse,
 } from "../api";
 
 import type {
@@ -22,6 +23,7 @@ import type {
   ReviewWorkspaceRuntimeListener,
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
+  SelectTimelineClipInput,
   SplitTimelineClipInput,
   TrimTimelineClipEndInput,
   TrimTimelineClipStartInput,
@@ -52,6 +54,16 @@ interface ActiveSession {
 interface RuntimeRequest {
   revision: number;
   controller: AbortController;
+}
+
+interface RequestCompletion {
+  status: "ready" | "closed";
+  productionId: string;
+  sessionId: string;
+  session: ReviewRuntimeSessionState;
+  snapshot:
+    | ReviewRuntimeSessionSnapshot
+    | null;
 }
 
 type TimelineCommandExecutor = (
@@ -155,7 +167,8 @@ export class ReviewWorkspaceSessionRuntime {
             response.production_id,
           sessionId:
             response.session_id,
-          session: response.session,
+          session:
+            response.session,
           snapshot:
             response.snapshot,
         },
@@ -167,6 +180,7 @@ export class ReviewWorkspaceSessionRuntime {
         request.revision,
         error,
       );
+
       throw error;
     }
   }
@@ -200,17 +214,7 @@ export class ReviewWorkspaceSessionRuntime {
 
       this.completeRequest(
         request.revision,
-        {
-          status: "ready",
-          productionId:
-            response.production_id,
-          sessionId:
-            response.session_id,
-          session:
-            response.snapshot.session,
-          snapshot:
-            response.snapshot,
-        },
+        snapshotReplacement(response),
       );
 
       return this.getState();
@@ -219,6 +223,7 @@ export class ReviewWorkspaceSessionRuntime {
         request.revision,
         error,
       );
+
       throw error;
     }
   }
@@ -274,6 +279,7 @@ export class ReviewWorkspaceSessionRuntime {
         request.revision,
         error,
       );
+
       throw error;
     }
   }
@@ -316,7 +322,8 @@ export class ReviewWorkspaceSessionRuntime {
             response.production_id,
           sessionId:
             response.session_id,
-          session: response.state,
+          session:
+            response.state,
           snapshot: null,
         },
       );
@@ -327,6 +334,70 @@ export class ReviewWorkspaceSessionRuntime {
         request.revision,
         error,
       );
+
+      throw error;
+    }
+  }
+
+  async selectClip(
+    input: SelectTimelineClipInput,
+    options:
+      ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    this.assertNoTimelineCommandInFlight();
+
+    const active =
+      this.requireActiveSession();
+
+    const clipId =
+      requireIdentifier(
+        input.clip_id,
+        "clip_id",
+      );
+
+    const request = this.beginRequest(
+      "selecting",
+      "select",
+    );
+
+    const signal = linkAbortSignals(
+      request.controller,
+      options.signal,
+    );
+
+    try {
+      const response =
+        await this.client.selectClip(
+          active.productionId,
+          {
+            session_id:
+              active.sessionId,
+            clip_id: clipId,
+            additive:
+              input.additive ?? false,
+            move_cursor:
+              input.move_cursor ?? false,
+          },
+          { signal },
+        );
+
+      this.validateSelectionResponse(
+        response,
+        active,
+      );
+
+      this.completeRequest(
+        request.revision,
+        snapshotReplacement(response),
+      );
+
+      return this.getState();
+    } catch (error) {
+      this.failRequest(
+        request.revision,
+        error,
+      );
+
       throw error;
     }
   }
@@ -588,11 +659,12 @@ export class ReviewWorkspaceSessionRuntime {
     );
 
     try {
-      const response = await executor(
-        active,
-        expectedRevision,
-        signal,
-      );
+      const response =
+        await executor(
+          active,
+          expectedRevision,
+          signal,
+        );
 
       this.validateCommandResponse(
         response,
@@ -612,7 +684,7 @@ export class ReviewWorkspaceSessionRuntime {
           ReviewWorkspaceAPIError &&
         error.isRevisionConflict &&
         this.isCurrentRequest(
-          request.revision
+          request.revision,
         )
       ) {
         await this.recoverRevisionConflict(
@@ -735,15 +807,7 @@ export class ReviewWorkspaceSessionRuntime {
 
   private completeRequest(
     revision: number,
-    replacement: {
-      status: "ready" | "closed";
-      productionId: string;
-      sessionId: string;
-      session:
-        ReviewRuntimeSessionState;
-      snapshot:
-        ReviewRuntimeSessionSnapshot | null;
-    },
+    replacement: RequestCompletion,
   ): void {
     const current =
       this.store.getState();
@@ -802,7 +866,9 @@ export class ReviewWorkspaceSessionRuntime {
       sessionId:
         response.session_id,
       session:
-        clone(response.snapshot.session),
+        clone(
+          response.snapshot.session,
+        ),
       snapshot:
         clone(response.snapshot),
       error: null,
@@ -896,6 +962,35 @@ export class ReviewWorkspaceSessionRuntime {
         current.stateRevision + 1,
       updatedAt: now(),
     });
+  }
+
+  private validateSelectionResponse(
+    response:
+      ReviewWorkspaceSnapshotResponse,
+    active: ActiveSession,
+  ): void {
+    if (
+      response.operation !==
+        "select_clip" ||
+      response.production_id !==
+        active.productionId ||
+      response.session_id !==
+        active.sessionId ||
+      response.snapshot.timeline.revision !==
+        active.snapshot.timeline.revision
+    ) {
+      throw new ReviewWorkspaceAPIError(
+        "Selection response does not match the active session.",
+        {
+          code: "invalid_response",
+          status: 502,
+          productionId:
+            active.productionId,
+          sessionId:
+            active.sessionId,
+        },
+      );
+    }
   }
 
   private validateCommandResponse(
@@ -1028,6 +1123,25 @@ export class ReviewWorkspaceSessionRuntime {
   }
 }
 
+function snapshotReplacement(
+  response:
+    ReviewWorkspaceSnapshotResponse,
+): RequestCompletion {
+  return {
+    status: "ready",
+    productionId:
+      response.production_id,
+    sessionId:
+      response.session_id,
+    session:
+      clone(
+        response.snapshot.session,
+      ),
+    snapshot:
+      clone(response.snapshot),
+  };
+}
+
 function normalizeError(
   error: unknown,
 ): ReviewWorkspaceRuntimeError {
@@ -1044,7 +1158,8 @@ function normalizeError(
         error.technicalMessage,
       productionId:
         error.productionId,
-      sessionId: error.sessionId,
+      sessionId:
+        error.sessionId,
       isRevisionConflict:
         error.isRevisionConflict,
       expectedRevision:

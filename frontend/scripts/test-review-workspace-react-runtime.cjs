@@ -252,12 +252,21 @@ function main() {
         captured.actions,
       ) ===
       JSON.stringify([
-        "clear",
-        "close",
-        "open",
-        "refresh",
-        "reset",
-      ]),
+  "clear",
+  "close",
+  "closeGap",
+  "deleteClip",
+  "duplicateClip",
+  "moveClip",
+  "open",
+  "redoTimeline",
+  "refresh",
+  "reset",
+  "splitClip",
+  "trimClipEnd",
+  "trimClipStart",
+  "undoTimeline",
+]),
 
     outside_provider_blocked:
       outsideProviderBlocked,

@@ -14,6 +14,7 @@ import type {
   ReviewWorkspaceResetResponse,
   ReviewWorkspaceSessionResponse,
   ReviewWorkspaceSnapshotResponse,
+  SelectTimelineClipRequest,
   SplitTimelineClipRequest,
   TrimTimelineClipEndRequest,
   TrimTimelineClipStartRequest,
@@ -26,6 +27,7 @@ export type ReviewWorkspaceLifecycleStatus =
   | "ready"
   | "refreshing"
   | "resetting"
+  | "selecting"
   | "executing"
   | "closing"
   | "closed"
@@ -35,6 +37,7 @@ export type ReviewWorkspacePendingOperation =
   | "open"
   | "refresh"
   | "reset"
+  | "select"
   | "timeline_command"
   | "close"
   | null;
@@ -42,13 +45,16 @@ export type ReviewWorkspacePendingOperation =
 export interface ReviewWorkspaceRuntimeError {
   name: string;
   message: string;
+
   code:
     | ReviewWorkspaceAPIErrorCode
     | "unknown_error";
+
   status: number | null;
   technicalMessage: string | null;
   productionId: string | null;
   sessionId: string | null;
+
   isRevisionConflict: boolean;
   expectedRevision: number | null;
   currentRevision: number | null;
@@ -56,21 +62,28 @@ export interface ReviewWorkspaceRuntimeError {
 
 export interface ReviewWorkspaceRuntimeState {
   status: ReviewWorkspaceLifecycleStatus;
+
   pendingOperation:
     ReviewWorkspacePendingOperation;
+
   pendingCommand:
     ReviewTimelineCommandOperation | null;
+
   lastCommand:
     ReviewTimelineCommandOperation | null;
+
   lastCommandResponse:
     ReviewTimelineCommandResponse | null;
 
   productionId: string | null;
   sessionId: string | null;
+
   session:
     ReviewRuntimeSessionState | null;
+
   snapshot:
     ReviewRuntimeSessionSnapshot | null;
+
   error:
     ReviewWorkspaceRuntimeError | null;
 
@@ -83,79 +96,117 @@ export interface ReviewWorkspaceRuntimeClient {
   openSession(
     productionId: string,
     request?: OpenReviewWorkspaceRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewWorkspaceSessionResponse>;
 
   getSnapshot(
     productionId: string,
     sessionId?: string | null,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewWorkspaceSnapshotResponse>;
 
   resetSession(
     productionId: string,
-    request: { session_id: string },
-    options?: { signal?: AbortSignal },
+    request: {
+      session_id: string;
+    },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewWorkspaceResetResponse>;
 
   closeSession(
     productionId: string,
-    request: { session_id: string },
-    options?: { signal?: AbortSignal },
+    request: {
+      session_id: string;
+    },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewWorkspaceCloseResponse>;
+
+  selectClip(
+    productionId: string,
+    request: SelectTimelineClipRequest,
+    options?: {
+      signal?: AbortSignal;
+    },
+  ): Promise<ReviewWorkspaceSnapshotResponse>;
 
   moveClip(
     productionId: string,
     request: MoveTimelineClipRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   trimClipStart(
     productionId: string,
     request: TrimTimelineClipStartRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   trimClipEnd(
     productionId: string,
     request: TrimTimelineClipEndRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   splitClip(
     productionId: string,
     request: SplitTimelineClipRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   duplicateClip(
     productionId: string,
     request: DuplicateTimelineClipRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   deleteClip(
     productionId: string,
     request: DeleteTimelineClipRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   closeGap(
     productionId: string,
     request: CloseTimelineGapRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   undoTimeline(
     productionId: string,
     request: UndoTimelineCommandRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 
   redoTimeline(
     productionId: string,
     request: RedoTimelineCommandRequest,
-    options?: { signal?: AbortSignal },
+    options?: {
+      signal?: AbortSignal;
+    },
   ): Promise<ReviewTimelineCommandResponse>;
 }
 
@@ -167,6 +218,11 @@ export interface ReviewWorkspaceRuntimeOpenOptions
 export interface ReviewWorkspaceRuntimeActionOptions {
   signal?: AbortSignal;
 }
+
+export type SelectTimelineClipInput = Omit<
+  SelectTimelineClipRequest,
+  "session_id"
+>;
 
 export type MoveTimelineClipInput = Omit<
   MoveTimelineClipRequest,

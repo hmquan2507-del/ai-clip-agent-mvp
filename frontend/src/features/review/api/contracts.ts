@@ -1,11 +1,13 @@
-export const REVIEW_WORKSPACE_API_CONTRACT_VERSION = "16.2.3" as const;
+export const REVIEW_WORKSPACE_API_CONTRACT_VERSION =
+  "16.2.3" as const;
 
 export type ReviewWorkspaceAPIOperation =
   | "open_session"
   | "get_session"
   | "get_snapshot"
   | "reset_session"
-  | "close_session";
+  | "close_session"
+  | "select_clip";
 
 export type ReviewWorkspaceAPIErrorCode =
   | "production_not_found"
@@ -48,6 +50,13 @@ export type ResetReviewWorkspaceRequest =
 
 export type CloseReviewWorkspaceRequest =
   ReviewWorkspaceSessionCommandRequest;
+
+export interface SelectTimelineClipRequest
+  extends ReviewWorkspaceSessionCommandRequest {
+  clip_id: string;
+  additive?: boolean;
+  move_cursor?: boolean;
+}
 
 export type ReviewRuntimeSessionStatus =
   | "initializing"
@@ -482,7 +491,10 @@ export interface ReviewWorkspaceSessionResponse
 
 export interface ReviewWorkspaceSnapshotResponse
   extends ReviewWorkspaceSuccessResponseBase {
-  operation: "get_snapshot";
+  operation:
+    | "get_snapshot"
+    | "select_clip";
+
   snapshot: ReviewRuntimeSessionSnapshot;
 }
 

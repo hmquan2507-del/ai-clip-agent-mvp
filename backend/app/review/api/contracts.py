@@ -17,6 +17,8 @@ class ReviewWorkspaceAPIOperation(str, Enum):
     RESET_SESSION = "reset_session"
     CLOSE_SESSION = "close_session"
 
+    SELECT_CLIP = "select_clip"
+
 
 class ReviewTimelineCommandOperation(str, Enum):
     MOVE_CLIP = "move_clip"
@@ -31,10 +33,18 @@ class ReviewTimelineCommandOperation(str, Enum):
 
 
 class ReviewWorkspaceAPIErrorCode(str, Enum):
-    PRODUCTION_NOT_FOUND = "production_not_found"
-    WORKSPACE_LOAD_FAILED = "workspace_load_failed"
-    SESSION_NOT_FOUND = "review_session_not_found"
-    SESSION_CONFLICT = "review_session_conflict"
+    PRODUCTION_NOT_FOUND = (
+        "production_not_found"
+    )
+    WORKSPACE_LOAD_FAILED = (
+        "workspace_load_failed"
+    )
+    SESSION_NOT_FOUND = (
+        "review_session_not_found"
+    )
+    SESSION_CONFLICT = (
+        "review_session_conflict"
+    )
     SESSION_OPERATION_FAILED = (
         "review_session_operation_failed"
     )

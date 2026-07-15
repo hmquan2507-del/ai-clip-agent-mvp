@@ -322,6 +322,106 @@ class ReviewWorkspaceApplicationService(
             )
 
         return session.close()
+    def select_clip(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        additive: bool = False,
+        move_cursor: bool = False,
+    ) -> ReviewRuntimeSessionSnapshot:
+        normalized_id = self._normalize_id(
+            production_id
+        )
+        normalized_session_id = str(
+            session_id
+        ).strip()
+        normalized_clip_id = str(
+            clip_id
+        ).strip()
+
+        if not normalized_session_id:
+            raise ValueError(
+                "session_id is required."
+            )
+
+        if not normalized_clip_id:
+            raise ValueError(
+                "clip_id is required."
+            )
+
+        with self._timeline_command_lock:
+            session = self.get_session(
+                normalized_id,
+                session_id=(
+                    normalized_session_id
+                ),
+            )
+
+            if session.closed:
+                raise (
+                    ReviewRuntimeSessionOperationError(
+                        (
+                            "Closed review runtime "
+                            "session cannot change "
+                            "timeline selection."
+                        ),
+                        production_id=(
+                            normalized_id
+                        ),
+                        session_id=(
+                            normalized_session_id
+                        ),
+                    )
+                )
+
+            try:
+                result = session.select_clip(
+                    normalized_clip_id,
+                    additive=bool(additive),
+                    move_cursor=bool(
+                        move_cursor
+                    ),
+                )
+            except ReviewWorkspaceApplicationError:
+                raise
+            except Exception as error:
+                raise (
+                    ReviewRuntimeSessionOperationError(
+                        str(error),
+                        production_id=(
+                            normalized_id
+                        ),
+                        session_id=(
+                            normalized_session_id
+                        ),
+                    )
+                ) from error
+
+            if (
+                not result.success
+                or result.snapshot is None
+            ):
+                raise (
+                    ReviewRuntimeSessionOperationError(
+                        (
+                            result.error
+                            or (
+                                "Timeline clip "
+                                "selection failed."
+                            )
+                        ),
+                        production_id=(
+                            normalized_id
+                        ),
+                        session_id=(
+                            normalized_session_id
+                        ),
+                    )
+                )
+
+            return result.snapshot.clone()
 
     def move_clip(
         self,

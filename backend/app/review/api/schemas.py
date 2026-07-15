@@ -80,6 +80,17 @@ class CloseReviewWorkspaceRequest(
     pass
 
 
+class SelectTimelineClipRequest(
+    ReviewWorkspaceSessionCommandRequest
+):
+    clip_id: str = Field(
+        min_length=1,
+        max_length=256,
+    )
+    additive: bool = False
+    move_cursor: bool = False
+
+
 class ReviewTimelineCommandRequest(
     ReviewWorkspaceSessionCommandRequest
 ):
@@ -230,14 +241,14 @@ class ReviewWorkspaceSuccessResponse(
     operation: ReviewWorkspaceAPIOperation
 
     production_id: str = Field(
-        min_length=1
+        min_length=1,
     )
     session_id: str = Field(
-        min_length=1
+        min_length=1,
     )
 
     metadata: dict[str, Any] = Field(
-        default_factory=dict
+        default_factory=dict,
     )
 
 
@@ -252,6 +263,18 @@ class ReviewWorkspaceSnapshotResponse(
     ReviewWorkspaceSuccessResponse
 ):
     snapshot: dict[str, Any]
+
+    @field_validator(
+        "snapshot",
+        "metadata",
+        mode="before",
+    )
+    @classmethod
+    def clone_snapshot_payload(
+        cls,
+        value: Any,
+    ) -> Any:
+        return deepcopy(value)
 
 
 class ReviewWorkspaceResetResponse(
@@ -297,7 +320,7 @@ class ReviewTimelineCommandResponse(
     history: dict[str, Any]
 
     metadata: dict[str, Any] = Field(
-        default_factory=dict
+        default_factory=dict,
     )
 
     @field_validator(
@@ -321,7 +344,7 @@ class ReviewWorkspaceAPIErrorDetail(
 ):
     code: ReviewWorkspaceAPIErrorCode
     message: str = Field(
-        min_length=1
+        min_length=1,
     )
 
     technical_message: str | None = None
@@ -329,7 +352,7 @@ class ReviewWorkspaceAPIErrorDetail(
     session_id: str | None = None
 
     metadata: dict[str, Any] = Field(
-        default_factory=dict
+        default_factory=dict,
     )
 
 

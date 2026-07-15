@@ -1,6 +1,8 @@
 "use client";
 
-import { useContext } from "react";
+import {
+  useContext,
+} from "react";
 
 import type {
   EditableTimeline,
@@ -12,6 +14,7 @@ import {
 } from "./context";
 
 import type {
+  ReviewTimelineCommandActions,
   ReviewWorkspaceActions,
   ReviewWorkspaceContextValue,
   ReviewWorkspaceSessionView,
@@ -43,24 +46,36 @@ export function useReviewWorkspaceActions():
   return useReviewWorkspace().actions;
 }
 
+export function useReviewTimelineCommands():
+  ReviewTimelineCommandActions {
+  return useReviewWorkspace().actions;
+}
+
 export function useReviewWorkspaceStatus():
   ReviewWorkspaceStatusView {
   const {
     status,
     pendingOperation,
+    pendingCommand,
     error,
   } = useReviewWorkspaceState();
 
   return {
     status,
     pendingOperation,
-    idle: status === "idle",
-    loading: status === "opening",
-    ready: status === "ready",
+    pendingCommand,
+    idle:
+      status === "idle",
+    loading:
+      status === "opening",
+    ready:
+      status === "ready",
     refreshing:
       status === "refreshing",
     resetting:
       status === "resetting",
+    executing:
+      status === "executing",
     closing:
       status === "closing",
     closed:
@@ -89,11 +104,13 @@ export function useReviewWorkspaceSession():
 export function useReviewWorkspaceSnapshot():
   ReviewWorkspaceSnapshotView {
   const snapshot =
-    useReviewWorkspaceState().snapshot;
+    useReviewWorkspaceState()
+      .snapshot;
 
   return {
     snapshot,
-    available: snapshot !== null,
+    available:
+      snapshot !== null,
   };
 }
 

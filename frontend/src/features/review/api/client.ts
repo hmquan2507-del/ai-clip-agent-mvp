@@ -8,6 +8,7 @@ import {
   type ReviewWorkspaceResetResponse,
   type ReviewWorkspaceSessionResponse,
   type ReviewWorkspaceSnapshotResponse,
+  type SelectTimelineClipRequest,
 } from "./contracts";
 import { ReviewWorkspaceAPIError } from "./errors";
 import {
@@ -175,6 +176,39 @@ export class ReviewWorkspaceClient {
             productionId,
           ),
         ),
+        signal: options.signal,
+      },
+    );
+  }
+
+  selectClip(
+    productionId: string,
+    request: SelectTimelineClipRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewWorkspaceSnapshotResponse> {
+    const body = {
+      ...normalizeSessionCommand(
+        request,
+        productionId,
+      ),
+      clip_id: requireIdentifier(
+        request.clip_id,
+        "clip_id",
+        productionId,
+      ),
+      additive:
+        request.additive ?? false,
+      move_cursor:
+        request.move_cursor ?? false,
+    };
+
+    return this.requestWorkspace(
+      productionId,
+      "select_clip",
+      "/selection/clip",
+      {
+        method: "POST",
+        body: JSON.stringify(body),
         signal: options.signal,
       },
     );

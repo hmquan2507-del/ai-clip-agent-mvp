@@ -21,9 +21,14 @@ class ReviewRuntimeSessionEventType(StrEnum):
     SESSION_READY = "session_ready"
 
     TIMELINE_CHANGED = "timeline_changed"
+
+    SELECTION_CHANGED = (
+        "selection_changed"
+    )
     SELECTION_SYNCHRONIZED = (
         "selection_synchronized"
     )
+
     PREVIEW_MARKED_CURRENT = (
         "preview_marked_current"
     )

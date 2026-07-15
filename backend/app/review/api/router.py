@@ -34,6 +34,7 @@ from app.review.api.schemas import (
     ReviewWorkspaceResetResponse,
     ReviewWorkspaceSessionResponse,
     ReviewWorkspaceSnapshotResponse,
+    SelectTimelineClipRequest,
     SplitTimelineClipRequest,
     TrimTimelineClipEndRequest,
     TrimTimelineClipStartRequest,
@@ -64,23 +65,16 @@ router = APIRouter(
 def open_review_session(
     production_id: UUID,
     request: OpenReviewWorkspaceRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
-) -> (
-    ReviewWorkspaceSessionResponse
-    | JSONResponse
-):
+) -> ReviewWorkspaceSessionResponse | JSONResponse:
     normalized_id = str(production_id)
 
     try:
         session = service.open_session(
             normalized_id,
-            force_refresh=(
-                request.force_refresh
-            ),
+            force_refresh=request.force_refresh,
             replace_existing=(
                 request.replace_existing
             ),
@@ -117,15 +111,10 @@ def get_review_session(
         min_length=1,
         max_length=128,
     ),
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
-) -> (
-    ReviewWorkspaceSessionResponse
-    | JSONResponse
-):
+) -> ReviewWorkspaceSessionResponse | JSONResponse:
     normalized_id = str(production_id)
 
     try:
@@ -166,15 +155,10 @@ def get_review_snapshot(
         min_length=1,
         max_length=128,
     ),
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
-) -> (
-    ReviewWorkspaceSnapshotResponse
-    | JSONResponse
-):
+) -> ReviewWorkspaceSnapshotResponse | JSONResponse:
     normalized_id = str(production_id)
 
     try:
@@ -205,15 +189,10 @@ def get_review_snapshot(
 def reset_review_session(
     production_id: UUID,
     request: ResetReviewWorkspaceRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
-) -> (
-    ReviewWorkspaceResetResponse
-    | JSONResponse
-):
+) -> ReviewWorkspaceResetResponse | JSONResponse:
     normalized_id = str(production_id)
 
     try:
@@ -244,15 +223,10 @@ def reset_review_session(
 def close_review_session(
     production_id: UUID,
     request: CloseReviewWorkspaceRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
-) -> (
-    ReviewWorkspaceCloseResponse
-    | JSONResponse
-):
+) -> ReviewWorkspaceCloseResponse | JSONResponse:
     normalized_id = str(production_id)
 
     try:
@@ -274,16 +248,68 @@ def close_review_session(
 
 
 @router.post(
+    "/selection/clip",
+    response_model=(
+        ReviewWorkspaceSnapshotResponse
+    ),
+    status_code=status.HTTP_200_OK,
+    summary="Chọn clip trong review timeline",
+)
+def select_timeline_clip(
+    production_id: UUID,
+    request: SelectTimelineClipRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewWorkspaceSnapshotResponse | JSONResponse:
+    normalized_id = str(production_id)
+
+    try:
+        snapshot = service.select_clip(
+            normalized_id,
+            session_id=request.session_id,
+            clip_id=request.clip_id,
+            additive=request.additive,
+            move_cursor=request.move_cursor,
+        )
+
+        return (
+            ReviewWorkspaceAPIMapper
+            .snapshot_response(
+                snapshot,
+                operation=(
+                    ReviewWorkspaceAPIOperation
+                    .SELECT_CLIP
+                ),
+                metadata={
+                    "selection_changed": True,
+                    "clip_id": request.clip_id,
+                    "additive": request.additive,
+                    "cursor_moved": (
+                        request.move_cursor
+                    ),
+                },
+            )
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
     "/timeline/move",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Di chuyển clip trên timeline",
 )
 def move_timeline_clip(
     production_id: UUID,
     request: MoveTimelineClipRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -294,12 +320,17 @@ def move_timeline_clip(
             normalized_id,
             session_id=request.session_id,
             clip_id=request.clip_id,
-            new_start_time=request.new_start_time,
-            target_track_id=request.target_track_id,
+            new_start_time=(
+                request.new_start_time
+            ),
+            target_track_id=(
+                request.target_track_id
+            ),
             expected_revision=(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -314,15 +345,15 @@ def move_timeline_clip(
 
 @router.post(
     "/timeline/trim-start",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Cắt đầu clip trên timeline",
 )
 def trim_timeline_clip_start(
     production_id: UUID,
     request: TrimTimelineClipStartRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -333,11 +364,14 @@ def trim_timeline_clip_start(
             normalized_id,
             session_id=request.session_id,
             clip_id=request.clip_id,
-            new_start_time=request.new_start_time,
+            new_start_time=(
+                request.new_start_time
+            ),
             expected_revision=(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -352,15 +386,15 @@ def trim_timeline_clip_start(
 
 @router.post(
     "/timeline/trim-end",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Cắt cuối clip trên timeline",
 )
 def trim_timeline_clip_end(
     production_id: UUID,
     request: TrimTimelineClipEndRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -371,11 +405,14 @@ def trim_timeline_clip_end(
             normalized_id,
             session_id=request.session_id,
             clip_id=request.clip_id,
-            new_end_time=request.new_end_time,
+            new_end_time=(
+                request.new_end_time
+            ),
             expected_revision=(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -390,15 +427,15 @@ def trim_timeline_clip_end(
 
 @router.post(
     "/timeline/split",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Chia clip trên timeline",
 )
 def split_timeline_clip(
     production_id: UUID,
     request: SplitTimelineClipRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -410,11 +447,14 @@ def split_timeline_clip(
             session_id=request.session_id,
             clip_id=request.clip_id,
             split_time=request.split_time,
-            right_clip_id=request.right_clip_id,
+            right_clip_id=(
+                request.right_clip_id
+            ),
             expected_revision=(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -429,15 +469,15 @@ def split_timeline_clip(
 
 @router.post(
     "/timeline/duplicate",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Nhân bản clip trên timeline",
 )
 def duplicate_timeline_clip(
     production_id: UUID,
     request: DuplicateTimelineClipRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -449,12 +489,17 @@ def duplicate_timeline_clip(
             session_id=request.session_id,
             clip_id=request.clip_id,
             new_clip_id=request.new_clip_id,
-            new_start_time=request.new_start_time,
-            target_track_id=request.target_track_id,
+            new_start_time=(
+                request.new_start_time
+            ),
+            target_track_id=(
+                request.target_track_id
+            ),
             expected_revision=(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -469,15 +514,15 @@ def duplicate_timeline_clip(
 
 @router.post(
     "/timeline/delete",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Xóa clip khỏi timeline",
 )
 def delete_timeline_clip(
     production_id: UUID,
     request: DeleteTimelineClipRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -493,6 +538,7 @@ def delete_timeline_clip(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -507,15 +553,15 @@ def delete_timeline_clip(
 
 @router.post(
     "/timeline/close-gap",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Đóng khoảng trống trên timeline",
 )
 def close_timeline_gap(
     production_id: UUID,
     request: CloseTimelineGapRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -532,6 +578,7 @@ def close_timeline_gap(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -546,15 +593,15 @@ def close_timeline_gap(
 
 @router.post(
     "/timeline/undo",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Hoàn tác timeline command",
 )
 def undo_timeline_command(
     production_id: UUID,
     request: UndoTimelineCommandRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -568,6 +615,7 @@ def undo_timeline_command(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)
@@ -582,15 +630,15 @@ def undo_timeline_command(
 
 @router.post(
     "/timeline/redo",
-    response_model=ReviewTimelineCommandResponse,
+    response_model=(
+        ReviewTimelineCommandResponse
+    ),
     summary="Thực hiện lại timeline command",
 )
 def redo_timeline_command(
     production_id: UUID,
     request: RedoTimelineCommandRequest,
-    service: (
-        ReviewWorkspaceApplicationService
-    ) = Depends(
+    service: ReviewWorkspaceApplicationService = Depends(
         get_review_workspace_application_service
     ),
 ) -> ReviewTimelineCommandResponse | JSONResponse:
@@ -604,6 +652,7 @@ def redo_timeline_command(
                 request.expected_revision
             ),
         )
+
         return (
             ReviewWorkspaceAPIMapper
             .timeline_command_response(result)

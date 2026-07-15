@@ -64,6 +64,18 @@ class ReviewWorkspaceApplicationServiceInterface(
         raise NotImplementedError
 
     @abstractmethod
+    def select_clip(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_id: str,
+        additive: bool = False,
+        move_cursor: bool = False,
+    ) -> ReviewRuntimeSessionSnapshot:
+        raise NotImplementedError
+
+    @abstractmethod
     def move_clip(
         self,
         production_id: str,

@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+import type {
+  ReactNode,
+} from "react";
 
 import type {
   ReviewWorkspaceClientConfig,
@@ -7,16 +9,69 @@ import type {
 } from "../api";
 
 import type {
+  CloseTimelineGapInput,
+  DeleteTimelineClipInput,
+  DuplicateTimelineClipInput,
+  MoveTimelineClipInput,
   ReviewWorkspaceRuntimeActionOptions,
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
+  SplitTimelineClipInput,
+  TrimTimelineClipEndInput,
+  TrimTimelineClipStartInput,
 } from "../state/contracts";
 
 import type {
   ReviewWorkspaceSessionRuntime,
 } from "../state/runtime";
 
-export interface ReviewWorkspaceActions {
+export interface ReviewTimelineCommandActions {
+  moveClip(
+    input: MoveTimelineClipInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  trimClipStart(
+    input: TrimTimelineClipStartInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  trimClipEnd(
+    input: TrimTimelineClipEndInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  splitClip(
+    input: SplitTimelineClipInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  duplicateClip(
+    input: DuplicateTimelineClipInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  deleteClip(
+    input: DeleteTimelineClipInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  closeGap(
+    input: CloseTimelineGapInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  undoTimeline(
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  redoTimeline(
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+}
+
+export interface ReviewWorkspaceActions
+  extends ReviewTimelineCommandActions {
   open(
     options?: ReviewWorkspaceRuntimeOpenOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
@@ -57,27 +112,42 @@ export interface ReviewWorkspaceProviderProps {
 }
 
 export interface ReviewWorkspaceStatusView {
-  status: ReviewWorkspaceRuntimeState["status"];
+  status:
+    ReviewWorkspaceRuntimeState["status"];
+
   pendingOperation:
-    ReviewWorkspaceRuntimeState["pendingOperation"];
+    ReviewWorkspaceRuntimeState[
+      "pendingOperation"
+    ];
+
+  pendingCommand:
+    ReviewWorkspaceRuntimeState[
+      "pendingCommand"
+    ];
+
   idle: boolean;
   loading: boolean;
   ready: boolean;
   refreshing: boolean;
   resetting: boolean;
+  executing: boolean;
   closing: boolean;
   closed: boolean;
   failed: boolean;
-  error: ReviewWorkspaceRuntimeState["error"];
+
+  error:
+    ReviewWorkspaceRuntimeState["error"];
 }
 
 export interface ReviewWorkspaceSessionView {
   productionId: string | null;
   sessionId: string | null;
-  session: ReviewRuntimeSessionState | null;
+  session:
+    ReviewRuntimeSessionState | null;
 }
 
 export interface ReviewWorkspaceSnapshotView {
-  snapshot: ReviewRuntimeSessionSnapshot | null;
+  snapshot:
+    ReviewRuntimeSessionSnapshot | null;
   available: boolean;
 }

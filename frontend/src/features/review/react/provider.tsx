@@ -10,9 +10,16 @@ import {
 
 import {
   createReviewWorkspaceSessionRuntime,
+  type CloseTimelineGapInput,
+  type DeleteTimelineClipInput,
+  type DuplicateTimelineClipInput,
+  type MoveTimelineClipInput,
   type ReviewWorkspaceRuntimeActionOptions,
   type ReviewWorkspaceRuntimeOpenOptions,
   type ReviewWorkspaceRuntimeState,
+  type SplitTimelineClipInput,
+  type TrimTimelineClipEndInput,
+  type TrimTimelineClipStartInput,
 } from "../state";
 
 import {
@@ -45,7 +52,8 @@ export function ReviewWorkspaceProvider({
       () => runtime.getState(),
     );
 
-  const onErrorRef = useRef(onError);
+  const onErrorRef =
+    useRef(onError);
 
   const forceRefresh =
     openOptions?.force_refresh;
@@ -58,11 +66,12 @@ export function ReviewWorkspaceProvider({
   }, [onError]);
 
   useEffect(() => {
-    const unsubscribe = runtime.subscribe(
-      (nextState) => {
-        setState(nextState);
-      },
-    );
+    const unsubscribe =
+      runtime.subscribe(
+        (nextState) => {
+          setState(nextState);
+        },
+      );
 
     return unsubscribe;
   }, [runtime]);
@@ -71,8 +80,14 @@ export function ReviewWorkspaceProvider({
     (
       options:
         ReviewWorkspaceRuntimeOpenOptions = {},
-    ) => runtime.open(productionId, options),
-    [productionId, runtime],
+    ) => runtime.open(
+      productionId,
+      options,
+    ),
+    [
+      productionId,
+      runtime,
+    ],
   );
 
   const refresh = useCallback(
@@ -104,6 +119,113 @@ export function ReviewWorkspaceProvider({
     [runtime],
   );
 
+  const moveClip = useCallback(
+    (
+      input: MoveTimelineClipInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.moveClip(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const trimClipStart = useCallback(
+    (
+      input:
+        TrimTimelineClipStartInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.trimClipStart(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const trimClipEnd = useCallback(
+    (
+      input:
+        TrimTimelineClipEndInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.trimClipEnd(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const splitClip = useCallback(
+    (
+      input: SplitTimelineClipInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.splitClip(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const duplicateClip = useCallback(
+    (
+      input:
+        DuplicateTimelineClipInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.duplicateClip(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const deleteClip = useCallback(
+    (
+      input: DeleteTimelineClipInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.deleteClip(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const closeGap = useCallback(
+    (
+      input: CloseTimelineGapInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.closeGap(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const undoTimeline = useCallback(
+    (
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.undoTimeline(
+      options,
+    ),
+    [runtime],
+  );
+
+  const redoTimeline = useCallback(
+    (
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.redoTimeline(
+      options,
+    ),
+    [runtime],
+  );
+
   const actions =
     useMemo<ReviewWorkspaceActions>(
       () => ({
@@ -112,6 +234,15 @@ export function ReviewWorkspaceProvider({
         reset,
         close,
         clear,
+        moveClip,
+        trimClipStart,
+        trimClipEnd,
+        splitClip,
+        duplicateClip,
+        deleteClip,
+        closeGap,
+        undoTimeline,
+        redoTimeline,
       }),
       [
         open,
@@ -119,6 +250,15 @@ export function ReviewWorkspaceProvider({
         reset,
         close,
         clear,
+        moveClip,
+        trimClipStart,
+        trimClipEnd,
+        splitClip,
+        duplicateClip,
+        deleteClip,
+        closeGap,
+        undoTimeline,
+        redoTimeline,
       ],
     );
 
@@ -131,13 +271,19 @@ export function ReviewWorkspaceProvider({
       new AbortController();
 
     void open({
-      force_refresh: forceRefresh,
+      force_refresh:
+        forceRefresh,
       replace_existing:
         replaceExisting,
-      signal: controller.signal,
+      signal:
+        controller.signal,
     }).catch((error: unknown) => {
-      if (!controller.signal.aborted) {
-        onErrorRef.current?.(error);
+      if (
+        !controller.signal.aborted
+      ) {
+        onErrorRef.current?.(
+          error,
+        );
       }
     });
 
