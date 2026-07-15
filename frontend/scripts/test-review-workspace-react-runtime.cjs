@@ -262,6 +262,7 @@ function main() {
   "redoTimeline",
   "refresh",
   "reset",
+  "selectClip",
   "splitClip",
   "trimClipEnd",
   "trimClipStart",

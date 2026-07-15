@@ -15,6 +15,7 @@ import {
 
 import type {
   ReviewTimelineCommandActions,
+  ReviewTimelineSelectionActions,
   ReviewWorkspaceActions,
   ReviewWorkspaceContextValue,
   ReviewWorkspaceSessionView,
@@ -46,6 +47,11 @@ export function useReviewWorkspaceActions():
   return useReviewWorkspace().actions;
 }
 
+export function useReviewTimelineSelectionActions():
+  ReviewTimelineSelectionActions {
+  return useReviewWorkspace().actions;
+}
+
 export function useReviewTimelineCommands():
   ReviewTimelineCommandActions {
   return useReviewWorkspace().actions;
@@ -64,24 +70,37 @@ export function useReviewWorkspaceStatus():
     status,
     pendingOperation,
     pendingCommand,
+
     idle:
       status === "idle",
+
     loading:
       status === "opening",
+
     ready:
       status === "ready",
+
     refreshing:
       status === "refreshing",
+
     resetting:
       status === "resetting",
+
+    selecting:
+      status === "selecting",
+
     executing:
       status === "executing",
+
     closing:
       status === "closing",
+
     closed:
       status === "closed",
+
     failed:
       status === "error",
+
     error,
   };
 }

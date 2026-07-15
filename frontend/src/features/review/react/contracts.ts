@@ -16,6 +16,7 @@ import type {
   ReviewWorkspaceRuntimeActionOptions,
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
+  SelectTimelineClipInput,
   SplitTimelineClipInput,
   TrimTimelineClipEndInput,
   TrimTimelineClipStartInput,
@@ -24,6 +25,13 @@ import type {
 import type {
   ReviewWorkspaceSessionRuntime,
 } from "../state/runtime";
+
+export interface ReviewTimelineSelectionActions {
+  selectClip(
+    input: SelectTimelineClipInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+}
 
 export interface ReviewTimelineCommandActions {
   moveClip(
@@ -71,7 +79,9 @@ export interface ReviewTimelineCommandActions {
 }
 
 export interface ReviewWorkspaceActions
-  extends ReviewTimelineCommandActions {
+  extends
+    ReviewTimelineSelectionActions,
+    ReviewTimelineCommandActions {
   open(
     options?: ReviewWorkspaceRuntimeOpenOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
@@ -104,10 +114,12 @@ export interface ReviewWorkspaceProviderProps {
   runtime?: ReviewWorkspaceSessionRuntime;
   api?: ReviewWorkspaceClientConfig;
   autoOpen?: boolean;
+
   openOptions?: Omit<
     ReviewWorkspaceRuntimeOpenOptions,
     "signal"
   >;
+
   onError?: (error: unknown) => void;
 }
 
@@ -130,6 +142,7 @@ export interface ReviewWorkspaceStatusView {
   ready: boolean;
   refreshing: boolean;
   resetting: boolean;
+  selecting: boolean;
   executing: boolean;
   closing: boolean;
   closed: boolean;
@@ -142,6 +155,7 @@ export interface ReviewWorkspaceStatusView {
 export interface ReviewWorkspaceSessionView {
   productionId: string | null;
   sessionId: string | null;
+
   session:
     ReviewRuntimeSessionState | null;
 }
@@ -149,5 +163,6 @@ export interface ReviewWorkspaceSessionView {
 export interface ReviewWorkspaceSnapshotView {
   snapshot:
     ReviewRuntimeSessionSnapshot | null;
+
   available: boolean;
 }

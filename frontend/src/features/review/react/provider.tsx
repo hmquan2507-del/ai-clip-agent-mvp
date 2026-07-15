@@ -17,6 +17,7 @@ import {
   type ReviewWorkspaceRuntimeActionOptions,
   type ReviewWorkspaceRuntimeOpenOptions,
   type ReviewWorkspaceRuntimeState,
+  type SelectTimelineClipInput,
   type SplitTimelineClipInput,
   type TrimTimelineClipEndInput,
   type TrimTimelineClipStartInput,
@@ -116,6 +117,18 @@ export function ReviewWorkspaceProvider({
 
   const clear = useCallback(
     () => runtime.clear(),
+    [runtime],
+  );
+
+  const selectClip = useCallback(
+    (
+      input: SelectTimelineClipInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.selectClip(
+      input,
+      options,
+    ),
     [runtime],
   );
 
@@ -234,6 +247,7 @@ export function ReviewWorkspaceProvider({
         reset,
         close,
         clear,
+        selectClip,
         moveClip,
         trimClipStart,
         trimClipEnd,
@@ -250,6 +264,7 @@ export function ReviewWorkspaceProvider({
         reset,
         close,
         clear,
+        selectClip,
         moveClip,
         trimClipStart,
         trimClipEnd,

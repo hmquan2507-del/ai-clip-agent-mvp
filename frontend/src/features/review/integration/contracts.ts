@@ -1,10 +1,53 @@
-import type { ReviewBadgeTone } from "../design-system";
+import type {
+  ReviewBadgeTone,
+} from "../design-system";
 
 export type ReviewTimelineClipTone =
   | "video"
   | "broll"
   | "subtitle"
   | "audio";
+
+export interface ReviewTimelineSelectionIntent {
+  clipId: string;
+  additive: boolean;
+  moveCursor: boolean;
+}
+
+export interface ReviewTimelineGapView {
+  trackId: string;
+  startTime: number;
+  endTime: number;
+}
+
+export interface ReviewTimelineCommandTargetView {
+  clipId: string;
+  editable: boolean;
+  canSplit: boolean;
+  splitTime: number | null;
+  gapBefore: ReviewTimelineGapView | null;
+}
+
+export type ReviewTimelineCommandIntent =
+  | {
+      operation: "split_clip";
+      clipId: string;
+      splitTime: number;
+    }
+  | {
+      operation: "duplicate_clip";
+      clipId: string;
+    }
+  | {
+      operation: "delete_clip";
+      clipId: string;
+    }
+  | {
+      operation: "close_gap";
+      trackId: string;
+      gapStart: number;
+      gapEnd: number;
+    };
 
 export interface ReviewEditorHeaderView {
   productionId: string;
@@ -56,6 +99,9 @@ export interface ReviewTimelineView {
   playheadPercent: number;
   rulerMarks: string[];
   tracks: ReviewTimelineTrackView[];
+
+  commandTarget:
+    ReviewTimelineCommandTargetView | null;
 }
 
 export interface ReviewInspectorView {
@@ -77,4 +123,3 @@ export interface ReviewEditorViewModel {
   timeline: ReviewTimelineView;
   inspector: ReviewInspectorView;
 }
-
