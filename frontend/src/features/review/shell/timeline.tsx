@@ -1,5 +1,11 @@
+"use client";
+
 import type {
   MouseEvent,
+  PointerEvent as ReactPointerEvent,
+} from "react";
+import {
+  useRef,
 } from "react";
 
 import {
@@ -39,12 +45,20 @@ import {
 
 import type {
   ReviewTimelineClipTone,
+  ReviewTimelineClipDragMoveIntent,
+  ReviewTimelineClipDragStartIntent,
+  ReviewTimelineClipDragView,
   ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
   ReviewTimelineTrackView,
   ReviewTimelineView,
 } from "../integration/contracts";
+import type {
+  ReviewTimelineDragCancelReason,
+  ReviewTimelineTrackLane,
+  ReviewTimelineViewport,
+} from "../drag";
 
 import {
   rulerMarks,
@@ -74,6 +88,7 @@ export interface ReviewTimelinePanelProps {
   selecting?: boolean;
   commandPending?: boolean;
   clipboardPending?: boolean;
+  drag?: ReviewTimelineClipDragView;
 
   pendingCommand:
     ReviewTimelineCommandOperation | null;
@@ -95,6 +110,20 @@ export interface ReviewTimelinePanelProps {
     intent:
       ReviewTimelineClipboardIntent,
   ) => void;
+
+  onClipDragStart?: (
+    intent: ReviewTimelineClipDragStartIntent,
+  ) => void;
+
+  onClipDragMove?: (
+    intent: ReviewTimelineClipDragMoveIntent,
+  ) => void;
+
+  onClipDragDrop?: () => void;
+
+  onClipDragCancel?: (
+    reason?: ReviewTimelineDragCancelReason,
+  ) => void;
 }
 
 export function ReviewTimelinePanel({
@@ -102,12 +131,30 @@ export function ReviewTimelinePanel({
   selecting = false,
   commandPending = false,
   clipboardPending = false,
+  drag,
   pendingCommand,
   pendingClipboardOperation,
   onSelectClip,
   onTimelineCommand,
   onClipboardCommand,
+  onClipDragStart,
+  onClipDragMove,
+  onClipDragDrop,
+  onClipDragCancel,
 }: ReviewTimelinePanelProps) {
+  const timelineCanvasRef =
+    useRef<HTMLDivElement | null>(null);
+  const laneElementsRef = useRef(
+    new Map<string, HTMLDivElement>(),
+  );
+  const activePointerRef =
+    useRef<number | null>(null);
+  const pointerOriginRef = useRef<{
+    clientX: number;
+    clientY: number;
+  } | null>(null);
+  const suppressClickRef =
+    useRef(false);
   const tracks:
     ReviewTimelineTrackView[] =
       view?.tracks ??
@@ -123,6 +170,19 @@ export function ReviewTimelinePanel({
             track.clips.map(
               (clip) => ({
                 ...clip,
+                trackId: track.id,
+                clipType:
+                  fallbackClipType(
+                    track.id,
+                  ),
+                startTime:
+                  clip.start,
+                endTime:
+                  clip.start +
+                  clip.width,
+                duration:
+                  clip.width,
+                editable: true,
                 selected: false,
               }),
             ),
@@ -150,6 +210,32 @@ export function ReviewTimelinePanel({
     view?.playheadPercent ??
     12.4;
 
+  const activeDragSource =
+    drag?.active
+      ? drag.state.session?.source ?? null
+      : null;
+  const activeDragClip = activeDragSource
+    ? tracks
+        .flatMap((track) => track.clips)
+        .find(
+          (clip) =>
+            clip.id ===
+            activeDragSource.clipId,
+        ) ?? null
+    : null;
+  const dragProjection =
+    drag?.active
+      ? drag.state.projection
+      : null;
+  const crossTrackDrag = Boolean(
+    activeDragSource &&
+      activeDragClip &&
+      dragProjection?.valid &&
+      dragProjection.targetTrackId &&
+      dragProjection.targetTrackId !==
+        activeDragSource.trackId,
+  );
+
   const target =
     view?.commandTarget ??
     null;
@@ -174,12 +260,14 @@ export function ReviewTimelinePanel({
     selecting ||
     commandPending ||
     clipboardPending ||
+    Boolean(drag?.active) ||
     !onTimelineCommand;
 
   const clipboardControlsDisabled =
     selecting ||
     commandPending ||
     clipboardPending ||
+    Boolean(drag?.active) ||
     !onClipboardCommand;
 
   const canEditTarget =
@@ -206,6 +294,13 @@ export function ReviewTimelinePanel({
     MouseEvent<HTMLButtonElement>,
   clipId: string,
 ) => {
+  if (suppressClickRef.current) {
+    suppressClickRef.current = false;
+    event.preventDefault();
+    event.stopPropagation();
+    return;
+  }
+
   if (
     selecting ||
     commandPending ||
@@ -224,6 +319,190 @@ export function ReviewTimelinePanel({
     moveCursor: true,
   });
 };
+
+  const measureDragGeometry = ():
+    {
+      viewport: ReviewTimelineViewport;
+      lanes: ReviewTimelineTrackLane[];
+    } | null => {
+      const canvas =
+        timelineCanvasRef.current;
+
+      if (!canvas) {
+        return null;
+      }
+
+      const canvasRect =
+        canvas.getBoundingClientRect();
+      const lanes = tracks.flatMap(
+        (track) => {
+          const element =
+            laneElementsRef.current.get(
+              track.id,
+            );
+
+          if (!element) {
+            return [];
+          }
+
+          const rect =
+            element.getBoundingClientRect();
+
+          return [{
+            trackId: track.id,
+            trackType:
+              track.trackType,
+            top: rect.top,
+            height: rect.height,
+            locked: track.locked,
+          }];
+        },
+      );
+
+      return {
+        viewport: {
+          left: canvasRect.left,
+          top: canvasRect.top + 28,
+          width: canvasRect.width,
+          height: Math.max(
+            1,
+            canvasRect.height - 28,
+          ),
+          scrollLeft: 0,
+          contentWidth:
+            canvasRect.width,
+        },
+        lanes,
+      };
+    };
+
+  const beginClipDrag = (
+    event:
+      ReactPointerEvent<HTMLButtonElement>,
+    clipId: string,
+    editable: boolean,
+  ) => {
+    if (
+      event.button !== 0 ||
+      !editable ||
+      selecting ||
+      commandPending ||
+      clipboardPending ||
+      drag?.active ||
+      !onClipDragStart
+    ) {
+      return;
+    }
+
+    const geometry =
+      measureDragGeometry();
+    if (!geometry) {
+      return;
+    }
+
+    activePointerRef.current =
+      event.pointerId;
+    pointerOriginRef.current = {
+      clientX: event.clientX,
+      clientY: event.clientY,
+    };
+    suppressClickRef.current = false;
+    event.currentTarget.setPointerCapture(
+      event.pointerId,
+    );
+
+    onClipDragStart({
+      clipId,
+      pointer: {
+        clientX: event.clientX,
+        clientY: event.clientY,
+      },
+      ...geometry,
+    });
+  };
+
+  const moveClipDrag = (
+    event:
+      ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    if (
+      activePointerRef.current !==
+        event.pointerId ||
+      !onClipDragMove
+    ) {
+      return;
+    }
+
+    const geometry =
+      measureDragGeometry();
+    if (!geometry) {
+      return;
+    }
+
+    const origin = pointerOriginRef.current;
+    if (
+      origin &&
+      Math.hypot(
+        event.clientX - origin.clientX,
+        event.clientY - origin.clientY,
+      ) >= 3
+    ) {
+      suppressClickRef.current = true;
+    }
+
+    onClipDragMove({
+      pointer: {
+        clientX: event.clientX,
+        clientY: event.clientY,
+      },
+      ...geometry,
+    });
+  };
+
+  const dropClipDrag = (
+    event:
+      ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    if (
+      activePointerRef.current !==
+      event.pointerId
+    ) {
+      return;
+    }
+
+    if (
+      event.currentTarget.hasPointerCapture(
+        event.pointerId,
+      )
+    ) {
+      event.currentTarget.releasePointerCapture(
+        event.pointerId,
+      );
+    }
+
+    activePointerRef.current = null;
+    pointerOriginRef.current = null;
+    onClipDragDrop?.();
+  };
+
+  const cancelClipDrag = (
+    event:
+      ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    if (
+      activePointerRef.current !==
+      event.pointerId
+    ) {
+      return;
+    }
+
+    activePointerRef.current = null;
+    pointerOriginRef.current = null;
+    suppressClickRef.current = true;
+    onClipDragCancel?.(
+      "pointer_cancelled",
+    );
+  };
 
   const splitSelectedClip =
     () => {
@@ -403,7 +682,8 @@ export function ReviewTimelinePanel({
       aria-busy={
         selecting ||
         commandPending ||
-        clipboardPending
+        clipboardPending ||
+        Boolean(drag?.active)
       }
       className="h-[252px] shrink-0 border-t border-[var(--review-border)] bg-[var(--review-timeline-ruler)] max-md:h-[220px]"
     >
@@ -584,6 +864,43 @@ export function ReviewTimelinePanel({
               )}
             </span>
           ) : null}
+
+          {drag?.dragging ? (
+            <span
+              role="status"
+              className="text-[10px] text-[var(--review-accent-text)]"
+            >
+              Đang kéo clip…
+            </span>
+          ) : null}
+
+          {drag?.committing ? (
+            <span
+              role="status"
+              className="text-[10px] text-[var(--review-accent-text)]"
+            >
+              Đang áp dụng vị trí…
+            </span>
+          ) : null}
+
+          {drag?.failed &&
+          drag.state.failure ? (
+            <span
+              role="alert"
+              data-review-drag-failure={
+                drag.state.failure.code
+              }
+              className="max-w-sm truncate text-[10px] text-rose-300"
+              title={
+                drag.state.failure.message
+              }
+            >
+              {drag.state.failure
+                .isRevisionConflict
+                ? "Timeline đã thay đổi · Đã đồng bộ bản mới"
+                : `Không thể di chuyển clip · ${drag.state.failure.message}`}
+            </span>
+          ) : null}
         </div>
 
         <div className="flex items-center gap-2">
@@ -645,7 +962,10 @@ export function ReviewTimelinePanel({
           })}
         </div>
 
-        <div className="relative">
+        <div
+          ref={timelineCanvasRef}
+          className="relative"
+        >
           <div
             className="grid h-7 border-b border-[var(--review-border-subtle)] text-[9px] text-[var(--review-text-subtle)]"
             style={{
@@ -669,10 +989,64 @@ export function ReviewTimelinePanel({
             (track) => (
               <div
                 key={track.id}
-                className="relative h-10 border-b border-[var(--review-border-subtle)] [background-image:linear-gradient(90deg,var(--review-timeline-grid)_1px,transparent_1px)] [background-size:16.666%_100%]"
+                ref={(element) => {
+                  if (element) {
+                    laneElementsRef.current.set(
+                      track.id,
+                      element,
+                    );
+                  } else {
+                    laneElementsRef.current.delete(
+                      track.id,
+                    );
+                  }
+                }}
+                data-review-track-id={
+                  track.id
+                }
+                data-drag-target={
+                  dragProjection?.targetTrackId ===
+                  track.id
+                    ? dragProjection.valid
+                      ? "valid"
+                      : "blocked"
+                    : undefined
+                }
+                className={reviewClassNames(
+                  "relative h-10 border-b border-[var(--review-border-subtle)] [background-image:linear-gradient(90deg,var(--review-timeline-grid)_1px,transparent_1px)] [background-size:16.666%_100%]",
+                  dragProjection?.targetTrackId ===
+                    track.id &&
+                    dragProjection.valid &&
+                    "bg-cyan-300/5 ring-1 ring-inset ring-cyan-300/40",
+                  dragProjection?.targetTrackId ===
+                    track.id &&
+                    !dragProjection.valid &&
+                    "bg-rose-400/5 ring-1 ring-inset ring-rose-400/50",
+                )}
               >
                 {track.clips.map(
-                  (clip) => (
+                  (clip) => {
+                    const isDragged =
+                      Boolean(
+                        drag?.active &&
+                        drag.state.session
+                          ?.source.clipId ===
+                          clip.id,
+                      );
+                    const projectedStart =
+                      isDragged &&
+                      drag?.state.projection
+                        ? (
+                            drag.state.projection
+                              .projectedStartTime /
+                            Math.max(
+                              view?.duration ?? 1,
+                              0.000001,
+                            )
+                          ) * 100
+                        : clip.start;
+
+                    return (
                     <button
                       key={clip.id}
                       type="button"
@@ -687,20 +1061,41 @@ export function ReviewTimelinePanel({
                       disabled={
                         selecting ||
                         commandPending ||
-                        clipboardPending
+                        clipboardPending ||
+                        Boolean(
+                          drag?.active &&
+                          !isDragged,
+                        )
                       }
-                      title="Click để chọn · Ctrl/Cmd + click để chọn nhiều"
+                      title={
+                        clip.editable
+                          ? "Click để chọn · Kéo để di chuyển"
+                          : "Track đang khóa"
+                      }
+                      data-drag-phase={
+                        isDragged
+                          ? drag?.state.phase
+                          : undefined
+                      }
                       className={reviewClassNames(
-                        "absolute top-1 h-8 overflow-hidden rounded-md border px-2 text-left text-[9px] font-medium text-white/90 shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--review-focus)] disabled:cursor-wait disabled:opacity-70",
+                        "absolute top-1 h-8 touch-none overflow-hidden rounded-md border px-2 text-left text-[9px] font-medium text-white/90 shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--review-focus)] disabled:cursor-wait disabled:opacity-70",
                         clipToneClasses[
                           clip.tone
                         ],
                         clip.selected &&
                           "ring-2 ring-[var(--review-focus)] ring-offset-1 ring-offset-[var(--review-timeline-ruler)]",
+                        clip.editable &&
+                          !isDragged &&
+                          "cursor-grab",
+                        isDragged &&
+                          "z-20 cursor-grabbing opacity-80 shadow-lg ring-2 ring-[var(--review-focus)]",
+                        isDragged &&
+                          crossTrackDrag &&
+                          "opacity-0",
                       )}
                       style={{
                         left:
-                          `${clip.start}%`,
+                          `${projectedStart}%`,
                         width:
                           `${clip.width}%`,
                       }}
@@ -712,16 +1107,114 @@ export function ReviewTimelinePanel({
                           clip.id,
                         );
                       }}
+                      onPointerDown={(
+                        event,
+                      ) => {
+                        beginClipDrag(
+                          event,
+                          clip.id,
+                          clip.editable &&
+                            !track.locked,
+                        );
+                      }}
+                      onPointerMove={
+                        moveClipDrag
+                      }
+                      onPointerUp={
+                        dropClipDrag
+                      }
+                      onPointerCancel={
+                        cancelClipDrag
+                      }
+                      onKeyDown={(event) => {
+                        if (
+                          event.key ===
+                            "Escape" &&
+                          drag?.active
+                        ) {
+                          const pointerId =
+                            activePointerRef.current;
+                          if (
+                            pointerId !== null &&
+                            event.currentTarget
+                              .hasPointerCapture(
+                                pointerId,
+                              )
+                          ) {
+                            event.currentTarget
+                              .releasePointerCapture(
+                                pointerId,
+                              );
+                          }
+                          suppressClickRef.current =
+                            true;
+                          activePointerRef.current =
+                            null;
+                          pointerOriginRef.current =
+                            null;
+                          onClipDragCancel?.(
+                            "escape_pressed",
+                          );
+                        }
+                      }}
                     >
                       <span className="block truncate">
                         {clip.label}
                       </span>
                     </button>
-                  ),
+                    );
+                  },
                 )}
+
+                {crossTrackDrag &&
+                activeDragClip &&
+                dragProjection?.targetTrackId ===
+                  track.id ? (
+                  <div
+                    aria-hidden="true"
+                    data-review-cross-track-ghost="true"
+                    className={reviewClassNames(
+                      "pointer-events-none absolute top-1 z-20 h-8 overflow-hidden rounded-md border px-2 py-1 text-left text-[9px] font-medium text-white/90 opacity-80 shadow-lg ring-2 ring-cyan-300",
+                      clipToneClasses[
+                        activeDragClip.tone
+                      ],
+                    )}
+                    style={{
+                      left: `${(
+                        dragProjection.projectedStartTime /
+                        Math.max(
+                          view?.duration ?? 1,
+                          0.000001,
+                        )
+                      ) * 100}%`,
+                      width:
+                        `${activeDragClip.width}%`,
+                    }}
+                  >
+                    <span className="block truncate">
+                      {activeDragClip.label}
+                    </span>
+                  </div>
+                ) : null}
               </div>
             ),
           )}
+
+          {drag?.dragging &&
+          drag.state.snapResult?.snapped &&
+          view?.duration ? (
+            <div
+              aria-hidden="true"
+              data-review-snap-guide="true"
+              className="pointer-events-none absolute inset-y-0 z-30 w-px bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.8)]"
+              style={{
+                left: `${(
+                  drag.state.snapResult.candidate
+                    ?.targetTime ?? 0
+                ) / view.duration * 100}%`,
+              }}
+            />
+          ) : null}
 
           <div
             className="pointer-events-none absolute inset-y-0 z-10 w-px bg-[var(--review-timeline-playhead)] shadow-[0_0_8px_var(--review-timeline-playhead)]"
@@ -847,4 +1340,25 @@ function trackIcon(
   }
 
   return Layers3;
+}
+
+function fallbackClipType(
+  trackType: string,
+): string {
+  if (trackType.includes("subtitle")) {
+    return "subtitle";
+  }
+  if (
+    trackType.includes("broll") ||
+    trackType.includes("overlay")
+  ) {
+    return "broll";
+  }
+  if (trackType.includes("music")) {
+    return "music";
+  }
+  if (trackType.includes("audio")) {
+    return "audio";
+  }
+  return "video";
 }

@@ -9,6 +9,12 @@ import {
   useReviewWorkspaceActions,
   useReviewWorkspaceState,
 } from "../react";
+import type {
+  ReviewWorkspaceActions,
+} from "../react";
+import type {
+  ReviewWorkspaceRuntimeState,
+} from "../state";
 
 import {
   ReviewEditorShell,
@@ -17,6 +23,9 @@ import {
 import {
   buildReviewEditorViewModel,
 } from "./adapters";
+import {
+  useReviewRuntimeClipDrag,
+} from "./use-runtime-clip-drag";
 
 import type {
   ReviewTimelineClipboardIntent,
@@ -258,42 +267,10 @@ function ReviewRuntimeWorkspaceContent() {
     );
   }
 
-  const view =
-    buildReviewEditorViewModel(
-      state,
-    );
-
-  const commandPending =
-    state.pendingOperation ===
-    "timeline_command";
-
-  const clipboardPending =
-    state.pendingOperation ===
-    "clipboard_command";
-
   return (
-    <ReviewEditorShell
-      view={view}
-      refreshing={
-        state.status ===
-        "refreshing"
-      }
-      selecting={
-        state.status ===
-        "selecting"
-      }
-      commandPending={
-        commandPending
-      }
-      pendingCommand={
-        state.pendingCommand
-      }
-      clipboardPending={
-        clipboardPending
-      }
-      pendingClipboardOperation={
-        state.pendingClipboardOperation
-      }
+    <ReviewRuntimeWorkspaceEditor
+      state={state}
+      actions={actions}
       onRefresh={refresh}
       onSelectClip={selectClip}
       onUndo={undoTimeline}
@@ -303,6 +280,101 @@ function ReviewRuntimeWorkspaceContent() {
       }
       onClipboardCommand={
         executeClipboardCommand
+      }
+    />
+  );
+}
+
+interface ReviewRuntimeWorkspaceEditorProps {
+  state: ReviewWorkspaceRuntimeState;
+  actions: ReviewWorkspaceActions;
+  onRefresh(): void;
+  onUndo(): void;
+  onRedo(): void;
+  onSelectClip(
+    intent: ReviewTimelineSelectionIntent,
+  ): void;
+  onTimelineCommand(
+    intent: ReviewTimelineCommandIntent,
+  ): void;
+  onClipboardCommand(
+    intent: ReviewTimelineClipboardIntent,
+  ): void;
+}
+
+function ReviewRuntimeWorkspaceEditor({
+  state,
+  actions,
+  onRefresh,
+  onUndo,
+  onRedo,
+  onSelectClip,
+  onTimelineCommand,
+  onClipboardCommand,
+}: ReviewRuntimeWorkspaceEditorProps) {
+  const view = buildReviewEditorViewModel(
+    state,
+  );
+  const commandPending =
+    state.status === "executing" &&
+    state.pendingOperation ===
+      "timeline_command";
+  const clipboardPending =
+    state.status === "executing" &&
+    state.pendingOperation ===
+      "clipboard_command";
+  const selecting =
+    state.status === "selecting";
+
+  const clipDrag =
+    useReviewRuntimeClipDrag({
+      productionId:
+        view.header.productionId,
+      view,
+      disabled:
+        selecting ||
+        commandPending ||
+        clipboardPending,
+      moveClip: actions.moveClip,
+    });
+
+  const dropClip = useCallback(() => {
+    void clipDrag.drop()
+      .catch(() => undefined);
+  }, [clipDrag]);
+
+  return (
+    <ReviewEditorShell
+      view={view}
+      refreshing={
+        state.status ===
+        "refreshing"
+      }
+      selecting={selecting}
+      commandPending={commandPending}
+      pendingCommand={
+        state.pendingCommand
+      }
+      clipboardPending={
+        clipboardPending
+      }
+      pendingClipboardOperation={
+        state.pendingClipboardOperation
+      }
+      drag={clipDrag.drag}
+      onClipDragStart={clipDrag.begin}
+      onClipDragMove={clipDrag.move}
+      onClipDragDrop={dropClip}
+      onClipDragCancel={clipDrag.cancel}
+      onRefresh={onRefresh}
+      onSelectClip={onSelectClip}
+      onUndo={onUndo}
+      onRedo={onRedo}
+      onTimelineCommand={
+        onTimelineCommand
+      }
+      onClipboardCommand={
+        onClipboardCommand
       }
     />
   );

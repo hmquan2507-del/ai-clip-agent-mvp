@@ -207,6 +207,12 @@ export function buildReviewEditorViewModel(
 
     timeline: {
       duration,
+      fps:
+        timeline.fps,
+      revision:
+        timeline.revision,
+      playheadTime:
+        currentTime,
 
       durationLabel:
         formatTime(duration),
@@ -533,9 +539,20 @@ function buildTrackView(
       track.clips.map(
         (clip) => ({
           id: clip.clip_id,
+          trackId: track.track_id,
+          clipType: clip.clip_type,
 
           label:
             clipLabel(clip),
+
+          startTime:
+            clip.start_time,
+
+          endTime:
+            clip.end_time,
+
+          duration:
+            clip.duration,
 
           start:
             duration > 0
@@ -571,6 +588,9 @@ function buildTrackView(
             selectedIds.has(
               clip.clip_id,
             ),
+
+          editable:
+            !track.locked,
         }),
       ),
   };

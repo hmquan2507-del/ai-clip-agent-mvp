@@ -24,6 +24,7 @@ const regressionScripts = [
   "test-review-design-system.cjs",
   "test-review-editor-shell.cjs",
   "test-review-runtime-connected-ui.cjs",
+  "test-review-drag-drop-integration-regression.cjs",
 ];
 
 const removedLegacyFiles = [
@@ -137,7 +138,7 @@ function main() {
       "utf8",
     );
 
-  const forbiddenMutationCalls = [
+  const forbiddenMutationCallPatterns = [
     "move_clip",
     "trim_clip_start",
     "trim_clip_end",
@@ -146,7 +147,12 @@ function main() {
     "split_clip",
     "duplicate_clip",
     "close_gap",
-  ];
+  ].map(
+    (mutation) =>
+      new RegExp(
+        `\\b${mutation}\\s*\\(`,
+      ),
+  );
 
   const checks = {
     all_regression_scripts_passed:
@@ -174,11 +180,9 @@ function main() {
       ),
 
     shell_has_no_direct_mutations:
-      forbiddenMutationCalls.every(
-        (mutation) =>
-          !shellSource.includes(
-            mutation,
-          ),
+      forbiddenMutationCallPatterns.every(
+        (pattern) =>
+          !pattern.test(shellSource),
       ),
 
     provider_is_runtime_boundary:

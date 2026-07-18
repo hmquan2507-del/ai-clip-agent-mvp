@@ -5,3 +5,4 @@ export * from "./react";
 export * from "./design-system";
 export * from "./shell";
 export * from "./integration";
+export * from "./drag";

@@ -1,6 +1,12 @@
 import type {
   ReviewBadgeTone,
 } from "../design-system";
+import type {
+  ReviewTimelineDragPoint,
+  ReviewTimelineDragRuntimeState,
+  ReviewTimelineTrackLane,
+  ReviewTimelineViewport,
+} from "../drag";
 
 export type ReviewTimelineClipTone =
   | "video"
@@ -114,11 +120,17 @@ export interface ReviewPreviewView {
 
 export interface ReviewTimelineClipView {
   id: string;
+  trackId: string;
+  clipType: string;
   label: string;
+  startTime: number;
+  endTime: number;
+  duration: number;
   start: number;
   width: number;
   tone: ReviewTimelineClipTone;
   selected: boolean;
+  editable: boolean;
 }
 
 export interface ReviewTimelineTrackView {
@@ -132,6 +144,9 @@ export interface ReviewTimelineTrackView {
 
 export interface ReviewTimelineView {
   duration: number;
+  fps: number;
+  revision: number;
+  playheadTime: number;
   durationLabel: string;
   trackCount: number;
   clipCount: number;
@@ -144,6 +159,30 @@ export interface ReviewTimelineView {
 
   clipboard:
     ReviewTimelineClipboardView;
+}
+
+export interface ReviewTimelineClipDragGeometry {
+  viewport: ReviewTimelineViewport;
+  lanes: ReviewTimelineTrackLane[];
+}
+
+export interface ReviewTimelineClipDragStartIntent
+  extends ReviewTimelineClipDragGeometry {
+  clipId: string;
+  pointer: ReviewTimelineDragPoint;
+}
+
+export interface ReviewTimelineClipDragMoveIntent
+  extends ReviewTimelineClipDragGeometry {
+  pointer: ReviewTimelineDragPoint;
+}
+
+export interface ReviewTimelineClipDragView {
+  state: ReviewTimelineDragRuntimeState;
+  active: boolean;
+  dragging: boolean;
+  committing: boolean;
+  failed: boolean;
 }
 
 export interface ReviewInspectorView {

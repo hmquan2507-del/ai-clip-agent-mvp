@@ -4,10 +4,16 @@ import {
 
 import type {
   ReviewEditorViewModel,
+  ReviewTimelineClipDragMoveIntent,
+  ReviewTimelineClipDragStartIntent,
+  ReviewTimelineClipDragView,
   ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
 } from "../integration/contracts";
+import type {
+  ReviewTimelineDragCancelReason,
+} from "../drag";
 
 import type {
   ReviewClipboardOperation,
@@ -41,6 +47,7 @@ export interface ReviewEditorShellProps {
   selecting?: boolean;
   commandPending?: boolean;
   clipboardPending?: boolean;
+  drag?: ReviewTimelineClipDragView;
 
   pendingCommand:
     ReviewTimelineCommandOperation | null;
@@ -66,6 +73,20 @@ export interface ReviewEditorShellProps {
     intent:
       ReviewTimelineClipboardIntent,
   ) => void;
+
+  onClipDragStart?: (
+    intent: ReviewTimelineClipDragStartIntent,
+  ) => void;
+
+  onClipDragMove?: (
+    intent: ReviewTimelineClipDragMoveIntent,
+  ) => void;
+
+  onClipDragDrop?: () => void;
+
+  onClipDragCancel?: (
+    reason?: ReviewTimelineDragCancelReason,
+  ) => void;
 }
 
 export function ReviewEditorShell({
@@ -74,6 +95,7 @@ export function ReviewEditorShell({
   selecting = false,
   commandPending = false,
   clipboardPending = false,
+  drag,
   pendingCommand,
   pendingClipboardOperation,
   onRefresh,
@@ -82,6 +104,10 @@ export function ReviewEditorShell({
   onSelectClip,
   onTimelineCommand,
   onClipboardCommand,
+  onClipDragStart,
+  onClipDragMove,
+  onClipDragDrop,
+  onClipDragCancel,
 }: ReviewEditorShellProps) {
   return (
     <ReviewEditorSurface className="flex h-dvh min-h-[620px] flex-col overflow-hidden">
@@ -111,6 +137,7 @@ export function ReviewEditorShell({
 
       <ReviewTimelinePanel
         view={view?.timeline}
+        drag={drag}
         selecting={selecting}
         commandPending={
           commandPending
@@ -130,6 +157,18 @@ export function ReviewEditorShell({
         }
         onClipboardCommand={
           onClipboardCommand
+        }
+        onClipDragStart={
+          onClipDragStart
+        }
+        onClipDragMove={
+          onClipDragMove
+        }
+        onClipDragDrop={
+          onClipDragDrop
+        }
+        onClipDragCancel={
+          onClipDragCancel
         }
       />
 
