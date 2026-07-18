@@ -1,0 +1,3467 @@
+{
+  "checks": {
+    "openapi_routes_complete": true,
+    "sessions_opened": true,
+    "copy_no_timeline_change": true,
+    "paste_atomic": true,
+    "undo_paste": true,
+    "redo_paste": true,
+    "cut_atomic": true,
+    "undo_cut": true,
+    "restore_history_works": true,
+    "clear_history_preserves_content": true,
+    "clear_content_works": true,
+    "failures_are_read_only": true,
+    "invalid_mapping_atomic": true,
+    "production_isolation": true,
+    "response_payload_isolated": true,
+    "final_change_count_valid": true,
+    "source_unchanged": true,
+    "lifecycle_cleanup_complete": true
+  },
+  "copy": {
+    "contract_version": "16.4.8",
+    "success": true,
+    "operation": "copy",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+    "previous_revision": 1,
+    "current_revision": 1,
+    "snapshot": {
+      "session": {
+        "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "status": "ready",
+        "active": true,
+        "ready": true,
+        "closed": false,
+        "timeline_revision": 1,
+        "dirty": false,
+        "revision": 1,
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.506488+00:00",
+        "closed_at": null,
+        "error": null,
+        "metadata": {
+          "runtime": "ReviewRuntimeSession"
+        }
+      },
+      "workspace": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": 1,
+        "preview": {
+          "available": true,
+          "video_url": null,
+          "thumbnail_url": null,
+          "duration": 8.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0
+        },
+        "timeline": {
+          "version": "16.1.4",
+          "duration": 8.0,
+          "track_count": 2,
+          "clip_count": 2,
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "layer": 0,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "forbid",
+              "clip_count": 2,
+              "clips": [
+                {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_2",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 4.0,
+                  "end_time": 8.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                }
+              ],
+              "metadata": {}
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "layer": 1,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "allow",
+              "clip_count": 0,
+              "clips": [],
+              "metadata": {}
+            }
+          ]
+        },
+        "review": {
+          "is_approved": false,
+          "notes": []
+        },
+        "export": {
+          "is_exported": false,
+          "export_url": null,
+          "export_format": null
+        },
+        "ai": {
+          "suggestions": [],
+          "metadata": {
+            "editing_style": "viral"
+          }
+        },
+        "selection": {
+          "selected_clip_ids": []
+        },
+        "metadata": {
+          "builder": "ProductSnapshotBuilder",
+          "contract_version": "16.0.2",
+          "workspace_service": "ProductWorkspaceService",
+          "source_metadata": {
+            "timeline_loaded": true,
+            "artifact_count": 1,
+            "quality_loaded": true,
+            "ai_summary_loaded": true,
+            "issue_count": 0
+          },
+          "runtime_session": {
+            "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+            "session_revision": 1,
+            "timeline_revision": 1,
+            "timeline_dirty": false
+          }
+        }
+      },
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": "16.1.4",
+        "duration": 8.0,
+        "fps": 30.0,
+        "minimum_clip_duration": 0.03333333333333333,
+        "width": 1080,
+        "height": 1920,
+        "track_count": 2,
+        "clip_count": 2,
+        "revision": 1,
+        "dirty": false,
+        "dirty_status": "clean",
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.506488+00:00",
+        "tracks": [
+          {
+            "track_id": "video_primary",
+            "track_type": "video_primary",
+            "name": null,
+            "position": 0,
+            "layer": 0,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "forbid",
+            "clip_count": 2,
+            "clips": [
+              {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 4.0,
+                "end_time": 8.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              }
+            ],
+            "metadata": {}
+          },
+          {
+            "track_id": "broll",
+            "track_type": "broll",
+            "name": null,
+            "position": 1,
+            "layer": 1,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "allow",
+            "clip_count": 0,
+            "clips": [],
+            "metadata": {}
+          }
+        ],
+        "metadata": {
+          "factory": "build_editable_timeline"
+        }
+      },
+      "preview": {
+        "source": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "video_path": "storage/artifacts/final.mp4",
+          "video_url": null,
+          "available": true,
+          "duration": 8.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0,
+          "frame_duration": 0.03333333333333333,
+          "total_frames": 240,
+          "metadata": {
+            "source": "workspace_preview"
+          }
+        },
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "ready",
+          "playing": false,
+          "current_time": 0.0,
+          "duration": 8.0,
+          "progress": 0.0,
+          "volume": 1.0,
+          "muted": false,
+          "effective_volume": 1.0,
+          "playback_rate": 1.0,
+          "zoom": 1.0,
+          "loop_enabled": false,
+          "current_frame": 0,
+          "total_frames": 240,
+          "revision": 1,
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.506488+00:00",
+          "error": null,
+          "metadata": {
+            "runtime": "PreviewSessionRuntime",
+            "source_available": true
+          }
+        },
+        "sync": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "current",
+          "available": true,
+          "current": true,
+          "stale": false,
+          "active_timeline_revision": 1,
+          "preview_timeline_revision": 1,
+          "reason": "session_created",
+          "updated_at": "2026-07-18T05:37:18.506488+00:00",
+          "metadata": {
+            "signature_matches": true
+          }
+        }
+      },
+      "selection": {
+        "catalog": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "duration": 8.0,
+          "fps": 30.0,
+          "track_count": 2,
+          "clip_count": 2,
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "clip_ids": [
+                "clip_1",
+                "clip_2"
+              ],
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "clip_ids": [],
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            }
+          ],
+          "clips": [
+            {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 4.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 4.0,
+              "end_time": 8.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            }
+          ],
+          "metadata": {
+            "builder": "build_selection_catalog"
+          }
+        },
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "mode": "none",
+          "focus": "timeline",
+          "selected_track_ids": [],
+          "selected_clip_ids": [],
+          "active_track_id": null,
+          "active_clip_id": null,
+          "hovered_track_id": null,
+          "hovered_clip_id": null,
+          "cursor_time": 0.0,
+          "cursor_frame": 0,
+          "selected_range": null,
+          "has_selection": false,
+          "selected_count": 0,
+          "revision": 1,
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.506488+00:00",
+          "metadata": {
+            "runtime": "TimelineSelectionRuntime",
+            "timeline_duration": 8.0,
+            "fps": 30.0
+          }
+        }
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "can_undo": false,
+        "can_redo": false,
+        "undo_count": 0,
+        "redo_count": 0,
+        "current_revision": 1,
+        "maximum_history_size": 100,
+        "next_undo_label": null,
+        "next_redo_label": null
+      },
+      "clipboard": {
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+          "last_action": "copy",
+          "source_track_ids": [
+            "video_primary"
+          ]
+        },
+        "content": {
+          "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "copy",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "source_track_ids": [
+            "video_primary"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 4.0,
+          "created_at": "2026-07-18T05:37:18.514490+00:00",
+          "items": [
+            {
+              "item_id": "0a53f246-ccb3-41b4-9e3f-fe7b5b9289d1",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        }
+      },
+      "created_at": "2026-07-18T05:37:18.514490+00:00",
+      "consistency": {
+        "production_ids_match": true,
+        "workspace_timeline_consistent": true
+      },
+      "metadata": {
+        "contract_version": "16.1.7.4",
+        "runtime": "ReviewRuntimeSession",
+        "client_mutation": true
+      }
+    },
+    "clipboard": {
+      "state": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+        "last_action": "copy",
+        "source_track_ids": [
+          "video_primary"
+        ]
+      },
+      "content": {
+        "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "action": "copy",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "source_track_ids": [
+          "video_primary"
+        ],
+        "anchor_time": 0.0,
+        "total_duration": 4.0,
+        "created_at": "2026-07-18T05:37:18.514490+00:00",
+        "items": [],
+        "metadata": {}
+      },
+      "event": {
+        "event_type": "clip_copied",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+        "item_count": 1,
+        "created_at": "2026-07-18T05:37:18.514490+00:00",
+        "metadata": {}
+      },
+      "history_state": {
+        "entry_count": 1,
+        "maximum_history_size": 20,
+        "latest_entry_id": "a6bfabaa-27ec-4ae5-bac6-69bd43f10302"
+      },
+      "history": [
+        {
+          "entry_id": "a6bfabaa-27ec-4ae5-bac6-69bd43f10302",
+          "created_at": "2026-07-18T05:37:18.514490+00:00",
+          "content": {
+            "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "action": "copy",
+            "status": "ready",
+            "available": true,
+            "item_count": 1,
+            "clip_count": 1,
+            "source_track_ids": [
+              "video_primary"
+            ],
+            "anchor_time": 0.0,
+            "total_duration": 4.0,
+            "created_at": "2026-07-18T05:37:18.514490+00:00",
+            "items": [
+              {
+                "item_id": "0a53f246-ccb3-41b4-9e3f-fe7b5b9289d1",
+                "item_type": "clip",
+                "source_clip_id": "clip_1",
+                "source_track_id": "video_primary",
+                "relative_start": 0.0,
+                "relative_end": 4.0,
+                "duration": 4.0,
+                "source_order": 0,
+                "clip": {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                "metadata": {}
+              }
+            ],
+            "metadata": {}
+          },
+          "metadata": {
+            "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+            "action": "copy",
+            "item_count": 1
+          }
+        }
+      ]
+    },
+    "timeline_history": null,
+    "metadata": {
+      "clip_ids": [
+        "clip_1"
+      ],
+      "expected_revision": 1,
+      "timeline_changed": false
+    }
+  },
+  "paste": {
+    "contract_version": "16.4.8",
+    "success": true,
+    "operation": "paste",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+    "previous_revision": 1,
+    "current_revision": 2,
+    "snapshot": {
+      "session": {
+        "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "status": "ready",
+        "active": true,
+        "ready": true,
+        "closed": false,
+        "timeline_revision": 2,
+        "dirty": true,
+        "revision": 2,
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.518488+00:00",
+        "closed_at": null,
+        "error": null,
+        "metadata": {
+          "runtime": "ReviewRuntimeSession"
+        }
+      },
+      "workspace": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": 1,
+        "preview": {
+          "available": true,
+          "video_url": null,
+          "thumbnail_url": null,
+          "duration": 8.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0
+        },
+        "timeline": {
+          "version": "16.1.4",
+          "duration": 13.0,
+          "track_count": 2,
+          "clip_count": 3,
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "layer": 0,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "forbid",
+              "clip_count": 3,
+              "clips": [
+                {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_2",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 4.0,
+                  "end_time": 8.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_1_paste_6853ee93_0",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 9.0,
+                  "end_time": 13.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {
+                    "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                    "clipboard_source_clip_id": "clip_1",
+                    "paste_group_id": "6853ee93"
+                  }
+                }
+              ],
+              "metadata": {}
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "layer": 1,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "allow",
+              "clip_count": 0,
+              "clips": [],
+              "metadata": {}
+            }
+          ]
+        },
+        "review": {
+          "is_approved": false,
+          "notes": []
+        },
+        "export": {
+          "is_exported": false,
+          "export_url": null,
+          "export_format": null
+        },
+        "ai": {
+          "suggestions": [],
+          "metadata": {
+            "editing_style": "viral"
+          }
+        },
+        "selection": {
+          "selected_clip_ids": []
+        },
+        "metadata": {
+          "builder": "ProductSnapshotBuilder",
+          "contract_version": "16.0.2",
+          "workspace_service": "ProductWorkspaceService",
+          "source_metadata": {
+            "timeline_loaded": true,
+            "artifact_count": 1,
+            "quality_loaded": true,
+            "ai_summary_loaded": true,
+            "issue_count": 0
+          },
+          "runtime_session": {
+            "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+            "session_revision": 2,
+            "timeline_revision": 2,
+            "timeline_dirty": true
+          }
+        }
+      },
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": "16.1.4",
+        "duration": 13.0,
+        "fps": 30.0,
+        "minimum_clip_duration": 0.03333333333333333,
+        "width": 1080,
+        "height": 1920,
+        "track_count": 2,
+        "clip_count": 3,
+        "revision": 2,
+        "dirty": true,
+        "dirty_status": "dirty",
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.518488+00:00",
+        "tracks": [
+          {
+            "track_id": "video_primary",
+            "track_type": "video_primary",
+            "name": null,
+            "position": 0,
+            "layer": 0,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "forbid",
+            "clip_count": 3,
+            "clips": [
+              {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 4.0,
+                "end_time": 8.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_1_paste_6853ee93_0",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 9.0,
+                "end_time": 13.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {
+                  "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                  "clipboard_source_clip_id": "clip_1",
+                  "paste_group_id": "6853ee93"
+                }
+              }
+            ],
+            "metadata": {}
+          },
+          {
+            "track_id": "broll",
+            "track_type": "broll",
+            "name": null,
+            "position": 1,
+            "layer": 1,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "allow",
+            "clip_count": 0,
+            "clips": [],
+            "metadata": {}
+          }
+        ],
+        "metadata": {
+          "factory": "build_editable_timeline"
+        }
+      },
+      "preview": {
+        "source": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "video_path": "storage/artifacts/final.mp4",
+          "video_url": null,
+          "available": true,
+          "duration": 8.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0,
+          "frame_duration": 0.03333333333333333,
+          "total_frames": 240,
+          "metadata": {
+            "source": "workspace_preview"
+          }
+        },
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "ready",
+          "playing": false,
+          "current_time": 0.0,
+          "duration": 8.0,
+          "progress": 0.0,
+          "volume": 1.0,
+          "muted": false,
+          "effective_volume": 1.0,
+          "playback_rate": 1.0,
+          "zoom": 1.0,
+          "loop_enabled": false,
+          "current_frame": 0,
+          "total_frames": 240,
+          "revision": 1,
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.506488+00:00",
+          "error": null,
+          "metadata": {
+            "runtime": "PreviewSessionRuntime",
+            "source_available": true
+          }
+        },
+        "sync": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "stale",
+          "available": true,
+          "current": false,
+          "stale": true,
+          "active_timeline_revision": 2,
+          "preview_timeline_revision": 1,
+          "reason": "mutation.paste_clips",
+          "updated_at": "2026-07-18T05:37:18.518488+00:00",
+          "metadata": {
+            "signature_matches": false
+          }
+        }
+      },
+      "selection": {
+        "catalog": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "duration": 13.0,
+          "fps": 30.0,
+          "track_count": 2,
+          "clip_count": 3,
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "clip_ids": [
+                "clip_1",
+                "clip_2",
+                "clip_1_paste_6853ee93_0"
+              ],
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "clip_ids": [],
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            }
+          ],
+          "clips": [
+            {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 4.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 4.0,
+              "end_time": 8.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "clip_id": "clip_1_paste_6853ee93_0",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 9.0,
+              "end_time": 13.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            }
+          ],
+          "metadata": {
+            "builder": "build_selection_catalog"
+          }
+        },
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "mode": "none",
+          "focus": "timeline",
+          "selected_track_ids": [],
+          "selected_clip_ids": [],
+          "active_track_id": null,
+          "active_clip_id": null,
+          "hovered_track_id": null,
+          "hovered_clip_id": null,
+          "cursor_time": 0.0,
+          "cursor_frame": 0,
+          "selected_range": null,
+          "has_selection": false,
+          "selected_count": 0,
+          "revision": 2,
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.518488+00:00",
+          "metadata": {
+            "runtime": "TimelineSelectionRuntime",
+            "timeline_duration": 13.0,
+            "fps": 30.0
+          }
+        }
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0,
+        "current_revision": 2,
+        "maximum_history_size": 100,
+        "next_undo_label": "Dán clip",
+        "next_redo_label": null
+      },
+      "clipboard": {
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+          "last_action": "copy",
+          "source_track_ids": [
+            "video_primary"
+          ]
+        },
+        "content": {
+          "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "copy",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "source_track_ids": [
+            "video_primary"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 4.0,
+          "created_at": "2026-07-18T05:37:18.514490+00:00",
+          "items": [
+            {
+              "item_id": "0a53f246-ccb3-41b4-9e3f-fe7b5b9289d1",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        }
+      },
+      "created_at": "2026-07-18T05:37:18.519488+00:00",
+      "consistency": {
+        "production_ids_match": true,
+        "workspace_timeline_consistent": true
+      },
+      "metadata": {
+        "contract_version": "16.1.7.4",
+        "runtime": "ReviewRuntimeSession"
+      }
+    },
+    "clipboard": {
+      "state": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+        "last_action": "copy",
+        "source_track_ids": [
+          "video_primary"
+        ]
+      },
+      "content": {
+        "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "action": "copy",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "source_track_ids": [
+          "video_primary"
+        ],
+        "anchor_time": 0.0,
+        "total_duration": 4.0,
+        "created_at": "2026-07-18T05:37:18.514490+00:00",
+        "items": [
+          {
+            "item_id": "0a53f246-ccb3-41b4-9e3f-fe7b5b9289d1",
+            "item_type": "clip",
+            "source_clip_id": "clip_1",
+            "source_track_id": "video_primary",
+            "relative_start": 0.0,
+            "relative_end": 4.0,
+            "duration": 4.0,
+            "source_order": 0,
+            "clip": {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 4.0,
+              "duration": 4.0,
+              "source_start": null,
+              "source_end": null,
+              "source_duration": null,
+              "source_range_duration": null,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            "metadata": {}
+          }
+        ],
+        "metadata": {}
+      },
+      "event": {
+        "event_type": "clip_pasted",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+        "item_count": 1,
+        "created_at": "2026-07-18T05:37:18.519488+00:00",
+        "metadata": {
+          "paste_time": 9.0,
+          "paste_group_id": "6853ee93",
+          "pasted_clip_ids": [
+            "clip_1_paste_6853ee93_0"
+          ],
+          "track_mapping": {}
+        }
+      },
+      "history_state": {
+        "entry_count": 1,
+        "maximum_history_size": 20,
+        "latest_entry_id": "a6bfabaa-27ec-4ae5-bac6-69bd43f10302"
+      },
+      "history": [
+        {
+          "entry_id": "a6bfabaa-27ec-4ae5-bac6-69bd43f10302",
+          "created_at": "2026-07-18T05:37:18.514490+00:00",
+          "content": {
+            "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "action": "copy",
+            "status": "ready",
+            "available": true,
+            "item_count": 1,
+            "clip_count": 1,
+            "source_track_ids": [
+              "video_primary"
+            ],
+            "anchor_time": 0.0,
+            "total_duration": 4.0,
+            "created_at": "2026-07-18T05:37:18.514490+00:00",
+            "items": [
+              {
+                "item_id": "0a53f246-ccb3-41b4-9e3f-fe7b5b9289d1",
+                "item_type": "clip",
+                "source_clip_id": "clip_1",
+                "source_track_id": "video_primary",
+                "relative_start": 0.0,
+                "relative_end": 4.0,
+                "duration": 4.0,
+                "source_order": 0,
+                "clip": {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                "metadata": {}
+              }
+            ],
+            "metadata": {}
+          },
+          "metadata": {
+            "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+            "action": "copy",
+            "item_count": 1
+          }
+        }
+      ]
+    },
+    "timeline_history": {
+      "success": true,
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": "16.1.4",
+        "duration": 13.0,
+        "fps": 30.0,
+        "minimum_clip_duration": 0.03333333333333333,
+        "width": 1080,
+        "height": 1920,
+        "track_count": 2,
+        "clip_count": 3,
+        "revision": 2,
+        "dirty": true,
+        "dirty_status": "dirty",
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.518488+00:00",
+        "tracks": [
+          {
+            "track_id": "video_primary",
+            "track_type": "video_primary",
+            "name": null,
+            "position": 0,
+            "layer": 0,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "forbid",
+            "clip_count": 3,
+            "clips": [
+              {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 4.0,
+                "end_time": 8.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_1_paste_6853ee93_0",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 9.0,
+                "end_time": 13.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {
+                  "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                  "clipboard_source_clip_id": "clip_1",
+                  "paste_group_id": "6853ee93"
+                }
+              }
+            ],
+            "metadata": {}
+          },
+          {
+            "track_id": "broll",
+            "track_type": "broll",
+            "name": null,
+            "position": 1,
+            "layer": 1,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "allow",
+            "clip_count": 0,
+            "clips": [],
+            "metadata": {}
+          }
+        ],
+        "metadata": {
+          "factory": "build_editable_timeline"
+        }
+      },
+      "state": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 1,
+        "redo_count": 0,
+        "current_revision": 2,
+        "maximum_history_size": 100,
+        "next_undo_label": "Dán clip",
+        "next_redo_label": null
+      },
+      "mutation_result": {
+        "success": true,
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "version": "16.1.4",
+          "duration": 13.0,
+          "fps": 30.0,
+          "minimum_clip_duration": 0.03333333333333333,
+          "width": 1080,
+          "height": 1920,
+          "track_count": 2,
+          "clip_count": 3,
+          "revision": 2,
+          "dirty": true,
+          "dirty_status": "dirty",
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.518488+00:00",
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "layer": 0,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "forbid",
+              "clip_count": 3,
+              "clips": [
+                {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_2",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 4.0,
+                  "end_time": 8.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_1_paste_6853ee93_0",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 9.0,
+                  "end_time": 13.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {
+                    "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                    "clipboard_source_clip_id": "clip_1",
+                    "paste_group_id": "6853ee93"
+                  }
+                }
+              ],
+              "metadata": {}
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "layer": 1,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "allow",
+              "clip_count": 0,
+              "clips": [],
+              "metadata": {}
+            }
+          ],
+          "metadata": {
+            "factory": "build_editable_timeline"
+          }
+        },
+        "event": {
+          "operation_type": "paste_clips",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "clip_id": null,
+          "track_id": null,
+          "before": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 8.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 2,
+            "revision": 1,
+            "dirty": false,
+            "dirty_status": "clean",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.506488+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 2,
+                "clips": [
+                  {
+                    "clip_id": "clip_1",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 0.0,
+                    "end_time": 4.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "after": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 13.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 3,
+            "revision": 2,
+            "dirty": true,
+            "dirty_status": "dirty",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.518488+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 3,
+                "clips": [
+                  {
+                    "clip_id": "clip_1",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 0.0,
+                    "end_time": 4.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_1_paste_6853ee93_0",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 9.0,
+                    "end_time": 13.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {
+                      "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                      "clipboard_source_clip_id": "clip_1",
+                      "paste_group_id": "6853ee93"
+                    }
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "created_at": "2026-07-18T05:37:18.518488+00:00",
+          "metadata": {
+            "inserted_clip_ids": [
+              "clip_1_paste_6853ee93_0"
+            ],
+            "affected_track_ids": [
+              "video_primary"
+            ],
+            "clip_count": 1
+          }
+        },
+        "validation": {
+          "valid": true,
+          "issue_count": 0,
+          "issues": [],
+          "metadata": {}
+        },
+        "changed_clip": null,
+        "changed_track": null,
+        "error": null,
+        "metadata": {
+          "revision": 2,
+          "dirty": true,
+          "inserted_clip_ids": [
+            "clip_1_paste_6853ee93_0"
+          ]
+        }
+      },
+      "command": {
+        "command_id": "c6447cde-ad9e-4cbe-bf95-fc718d85095f",
+        "operation_type": "paste_clips",
+        "label": "Dán clip",
+        "status": "applied",
+        "before_revision": 1,
+        "after_revision": 2,
+        "editing_event": {
+          "operation_type": "paste_clips",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 2,
+          "clip_id": null,
+          "track_id": null,
+          "before": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 8.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 2,
+            "revision": 1,
+            "dirty": false,
+            "dirty_status": "clean",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.506488+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 2,
+                "clips": [
+                  {
+                    "clip_id": "clip_1",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 0.0,
+                    "end_time": 4.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "after": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 13.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 3,
+            "revision": 2,
+            "dirty": true,
+            "dirty_status": "dirty",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.518488+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 3,
+                "clips": [
+                  {
+                    "clip_id": "clip_1",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 0.0,
+                    "end_time": 4.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_1_paste_6853ee93_0",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 9.0,
+                    "end_time": 13.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {
+                      "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                      "clipboard_source_clip_id": "clip_1",
+                      "paste_group_id": "6853ee93"
+                    }
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "created_at": "2026-07-18T05:37:18.518488+00:00",
+          "metadata": {
+            "inserted_clip_ids": [
+              "clip_1_paste_6853ee93_0"
+            ],
+            "affected_track_ids": [
+              "video_primary"
+            ],
+            "clip_count": 1
+          }
+        },
+        "created_at": "2026-07-18T05:37:18.518488+00:00",
+        "metadata": {
+          "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+          "paste_time": 9.0,
+          "paste_group_id": "6853ee93",
+          "clip_count": 1
+        }
+      },
+      "event": {
+        "action": "execute",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "command_id": "c6447cde-ad9e-4cbe-bf95-fc718d85095f",
+        "operation_type": "paste_clips",
+        "undo_count": 1,
+        "redo_count": 0,
+        "created_at": "2026-07-18T05:37:18.518488+00:00",
+        "metadata": {}
+      },
+      "error": null
+    },
+    "metadata": {
+      "at_time": 9.0,
+      "target_track_id": null,
+      "track_mapping": null,
+      "expected_revision": 1,
+      "timeline_changed": true
+    }
+  },
+  "cut": {
+    "contract_version": "16.4.8",
+    "success": true,
+    "operation": "cut",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+    "previous_revision": 2,
+    "current_revision": 3,
+    "snapshot": {
+      "session": {
+        "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "status": "ready",
+        "active": true,
+        "ready": true,
+        "closed": false,
+        "timeline_revision": 3,
+        "dirty": true,
+        "revision": 5,
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.534489+00:00",
+        "closed_at": null,
+        "error": null,
+        "metadata": {
+          "runtime": "ReviewRuntimeSession"
+        }
+      },
+      "workspace": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": 1,
+        "preview": {
+          "available": true,
+          "video_url": null,
+          "thumbnail_url": null,
+          "duration": 8.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0
+        },
+        "timeline": {
+          "version": "16.1.4",
+          "duration": 13.0,
+          "track_count": 2,
+          "clip_count": 2,
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "layer": 0,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "forbid",
+              "clip_count": 2,
+              "clips": [
+                {
+                  "clip_id": "clip_2",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 4.0,
+                  "end_time": 8.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_1_paste_6853ee93_0",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 9.0,
+                  "end_time": 13.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {
+                    "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                    "clipboard_source_clip_id": "clip_1",
+                    "paste_group_id": "6853ee93"
+                  }
+                }
+              ],
+              "metadata": {}
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "layer": 1,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "allow",
+              "clip_count": 0,
+              "clips": [],
+              "metadata": {}
+            }
+          ]
+        },
+        "review": {
+          "is_approved": false,
+          "notes": []
+        },
+        "export": {
+          "is_exported": false,
+          "export_url": null,
+          "export_format": null
+        },
+        "ai": {
+          "suggestions": [],
+          "metadata": {
+            "editing_style": "viral"
+          }
+        },
+        "selection": {
+          "selected_clip_ids": []
+        },
+        "metadata": {
+          "builder": "ProductSnapshotBuilder",
+          "contract_version": "16.0.2",
+          "workspace_service": "ProductWorkspaceService",
+          "source_metadata": {
+            "timeline_loaded": true,
+            "artifact_count": 1,
+            "quality_loaded": true,
+            "ai_summary_loaded": true,
+            "issue_count": 0
+          },
+          "runtime_session": {
+            "session_id": "0ab89a5f-bd89-49d3-8419-f9e9e616d6c5",
+            "session_revision": 5,
+            "timeline_revision": 3,
+            "timeline_dirty": true
+          }
+        }
+      },
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": "16.1.4",
+        "duration": 13.0,
+        "fps": 30.0,
+        "minimum_clip_duration": 0.03333333333333333,
+        "width": 1080,
+        "height": 1920,
+        "track_count": 2,
+        "clip_count": 2,
+        "revision": 3,
+        "dirty": true,
+        "dirty_status": "dirty",
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.534489+00:00",
+        "tracks": [
+          {
+            "track_id": "video_primary",
+            "track_type": "video_primary",
+            "name": null,
+            "position": 0,
+            "layer": 0,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "forbid",
+            "clip_count": 2,
+            "clips": [
+              {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 4.0,
+                "end_time": 8.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_1_paste_6853ee93_0",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 9.0,
+                "end_time": 13.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {
+                  "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                  "clipboard_source_clip_id": "clip_1",
+                  "paste_group_id": "6853ee93"
+                }
+              }
+            ],
+            "metadata": {}
+          },
+          {
+            "track_id": "broll",
+            "track_type": "broll",
+            "name": null,
+            "position": 1,
+            "layer": 1,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "allow",
+            "clip_count": 0,
+            "clips": [],
+            "metadata": {}
+          }
+        ],
+        "metadata": {
+          "factory": "build_editable_timeline"
+        }
+      },
+      "preview": {
+        "source": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "video_path": "storage/artifacts/final.mp4",
+          "video_url": null,
+          "available": true,
+          "duration": 8.0,
+          "width": 1080,
+          "height": 1920,
+          "fps": 30.0,
+          "frame_duration": 0.03333333333333333,
+          "total_frames": 240,
+          "metadata": {
+            "source": "workspace_preview"
+          }
+        },
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "ready",
+          "playing": false,
+          "current_time": 0.0,
+          "duration": 8.0,
+          "progress": 0.0,
+          "volume": 1.0,
+          "muted": false,
+          "effective_volume": 1.0,
+          "playback_rate": 1.0,
+          "zoom": 1.0,
+          "loop_enabled": false,
+          "current_frame": 0,
+          "total_frames": 240,
+          "revision": 1,
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.506488+00:00",
+          "error": null,
+          "metadata": {
+            "runtime": "PreviewSessionRuntime",
+            "source_available": true
+          }
+        },
+        "sync": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "stale",
+          "available": true,
+          "current": false,
+          "stale": true,
+          "active_timeline_revision": 3,
+          "preview_timeline_revision": 1,
+          "reason": "mutation.cut_clips",
+          "updated_at": "2026-07-18T05:37:18.534489+00:00",
+          "metadata": {
+            "signature_matches": false
+          }
+        }
+      },
+      "selection": {
+        "catalog": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "duration": 13.0,
+          "fps": 30.0,
+          "track_count": 2,
+          "clip_count": 2,
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "clip_ids": [
+                "clip_2",
+                "clip_1_paste_6853ee93_0"
+              ],
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "clip_ids": [],
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            }
+          ],
+          "clips": [
+            {
+              "clip_id": "clip_2",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 4.0,
+              "end_time": 8.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            },
+            {
+              "clip_id": "clip_1_paste_6853ee93_0",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 9.0,
+              "end_time": 13.0,
+              "duration": 4.0,
+              "metadata": {
+                "source": "timeline_workspace"
+              }
+            }
+          ],
+          "metadata": {
+            "builder": "build_selection_catalog"
+          }
+        },
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "mode": "none",
+          "focus": "timeline",
+          "selected_track_ids": [],
+          "selected_clip_ids": [],
+          "active_track_id": null,
+          "active_clip_id": null,
+          "hovered_track_id": null,
+          "hovered_clip_id": null,
+          "cursor_time": 0.0,
+          "cursor_frame": 0,
+          "selected_range": null,
+          "has_selection": false,
+          "selected_count": 0,
+          "revision": 5,
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.534489+00:00",
+          "metadata": {
+            "runtime": "TimelineSelectionRuntime",
+            "timeline_duration": 13.0,
+            "fps": 30.0
+          }
+        }
+      },
+      "history": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 2,
+        "redo_count": 0,
+        "current_revision": 3,
+        "maximum_history_size": 100,
+        "next_undo_label": "Cắt clip",
+        "next_redo_label": null
+      },
+      "clipboard": {
+        "state": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+          "last_action": "cut",
+          "source_track_ids": [
+            "video_primary"
+          ]
+        },
+        "content": {
+          "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "action": "cut",
+          "status": "ready",
+          "available": true,
+          "item_count": 1,
+          "clip_count": 1,
+          "source_track_ids": [
+            "video_primary"
+          ],
+          "anchor_time": 0.0,
+          "total_duration": 4.0,
+          "created_at": "2026-07-18T05:37:18.533487+00:00",
+          "items": [
+            {
+              "item_id": "7d6dadd6-1376-42fe-afc6-050423e8d8a2",
+              "item_type": "clip",
+              "source_clip_id": "clip_1",
+              "source_track_id": "video_primary",
+              "relative_start": 0.0,
+              "relative_end": 4.0,
+              "duration": 4.0,
+              "source_order": 0,
+              "clip": {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              "metadata": {}
+            }
+          ],
+          "metadata": {}
+        }
+      },
+      "created_at": "2026-07-18T05:37:18.536487+00:00",
+      "consistency": {
+        "production_ids_match": true,
+        "workspace_timeline_consistent": true
+      },
+      "metadata": {
+        "contract_version": "16.1.7.4",
+        "runtime": "ReviewRuntimeSession"
+      }
+    },
+    "clipboard": {
+      "state": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+        "last_action": "cut",
+        "source_track_ids": [
+          "video_primary"
+        ]
+      },
+      "content": {
+        "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "action": "cut",
+        "status": "ready",
+        "available": true,
+        "item_count": 1,
+        "clip_count": 1,
+        "source_track_ids": [
+          "video_primary"
+        ],
+        "anchor_time": 0.0,
+        "total_duration": 4.0,
+        "created_at": "2026-07-18T05:37:18.533487+00:00",
+        "items": [
+          {
+            "item_id": "7d6dadd6-1376-42fe-afc6-050423e8d8a2",
+            "item_type": "clip",
+            "source_clip_id": "clip_1",
+            "source_track_id": "video_primary",
+            "relative_start": 0.0,
+            "relative_end": 4.0,
+            "duration": 4.0,
+            "source_order": 0,
+            "clip": {
+              "clip_id": "clip_1",
+              "track_id": "video_primary",
+              "clip_type": "video",
+              "start_time": 0.0,
+              "end_time": 4.0,
+              "duration": 4.0,
+              "source_start": null,
+              "source_end": null,
+              "source_duration": null,
+              "source_range_duration": null,
+              "asset_id": null,
+              "local_path": null,
+              "text": null,
+              "volume": null,
+              "opacity": null,
+              "speed": null,
+              "enabled": true,
+              "metadata": {}
+            },
+            "metadata": {}
+          }
+        ],
+        "metadata": {}
+      },
+      "event": {
+        "event_type": "clip_cut",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+        "item_count": 1,
+        "created_at": "2026-07-18T05:37:18.535488+00:00",
+        "metadata": {
+          "clip_ids": [
+            "clip_1"
+          ]
+        }
+      },
+      "history_state": {
+        "entry_count": 2,
+        "maximum_history_size": 20,
+        "latest_entry_id": "d25008e2-f72e-49e2-a9fe-2c715762c1ac"
+      },
+      "history": [
+        {
+          "entry_id": "a6bfabaa-27ec-4ae5-bac6-69bd43f10302",
+          "created_at": "2026-07-18T05:37:18.514490+00:00",
+          "content": {
+            "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "action": "copy",
+            "status": "ready",
+            "available": true,
+            "item_count": 1,
+            "clip_count": 1,
+            "source_track_ids": [
+              "video_primary"
+            ],
+            "anchor_time": 0.0,
+            "total_duration": 4.0,
+            "created_at": "2026-07-18T05:37:18.514490+00:00",
+            "items": [
+              {
+                "item_id": "0a53f246-ccb3-41b4-9e3f-fe7b5b9289d1",
+                "item_type": "clip",
+                "source_clip_id": "clip_1",
+                "source_track_id": "video_primary",
+                "relative_start": 0.0,
+                "relative_end": 4.0,
+                "duration": 4.0,
+                "source_order": 0,
+                "clip": {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                "metadata": {}
+              }
+            ],
+            "metadata": {}
+          },
+          "metadata": {
+            "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+            "action": "copy",
+            "item_count": 1
+          }
+        },
+        {
+          "entry_id": "d25008e2-f72e-49e2-a9fe-2c715762c1ac",
+          "created_at": "2026-07-18T05:37:18.535488+00:00",
+          "content": {
+            "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "action": "cut",
+            "status": "ready",
+            "available": true,
+            "item_count": 1,
+            "clip_count": 1,
+            "source_track_ids": [
+              "video_primary"
+            ],
+            "anchor_time": 0.0,
+            "total_duration": 4.0,
+            "created_at": "2026-07-18T05:37:18.533487+00:00",
+            "items": [
+              {
+                "item_id": "7d6dadd6-1376-42fe-afc6-050423e8d8a2",
+                "item_type": "clip",
+                "source_clip_id": "clip_1",
+                "source_track_id": "video_primary",
+                "relative_start": 0.0,
+                "relative_end": 4.0,
+                "duration": 4.0,
+                "source_order": 0,
+                "clip": {
+                  "clip_id": "clip_1",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 0.0,
+                  "end_time": 4.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                "metadata": {}
+              }
+            ],
+            "metadata": {}
+          },
+          "metadata": {
+            "clipboard_id": "cd5cf481-08d2-4571-a4b5-e21a8a39a235",
+            "action": "cut",
+            "item_count": 1
+          }
+        }
+      ]
+    },
+    "timeline_history": {
+      "success": true,
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "version": "16.1.4",
+        "duration": 13.0,
+        "fps": 30.0,
+        "minimum_clip_duration": 0.03333333333333333,
+        "width": 1080,
+        "height": 1920,
+        "track_count": 2,
+        "clip_count": 2,
+        "revision": 3,
+        "dirty": true,
+        "dirty_status": "dirty",
+        "created_at": "2026-07-18T05:37:18.506488+00:00",
+        "updated_at": "2026-07-18T05:37:18.534489+00:00",
+        "tracks": [
+          {
+            "track_id": "video_primary",
+            "track_type": "video_primary",
+            "name": null,
+            "position": 0,
+            "layer": 0,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "forbid",
+            "clip_count": 2,
+            "clips": [
+              {
+                "clip_id": "clip_2",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 4.0,
+                "end_time": 8.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              },
+              {
+                "clip_id": "clip_1_paste_6853ee93_0",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 9.0,
+                "end_time": 13.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {
+                  "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                  "clipboard_source_clip_id": "clip_1",
+                  "paste_group_id": "6853ee93"
+                }
+              }
+            ],
+            "metadata": {}
+          },
+          {
+            "track_id": "broll",
+            "track_type": "broll",
+            "name": null,
+            "position": 1,
+            "layer": 1,
+            "locked": false,
+            "muted": false,
+            "hidden": false,
+            "enabled": true,
+            "overlap_policy": "allow",
+            "clip_count": 0,
+            "clips": [],
+            "metadata": {}
+          }
+        ],
+        "metadata": {
+          "factory": "build_editable_timeline"
+        }
+      },
+      "state": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "can_undo": true,
+        "can_redo": false,
+        "undo_count": 2,
+        "redo_count": 0,
+        "current_revision": 3,
+        "maximum_history_size": 100,
+        "next_undo_label": "Cắt clip",
+        "next_redo_label": null
+      },
+      "mutation_result": {
+        "success": true,
+        "timeline": {
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "version": "16.1.4",
+          "duration": 13.0,
+          "fps": 30.0,
+          "minimum_clip_duration": 0.03333333333333333,
+          "width": 1080,
+          "height": 1920,
+          "track_count": 2,
+          "clip_count": 2,
+          "revision": 3,
+          "dirty": true,
+          "dirty_status": "dirty",
+          "created_at": "2026-07-18T05:37:18.506488+00:00",
+          "updated_at": "2026-07-18T05:37:18.534489+00:00",
+          "tracks": [
+            {
+              "track_id": "video_primary",
+              "track_type": "video_primary",
+              "name": null,
+              "position": 0,
+              "layer": 0,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "forbid",
+              "clip_count": 2,
+              "clips": [
+                {
+                  "clip_id": "clip_2",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 4.0,
+                  "end_time": 8.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {}
+                },
+                {
+                  "clip_id": "clip_1_paste_6853ee93_0",
+                  "track_id": "video_primary",
+                  "clip_type": "video",
+                  "start_time": 9.0,
+                  "end_time": 13.0,
+                  "duration": 4.0,
+                  "source_start": null,
+                  "source_end": null,
+                  "source_duration": null,
+                  "source_range_duration": null,
+                  "asset_id": null,
+                  "local_path": null,
+                  "text": null,
+                  "volume": null,
+                  "opacity": null,
+                  "speed": null,
+                  "enabled": true,
+                  "metadata": {
+                    "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                    "clipboard_source_clip_id": "clip_1",
+                    "paste_group_id": "6853ee93"
+                  }
+                }
+              ],
+              "metadata": {}
+            },
+            {
+              "track_id": "broll",
+              "track_type": "broll",
+              "name": null,
+              "position": 1,
+              "layer": 1,
+              "locked": false,
+              "muted": false,
+              "hidden": false,
+              "enabled": true,
+              "overlap_policy": "allow",
+              "clip_count": 0,
+              "clips": [],
+              "metadata": {}
+            }
+          ],
+          "metadata": {
+            "factory": "build_editable_timeline"
+          }
+        },
+        "event": {
+          "operation_type": "cut_clips",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 3,
+          "clip_id": null,
+          "track_id": null,
+          "before": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 13.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 3,
+            "revision": 2,
+            "dirty": true,
+            "dirty_status": "dirty",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.518488+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 3,
+                "clips": [
+                  {
+                    "clip_id": "clip_1",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 0.0,
+                    "end_time": 4.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_1_paste_6853ee93_0",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 9.0,
+                    "end_time": 13.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {
+                      "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                      "clipboard_source_clip_id": "clip_1",
+                      "paste_group_id": "6853ee93"
+                    }
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "after": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 13.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 2,
+            "revision": 3,
+            "dirty": true,
+            "dirty_status": "dirty",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.534489+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 2,
+                "clips": [
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_1_paste_6853ee93_0",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 9.0,
+                    "end_time": 13.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {
+                      "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                      "clipboard_source_clip_id": "clip_1",
+                      "paste_group_id": "6853ee93"
+                    }
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "created_at": "2026-07-18T05:37:18.534489+00:00",
+          "metadata": {
+            "removed_clip_ids": [
+              "clip_1"
+            ],
+            "removed_clips": [
+              {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              }
+            ],
+            "affected_track_ids": [
+              "video_primary"
+            ],
+            "clip_count": 1
+          }
+        },
+        "validation": {
+          "valid": true,
+          "issue_count": 0,
+          "issues": [],
+          "metadata": {}
+        },
+        "changed_clip": null,
+        "changed_track": null,
+        "error": null,
+        "metadata": {
+          "revision": 3,
+          "dirty": true,
+          "removed_clip_ids": [
+            "clip_1"
+          ]
+        }
+      },
+      "command": {
+        "command_id": "4366b5d2-c24a-48c2-967c-d5f5d7d16c27",
+        "operation_type": "cut_clips",
+        "label": "Cắt clip",
+        "status": "applied",
+        "before_revision": 2,
+        "after_revision": 3,
+        "editing_event": {
+          "operation_type": "cut_clips",
+          "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+          "revision": 3,
+          "clip_id": null,
+          "track_id": null,
+          "before": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 13.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 3,
+            "revision": 2,
+            "dirty": true,
+            "dirty_status": "dirty",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.518488+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 3,
+                "clips": [
+                  {
+                    "clip_id": "clip_1",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 0.0,
+                    "end_time": 4.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_1_paste_6853ee93_0",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 9.0,
+                    "end_time": 13.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {
+                      "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                      "clipboard_source_clip_id": "clip_1",
+                      "paste_group_id": "6853ee93"
+                    }
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "after": {
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "version": "16.1.4",
+            "duration": 13.0,
+            "fps": 30.0,
+            "minimum_clip_duration": 0.03333333333333333,
+            "width": 1080,
+            "height": 1920,
+            "track_count": 2,
+            "clip_count": 2,
+            "revision": 3,
+            "dirty": true,
+            "dirty_status": "dirty",
+            "created_at": "2026-07-18T05:37:18.506488+00:00",
+            "updated_at": "2026-07-18T05:37:18.534489+00:00",
+            "tracks": [
+              {
+                "track_id": "video_primary",
+                "track_type": "video_primary",
+                "name": null,
+                "position": 0,
+                "layer": 0,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "forbid",
+                "clip_count": 2,
+                "clips": [
+                  {
+                    "clip_id": "clip_2",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 4.0,
+                    "end_time": 8.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {}
+                  },
+                  {
+                    "clip_id": "clip_1_paste_6853ee93_0",
+                    "track_id": "video_primary",
+                    "clip_type": "video",
+                    "start_time": 9.0,
+                    "end_time": 13.0,
+                    "duration": 4.0,
+                    "source_start": null,
+                    "source_end": null,
+                    "source_duration": null,
+                    "source_range_duration": null,
+                    "asset_id": null,
+                    "local_path": null,
+                    "text": null,
+                    "volume": null,
+                    "opacity": null,
+                    "speed": null,
+                    "enabled": true,
+                    "metadata": {
+                      "clipboard_id": "4d02d6db-7f7b-41dc-8be6-88047751dd58",
+                      "clipboard_source_clip_id": "clip_1",
+                      "paste_group_id": "6853ee93"
+                    }
+                  }
+                ],
+                "metadata": {}
+              },
+              {
+                "track_id": "broll",
+                "track_type": "broll",
+                "name": null,
+                "position": 1,
+                "layer": 1,
+                "locked": false,
+                "muted": false,
+                "hidden": false,
+                "enabled": true,
+                "overlap_policy": "allow",
+                "clip_count": 0,
+                "clips": [],
+                "metadata": {}
+              }
+            ],
+            "metadata": {
+              "factory": "build_editable_timeline"
+            }
+          },
+          "created_at": "2026-07-18T05:37:18.534489+00:00",
+          "metadata": {
+            "removed_clip_ids": [
+              "clip_1"
+            ],
+            "removed_clips": [
+              {
+                "clip_id": "clip_1",
+                "track_id": "video_primary",
+                "clip_type": "video",
+                "start_time": 0.0,
+                "end_time": 4.0,
+                "duration": 4.0,
+                "source_start": null,
+                "source_end": null,
+                "source_duration": null,
+                "source_range_duration": null,
+                "asset_id": null,
+                "local_path": null,
+                "text": null,
+                "volume": null,
+                "opacity": null,
+                "speed": null,
+                "enabled": true,
+                "metadata": {}
+              }
+            ],
+            "affected_track_ids": [
+              "video_primary"
+            ],
+            "clip_count": 1
+          }
+        },
+        "created_at": "2026-07-18T05:37:18.534489+00:00",
+        "metadata": {
+          "clip_ids": [
+            "clip_1"
+          ]
+        }
+      },
+      "event": {
+        "action": "execute",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "command_id": "4366b5d2-c24a-48c2-967c-d5f5d7d16c27",
+        "operation_type": "cut_clips",
+        "undo_count": 2,
+        "redo_count": 0,
+        "created_at": "2026-07-18T05:37:18.535488+00:00",
+        "metadata": {}
+      },
+      "error": null
+    },
+    "metadata": {
+      "clip_ids": [
+        "clip_1"
+      ],
+      "expected_revision": 2,
+      "timeline_changed": true
+    }
+  }
+}

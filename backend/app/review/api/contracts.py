@@ -9,6 +9,10 @@ REVIEW_TIMELINE_COMMAND_API_CONTRACT_VERSION = (
     "16.4.1"
 )
 
+REVIEW_CLIPBOARD_API_CONTRACT_VERSION = (
+    "16.4.8"
+)
+
 
 class ReviewWorkspaceAPIOperation(str, Enum):
     OPEN_SESSION = "open_session"
@@ -32,6 +36,15 @@ class ReviewTimelineCommandOperation(str, Enum):
     REDO = "redo"
 
 
+class ReviewClipboardOperation(str, Enum):
+    COPY = "copy"
+    CUT = "cut"
+    PASTE = "paste"
+    RESTORE_HISTORY = "restore_history"
+    CLEAR_CONTENT = "clear_content"
+    CLEAR_HISTORY = "clear_history"
+
+
 class ReviewWorkspaceAPIErrorCode(str, Enum):
     PRODUCTION_NOT_FOUND = (
         "production_not_found"
@@ -47,6 +60,9 @@ class ReviewWorkspaceAPIErrorCode(str, Enum):
     )
     SESSION_OPERATION_FAILED = (
         "review_session_operation_failed"
+    )
+    CLIPBOARD_COMMAND_FAILED = (
+        "review_clipboard_command_failed"
     )
     VALIDATION_ERROR = (
         "review_request_validation_failed"

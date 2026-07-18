@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 from app.review.application.models import (
+    ReviewClipboardCommandResult,
     ReviewTimelineCommandResult,
 )
 from app.review.session.models import (
@@ -188,4 +189,70 @@ class ReviewWorkspaceApplicationServiceInterface(
     def cleanup_expired_sessions(
         self,
     ) -> list[str]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def copy_timeline_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def cut_timeline_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def paste_timeline_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        at_time: float,
+        target_track_id: str | None = None,
+        track_mapping: dict[str, str] | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def restore_timeline_clipboard_history(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        entry_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def clear_timeline_clipboard(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def clear_timeline_clipboard_history(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
         raise NotImplementedError

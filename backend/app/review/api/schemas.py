@@ -12,8 +12,10 @@ from pydantic import (
 )
 
 from app.review.api.contracts import (
+    REVIEW_CLIPBOARD_API_CONTRACT_VERSION,
     REVIEW_TIMELINE_COMMAND_API_CONTRACT_VERSION,
     REVIEW_WORKSPACE_API_CONTRACT_VERSION,
+    ReviewClipboardOperation,
     ReviewTimelineCommandOperation,
     ReviewWorkspaceAPIErrorCode,
     ReviewWorkspaceAPIOperation,
@@ -230,6 +232,113 @@ class RedoTimelineCommandRequest(
     pass
 
 
+class ReviewClipboardCommandRequest(
+    ReviewWorkspaceSessionCommandRequest
+):
+    expected_revision: int | None = Field(
+        default=None,
+        ge=1,
+    )
+
+
+class CopyTimelineClipsRequest(
+    ReviewClipboardCommandRequest
+):
+    clip_ids: list[str] = Field(
+        min_length=1,
+        max_length=100,
+    )
+
+    @field_validator("clip_ids", mode="before")
+    @classmethod
+    def normalize_clip_ids(
+        cls,
+        value: Any,
+    ) -> Any:
+        if not isinstance(value, (list, tuple)):
+            return value
+
+        normalized = list(
+            dict.fromkeys(
+                str(item).strip()
+                for item in value
+                if str(item).strip()
+            )
+        )
+        if not normalized:
+            raise ValueError(
+                "clip_ids must contain at least "
+                "one clip_id."
+            )
+        return normalized
+
+
+class CutTimelineClipsRequest(
+    CopyTimelineClipsRequest
+):
+    pass
+
+
+class PasteTimelineClipsRequest(
+    ReviewClipboardCommandRequest
+):
+    at_time: float = Field(ge=0.0)
+    target_track_id: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=256,
+    )
+    track_mapping: dict[str, str] | None = Field(
+        default=None,
+        max_length=100,
+    )
+
+    @field_validator(
+        "track_mapping",
+        mode="before",
+    )
+    @classmethod
+    def normalize_track_mapping(
+        cls,
+        value: Any,
+    ) -> Any:
+        if value is None or not isinstance(value, dict):
+            return value
+
+        normalized: dict[str, str] = {}
+        for source, target in value.items():
+            source_id = str(source).strip()
+            target_id = str(target).strip()
+            if not source_id or not target_id:
+                raise ValueError(
+                    "track_mapping keys and values "
+                    "cannot be empty."
+                )
+            normalized[source_id] = target_id
+        return normalized
+
+
+class RestoreTimelineClipboardHistoryRequest(
+    ReviewClipboardCommandRequest
+):
+    entry_id: str = Field(
+        min_length=1,
+        max_length=128,
+    )
+
+
+class ClearTimelineClipboardRequest(
+    ReviewClipboardCommandRequest
+):
+    pass
+
+
+class ClearTimelineClipboardHistoryRequest(
+    ReviewClipboardCommandRequest
+):
+    pass
+
+
 class ReviewWorkspaceSuccessResponse(
     ReviewWorkspaceAPISchema
 ):
@@ -333,6 +442,50 @@ class ReviewTimelineCommandResponse(
     )
     @classmethod
     def clone_response_payload(
+        cls,
+        value: Any,
+    ) -> Any:
+        return deepcopy(value)
+
+
+class ReviewClipboardCommandResponse(
+    ReviewWorkspaceAPISchema
+):
+    contract_version: Literal["16.4.8"] = (
+        REVIEW_CLIPBOARD_API_CONTRACT_VERSION
+    )
+
+    success: Literal[True] = True
+    operation: ReviewClipboardOperation
+
+    production_id: str = Field(
+        min_length=1,
+    )
+    session_id: str = Field(
+        min_length=1,
+        max_length=128,
+    )
+
+    previous_revision: int = Field(ge=1)
+    current_revision: int = Field(ge=1)
+
+    snapshot: dict[str, Any]
+    clipboard: dict[str, Any]
+    timeline_history: dict[str, Any] | None = None
+
+    metadata: dict[str, Any] = Field(
+        default_factory=dict,
+    )
+
+    @field_validator(
+        "snapshot",
+        "clipboard",
+        "timeline_history",
+        "metadata",
+        mode="before",
+    )
+    @classmethod
+    def clone_clipboard_response_payload(
         cls,
         value: Any,
     ) -> Any:

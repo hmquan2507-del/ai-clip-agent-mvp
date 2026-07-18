@@ -9,6 +9,7 @@ from app.product.workspace.service import (
     ProductWorkspaceService,
 )
 from app.review.application.errors import (
+    ReviewClipboardCommandOperationError,
     ReviewRuntimeSessionConflictError,
     ReviewRuntimeSessionNotFoundError,
     ReviewRuntimeSessionOperationError,
@@ -20,8 +21,13 @@ from app.review.application.interfaces import (
     ReviewWorkspaceApplicationServiceInterface,
 )
 from app.review.application.models import (
+    ReviewClipboardCommandResult,
+    ReviewClipboardCommandType,
     ReviewTimelineCommandResult,
     ReviewTimelineCommandType,
+)
+from app.review.editing.clipboard.models import (
+    TimelineClipboardResult,
 )
 from app.review.editing.history.models import (
     TimelineHistoryResult,
@@ -44,6 +50,11 @@ from app.review.session.runtime import (
 TimelineCommandExecutor = Callable[
     [ReviewRuntimeSession],
     TimelineHistoryResult,
+]
+
+ClipboardCommandExecutor = Callable[
+    [ReviewRuntimeSession],
+    TimelineClipboardResult,
 ]
 
 
@@ -713,6 +724,184 @@ class ReviewWorkspaceApplicationService(
             ),
         )
 
+    def copy_timeline_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        normalized_clip_ids = (
+            self._normalize_clip_ids(clip_ids)
+        )
+        return self._execute_clipboard_command(
+            production_id,
+            session_id=session_id,
+            operation=ReviewClipboardCommandType.COPY,
+            expected_revision=expected_revision,
+            executor=lambda session: (
+                session.graph.clipboard_runtime
+                .copy_clips(normalized_clip_ids)
+            ),
+            metadata={
+                "clip_ids": normalized_clip_ids,
+            },
+        )
+
+    def cut_timeline_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        normalized_clip_ids = (
+            self._normalize_clip_ids(clip_ids)
+        )
+        return self._execute_clipboard_command(
+            production_id,
+            session_id=session_id,
+            operation=ReviewClipboardCommandType.CUT,
+            expected_revision=expected_revision,
+            executor=lambda session: (
+                session.graph.clipboard_runtime
+                .cut_clips(normalized_clip_ids)
+            ),
+            metadata={
+                "clip_ids": normalized_clip_ids,
+            },
+        )
+
+    def paste_timeline_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        at_time: float,
+        target_track_id: str | None = None,
+        track_mapping: dict[str, str] | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        normalized_time = float(at_time)
+        if normalized_time < 0.0:
+            raise ValueError(
+                "at_time must be greater than or "
+                "equal to 0."
+            )
+
+        normalized_target_track_id = (
+            self._normalize_optional_id(
+                target_track_id,
+                field_name="target_track_id",
+            )
+        )
+        normalized_track_mapping = (
+            self._normalize_track_mapping(
+                track_mapping
+            )
+        )
+
+        return self._execute_clipboard_command(
+            production_id,
+            session_id=session_id,
+            operation=ReviewClipboardCommandType.PASTE,
+            expected_revision=expected_revision,
+            executor=lambda session: (
+                session.graph.clipboard_runtime.paste(
+                    at_time=normalized_time,
+                    target_track_id=(
+                        normalized_target_track_id
+                    ),
+                    track_mapping=(
+                        normalized_track_mapping
+                    ),
+                )
+            ),
+            metadata={
+                "at_time": normalized_time,
+                "target_track_id": (
+                    normalized_target_track_id
+                ),
+                "track_mapping": deepcopy(
+                    normalized_track_mapping
+                ),
+            },
+        )
+
+    def restore_timeline_clipboard_history(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        entry_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        normalized_entry_id = str(entry_id).strip()
+        if not normalized_entry_id:
+            raise ValueError("entry_id is required.")
+
+        return self._execute_clipboard_command(
+            production_id,
+            session_id=session_id,
+            operation=(
+                ReviewClipboardCommandType
+                .RESTORE_HISTORY
+            ),
+            expected_revision=expected_revision,
+            executor=lambda session: (
+                session.graph.clipboard_runtime
+                .restore_history_entry(
+                    normalized_entry_id
+                )
+            ),
+            metadata={
+                "entry_id": normalized_entry_id,
+            },
+        )
+
+    def clear_timeline_clipboard(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        return self._execute_clipboard_command(
+            production_id,
+            session_id=session_id,
+            operation=(
+                ReviewClipboardCommandType
+                .CLEAR_CONTENT
+            ),
+            expected_revision=expected_revision,
+            executor=lambda session: (
+                session.graph.clipboard_runtime.clear()
+            ),
+        )
+
+    def clear_timeline_clipboard_history(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        expected_revision: int | None = None,
+    ) -> ReviewClipboardCommandResult:
+        return self._execute_clipboard_command(
+            production_id,
+            session_id=session_id,
+            operation=(
+                ReviewClipboardCommandType
+                .CLEAR_HISTORY
+            ),
+            expected_revision=expected_revision,
+            executor=lambda session: (
+                session.graph.clipboard_runtime
+                .clear_history()
+            ),
+        )
+
     def cleanup_expired_sessions(
         self,
     ) -> list[str]:
@@ -741,6 +930,16 @@ class ReviewWorkspaceApplicationService(
                     operation.value
                     for operation
                     in ReviewTimelineCommandType
+                ],
+            },
+            "clipboard_commands": {
+                "history_backed_mutations": True,
+                "expected_revision": True,
+                "shared_atomic_lock": True,
+                "operations": [
+                    operation.value
+                    for operation
+                    in ReviewClipboardCommandType
                 ],
             },
             "registry": (
@@ -937,4 +1136,190 @@ class ReviewWorkspaceApplicationService(
                 "production_id is required."
             )
 
+        return normalized
+
+    def _execute_clipboard_command(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        operation: ReviewClipboardCommandType,
+        executor: ClipboardCommandExecutor,
+        expected_revision: int | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> ReviewClipboardCommandResult:
+        normalized_id = self._normalize_id(
+            production_id
+        )
+        normalized_session_id = str(
+            session_id
+        ).strip()
+        if not normalized_session_id:
+            raise ValueError(
+                "session_id is required."
+            )
+
+        normalized_expected_revision = (
+            int(expected_revision)
+            if expected_revision is not None
+            else None
+        )
+        if (
+            normalized_expected_revision
+            is not None
+            and normalized_expected_revision < 1
+        ):
+            raise ValueError(
+                "expected_revision must be "
+                "greater than or equal to 1."
+            )
+
+        with self._timeline_command_lock:
+            session = self.get_session(
+                normalized_id,
+                session_id=normalized_session_id,
+            )
+            if session.closed:
+                raise ReviewClipboardCommandOperationError(
+                    (
+                        "Closed review runtime session "
+                        "cannot execute clipboard "
+                        "commands."
+                    ),
+                    production_id=normalized_id,
+                    session_id=normalized_session_id,
+                    operation=operation.value,
+                )
+
+            before_snapshot = session.snapshot()
+            previous_revision = (
+                before_snapshot.timeline.revision
+            )
+            if (
+                normalized_expected_revision
+                is not None
+                and normalized_expected_revision
+                != previous_revision
+            ):
+                raise ReviewTimelineRevisionConflictError(
+                    (
+                        "Timeline revision does not "
+                        "match expected_revision."
+                    ),
+                    production_id=normalized_id,
+                    session_id=normalized_session_id,
+                    expected_revision=(
+                        normalized_expected_revision
+                    ),
+                    current_revision=previous_revision,
+                )
+
+            try:
+                clipboard_result = executor(session)
+            except ReviewWorkspaceApplicationError:
+                raise
+            except Exception as error:
+                raise ReviewClipboardCommandOperationError(
+                    str(error),
+                    production_id=normalized_id,
+                    session_id=normalized_session_id,
+                    operation=operation.value,
+                    metadata={
+                        "exception_type": (
+                            type(error).__name__
+                        ),
+                    },
+                ) from error
+
+            if not clipboard_result.success:
+                raise ReviewClipboardCommandOperationError(
+                    (
+                        clipboard_result.error
+                        or "Clipboard command failed."
+                    ),
+                    production_id=normalized_id,
+                    session_id=normalized_session_id,
+                    operation=operation.value,
+                    metadata={
+                        "previous_revision": (
+                            previous_revision
+                        ),
+                    },
+                )
+
+            after_snapshot = session.snapshot()
+            clipboard_runtime = (
+                session.graph.clipboard_runtime
+            )
+            return ReviewClipboardCommandResult(
+                operation=operation,
+                production_id=normalized_id,
+                session_id=normalized_session_id,
+                previous_revision=previous_revision,
+                current_revision=(
+                    after_snapshot.timeline.revision
+                ),
+                snapshot=after_snapshot,
+                clipboard_result=clipboard_result,
+                clipboard_history_state=(
+                    clipboard_runtime.history_state()
+                ),
+                clipboard_history_entries=tuple(
+                    clipboard_runtime.history_entries
+                ),
+                expected_revision=(
+                    normalized_expected_revision
+                ),
+                metadata=deepcopy(metadata or {}),
+            )
+
+    @staticmethod
+    def _normalize_clip_ids(
+        clip_ids: list[str],
+    ) -> list[str]:
+        normalized = list(
+            dict.fromkeys(
+                str(clip_id).strip()
+                for clip_id in clip_ids
+                if str(clip_id).strip()
+            )
+        )
+        if not normalized:
+            raise ValueError(
+                "clip_ids must contain at least "
+                "one clip_id."
+            )
+        return normalized
+
+    @staticmethod
+    def _normalize_optional_id(
+        value: str | None,
+        *,
+        field_name: str,
+    ) -> str | None:
+        if value is None:
+            return None
+        normalized = str(value).strip()
+        if not normalized:
+            raise ValueError(
+                f"{field_name} cannot be empty."
+            )
+        return normalized
+
+    @staticmethod
+    def _normalize_track_mapping(
+        mapping: dict[str, str] | None,
+    ) -> dict[str, str] | None:
+        if mapping is None:
+            return None
+        normalized: dict[str, str] = {}
+        for source, target in mapping.items():
+            source_id = str(source).strip()
+            target_id = str(target).strip()
+            if not source_id or not target_id:
+                raise ValueError(
+                    "track_mapping keys and values "
+                    "cannot be empty."
+                )
+            normalized[source_id] = target_id
         return normalized

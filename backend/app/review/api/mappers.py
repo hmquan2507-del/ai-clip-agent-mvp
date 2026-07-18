@@ -8,11 +8,13 @@ from app.product import (
     ProductWorkspaceNotFoundError,
 )
 from app.review.api.contracts import (
+    ReviewClipboardOperation,
     ReviewTimelineCommandOperation,
     ReviewWorkspaceAPIErrorCode,
     ReviewWorkspaceAPIOperation,
 )
 from app.review.api.schemas import (
+    ReviewClipboardCommandResponse,
     ReviewTimelineCommandResponse,
     ReviewWorkspaceAPIErrorDetail,
     ReviewWorkspaceCloseResponse,
@@ -22,6 +24,8 @@ from app.review.api.schemas import (
     ReviewWorkspaceSnapshotResponse,
 )
 from app.review.application import (
+    ReviewClipboardCommandOperationError,
+    ReviewClipboardCommandResult,
     ReviewRuntimeSessionConflictError,
     ReviewRuntimeSessionNotFoundError,
     ReviewRuntimeSessionOperationError,
@@ -181,6 +185,49 @@ class ReviewWorkspaceAPIMapper:
         )
 
     @staticmethod
+    def clipboard_command_response(
+        result: ReviewClipboardCommandResult,
+        *,
+        metadata: dict[str, Any] | None = None,
+    ) -> ReviewClipboardCommandResponse:
+        response_metadata = deepcopy(
+            result.metadata
+        )
+        response_metadata.update(
+            {
+                "expected_revision": (
+                    result.expected_revision
+                ),
+                "timeline_changed": (
+                    result.timeline_changed
+                ),
+            }
+        )
+        response_metadata.update(
+            deepcopy(metadata or {})
+        )
+
+        return ReviewClipboardCommandResponse(
+            operation=ReviewClipboardOperation(
+                result.operation.value
+            ),
+            production_id=result.production_id,
+            session_id=result.session_id,
+            previous_revision=(
+                result.previous_revision
+            ),
+            current_revision=(
+                result.current_revision
+            ),
+            snapshot=result.snapshot.to_dict(),
+            clipboard=result.clipboard,
+            timeline_history=(
+                result.timeline_history
+            ),
+            metadata=response_metadata,
+        )
+
+    @staticmethod
     def error_response(
         error: Exception,
         *,
@@ -294,6 +341,19 @@ class ReviewWorkspaceAPIMapper:
                 (
                     "Phiên review đang xung đột "
                     "với yêu cầu hiện tại."
+                ),
+            )
+
+        if isinstance(
+            error,
+            ReviewClipboardCommandOperationError,
+        ):
+            return (
+                ReviewWorkspaceAPIErrorCode
+                .CLIPBOARD_COMMAND_FAILED,
+                (
+                    "Không thể thực hiện thao tác "
+                    "clipboard trên timeline."
                 ),
             )
 

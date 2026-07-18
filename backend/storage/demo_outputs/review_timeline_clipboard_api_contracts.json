@@ -1,0 +1,18 @@
+{
+  "legacy_contracts_preserved": true,
+  "clipboard_contract_version_valid": true,
+  "operations_complete": true,
+  "copy_contract_valid": true,
+  "cut_contract_valid": true,
+  "paste_contract_valid": true,
+  "history_contracts_valid": true,
+  "empty_clip_ids_blocked": true,
+  "negative_time_blocked": true,
+  "invalid_mapping_blocked": true,
+  "invalid_revision_blocked": true,
+  "extra_fields_blocked": true,
+  "response_contract_valid": true,
+  "response_input_isolated": true,
+  "response_output_isolated": true,
+  "serialization_valid": true
+}

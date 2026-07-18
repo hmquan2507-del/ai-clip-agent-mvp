@@ -26,7 +26,7 @@
       "previous_revision": 1,
       "current_revision": 2,
       "reason": "mutation.move_clip",
-      "created_at": "2026-07-15T07:24:13.151598+00:00",
+      "created_at": "2026-07-18T05:37:22.470730+00:00",
       "metadata": {
         "operation_type": "move_clip",
         "clip_id": "clip_3",
@@ -38,7 +38,7 @@
       "previous_revision": 2,
       "current_revision": 3,
       "reason": "mutation.trim_clip_start",
-      "created_at": "2026-07-15T07:24:13.152198+00:00",
+      "created_at": "2026-07-18T05:37:22.471729+00:00",
       "metadata": {
         "operation_type": "trim_clip_start",
         "clip_id": "clip_1",
@@ -50,7 +50,7 @@
       "previous_revision": 3,
       "current_revision": 4,
       "reason": "mutation.duplicate_clip",
-      "created_at": "2026-07-15T07:24:13.154010+00:00",
+      "created_at": "2026-07-18T05:37:22.472729+00:00",
       "metadata": {
         "operation_type": "duplicate_clip",
         "clip_id": "clip_1_copy",
@@ -62,9 +62,9 @@
       "previous_revision": 4,
       "current_revision": 3,
       "reason": "history.undo",
-      "created_at": "2026-07-15T07:24:13.155448+00:00",
+      "created_at": "2026-07-18T05:37:22.473729+00:00",
       "metadata": {
-        "command_id": "286160bc-b092-487b-afd0-15cb1cef065d",
+        "command_id": "0bb827f4-f5cb-4e84-9389-849fa57da352",
         "operation_type": "duplicate_clip"
       }
     },
@@ -73,9 +73,9 @@
       "previous_revision": 3,
       "current_revision": 4,
       "reason": "history.redo",
-      "created_at": "2026-07-15T07:24:13.156204+00:00",
+      "created_at": "2026-07-18T05:37:22.474729+00:00",
       "metadata": {
-        "command_id": "286160bc-b092-487b-afd0-15cb1cef065d",
+        "command_id": "0bb827f4-f5cb-4e84-9389-849fa57da352",
         "operation_type": "duplicate_clip"
       }
     },
@@ -84,9 +84,9 @@
       "previous_revision": 4,
       "current_revision": 3,
       "reason": "history.undo",
-      "created_at": "2026-07-15T07:24:13.156771+00:00",
+      "created_at": "2026-07-18T05:37:22.474729+00:00",
       "metadata": {
-        "command_id": "286160bc-b092-487b-afd0-15cb1cef065d",
+        "command_id": "0bb827f4-f5cb-4e84-9389-849fa57da352",
         "operation_type": "duplicate_clip"
       }
     },
@@ -95,7 +95,7 @@
       "previous_revision": 3,
       "current_revision": 4,
       "reason": "mutation.delete_clip",
-      "created_at": "2026-07-15T07:24:13.157780+00:00",
+      "created_at": "2026-07-18T05:37:22.475730+00:00",
       "metadata": {
         "operation_type": "delete_clip",
         "clip_id": null,
@@ -107,12 +107,12 @@
       "previous_revision": 4,
       "current_revision": 5,
       "reason": "mutation.paste_clips",
-      "created_at": "2026-07-15T07:24:13.160352+00:00",
+      "created_at": "2026-07-18T05:37:22.476735+00:00",
       "metadata": {
         "operation_type": "paste_clips",
         "inserted_clip_ids": [
-          "clip_1_paste_daa0f191_0",
-          "clip_3_paste_daa0f191_1"
+          "clip_1_paste_07b798ae_0",
+          "clip_3_paste_07b798ae_1"
         ],
         "affected_track_ids": [
           "video_overlay"
@@ -125,9 +125,9 @@
       "previous_revision": 5,
       "current_revision": 4,
       "reason": "history.undo",
-      "created_at": "2026-07-15T07:24:13.163180+00:00",
+      "created_at": "2026-07-18T05:37:22.478729+00:00",
       "metadata": {
-        "command_id": "a1fa568d-0f9e-4482-9ae1-10376c193659",
+        "command_id": "e0a02a4f-1262-47d5-bff6-36dc0f101a7e",
         "operation_type": "paste_clips"
       }
     },
@@ -136,9 +136,9 @@
       "previous_revision": 4,
       "current_revision": 5,
       "reason": "history.redo",
-      "created_at": "2026-07-15T07:24:13.164141+00:00",
+      "created_at": "2026-07-18T05:37:22.479729+00:00",
       "metadata": {
-        "command_id": "a1fa568d-0f9e-4482-9ae1-10376c193659",
+        "command_id": "e0a02a4f-1262-47d5-bff6-36dc0f101a7e",
         "operation_type": "paste_clips"
       }
     },
@@ -147,7 +147,7 @@
       "previous_revision": 5,
       "current_revision": 6,
       "reason": "mutation.cut_clips",
-      "created_at": "2026-07-15T07:24:13.165634+00:00",
+      "created_at": "2026-07-18T05:37:22.480729+00:00",
       "metadata": {
         "operation_type": "cut_clips",
         "removed_clip_ids": [
@@ -186,9 +186,9 @@
       "previous_revision": 6,
       "current_revision": 5,
       "reason": "history.undo",
-      "created_at": "2026-07-15T07:24:13.168342+00:00",
+      "created_at": "2026-07-18T05:37:22.482729+00:00",
       "metadata": {
-        "command_id": "e32a61f0-0115-44b6-8aff-a439724992ef",
+        "command_id": "f8ea9b1a-3564-4ab7-9907-dae293ba0ed7",
         "operation_type": "cut_clips"
       }
     },
@@ -197,7 +197,7 @@
       "previous_revision": 5,
       "current_revision": 1,
       "reason": "reset",
-      "created_at": "2026-07-15T07:24:13.173291+00:00",
+      "created_at": "2026-07-18T05:37:22.485729+00:00",
       "metadata": {}
     }
   ],
@@ -218,7 +218,7 @@
     "available": true,
     "item_count": 1,
     "clip_count": 1,
-    "clipboard_id": "73a76f9e-ad53-4c2d-9282-5cb261b6f5db",
+    "clipboard_id": "af8be4d5-5457-459b-ad82-9e045d982232",
     "last_action": "cut",
     "source_track_ids": [
       "video_primary"

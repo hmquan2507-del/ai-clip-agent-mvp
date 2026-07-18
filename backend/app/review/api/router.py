@@ -21,14 +21,21 @@ from app.review.api.mappers import (
     ReviewWorkspaceAPIMapper,
 )
 from app.review.api.schemas import (
+    ClearTimelineClipboardHistoryRequest,
+    ClearTimelineClipboardRequest,
     CloseReviewWorkspaceRequest,
     CloseTimelineGapRequest,
+    CopyTimelineClipsRequest,
+    CutTimelineClipsRequest,
     DeleteTimelineClipRequest,
     DuplicateTimelineClipRequest,
     MoveTimelineClipRequest,
     OpenReviewWorkspaceRequest,
+    PasteTimelineClipsRequest,
     RedoTimelineCommandRequest,
     ResetReviewWorkspaceRequest,
+    RestoreTimelineClipboardHistoryRequest,
+    ReviewClipboardCommandResponse,
     ReviewTimelineCommandResponse,
     ReviewWorkspaceCloseResponse,
     ReviewWorkspaceResetResponse,
@@ -665,6 +672,218 @@ def redo_timeline_command(
         )
 
 
+@router.post(
+    "/clipboard/copy",
+    response_model=ReviewClipboardCommandResponse,
+    summary="Sao chép clip vào timeline clipboard",
+)
+def copy_timeline_clips(
+    production_id: UUID,
+    request: CopyTimelineClipsRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewClipboardCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.copy_timeline_clips(
+            normalized_id,
+            session_id=request.session_id,
+            clip_ids=request.clip_ids,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .clipboard_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/clipboard/cut",
+    response_model=ReviewClipboardCommandResponse,
+    summary="Cắt clip vào timeline clipboard",
+)
+def cut_timeline_clips(
+    production_id: UUID,
+    request: CutTimelineClipsRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewClipboardCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.cut_timeline_clips(
+            normalized_id,
+            session_id=request.session_id,
+            clip_ids=request.clip_ids,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .clipboard_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/clipboard/paste",
+    response_model=ReviewClipboardCommandResponse,
+    summary="Dán clip từ timeline clipboard",
+)
+def paste_timeline_clips(
+    production_id: UUID,
+    request: PasteTimelineClipsRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewClipboardCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.paste_timeline_clips(
+            normalized_id,
+            session_id=request.session_id,
+            at_time=request.at_time,
+            target_track_id=(
+                request.target_track_id
+            ),
+            track_mapping=request.track_mapping,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .clipboard_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/clipboard/history/restore",
+    response_model=ReviewClipboardCommandResponse,
+    summary="Khôi phục timeline clipboard history",
+)
+def restore_timeline_clipboard_history(
+    production_id: UUID,
+    request: RestoreTimelineClipboardHistoryRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewClipboardCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = (
+            service
+            .restore_timeline_clipboard_history(
+                normalized_id,
+                session_id=request.session_id,
+                entry_id=request.entry_id,
+                expected_revision=(
+                    request.expected_revision
+                ),
+            )
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .clipboard_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.delete(
+    "/clipboard",
+    response_model=ReviewClipboardCommandResponse,
+    summary="Xóa nội dung timeline clipboard",
+)
+def clear_timeline_clipboard(
+    production_id: UUID,
+    request: ClearTimelineClipboardRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewClipboardCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.clear_timeline_clipboard(
+            normalized_id,
+            session_id=request.session_id,
+            expected_revision=(
+                request.expected_revision
+            ),
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .clipboard_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.delete(
+    "/clipboard/history",
+    response_model=ReviewClipboardCommandResponse,
+    summary="Xóa timeline clipboard history",
+)
+def clear_timeline_clipboard_history(
+    production_id: UUID,
+    request: ClearTimelineClipboardHistoryRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewClipboardCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = (
+            service
+            .clear_timeline_clipboard_history(
+                normalized_id,
+                session_id=request.session_id,
+                expected_revision=(
+                    request.expected_revision
+                ),
+            )
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .clipboard_command_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
 def _error_response(
     error: Exception,
     *,
@@ -720,6 +939,10 @@ def _status_code_for_error(
         (
             ReviewWorkspaceAPIErrorCode
             .SESSION_OPERATION_FAILED
+        ),
+        (
+            ReviewWorkspaceAPIErrorCode
+            .CLIPBOARD_COMMAND_FAILED
         ),
     }:
         return status.HTTP_409_CONFLICT

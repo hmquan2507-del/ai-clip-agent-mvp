@@ -125,3 +125,38 @@ class ReviewTimelineCommandOperationError(
             }
         )
         return payload
+
+
+class ReviewClipboardCommandOperationError(
+    ReviewRuntimeSessionOperationError
+):
+    code = "review_clipboard_command_failed"
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        production_id: str,
+        session_id: str,
+        operation: str,
+        metadata: dict[str, Any] | None = None,
+    ):
+        super().__init__(
+            message,
+            production_id=production_id,
+            session_id=session_id,
+        )
+        self.operation = str(operation).strip()
+        self.metadata = deepcopy(metadata or {})
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = super().to_dict()
+        payload.update(
+            {
+                "operation": self.operation,
+                "metadata": deepcopy(
+                    self.metadata
+                ),
+            }
+        )
+        return payload
