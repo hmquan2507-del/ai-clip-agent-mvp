@@ -1,10 +1,18 @@
 import type {
+  ClearTimelineClipboardHistoryRequest,
+  ClearTimelineClipboardRequest,
   CloseTimelineGapRequest,
+  CopyTimelineClipsRequest,
+  CutTimelineClipsRequest,
   DeleteTimelineClipRequest,
   DuplicateTimelineClipRequest,
   MoveTimelineClipRequest,
   OpenReviewWorkspaceRequest,
+  PasteTimelineClipsRequest,
   RedoTimelineCommandRequest,
+  RestoreTimelineClipboardHistoryRequest,
+  ReviewClipboardCommandResponse,
+  ReviewClipboardOperation,
   ReviewRuntimeSessionSnapshot,
   ReviewRuntimeSessionState,
   ReviewTimelineCommandOperation,
@@ -39,6 +47,7 @@ export type ReviewWorkspacePendingOperation =
   | "reset"
   | "select"
   | "timeline_command"
+  | "clipboard_command"
   | "close"
   | null;
 
@@ -74,6 +83,15 @@ export interface ReviewWorkspaceRuntimeState {
 
   lastCommandResponse:
     ReviewTimelineCommandResponse | null;
+
+  pendingClipboardOperation:
+    ReviewClipboardOperation | null;
+
+  lastClipboardOperation:
+    ReviewClipboardOperation | null;
+
+  lastClipboardResponse:
+    ReviewClipboardCommandResponse | null;
 
   productionId: string | null;
   sessionId: string | null;
@@ -208,6 +226,42 @@ export interface ReviewWorkspaceRuntimeClient {
       signal?: AbortSignal;
     },
   ): Promise<ReviewTimelineCommandResponse>;
+
+  copyTimelineClips(
+    productionId: string,
+    request: CopyTimelineClipsRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewClipboardCommandResponse>;
+
+  cutTimelineClips(
+    productionId: string,
+    request: CutTimelineClipsRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewClipboardCommandResponse>;
+
+  pasteTimelineClips(
+    productionId: string,
+    request: PasteTimelineClipsRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewClipboardCommandResponse>;
+
+  restoreTimelineClipboardHistory(
+    productionId: string,
+    request: RestoreTimelineClipboardHistoryRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewClipboardCommandResponse>;
+
+  clearTimelineClipboard(
+    productionId: string,
+    request: ClearTimelineClipboardRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewClipboardCommandResponse>;
+
+  clearTimelineClipboardHistory(
+    productionId: string,
+    request: ClearTimelineClipboardHistoryRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewClipboardCommandResponse>;
 }
 
 export interface ReviewWorkspaceRuntimeOpenOptions
@@ -256,6 +310,26 @@ export type DeleteTimelineClipInput = Omit<
 
 export type CloseTimelineGapInput = Omit<
   CloseTimelineGapRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type CopyTimelineClipsInput = Omit<
+  CopyTimelineClipsRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type CutTimelineClipsInput = Omit<
+  CutTimelineClipsRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type PasteTimelineClipsInput = Omit<
+  PasteTimelineClipsRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type RestoreTimelineClipboardHistoryInput = Omit<
+  RestoreTimelineClipboardHistoryRequest,
   "session_id" | "expected_revision"
 >;
 

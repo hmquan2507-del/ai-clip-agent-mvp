@@ -11,12 +11,16 @@ import {
 import {
   createReviewWorkspaceSessionRuntime,
   type CloseTimelineGapInput,
+  type CopyTimelineClipsInput,
+  type CutTimelineClipsInput,
   type DeleteTimelineClipInput,
   type DuplicateTimelineClipInput,
   type MoveTimelineClipInput,
+  type PasteTimelineClipsInput,
   type ReviewWorkspaceRuntimeActionOptions,
   type ReviewWorkspaceRuntimeOpenOptions,
   type ReviewWorkspaceRuntimeState,
+  type RestoreTimelineClipboardHistoryInput,
   type SelectTimelineClipInput,
   type SplitTimelineClipInput,
   type TrimTimelineClipEndInput,
@@ -239,6 +243,77 @@ export function ReviewWorkspaceProvider({
     [runtime],
   );
 
+  const copyTimelineClips = useCallback(
+    (
+      input: CopyTimelineClipsInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.copyTimelineClips(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const cutTimelineClips = useCallback(
+    (
+      input: CutTimelineClipsInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.cutTimelineClips(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const pasteTimelineClips = useCallback(
+    (
+      input: PasteTimelineClipsInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.pasteTimelineClips(
+      input,
+      options,
+    ),
+    [runtime],
+  );
+
+  const restoreTimelineClipboardHistory =
+    useCallback(
+      (
+        input:
+          RestoreTimelineClipboardHistoryInput,
+        options:
+          ReviewWorkspaceRuntimeActionOptions = {},
+      ) => runtime.restoreTimelineClipboardHistory(
+        input,
+        options,
+      ),
+      [runtime],
+    );
+
+  const clearTimelineClipboard = useCallback(
+    (
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.clearTimelineClipboard(
+      options,
+    ),
+    [runtime],
+  );
+
+  const clearTimelineClipboardHistory =
+    useCallback(
+      (
+        options:
+          ReviewWorkspaceRuntimeActionOptions = {},
+      ) => runtime.clearTimelineClipboardHistory(
+        options,
+      ),
+      [runtime],
+    );
+
   const actions =
     useMemo<ReviewWorkspaceActions>(
       () => ({
@@ -257,6 +332,12 @@ export function ReviewWorkspaceProvider({
         closeGap,
         undoTimeline,
         redoTimeline,
+        copyTimelineClips,
+        cutTimelineClips,
+        pasteTimelineClips,
+        restoreTimelineClipboardHistory,
+        clearTimelineClipboard,
+        clearTimelineClipboardHistory,
       }),
       [
         open,
@@ -274,6 +355,12 @@ export function ReviewWorkspaceProvider({
         closeGap,
         undoTimeline,
         redoTimeline,
+        copyTimelineClips,
+        cutTimelineClips,
+        pasteTimelineClips,
+        restoreTimelineClipboardHistory,
+        clearTimelineClipboard,
+        clearTimelineClipboardHistory,
       ],
     );
 

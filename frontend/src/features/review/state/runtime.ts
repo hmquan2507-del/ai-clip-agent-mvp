@@ -5,6 +5,8 @@ import {
 
 import {
   ReviewWorkspaceAPIError,
+  type ReviewClipboardCommandResponse,
+  type ReviewClipboardOperation,
   type ReviewRuntimeSessionSnapshot,
   type ReviewRuntimeSessionState,
   type ReviewTimelineCommandOperation,
@@ -14,15 +16,19 @@ import {
 
 import type {
   CloseTimelineGapInput,
+  CopyTimelineClipsInput,
+  CutTimelineClipsInput,
   DeleteTimelineClipInput,
   DuplicateTimelineClipInput,
   MoveTimelineClipInput,
+  PasteTimelineClipsInput,
   ReviewWorkspaceRuntimeActionOptions,
   ReviewWorkspaceRuntimeClient,
   ReviewWorkspaceRuntimeError,
   ReviewWorkspaceRuntimeListener,
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
+  RestoreTimelineClipboardHistoryInput,
   SelectTimelineClipInput,
   SplitTimelineClipInput,
   TrimTimelineClipEndInput,
@@ -35,6 +41,9 @@ const INITIAL_STATE: ReviewWorkspaceRuntimeState = {
   pendingCommand: null,
   lastCommand: null,
   lastCommandResponse: null,
+  pendingClipboardOperation: null,
+  lastClipboardOperation: null,
+  lastClipboardResponse: null,
   productionId: null,
   sessionId: null,
   session: null,
@@ -71,6 +80,12 @@ type TimelineCommandExecutor = (
   expectedRevision: number,
   signal: AbortSignal,
 ) => Promise<ReviewTimelineCommandResponse>;
+
+type ClipboardCommandExecutor = (
+  active: ActiveSession,
+  expectedRevision: number,
+  signal: AbortSignal,
+) => Promise<ReviewClipboardCommandResponse>;
 
 export class ReviewWorkspaceSessionRuntime {
   private readonly store:
@@ -138,6 +153,9 @@ export class ReviewWorkspaceSessionRuntime {
         pendingCommand: null,
         lastCommand: null,
         lastCommandResponse: null,
+        pendingClipboardOperation: null,
+        lastClipboardOperation: null,
+        lastClipboardResponse: null,
       },
     );
 
@@ -605,6 +623,122 @@ export class ReviewWorkspaceSessionRuntime {
     );
   }
 
+  copyTimelineClips(
+    input: CopyTimelineClipsInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeClipboardCommand(
+      "copy",
+      (active, revision, signal) =>
+        this.client.copyTimelineClips(
+          active.productionId,
+          {
+            ...clone(input),
+            session_id: active.sessionId,
+            expected_revision: revision,
+          },
+          { signal },
+        ),
+      options,
+    );
+  }
+
+  cutTimelineClips(
+    input: CutTimelineClipsInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeClipboardCommand(
+      "cut",
+      (active, revision, signal) =>
+        this.client.cutTimelineClips(
+          active.productionId,
+          {
+            ...clone(input),
+            session_id: active.sessionId,
+            expected_revision: revision,
+          },
+          { signal },
+        ),
+      options,
+    );
+  }
+
+  pasteTimelineClips(
+    input: PasteTimelineClipsInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeClipboardCommand(
+      "paste",
+      (active, revision, signal) =>
+        this.client.pasteTimelineClips(
+          active.productionId,
+          {
+            ...clone(input),
+            session_id: active.sessionId,
+            expected_revision: revision,
+          },
+          { signal },
+        ),
+      options,
+    );
+  }
+
+  restoreTimelineClipboardHistory(
+    input: RestoreTimelineClipboardHistoryInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeClipboardCommand(
+      "restore_history",
+      (active, revision, signal) =>
+        this.client.restoreTimelineClipboardHistory(
+          active.productionId,
+          {
+            ...clone(input),
+            session_id: active.sessionId,
+            expected_revision: revision,
+          },
+          { signal },
+        ),
+      options,
+    );
+  }
+
+  clearTimelineClipboard(
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeClipboardCommand(
+      "clear_content",
+      (active, revision, signal) =>
+        this.client.clearTimelineClipboard(
+          active.productionId,
+          {
+            session_id: active.sessionId,
+            expected_revision: revision,
+          },
+          { signal },
+        ),
+      options,
+    );
+  }
+
+  clearTimelineClipboardHistory(
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeClipboardCommand(
+      "clear_history",
+      (active, revision, signal) =>
+        this.client.clearTimelineClipboardHistory(
+          active.productionId,
+          {
+            session_id: active.sessionId,
+            expected_revision: revision,
+          },
+          { signal },
+        ),
+      options,
+    );
+  }
+
   clear(): ReviewWorkspaceRuntimeState {
     this.assertNotDisposed();
     this.cancelActiveRequest();
@@ -704,6 +838,91 @@ export class ReviewWorkspaceSessionRuntime {
     }
   }
 
+  private async executeClipboardCommand(
+    operation: ReviewClipboardOperation,
+    executor: ClipboardCommandExecutor,
+    options: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    const active = this.requireActiveSession();
+    const expectedRevision =
+      requireTimelineRevision(active.snapshot);
+    const request = this.beginClipboardCommand(
+      operation,
+    );
+    const signal = linkAbortSignals(
+      request.controller,
+      options.signal,
+    );
+
+    try {
+      const response = await executor(
+        active,
+        expectedRevision,
+        signal,
+      );
+      this.validateClipboardResponse(
+        response,
+        active,
+        operation,
+      );
+      this.completeClipboardCommand(
+        request.revision,
+        response,
+      );
+      return this.getState();
+    } catch (error) {
+      if (
+        error instanceof ReviewWorkspaceAPIError &&
+        error.isRevisionConflict &&
+        this.isCurrentRequest(request.revision)
+      ) {
+        await this.recoverRevisionConflict(
+          request.revision,
+          active,
+          error,
+          signal,
+        );
+      } else {
+        this.failRequest(request.revision, error);
+      }
+      throw error;
+    }
+  }
+
+  private beginClipboardCommand(
+    operation: ReviewClipboardOperation,
+  ): RuntimeRequest {
+    this.assertNotDisposed();
+    const current = this.store.getState();
+    if (current.pendingOperation !== null) {
+      throw new ReviewWorkspaceAPIError(
+        "Another Review Workspace operation is already running.",
+        {
+          code: "review_session_conflict",
+          status: 409,
+          productionId: current.productionId,
+          sessionId: current.sessionId,
+        },
+      );
+    }
+
+    const revision = current.requestRevision + 1;
+    const controller = new AbortController();
+    this.activeController = controller;
+    this.store.setState({
+      ...current,
+      status: "executing",
+      pendingOperation: "clipboard_command",
+      pendingCommand: null,
+      pendingClipboardOperation: operation,
+      error: null,
+      requestRevision: revision,
+      stateRevision: current.stateRevision + 1,
+      updatedAt: now(),
+    });
+    return { revision, controller };
+  }
+
   private beginTimelineCommand(
     operation:
       ReviewTimelineCommandOperation,
@@ -792,6 +1011,7 @@ export class ReviewWorkspaceSessionRuntime {
       status,
       pendingOperation,
       pendingCommand: null,
+      pendingClipboardOperation: null,
       error: null,
       requestRevision: revision,
       stateRevision:
@@ -827,6 +1047,7 @@ export class ReviewWorkspaceSessionRuntime {
       ...clone(replacement),
       pendingOperation: null,
       pendingCommand: null,
+      pendingClipboardOperation: null,
       error: null,
       stateRevision:
         current.stateRevision + 1,
@@ -857,6 +1078,7 @@ export class ReviewWorkspaceSessionRuntime {
       status: "ready",
       pendingOperation: null,
       pendingCommand: null,
+      pendingClipboardOperation: null,
       lastCommand:
         response.operation,
       lastCommandResponse:
@@ -874,6 +1096,37 @@ export class ReviewWorkspaceSessionRuntime {
       error: null,
       stateRevision:
         current.stateRevision + 1,
+      updatedAt: now(),
+    });
+  }
+
+  private completeClipboardCommand(
+    revision: number,
+    response: ReviewClipboardCommandResponse,
+  ): void {
+    const current = this.store.getState();
+    if (
+      revision !== current.requestRevision ||
+      this.disposed
+    ) {
+      return;
+    }
+
+    this.activeController = null;
+    this.store.setState({
+      ...current,
+      status: "ready",
+      pendingOperation: null,
+      pendingCommand: null,
+      pendingClipboardOperation: null,
+      lastClipboardOperation: response.operation,
+      lastClipboardResponse: clone(response),
+      productionId: response.production_id,
+      sessionId: response.session_id,
+      session: clone(response.snapshot.session),
+      snapshot: clone(response.snapshot),
+      error: null,
+      stateRevision: current.stateRevision + 1,
       updatedAt: now(),
     });
   }
@@ -911,6 +1164,7 @@ export class ReviewWorkspaceSessionRuntime {
         status: "ready",
         pendingOperation: null,
         pendingCommand: null,
+        pendingClipboardOperation: null,
         productionId:
           response.production_id,
         sessionId:
@@ -957,6 +1211,7 @@ export class ReviewWorkspaceSessionRuntime {
       status: "error",
       pendingOperation: null,
       pendingCommand: null,
+      pendingClipboardOperation: null,
       error: normalizeError(error),
       stateRevision:
         current.stateRevision + 1,
@@ -1016,6 +1271,44 @@ export class ReviewWorkspaceSessionRuntime {
             active.productionId,
           sessionId:
             active.sessionId,
+        },
+      );
+    }
+  }
+
+  private validateClipboardResponse(
+    response: ReviewClipboardCommandResponse,
+    active: ActiveSession,
+    operation: ReviewClipboardOperation,
+  ): void {
+    const previousRevision =
+      active.snapshot.timeline.revision;
+    const timelineChanging =
+      operation === "cut" || operation === "paste";
+
+    if (
+      response.production_id !== active.productionId ||
+      response.session_id !== active.sessionId ||
+      response.operation !== operation ||
+      response.previous_revision !== previousRevision ||
+      response.snapshot.timeline.revision !==
+        response.current_revision ||
+      (
+        timelineChanging &&
+        response.current_revision !== previousRevision + 1
+      ) ||
+      (
+        !timelineChanging &&
+        response.current_revision !== previousRevision
+      )
+    ) {
+      throw new ReviewWorkspaceAPIError(
+        "Clipboard response does not match the active session.",
+        {
+          code: "invalid_response",
+          status: 502,
+          productionId: active.productionId,
+          sessionId: active.sessionId,
         },
       );
     }
@@ -1082,7 +1375,9 @@ export class ReviewWorkspaceSessionRuntime {
 
     if (
       state.pendingOperation ===
-      "timeline_command"
+        "timeline_command" ||
+      state.pendingOperation ===
+        "clipboard_command"
     ) {
       throw new ReviewWorkspaceAPIError(
         "A timeline command is already running.",

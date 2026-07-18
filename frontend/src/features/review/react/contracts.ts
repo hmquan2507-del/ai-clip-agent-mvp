@@ -10,12 +10,16 @@ import type {
 
 import type {
   CloseTimelineGapInput,
+  CopyTimelineClipsInput,
+  CutTimelineClipsInput,
   DeleteTimelineClipInput,
   DuplicateTimelineClipInput,
   MoveTimelineClipInput,
+  PasteTimelineClipsInput,
   ReviewWorkspaceRuntimeActionOptions,
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
+  RestoreTimelineClipboardHistoryInput,
   SelectTimelineClipInput,
   SplitTimelineClipInput,
   TrimTimelineClipEndInput,
@@ -78,10 +82,41 @@ export interface ReviewTimelineCommandActions {
   ): Promise<ReviewWorkspaceRuntimeState>;
 }
 
+export interface ReviewTimelineClipboardActions {
+  copyTimelineClips(
+    input: CopyTimelineClipsInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  cutTimelineClips(
+    input: CutTimelineClipsInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  pasteTimelineClips(
+    input: PasteTimelineClipsInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  restoreTimelineClipboardHistory(
+    input: RestoreTimelineClipboardHistoryInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  clearTimelineClipboard(
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  clearTimelineClipboardHistory(
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+}
+
 export interface ReviewWorkspaceActions
   extends
     ReviewTimelineSelectionActions,
-    ReviewTimelineCommandActions {
+    ReviewTimelineCommandActions,
+    ReviewTimelineClipboardActions {
   open(
     options?: ReviewWorkspaceRuntimeOpenOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
@@ -137,6 +172,11 @@ export interface ReviewWorkspaceStatusView {
       "pendingCommand"
     ];
 
+  pendingClipboardOperation:
+    ReviewWorkspaceRuntimeState[
+      "pendingClipboardOperation"
+    ];
+
   idle: boolean;
   loading: boolean;
   ready: boolean;
@@ -144,6 +184,7 @@ export interface ReviewWorkspaceStatusView {
   resetting: boolean;
   selecting: boolean;
   executing: boolean;
+  executingClipboard: boolean;
   closing: boolean;
   closed: boolean;
   failed: boolean;

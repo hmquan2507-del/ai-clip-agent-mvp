@@ -19,6 +19,7 @@ import {
 } from "./adapters";
 
 import type {
+  ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
 } from "./contracts";
@@ -155,6 +156,68 @@ function ReviewRuntimeWorkspaceContent() {
       [actions],
     );
 
+  const executeClipboardCommand =
+    useCallback(
+      (
+        intent:
+          ReviewTimelineClipboardIntent,
+      ) => {
+        switch (
+          intent.operation
+        ) {
+          case "copy":
+            void actions.copyTimelineClips({
+              clip_ids:
+                [...intent.clipIds],
+            }).catch(
+              () => undefined,
+            );
+            return;
+
+          case "cut":
+            void actions.cutTimelineClips({
+              clip_ids:
+                [...intent.clipIds],
+            }).catch(
+              () => undefined,
+            );
+            return;
+
+          case "paste":
+            void actions.pasteTimelineClips({
+              at_time:
+                intent.atTime,
+            }).catch(
+              () => undefined,
+            );
+            return;
+
+          case "restore_history":
+            void actions.restoreTimelineClipboardHistory({
+              entry_id:
+                intent.entryId,
+            }).catch(
+              () => undefined,
+            );
+            return;
+
+          case "clear_content":
+            void actions.clearTimelineClipboard()
+              .catch(
+                () => undefined,
+              );
+            return;
+
+          case "clear_history":
+            void actions.clearTimelineClipboardHistory()
+              .catch(
+                () => undefined,
+              );
+        }
+      },
+      [actions],
+    );
+
   if (
     state.status === "idle" ||
     state.status === "opening" ||
@@ -201,7 +264,12 @@ function ReviewRuntimeWorkspaceContent() {
     );
 
   const commandPending =
-    state.status === "executing";
+    state.pendingOperation ===
+    "timeline_command";
+
+  const clipboardPending =
+    state.pendingOperation ===
+    "clipboard_command";
 
   return (
     <ReviewEditorShell
@@ -220,12 +288,21 @@ function ReviewRuntimeWorkspaceContent() {
       pendingCommand={
         state.pendingCommand
       }
+      clipboardPending={
+        clipboardPending
+      }
+      pendingClipboardOperation={
+        state.pendingClipboardOperation
+      }
       onRefresh={refresh}
       onSelectClip={selectClip}
       onUndo={undoTimeline}
       onRedo={redoTimeline}
       onTimelineCommand={
         executeTimelineCommand
+      }
+      onClipboardCommand={
+        executeClipboardCommand
       }
     />
   );

@@ -14,6 +14,7 @@ import {
 } from "./context";
 
 import type {
+  ReviewTimelineClipboardActions,
   ReviewTimelineCommandActions,
   ReviewTimelineSelectionActions,
   ReviewWorkspaceActions,
@@ -57,12 +58,18 @@ export function useReviewTimelineCommands():
   return useReviewWorkspace().actions;
 }
 
+export function useReviewTimelineClipboard():
+  ReviewTimelineClipboardActions {
+  return useReviewWorkspace().actions;
+}
+
 export function useReviewWorkspaceStatus():
   ReviewWorkspaceStatusView {
   const {
     status,
     pendingOperation,
     pendingCommand,
+    pendingClipboardOperation,
     error,
   } = useReviewWorkspaceState();
 
@@ -70,6 +77,7 @@ export function useReviewWorkspaceStatus():
     status,
     pendingOperation,
     pendingCommand,
+    pendingClipboardOperation,
 
     idle:
       status === "idle",
@@ -91,6 +99,10 @@ export function useReviewWorkspaceStatus():
 
     executing:
       status === "executing",
+
+    executingClipboard:
+      pendingOperation ===
+      "clipboard_command",
 
     closing:
       status === "closing",

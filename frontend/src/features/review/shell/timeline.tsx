@@ -6,7 +6,12 @@ import {
   Captions,
   ChevronDown,
   Clapperboard,
-  Copy,
+  ClipboardCopy,
+  ClipboardPaste,
+  ClipboardX,
+  Eraser,
+  Files,
+  History,
   ImagePlus,
   Layers3,
   Lock,
@@ -22,6 +27,7 @@ import {
 } from "lucide-react";
 
 import type {
+  ReviewClipboardOperation,
   ReviewTimelineCommandOperation,
 } from "../api";
 
@@ -33,6 +39,7 @@ import {
 
 import type {
   ReviewTimelineClipTone,
+  ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
   ReviewTimelineTrackView,
@@ -66,9 +73,13 @@ export interface ReviewTimelinePanelProps {
   view?: ReviewTimelineView;
   selecting?: boolean;
   commandPending?: boolean;
+  clipboardPending?: boolean;
 
   pendingCommand:
     ReviewTimelineCommandOperation | null;
+
+  pendingClipboardOperation:
+    ReviewClipboardOperation | null;
 
   onSelectClip?: (
     intent:
@@ -79,15 +90,23 @@ export interface ReviewTimelinePanelProps {
     intent:
       ReviewTimelineCommandIntent,
   ) => void;
+
+  onClipboardCommand?: (
+    intent:
+      ReviewTimelineClipboardIntent,
+  ) => void;
 }
 
 export function ReviewTimelinePanel({
   view,
   selecting = false,
   commandPending = false,
+  clipboardPending = false,
   pendingCommand,
+  pendingClipboardOperation,
   onSelectClip,
   onTimelineCommand,
+  onClipboardCommand,
 }: ReviewTimelinePanelProps) {
   const tracks:
     ReviewTimelineTrackView[] =
@@ -135,10 +154,33 @@ export function ReviewTimelinePanel({
     view?.commandTarget ??
     null;
 
+  const clipboard =
+    view?.clipboard ?? {
+      selectedClipIds: [],
+      pasteTime: 0,
+      available: false,
+      itemCount: 0,
+      historyEntryCount: 0,
+      latestHistoryEntryId: null,
+      canCopy: false,
+      canCut: false,
+      canPaste: false,
+      canClear: false,
+      canRestoreHistory: false,
+      canClearHistory: false,
+    };
+
   const controlsDisabled =
     selecting ||
     commandPending ||
+    clipboardPending ||
     !onTimelineCommand;
+
+  const clipboardControlsDisabled =
+    selecting ||
+    commandPending ||
+    clipboardPending ||
+    !onClipboardCommand;
 
   const canEditTarget =
     Boolean(
@@ -262,12 +304,106 @@ export function ReviewTimelinePanel({
       });
     };
 
+  const copySelectedClips =
+    () => {
+      if (
+        clipboardControlsDisabled ||
+        !clipboard.canCopy
+      ) {
+        return;
+      }
+
+      onClipboardCommand?.({
+        operation: "copy",
+        clipIds:
+          [...clipboard.selectedClipIds],
+      });
+    };
+
+  const cutSelectedClips =
+    () => {
+      if (
+        clipboardControlsDisabled ||
+        !clipboard.canCut
+      ) {
+        return;
+      }
+
+      onClipboardCommand?.({
+        operation: "cut",
+        clipIds:
+          [...clipboard.selectedClipIds],
+      });
+    };
+
+  const pasteClips = () => {
+    if (
+      clipboardControlsDisabled ||
+      !clipboard.canPaste
+    ) {
+      return;
+    }
+
+    onClipboardCommand?.({
+      operation: "paste",
+      atTime:
+        clipboard.pasteTime,
+    });
+  };
+
+  const clearClipboard = () => {
+    if (
+      clipboardControlsDisabled ||
+      !clipboard.canClear
+    ) {
+      return;
+    }
+
+    onClipboardCommand?.({
+      operation: "clear_content",
+    });
+  };
+
+  const restoreClipboardHistory =
+    () => {
+      const entryId =
+        clipboard.latestHistoryEntryId;
+
+      if (
+        clipboardControlsDisabled ||
+        !clipboard.canRestoreHistory ||
+        !entryId
+      ) {
+        return;
+      }
+
+      onClipboardCommand?.({
+        operation: "restore_history",
+        entryId,
+      });
+    };
+
+  const clearClipboardHistory =
+    () => {
+      if (
+        clipboardControlsDisabled ||
+        !clipboard.canClearHistory
+      ) {
+        return;
+      }
+
+      onClipboardCommand?.({
+        operation: "clear_history",
+      });
+    };
+
   return (
     <section
       aria-label="Timeline dựng video"
       aria-busy={
         selecting ||
-        commandPending
+        commandPending ||
+        clipboardPending
       }
       className="h-[252px] shrink-0 border-t border-[var(--review-border)] bg-[var(--review-timeline-ruler)] max-md:h-[220px]"
     >
@@ -297,7 +433,7 @@ export function ReviewTimelinePanel({
                 !canEditTarget
               }
             >
-              <Copy />
+              <Files />
             </ReviewIconButton>
 
             <ReviewIconButton
@@ -329,6 +465,90 @@ export function ReviewTimelinePanel({
             </ReviewIconButton>
           </ReviewToolbarGroup>
 
+          <ReviewToolbarGroup>
+            <ReviewIconButton
+              aria-label="Sao chép clip đã chọn"
+              title="Sao chép vào clipboard"
+              size="sm"
+              onClick={copySelectedClips}
+              disabled={
+                clipboardControlsDisabled ||
+                !clipboard.canCopy
+              }
+            >
+              <ClipboardCopy />
+            </ReviewIconButton>
+
+            <ReviewIconButton
+              aria-label="Cắt clip đã chọn"
+              title="Cắt vào clipboard"
+              size="sm"
+              onClick={cutSelectedClips}
+              disabled={
+                clipboardControlsDisabled ||
+                !clipboard.canCut
+              }
+            >
+              <Scissors />
+            </ReviewIconButton>
+
+            <ReviewIconButton
+              aria-label="Dán clip tại con trỏ"
+              title={`Dán ${clipboard.itemCount} mục tại con trỏ`}
+              size="sm"
+              onClick={pasteClips}
+              disabled={
+                clipboardControlsDisabled ||
+                !clipboard.canPaste
+              }
+            >
+              <ClipboardPaste />
+            </ReviewIconButton>
+
+            <ReviewIconButton
+              aria-label="Xóa nội dung clipboard"
+              title="Xóa nội dung clipboard"
+              size="sm"
+              onClick={clearClipboard}
+              disabled={
+                clipboardControlsDisabled ||
+                !clipboard.canClear
+              }
+            >
+              <ClipboardX />
+            </ReviewIconButton>
+
+            <ReviewIconButton
+              aria-label="Khôi phục clipboard gần nhất"
+              title="Khôi phục clipboard gần nhất"
+              size="sm"
+              onClick={
+                restoreClipboardHistory
+              }
+              disabled={
+                clipboardControlsDisabled ||
+                !clipboard.canRestoreHistory
+              }
+            >
+              <History />
+            </ReviewIconButton>
+
+            <ReviewIconButton
+              aria-label="Xóa lịch sử clipboard"
+              title="Xóa lịch sử clipboard"
+              size="sm"
+              onClick={
+                clearClipboardHistory
+              }
+              disabled={
+                clipboardControlsDisabled ||
+                !clipboard.canClearHistory
+              }
+            >
+              <Eraser />
+            </ReviewIconButton>
+          </ReviewToolbarGroup>
+
           <span className="hidden text-[10px] text-[var(--review-text-subtle)] sm:inline">
             {trackCount} tracks ·{" "}
             {clipCount} clips
@@ -350,6 +570,17 @@ export function ReviewTimelinePanel({
             >
               {commandLabel(
                 pendingCommand,
+              )}
+            </span>
+          ) : null}
+
+          {clipboardPending ? (
+            <span
+              role="status"
+              className="text-[10px] text-[var(--review-accent-text)]"
+            >
+              {clipboardCommandLabel(
+                pendingClipboardOperation,
               )}
             </span>
           ) : null}
@@ -455,7 +686,8 @@ export function ReviewTimelinePanel({
                       }
                       disabled={
                         selecting ||
-                        commandPending
+                        commandPending ||
+                        clipboardPending
                       }
                       title="Click để chọn · Ctrl/Cmd + click để chọn nhiều"
                       className={reviewClassNames(
@@ -531,6 +763,34 @@ function commandLabel(
 
     default:
       return "Đang chỉnh sửa…";
+  }
+}
+
+function clipboardCommandLabel(
+  operation:
+    ReviewClipboardOperation | null,
+): string {
+  switch (operation) {
+    case "copy":
+      return "Đang sao chép clip…";
+
+    case "cut":
+      return "Đang cắt clip…";
+
+    case "paste":
+      return "Đang dán clip…";
+
+    case "restore_history":
+      return "Đang khôi phục clipboard…";
+
+    case "clear_content":
+      return "Đang xóa clipboard…";
+
+    case "clear_history":
+      return "Đang xóa lịch sử clipboard…";
+
+    default:
+      return "Đang cập nhật clipboard…";
   }
 }
 

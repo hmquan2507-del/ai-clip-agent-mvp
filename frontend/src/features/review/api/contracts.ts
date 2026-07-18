@@ -15,6 +15,7 @@ export type ReviewWorkspaceAPIErrorCode =
   | "review_session_not_found"
   | "review_session_conflict"
   | "review_session_operation_failed"
+  | "review_clipboard_command_failed"
   | "review_request_validation_failed"
   | "review_workspace_internal_error"
   | "http_error"

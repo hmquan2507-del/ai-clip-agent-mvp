@@ -247,27 +247,31 @@ function main() {
       captured.history === null &&
       captured.clipboard === null,
 
-    actions_complete:
-      JSON.stringify(
-        captured.actions,
-      ) ===
-      JSON.stringify([
-  "clear",
-  "close",
-  "closeGap",
-  "deleteClip",
-  "duplicateClip",
-  "moveClip",
-  "open",
-  "redoTimeline",
-  "refresh",
-  "reset",
-  "selectClip",
-  "splitClip",
-  "trimClipEnd",
-  "trimClipStart",
-  "undoTimeline",
-]),
+actions_complete:
+  JSON.stringify(captured.actions) ===
+  JSON.stringify([
+    "clear",
+    "clearTimelineClipboard",
+    "clearTimelineClipboardHistory",
+    "close",
+    "closeGap",
+    "copyTimelineClips",
+    "cutTimelineClips",
+    "deleteClip",
+    "duplicateClip",
+    "moveClip",
+    "open",
+    "pasteTimelineClips",
+    "redoTimeline",
+    "refresh",
+    "reset",
+    "restoreTimelineClipboardHistory",
+    "selectClip",
+    "splitClip",
+    "trimClipEnd",
+    "trimClipStart",
+    "undoTimeline",
+  ]),
 
     outside_provider_blocked:
       outsideProviderBlocked,

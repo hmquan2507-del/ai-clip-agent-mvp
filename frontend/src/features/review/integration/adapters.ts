@@ -98,6 +98,32 @@ export function buildReviewEditorViewModel(
       timeline.minimum_clip_duration,
     );
 
+  const selectedClipIds =
+    selection.selected_clip_ids.filter(
+      (clipId) =>
+        findActiveClipContext(
+          timeline.tracks,
+          clipId,
+        ) !== null,
+    );
+
+  const selectedTracksEditable =
+    selectedClipIds.every(
+      (clipId) =>
+        !findActiveClipContext(
+          timeline.tracks,
+          clipId,
+        )?.track.locked,
+    );
+
+  const clipboardState =
+    snapshot.clipboard.state;
+
+  const clipboardHistory =
+    state.lastClipboardResponse
+      ?.clipboard.history_state ??
+    null;
+
   return {
     header: {
       productionId:
@@ -219,6 +245,58 @@ export function buildReviewEditorViewModel(
         ),
 
       commandTarget,
+
+      clipboard: {
+        selectedClipIds:
+          [...selectedClipIds],
+
+        pasteTime:
+          clamp(
+            selection.cursor_time,
+            0,
+            duration,
+          ),
+
+        available:
+          clipboardState.available,
+
+        itemCount:
+          clipboardState.item_count,
+
+        historyEntryCount:
+          clipboardHistory?.entry_count ??
+          0,
+
+        latestHistoryEntryId:
+          clipboardHistory
+            ?.latest_entry_id ??
+          null,
+
+        canCopy:
+          selectedClipIds.length > 0,
+
+        canCut:
+          selectedClipIds.length > 0 &&
+          selectedTracksEditable,
+
+        canPaste:
+          clipboardState.available,
+
+        canClear:
+          clipboardState.available,
+
+        canRestoreHistory:
+          Boolean(
+            clipboardHistory
+              ?.latest_entry_id,
+          ),
+
+        canClearHistory:
+          (
+            clipboardHistory
+              ?.entry_count ?? 0
+          ) > 0,
+      },
     },
 
     inspector: {

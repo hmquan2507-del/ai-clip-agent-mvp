@@ -49,6 +49,45 @@ export type ReviewTimelineCommandIntent =
       gapEnd: number;
     };
 
+export type ReviewTimelineClipboardIntent =
+  | {
+      operation: "copy";
+      clipIds: string[];
+    }
+  | {
+      operation: "cut";
+      clipIds: string[];
+    }
+  | {
+      operation: "paste";
+      atTime: number;
+    }
+  | {
+      operation: "restore_history";
+      entryId: string;
+    }
+  | {
+      operation: "clear_content";
+    }
+  | {
+      operation: "clear_history";
+    };
+
+export interface ReviewTimelineClipboardView {
+  selectedClipIds: string[];
+  pasteTime: number;
+  available: boolean;
+  itemCount: number;
+  historyEntryCount: number;
+  latestHistoryEntryId: string | null;
+  canCopy: boolean;
+  canCut: boolean;
+  canPaste: boolean;
+  canClear: boolean;
+  canRestoreHistory: boolean;
+  canClearHistory: boolean;
+}
+
 export interface ReviewEditorHeaderView {
   productionId: string;
   title: string;
@@ -102,6 +141,9 @@ export interface ReviewTimelineView {
 
   commandTarget:
     ReviewTimelineCommandTargetView | null;
+
+  clipboard:
+    ReviewTimelineClipboardView;
 }
 
 export interface ReviewInspectorView {

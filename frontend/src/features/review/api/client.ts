@@ -12,6 +12,18 @@ import {
 } from "./contracts";
 import { ReviewWorkspaceAPIError } from "./errors";
 import {
+  REVIEW_CLIPBOARD_API_CONTRACT_VERSION,
+  type ClearTimelineClipboardHistoryRequest,
+  type ClearTimelineClipboardRequest,
+  type CopyTimelineClipsRequest,
+  type CutTimelineClipsRequest,
+  type PasteTimelineClipsRequest,
+  type RestoreTimelineClipboardHistoryRequest,
+  type ReviewClipboardCommandRequest,
+  type ReviewClipboardCommandResponse,
+  type ReviewClipboardOperation,
+} from "./clipboard-contracts";
+import {
   REVIEW_TIMELINE_COMMAND_API_CONTRACT_VERSION,
   type CloseTimelineGapRequest,
   type DeleteTimelineClipRequest,
@@ -500,6 +512,152 @@ export class ReviewWorkspaceClient {
     );
   }
 
+  copyTimelineClips(
+    productionId: string,
+    request: CopyTimelineClipsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewClipboardCommandResponse> {
+    return this.requestClipboard(
+      productionId,
+      "copy",
+      "/clipboard/copy",
+      "POST",
+      {
+        ...normalizeClipboardCommand(
+          request,
+          productionId,
+        ),
+        clip_ids: requireIdentifierList(
+          request.clip_ids,
+          "clip_ids",
+          productionId,
+        ),
+      },
+      options,
+    );
+  }
+
+  cutTimelineClips(
+    productionId: string,
+    request: CutTimelineClipsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewClipboardCommandResponse> {
+    return this.requestClipboard(
+      productionId,
+      "cut",
+      "/clipboard/cut",
+      "POST",
+      {
+        ...normalizeClipboardCommand(
+          request,
+          productionId,
+        ),
+        clip_ids: requireIdentifierList(
+          request.clip_ids,
+          "clip_ids",
+          productionId,
+        ),
+      },
+      options,
+    );
+  }
+
+  pasteTimelineClips(
+    productionId: string,
+    request: PasteTimelineClipsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewClipboardCommandResponse> {
+    return this.requestClipboard(
+      productionId,
+      "paste",
+      "/clipboard/paste",
+      "POST",
+      {
+        ...normalizeClipboardCommand(
+          request,
+          productionId,
+        ),
+        at_time: requireNonNegativeNumber(
+          request.at_time,
+          "at_time",
+          productionId,
+        ),
+        target_track_id:
+          normalizeOptionalIdentifier(
+            request.target_track_id,
+            "target_track_id",
+            productionId,
+          ),
+        track_mapping: normalizeTrackMapping(
+          request.track_mapping,
+          productionId,
+        ),
+      },
+      options,
+    );
+  }
+
+  restoreTimelineClipboardHistory(
+    productionId: string,
+    request: RestoreTimelineClipboardHistoryRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewClipboardCommandResponse> {
+    return this.requestClipboard(
+      productionId,
+      "restore_history",
+      "/clipboard/history/restore",
+      "POST",
+      {
+        ...normalizeClipboardCommand(
+          request,
+          productionId,
+        ),
+        entry_id: requireIdentifier(
+          request.entry_id,
+          "entry_id",
+          productionId,
+        ),
+      },
+      options,
+    );
+  }
+
+  clearTimelineClipboard(
+    productionId: string,
+    request: ClearTimelineClipboardRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewClipboardCommandResponse> {
+    return this.requestClipboard(
+      productionId,
+      "clear_content",
+      "/clipboard",
+      "DELETE",
+      normalizeClipboardCommand(
+        request,
+        productionId,
+      ),
+      options,
+    );
+  }
+
+  clearTimelineClipboardHistory(
+    productionId: string,
+    request: ClearTimelineClipboardHistoryRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewClipboardCommandResponse> {
+    return this.requestClipboard(
+      productionId,
+      "clear_history",
+      "/clipboard/history",
+      "DELETE",
+      normalizeClipboardCommand(
+        request,
+        productionId,
+      ),
+      options,
+    );
+  }
+
   private async requestWorkspace<T>(
     productionId: string,
     expectedOperation:
@@ -560,6 +718,40 @@ export class ReviewWorkspaceClient {
       normalizedProductionId,
     );
 
+    return payload;
+  }
+
+  private async requestClipboard(
+    productionId: string,
+    expectedOperation: ReviewClipboardOperation,
+    path: string,
+    method: "POST" | "DELETE",
+    body: Record<string, unknown>,
+    options: ReviewWorkspaceRequestOptions,
+  ): Promise<ReviewClipboardCommandResponse> {
+    const normalizedProductionId =
+      requireIdentifier(
+        productionId,
+        "productionId",
+      );
+
+    const payload = await this.send(
+      normalizedProductionId,
+      path,
+      {
+        method,
+        body: JSON.stringify(
+          removeUndefined(body),
+        ),
+        signal: options.signal,
+      },
+    );
+
+    validateClipboardSuccessResponse(
+      payload,
+      expectedOperation,
+      normalizedProductionId,
+    );
     return payload;
   }
 
@@ -689,6 +881,84 @@ function normalizeTimelineCommand(
       );
   }
 
+  return normalized;
+}
+
+function normalizeClipboardCommand(
+  request: ReviewClipboardCommandRequest,
+  productionId: string,
+): {
+  session_id: string;
+  expected_revision?: number;
+} {
+  return normalizeTimelineCommand(
+    request,
+    productionId,
+  );
+}
+
+function requireIdentifierList(
+  values: string[],
+  fieldName: string,
+  productionId: string,
+): string[] {
+  if (!Array.isArray(values)) {
+    throw validationError(
+      `${fieldName} must be an array.`,
+      productionId,
+    );
+  }
+
+  const normalized = Array.from(
+    new Set(
+      values
+        .map((value) =>
+          String(value ?? "").trim(),
+        )
+        .filter(Boolean),
+    ),
+  );
+
+  if (normalized.length === 0) {
+    throw validationError(
+      `${fieldName} must contain at least one identifier.`,
+      productionId,
+    );
+  }
+  return normalized;
+}
+
+function normalizeTrackMapping(
+  value: Record<string, string> | null | undefined,
+  productionId: string,
+): Record<string, string> | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (
+    typeof value !== "object" ||
+    Array.isArray(value)
+  ) {
+    throw validationError(
+      "track_mapping must be an object.",
+      productionId,
+    );
+  }
+
+  const normalized: Record<string, string> = {};
+  for (const [source, target] of Object.entries(value)) {
+    const sourceId = requireIdentifier(
+      source,
+      "track_mapping source",
+      productionId,
+    );
+    normalized[sourceId] = requireIdentifier(
+      target,
+      "track_mapping target",
+      productionId,
+    );
+  }
   return normalized;
 }
 
@@ -925,6 +1195,36 @@ function validateTimelineSuccessResponse(
   ) {
     throw invalidResponse(
       "Timeline command response payload is incomplete.",
+      productionId,
+    );
+  }
+}
+
+function validateClipboardSuccessResponse(
+  payload: unknown,
+  expectedOperation: ReviewClipboardOperation,
+  productionId: string,
+): asserts payload is ReviewClipboardCommandResponse {
+  validateCommonSuccessResponse(
+    payload,
+    REVIEW_CLIPBOARD_API_CONTRACT_VERSION,
+    expectedOperation,
+    productionId,
+  );
+
+  if (
+    !Number.isInteger(payload.previous_revision) ||
+    !Number.isInteger(payload.current_revision) ||
+    !isRecord(payload.snapshot) ||
+    !isRecord(payload.clipboard) ||
+    (
+      payload.timeline_history !== null &&
+      !isRecord(payload.timeline_history)
+    ) ||
+    !isRecord(payload.metadata)
+  ) {
+    throw invalidResponse(
+      "Clipboard command response payload is incomplete.",
       productionId,
     );
   }

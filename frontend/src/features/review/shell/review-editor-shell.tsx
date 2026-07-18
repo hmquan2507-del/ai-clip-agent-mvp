@@ -4,11 +4,13 @@ import {
 
 import type {
   ReviewEditorViewModel,
+  ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
 } from "../integration/contracts";
 
 import type {
+  ReviewClipboardOperation,
   ReviewTimelineCommandOperation,
 } from "../api";
 
@@ -38,9 +40,13 @@ export interface ReviewEditorShellProps {
   refreshing?: boolean;
   selecting?: boolean;
   commandPending?: boolean;
+  clipboardPending?: boolean;
 
   pendingCommand:
     ReviewTimelineCommandOperation | null;
+
+  pendingClipboardOperation:
+    ReviewClipboardOperation | null;
 
   onRefresh?: () => void;
   onUndo?: () => void;
@@ -55,6 +61,11 @@ export interface ReviewEditorShellProps {
     intent:
       ReviewTimelineCommandIntent,
   ) => void;
+
+  onClipboardCommand?: (
+    intent:
+      ReviewTimelineClipboardIntent,
+  ) => void;
 }
 
 export function ReviewEditorShell({
@@ -62,12 +73,15 @@ export function ReviewEditorShell({
   refreshing = false,
   selecting = false,
   commandPending = false,
+  clipboardPending = false,
   pendingCommand,
+  pendingClipboardOperation,
   onRefresh,
   onUndo,
   onRedo,
   onSelectClip,
   onTimelineCommand,
+  onClipboardCommand,
 }: ReviewEditorShellProps) {
   return (
     <ReviewEditorSurface className="flex h-dvh min-h-[620px] flex-col overflow-hidden">
@@ -75,7 +89,8 @@ export function ReviewEditorShell({
         view={view?.header}
         refreshing={refreshing}
         commandPending={
-          commandPending
+          commandPending ||
+          clipboardPending
         }
         onRefresh={onRefresh}
         onUndo={onUndo}
@@ -100,12 +115,21 @@ export function ReviewEditorShell({
         commandPending={
           commandPending
         }
+        clipboardPending={
+          clipboardPending
+        }
         pendingCommand={
           pendingCommand
+        }
+        pendingClipboardOperation={
+          pendingClipboardOperation
         }
        onSelectClip={onSelectClip}
         onTimelineCommand={
           onTimelineCommand
+        }
+        onClipboardCommand={
+          onClipboardCommand
         }
       />
 
