@@ -26,3 +26,26 @@ class AISuggestionTargetType(StrEnum):
     TRACK = "track"
     CLIP = "clip"
     RANGE = "range"
+
+
+class AISuggestionStoreChangeReason(StrEnum):
+    SELECT = "select"
+    APPLY = "apply"
+    DISMISS = "dismiss"
+    REGENERATE = "regenerate"
+    SYNCHRONIZE = "synchronize"
+    RESET = "reset"
+    REPLACE = "replace"
+
+
+class AISuggestionLifecycleEventType(StrEnum):
+    SUGGESTION_SELECTED = "suggestion_selected"
+    SUGGESTION_APPLIED = "suggestion_applied"
+    SUGGESTION_DISMISSED = "suggestion_dismissed"
+    SUGGESTIONS_REGENERATED = (
+        "suggestions_regenerated"
+    )
+    TIMELINE_SYNCHRONIZED = (
+        "timeline_synchronized"
+    )
+    LIFECYCLE_RESET = "lifecycle_reset"

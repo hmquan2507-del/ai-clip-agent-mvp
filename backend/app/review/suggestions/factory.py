@@ -9,6 +9,13 @@ from app.review.suggestions.read_model import (
     AISuggestionReadModelBuilder,
     RawSuggestion,
 )
+from app.review.suggestions.runtime import (
+    AISuggestionLifecycleEventCallback,
+    AISuggestionLifecycleRuntime,
+)
+from app.review.suggestions.store import (
+    AISuggestionLifecycleStore,
+)
 
 
 def build_ai_suggestion_read_model(
@@ -29,4 +36,52 @@ def build_ai_suggestion_read_model(
         selected_suggestion_id=(
             selected_suggestion_id
         ),
+    )
+
+
+def build_ai_suggestion_lifecycle_store(
+    read_model: AISuggestionReadModel,
+    *,
+    maximum_changes: int = 100,
+) -> AISuggestionLifecycleStore:
+    return AISuggestionLifecycleStore(
+        read_model,
+        maximum_changes=maximum_changes,
+    )
+
+
+def build_ai_suggestion_lifecycle_runtime(
+    read_model: AISuggestionReadModel,
+    *,
+    maximum_changes: int = 100,
+    maximum_events: int = 100,
+    event_callback: (
+        AISuggestionLifecycleEventCallback
+        | None
+    ) = None,
+) -> AISuggestionLifecycleRuntime:
+    store = build_ai_suggestion_lifecycle_store(
+        read_model,
+        maximum_changes=maximum_changes,
+    )
+    return AISuggestionLifecycleRuntime(
+        store,
+        maximum_events=maximum_events,
+        event_callback=event_callback,
+    )
+
+
+def build_ai_suggestion_lifecycle_runtime_from_store(
+    store: AISuggestionLifecycleStore,
+    *,
+    maximum_events: int = 100,
+    event_callback: (
+        AISuggestionLifecycleEventCallback
+        | None
+    ) = None,
+) -> AISuggestionLifecycleRuntime:
+    return AISuggestionLifecycleRuntime(
+        store,
+        maximum_events=maximum_events,
+        event_callback=event_callback,
     )

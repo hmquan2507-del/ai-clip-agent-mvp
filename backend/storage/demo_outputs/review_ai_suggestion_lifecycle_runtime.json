@@ -1,0 +1,133 @@
+{
+  "success": true,
+  "snapshot": {
+    "contract_version": "16.6.1",
+    "production_id": "production-1",
+    "lifecycle_revision": 7,
+    "timeline_revision": 7,
+    "read_model": {
+      "contract_version": "16.6.1",
+      "production_id": "production-1",
+      "timeline_revision": 7,
+      "suggestions": [
+        {
+          "contract_version": "16.6.1",
+          "suggestion_id": "suggestion-apply",
+          "production_id": "production-1",
+          "kind": "hook",
+          "status": "proposed",
+          "title": "Tăng tốc hook",
+          "description": "Rút ngắn clip mở đầu.",
+          "timeline_revision": 7,
+          "target": {
+            "production_id": "production-1",
+            "target_type": "clip",
+            "track_id": null,
+            "clip_id": "clip-1",
+            "start_time": null,
+            "end_time": null,
+            "metadata": {}
+          },
+          "command": {
+            "operation": "trim_clip_end",
+            "arguments": {
+              "clip_id": "clip-1",
+              "new_end_time": 2.5
+            },
+            "metadata": {}
+          },
+          "score": null,
+          "actionable": true,
+          "stale": false,
+          "created_at": "2026-07-18T08:58:21.687263+00:00",
+          "metadata": {
+            "source_index": 0
+          }
+        },
+        {
+          "contract_version": "16.6.1",
+          "suggestion_id": "suggestion-dismiss",
+          "production_id": "production-1",
+          "kind": "music",
+          "status": "proposed",
+          "title": "Đổi nhạc nền",
+          "description": "Thử nhạc nền có nhịp nhanh hơn.",
+          "timeline_revision": 7,
+          "target": {
+            "production_id": "production-1",
+            "target_type": "timeline",
+            "track_id": null,
+            "clip_id": null,
+            "start_time": null,
+            "end_time": null,
+            "metadata": {}
+          },
+          "command": null,
+          "score": null,
+          "actionable": false,
+          "stale": false,
+          "created_at": "2026-07-18T08:58:21.687263+00:00",
+          "metadata": {
+            "source_index": 1
+          }
+        },
+        {
+          "contract_version": "16.6.1",
+          "suggestion_id": "suggestion-stale",
+          "production_id": "production-1",
+          "kind": "subtitle",
+          "status": "stale",
+          "title": "Rút ngắn phụ đề",
+          "description": "Đề xuất thuộc timeline cũ.",
+          "timeline_revision": 6,
+          "target": {
+            "production_id": "production-1",
+            "target_type": "timeline",
+            "track_id": null,
+            "clip_id": null,
+            "start_time": null,
+            "end_time": null,
+            "metadata": {}
+          },
+          "command": {
+            "operation": "trim_subtitle",
+            "arguments": {},
+            "metadata": {}
+          },
+          "score": null,
+          "actionable": false,
+          "stale": true,
+          "created_at": "2026-07-18T08:58:21.687263+00:00",
+          "metadata": {
+            "source_index": 2
+          }
+        }
+      ],
+      "selected_suggestion_id": null,
+      "count": 3,
+      "actionable_count": 1,
+      "stale_count": 1,
+      "generated_at": "2026-07-18T08:58:21.687263+00:00",
+      "metadata": {
+        "source": "workspace.ai",
+        "source_count": 3,
+        "ai_metadata": {}
+      }
+    },
+    "created_at": "2026-07-18T08:58:21.697261+00:00",
+    "metadata": {
+      "runtime": "AISuggestionLifecycleRuntime"
+    }
+  },
+  "event": {
+    "event_id": "621c4f60-b940-47d2-a1f2-ed7c9b7c570b",
+    "event_type": "lifecycle_reset",
+    "production_id": "production-1",
+    "lifecycle_revision": 7,
+    "timeline_revision": 7,
+    "suggestion_id": null,
+    "created_at": "2026-07-18T08:58:21.697261+00:00",
+    "metadata": {}
+  },
+  "error": null
+}

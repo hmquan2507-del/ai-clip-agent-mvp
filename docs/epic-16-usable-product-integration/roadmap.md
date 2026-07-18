@@ -3,7 +3,7 @@
 Status: In Progress  
 Owner: Ho Quan  
 Last Updated: 2026-07-18  
-Current Milestone: 16.5.7 — Drag & Drop Integration & Regression Tests
+Current Milestone: 16.6.2 — AI Suggestion Lifecycle Store & Runtime
 
 ---
 
@@ -127,11 +127,11 @@ Status: Complete
 
 ---
 
-## Active Milestone
+## Completed Milestone
 
 ### 16.5 — Drag & Drop Timeline
 
-Status: In Progress
+Status: Complete
 
 Goal: provide CapCut-style clip movement while preserving the backend-authoritative mutation architecture.
 
@@ -141,7 +141,7 @@ Goal: provide CapCut-style clip movement while preserving the backend-authoritat
 - 16.5.4 — Runtime-connected Clip Drag UI (Completed)
 - 16.5.5 — Cross-track Drag & Drop (Completed)
 - 16.5.6 — Drag Preview, Cancel & Conflict Recovery (Completed)
-- 16.5.7 — Drag & Drop Integration & Regression Tests (In Progress)
+- 16.5.7 — Drag & Drop Integration & Regression Tests (Completed)
 
 ### 16.5 Definition of Done
 
@@ -156,14 +156,38 @@ Goal: provide CapCut-style clip movement while preserving the backend-authoritat
 
 ---
 
-## Remaining EPIC 16 Milestones
+## Active Milestone
 
 ### 16.6 — AI Suggestions & Command Panel
 
-- Runtime-connected AI suggestions
-- Suggestion review, apply, dismiss, and regenerate lifecycle
-- Natural-language command submission boundary
-- No direct timeline mutation from suggestion components
+Status: In Progress
+
+Goal: expose AI editing recommendations and natural-language revision commands while keeping the backend timeline and mutation runtimes authoritative.
+
+- 16.6.1 — AI Suggestion Contracts & Read Model (Completed)
+- 16.6.2 — AI Suggestion Lifecycle Store & Runtime (In Progress)
+- 16.6.3 — AI Suggestion Application Service
+- 16.6.4 — AI Suggestion API Contracts, Mapper & Controller
+- 16.6.5 — Frontend AI Suggestion API Client & State Runtime
+- 16.6.6 — React AI Suggestion Provider & Hooks
+- 16.6.7 — Runtime-connected Suggestion Review UI
+- 16.6.8 — Natural-language Command Submission Boundary
+- 16.6.9 — AI Suggestions Integration & Regression Tests
+
+### 16.6 Definition of Done
+
+- Backend snapshots expose structured, revision-aware AI suggestions.
+- Legacy suggestion payloads remain readable through a normalized read model.
+- Apply delegates one atomic command through Application Service and Mutation/History Runtime.
+- Dismiss and regenerate do not mutate timeline state.
+- Revision conflicts and stale suggestions remain read-only on failure.
+- Frontend suggestion components never call timeline APIs or mutate snapshot data directly.
+- Natural-language commands cross a dedicated runtime/API boundary before producing any timeline command.
+- Suggestion lifecycle, timeline, history, selection, clipboard, drag, and source isolation regressions remain green.
+
+---
+
+## Remaining EPIC 16 Milestones
 
 ### 16.7 — Manual Editing Completion
 
