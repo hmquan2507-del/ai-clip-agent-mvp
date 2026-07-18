@@ -1,0 +1,112 @@
+{
+  "contract_version": "16.6.1",
+  "production_id": "production-1",
+  "timeline_revision": 7,
+  "suggestions": [
+    {
+      "contract_version": "16.6.1",
+      "suggestion_id": "ai-suggestion-c6c6452aeeef2f563f75",
+      "production_id": "production-1",
+      "kind": "generic",
+      "status": "proposed",
+      "title": "Làm hook mạnh hơn trong 3 giây đầu.",
+      "description": "Làm hook mạnh hơn trong 3 giây đầu.",
+      "timeline_revision": 7,
+      "target": {
+        "production_id": "production-1",
+        "target_type": "timeline",
+        "track_id": null,
+        "clip_id": null,
+        "start_time": null,
+        "end_time": null,
+        "metadata": {}
+      },
+      "command": null,
+      "score": null,
+      "actionable": false,
+      "stale": false,
+      "created_at": "2026-07-18T10:00:00+00:00",
+      "metadata": {
+        "source_index": 0
+      }
+    },
+    {
+      "contract_version": "16.6.1",
+      "suggestion_id": "suggestion-broll-1",
+      "production_id": "production-1",
+      "kind": "broll",
+      "status": "proposed",
+      "title": "Thêm B-roll sản phẩm",
+      "description": "Chèn cảnh sản phẩm để tăng độ rõ ràng.",
+      "timeline_revision": 7,
+      "target": {
+        "production_id": "production-1",
+        "target_type": "clip",
+        "track_id": null,
+        "clip_id": "clip-2",
+        "start_time": null,
+        "end_time": null,
+        "metadata": {}
+      },
+      "command": {
+        "operation": "insert_broll",
+        "arguments": {
+          "clip_id": "clip-2"
+        },
+        "metadata": {}
+      },
+      "score": 92.0,
+      "actionable": true,
+      "stale": false,
+      "created_at": "2026-07-18T10:00:00+00:00",
+      "metadata": {
+        "model": "planner-v1",
+        "source_index": 1
+      }
+    },
+    {
+      "contract_version": "16.6.1",
+      "suggestion_id": "suggestion-stale-1",
+      "production_id": "production-1",
+      "kind": "subtitle",
+      "status": "stale",
+      "title": "Rút ngắn phụ đề ở đoạn cuối.",
+      "description": "Rút ngắn phụ đề ở đoạn cuối.",
+      "timeline_revision": 6,
+      "target": {
+        "production_id": "production-1",
+        "target_type": "range",
+        "track_id": null,
+        "clip_id": null,
+        "start_time": 8.0,
+        "end_time": 10.0,
+        "metadata": {}
+      },
+      "command": {
+        "operation": "trim_subtitle",
+        "arguments": {},
+        "metadata": {}
+      },
+      "score": null,
+      "actionable": false,
+      "stale": true,
+      "created_at": "2026-07-18T10:00:00+00:00",
+      "metadata": {
+        "source_index": 2
+      }
+    }
+  ],
+  "selected_suggestion_id": "suggestion-broll-1",
+  "count": 3,
+  "actionable_count": 1,
+  "stale_count": 1,
+  "generated_at": "2026-07-18T10:00:00+00:00",
+  "metadata": {
+    "source": "workspace.ai",
+    "source_count": 3,
+    "ai_metadata": {
+      "score": 88,
+      "provider": "ai-planner"
+    }
+  }
+}
