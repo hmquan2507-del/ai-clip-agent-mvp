@@ -1,9 +1,9 @@
-# EPIC 16 — Usable Product Integration Roadmap
+﻿# EPIC 16 â€” Usable Product Integration Roadmap
 
 Status: In Progress  
 Owner: Ho Quan  
 Last Updated: 2026-07-21  
-Current Milestone: 16.8.1 — Review-to-Render Handoff Contracts & Runtime
+Current Milestone: 16.8.2 â€” Render Job Submission & Queue Integration
 
 ---
 
@@ -44,104 +44,104 @@ AI remains the primary editor. The manual editor is a refinement layer, not a se
 
 ## Completed Milestones
 
-### 16.0 — Product Architecture Reconciliation
+### 16.0 â€” Product Architecture Reconciliation
 
 Status: Complete
 
-- 16.0.1 — Product Architecture Contracts
-- 16.0.2 — Product Adapter Layer
-- 16.0.3 — Product Workspace Service
-- 16.0.4 — Repository Workspace Adapters
-- 16.0.5 — Product Workspace API Foundation
+- 16.0.1 â€” Product Architecture Contracts
+- 16.0.2 â€” Product Adapter Layer
+- 16.0.3 â€” Product Workspace Service
+- 16.0.4 â€” Repository Workspace Adapters
+- 16.0.5 â€” Product Workspace API Foundation
 
-### 16.1 — Review Workspace Foundation
-
-Status: Complete
-
-- 16.1.1 — Review Workspace Domain
-- 16.1.2 — Preview Session Runtime
-- 16.1.3 — Timeline Selection Runtime
-- 16.1.4 — Timeline Editing Runtime
-  - 16.1.4.1 — Editable Timeline Domain
-  - 16.1.4.2 — Editing Validator
-  - 16.1.4.3 — Core Clip Mutation Runtime
-  - 16.1.4.4 — Split, Duplicate, Delete & Gap Runtime
-- 16.1.5 — Timeline Command History & Undo/Redo Runtime
-- 16.1.5.5 — Timeline Runtime Refactor
-  - 16.1.5.5.1 — Timeline Runtime Store
-  - 16.1.5.5.2 — Mutation Runtime Refactor
-  - 16.1.5.5.3 — History Runtime Refactor
-  - 16.1.5.5.4 — Clipboard Runtime Refactor
-  - 16.1.5.5.5 — Integration & Regression Tests
-- 16.1.6 — Timeline Clipboard Runtime
-- 16.1.7 — Review Runtime Session Orchestration
-  - 16.1.7.1 — Review Runtime Session Domain
-  - 16.1.7.2 — Runtime Graph Factory
-  - 16.1.7.3 — Runtime State Synchronization
-  - 16.1.7.4 — Workspace Runtime Snapshot
-  - 16.1.7.5 — Review Runtime Lifecycle & Integration Tests
-
-### 16.2 — Review Workspace API Foundation
+### 16.1 â€” Review Workspace Foundation
 
 Status: Complete
 
-- 16.2.1 — Review Runtime Session Registry
-- 16.2.2 — Review Workspace Application Service
-- 16.2.3 — Review Workspace API Contracts & Schemas
-- 16.2.4 — Review Workspace API Controller & Dependencies
-- 16.2.5 — Review Workspace API Integration & Regression Tests
+- 16.1.1 â€” Review Workspace Domain
+- 16.1.2 â€” Preview Session Runtime
+- 16.1.3 â€” Timeline Selection Runtime
+- 16.1.4 â€” Timeline Editing Runtime
+  - 16.1.4.1 â€” Editable Timeline Domain
+  - 16.1.4.2 â€” Editing Validator
+  - 16.1.4.3 â€” Core Clip Mutation Runtime
+  - 16.1.4.4 â€” Split, Duplicate, Delete & Gap Runtime
+- 16.1.5 â€” Timeline Command History & Undo/Redo Runtime
+- 16.1.5.5 â€” Timeline Runtime Refactor
+  - 16.1.5.5.1 â€” Timeline Runtime Store
+  - 16.1.5.5.2 â€” Mutation Runtime Refactor
+  - 16.1.5.5.3 â€” History Runtime Refactor
+  - 16.1.5.5.4 â€” Clipboard Runtime Refactor
+  - 16.1.5.5.5 â€” Integration & Regression Tests
+- 16.1.6 â€” Timeline Clipboard Runtime
+- 16.1.7 â€” Review Runtime Session Orchestration
+  - 16.1.7.1 â€” Review Runtime Session Domain
+  - 16.1.7.2 â€” Runtime Graph Factory
+  - 16.1.7.3 â€” Runtime State Synchronization
+  - 16.1.7.4 â€” Workspace Runtime Snapshot
+  - 16.1.7.5 â€” Review Runtime Lifecycle & Integration Tests
 
-### 16.3 — Frontend Review Workspace Integration
+### 16.2 â€” Review Workspace API Foundation
 
 Status: Complete
 
-- 16.3.1 — Frontend Review API Contracts & Client Foundation
-- 16.3.2 — Frontend Review Workspace State & Session Runtime
-- 16.3.3 — React Review Workspace Provider & Hooks
-- 16.3.4 — New Review Workspace Design System
-- 16.3.5 — New Review Workspace Shell
-- 16.3.6 — Runtime-connected Review UI
-- 16.3.7 — Review Workspace Integration & Regression
+- 16.2.1 â€” Review Runtime Session Registry
+- 16.2.2 â€” Review Workspace Application Service
+- 16.2.3 â€” Review Workspace API Contracts & Schemas
+- 16.2.4 â€” Review Workspace API Controller & Dependencies
+- 16.2.5 â€” Review Workspace API Integration & Regression Tests
 
-### 16.4 — Manual Timeline Editor MVP
+### 16.3 â€” Frontend Review Workspace Integration
 
 Status: Complete
 
-- 16.4.1 — Timeline Mutation API Contracts & Schemas
-- 16.4.2 — Timeline Mutation Application Service
-- 16.4.3 — Timeline Mutation API Mapper & Controller
-- 16.4.4 — Frontend Timeline Mutation API Client
-- 16.4.5 — Frontend Timeline Command State Runtime
-- 16.4.6 — React Timeline Command Provider & Hooks
-- 16.4.7 — Runtime-connected Timeline Editing UI
-  - 16.4.7.1 — Selection API Contracts & Controller
-  - 16.4.7.2 — Frontend Selection API Client & State Runtime
-  - 16.4.7.3 — Runtime-connected Timeline Selection UI
-  - 16.4.7.4 — Runtime-connected Timeline Command Controls
-  - 16.4.7.5 — Timeline Editing UI Integration & Regression
-- 16.4.8 — Timeline Clipboard UI Integration
-  - 16.4.8.1 — Backend Clipboard Application & API Integration
-  - 16.4.8.2 — Frontend Clipboard API Client & State Runtime
-  - 16.4.8.3 — React Clipboard Provider, Hooks & UI
-  - 16.4.8.4 — Timeline Clipboard UI Integration & Regression Tests
+- 16.3.1 â€” Frontend Review API Contracts & Client Foundation
+- 16.3.2 â€” Frontend Review Workspace State & Session Runtime
+- 16.3.3 â€” React Review Workspace Provider & Hooks
+- 16.3.4 â€” New Review Workspace Design System
+- 16.3.5 â€” New Review Workspace Shell
+- 16.3.6 â€” Runtime-connected Review UI
+- 16.3.7 â€” Review Workspace Integration & Regression
+
+### 16.4 â€” Manual Timeline Editor MVP
+
+Status: Complete
+
+- 16.4.1 â€” Timeline Mutation API Contracts & Schemas
+- 16.4.2 â€” Timeline Mutation Application Service
+- 16.4.3 â€” Timeline Mutation API Mapper & Controller
+- 16.4.4 â€” Frontend Timeline Mutation API Client
+- 16.4.5 â€” Frontend Timeline Command State Runtime
+- 16.4.6 â€” React Timeline Command Provider & Hooks
+- 16.4.7 â€” Runtime-connected Timeline Editing UI
+  - 16.4.7.1 â€” Selection API Contracts & Controller
+  - 16.4.7.2 â€” Frontend Selection API Client & State Runtime
+  - 16.4.7.3 â€” Runtime-connected Timeline Selection UI
+  - 16.4.7.4 â€” Runtime-connected Timeline Command Controls
+  - 16.4.7.5 â€” Timeline Editing UI Integration & Regression
+- 16.4.8 â€” Timeline Clipboard UI Integration
+  - 16.4.8.1 â€” Backend Clipboard Application & API Integration
+  - 16.4.8.2 â€” Frontend Clipboard API Client & State Runtime
+  - 16.4.8.3 â€” React Clipboard Provider, Hooks & UI
+  - 16.4.8.4 â€” Timeline Clipboard UI Integration & Regression Tests
 
 ---
 
 ## Completed Milestone
 
-### 16.5 — Drag & Drop Timeline
+### 16.5 â€” Drag & Drop Timeline
 
 Status: Complete
 
 Goal: provide CapCut-style clip movement while preserving the backend-authoritative mutation architecture.
 
-- 16.5.1 — Timeline Drag Interaction Contracts & Coordinate Model (Completed)
-- 16.5.2 — Frontend Drag Session State Runtime (Completed)
-- 16.5.3 — Timeline Snap Runtime (Completed)
-- 16.5.4 — Runtime-connected Clip Drag UI (Completed)
-- 16.5.5 — Cross-track Drag & Drop (Completed)
-- 16.5.6 — Drag Preview, Cancel & Conflict Recovery (Completed)
-- 16.5.7 — Drag & Drop Integration & Regression Tests (Completed)
+- 16.5.1 â€” Timeline Drag Interaction Contracts & Coordinate Model (Completed)
+- 16.5.2 â€” Frontend Drag Session State Runtime (Completed)
+- 16.5.3 â€” Timeline Snap Runtime (Completed)
+- 16.5.4 â€” Runtime-connected Clip Drag UI (Completed)
+- 16.5.5 â€” Cross-track Drag & Drop (Completed)
+- 16.5.6 â€” Drag Preview, Cancel & Conflict Recovery (Completed)
+- 16.5.7 â€” Drag & Drop Integration & Regression Tests (Completed)
 
 ### 16.5 Definition of Done
 
@@ -158,21 +158,21 @@ Goal: provide CapCut-style clip movement while preserving the backend-authoritat
 
 ## Active Milestone
 
-### 16.6 — AI Suggestions & Command Panel
+### 16.6 â€” AI Suggestions & Command Panel
 
 Status: Completed
 
 Goal: expose AI editing recommendations and natural-language revision commands while keeping the backend timeline and mutation runtimes authoritative.
 
-- 16.6.1 — AI Suggestion Contracts & Read Model (Completed)
-- 16.6.2 — AI Suggestion Lifecycle Store & Runtime (Completed)
-- 16.6.3 — AI Suggestion Application Service (Completed)
-- 16.6.4 — AI Suggestion API Contracts, Mapper & Controller (Completed)
-- 16.6.5 — Frontend AI Suggestion API Client & State Runtime (Completed)
-- 16.6.6 — React AI Suggestion Provider & Hooks (Completed)
-- 16.6.7 — Runtime-connected Suggestion Review UI (Completed)
-- 16.6.8 — Natural-language Command Submission Boundary (Completed)
-- 16.6.9 — AI Suggestions Integration & Regression Tests (Completed)
+- 16.6.1 â€” AI Suggestion Contracts & Read Model (Completed)
+- 16.6.2 â€” AI Suggestion Lifecycle Store & Runtime (Completed)
+- 16.6.3 â€” AI Suggestion Application Service (Completed)
+- 16.6.4 â€” AI Suggestion API Contracts, Mapper & Controller (Completed)
+- 16.6.5 â€” Frontend AI Suggestion API Client & State Runtime (Completed)
+- 16.6.6 â€” React AI Suggestion Provider & Hooks (Completed)
+- 16.6.7 â€” Runtime-connected Suggestion Review UI (Completed)
+- 16.6.8 â€” Natural-language Command Submission Boundary (Completed)
+- 16.6.9 â€” AI Suggestions Integration & Regression Tests (Completed)
 
 ### 16.6 Definition of Done
 
@@ -189,21 +189,21 @@ Goal: expose AI editing recommendations and natural-language revision commands w
 
 ## Active Milestone
 
-### 16.7 — Manual Editing Completion
+### 16.7 â€” Manual Editing Completion
 
 Status: Complete
 
 Goal: complete precise manual timeline refinement while preserving the backend timeline, command history, and revision checks as the only source of committed editing state.
 
-- 16.7.1 — Timeline Trim Interaction Contracts & Coordinate Model (Completed)
-- 16.7.2 — Frontend Trim Session State Runtime (Completed)
-- 16.7.3 — Runtime-connected Clip Trim Handles (Completed)
-- 16.7.4 — Timeline Keyboard Shortcut Runtime (Completed)
-- 16.7.5 — Runtime-connected Keyboard Editing Controls (Completed)
-- 16.7.6 — Timeline Zoom & Scroll Coordination (Completed)
-- 16.7.7 — Multi-select Editing Commands (Completed)
-- 16.7.8 — Ripple Edit Policy & Runtime (Completed)
-- 16.7.9 — Manual Editing Integration & Regression Tests (Completed)
+- 16.7.1 â€” Timeline Trim Interaction Contracts & Coordinate Model (Completed)
+- 16.7.2 â€” Frontend Trim Session State Runtime (Completed)
+- 16.7.3 â€” Runtime-connected Clip Trim Handles (Completed)
+- 16.7.4 â€” Timeline Keyboard Shortcut Runtime (Completed)
+- 16.7.5 â€” Runtime-connected Keyboard Editing Controls (Completed)
+- 16.7.6 â€” Timeline Zoom & Scroll Coordination (Completed)
+- 16.7.7 â€” Multi-select Editing Commands (Completed)
+- 16.7.8 â€” Ripple Edit Policy & Runtime (Completed)
+- 16.7.9 â€” Manual Editing Integration & Regression Tests (Completed)
 
 ### 16.7 Definition of Done
 
@@ -219,19 +219,19 @@ Goal: complete precise manual timeline refinement while preserving the backend t
 
 ## Active Milestone
 
-### 16.8 — Export Workspace Integration
+### 16.8 â€” Export Workspace Integration
 
 Status: In Progress
 
 Goal: connect the authoritative Review Workspace timeline to render and export through immutable, revision-aware contracts without allowing the render layer to read or mutate the active editing store directly.
 
-- 16.8.1 — Review-to-Render Handoff Contracts & Runtime (In Progress)
-- 16.8.2 — Render Submission Application Service & Queue Boundary
-- 16.8.3 — Export Workspace API Contracts & Controller
-- 16.8.4 — Frontend Export State Runtime & API Client
-- 16.8.5 — Render Status, Failure Recovery & Retry UX
-- 16.8.6 — Quality Gate, Artifact Download & Export Lifecycle
-- 16.8.7 — Export Workspace Integration & Regression Tests
+- 16.8.1 â€” Review-to-Render Handoff Contracts & Runtime (Completed)
+- 16.8.2 â€” Render Job Submission & Queue Integration (In Progress)
+- 16.8.3 â€” Export Workspace API Contracts & Controller
+- 16.8.4 â€” Frontend Export State Runtime & API Client
+- 16.8.5 â€” Render Status, Failure Recovery & Retry UX
+- 16.8.6 â€” Quality Gate, Artifact Download & Export Lifecycle
+- 16.8.7 â€” Export Workspace Integration & Regression Tests
 
 ### 16.8.1 Scope
 
@@ -241,6 +241,16 @@ Goal: connect the authoritative Review Workspace timeline to render and export t
 - Ensure render consumers receive the handoff contract rather than direct access to `TimelineRuntimeStore`.
 - Preserve older Review Workspace, history, clipboard, drag, trim, multi-select, ripple, and render architecture regressions.
 
+
+### 16.8.2 Scope
+
+- Accept only the immutable ReviewRenderContract created by the 16.8.1 handoff runtime.
+- Validate contract structure and checksum before creating a render queue job.
+- Submit through a dedicated queue port and the existing QueueService adapter.
+- Serialize a deep-copied contract into a QueueType.RENDER_RUNTIME payload.
+- Use a deterministic idempotency key to prevent duplicate queue submissions.
+- Keep queue submission isolated from TimelineRuntimeStore, FastAPI controllers, and frontend state.
+- Preserve review, timeline, history, manual editing, handoff, and render architecture regressions.
 ### 16.8 Definition of Done
 
 - A saved Review Workspace revision can produce one deterministic immutable render handoff contract.
@@ -255,14 +265,14 @@ Goal: connect the authoritative Review Workspace timeline to render and export t
 
 ## Remaining EPIC 16 Milestones
 
-### 16.9 — Product Polish
+### 16.9 â€” Product Polish
 
 - Loading, empty, failure, and recovery states
 - Accessibility and responsive behavior
 - Performance profiling
 - Product copy and Vietnamese UX polish
 
-### 16.10 — MVP Release Candidate
+### 16.10 â€” MVP Release Candidate
 
 - End-to-end product regression
 - Production configuration validation
@@ -273,17 +283,21 @@ Goal: connect the authoritative Review Workspace timeline to render and export t
 
 ## Post-EPIC 16 Product Roadmap
 
-- EPIC 17 — Media Library & User Assets
-- EPIC 18 — Canvas & Visual Editing
-- EPIC 19 — Advanced Subtitle System
-- EPIC 20 — Text & Graphic Intelligence
-- EPIC 21 — Audio & TTS Editing
-- EPIC 22 — Meme, Sticker & Effect Library
-- EPIC 23 — AI Partial Re-edit
-- EPIC 24 — Preview & Render Consistency
+- EPIC 17 â€” Media Library & User Assets
+- EPIC 18 â€” Canvas & Visual Editing
+- EPIC 19 â€” Advanced Subtitle System
+- EPIC 20 â€” Text & Graphic Intelligence
+- EPIC 21 â€” Audio & TTS Editing
+- EPIC 22 â€” Meme, Sticker & Effect Library
+- EPIC 23 â€” AI Partial Re-edit
+- EPIC 24 â€” Preview & Render Consistency
 
 ---
 
 ## Change Control
 
 This document is the canonical implementation roadmap for EPIC 16. Any sprint renumbering, insertion, or scope change must update this file in the same commit that introduces the change.
+
+
+
+
