@@ -22,6 +22,7 @@ export type PlaybackSessionEventType =
   | "loop-changed"
   | "stepped"
   | "advanced"
+  | "synchronized"
   | "completed"
   | "looped"
   | "reset";

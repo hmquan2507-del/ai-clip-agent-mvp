@@ -356,3 +356,14 @@ Scope:
   - Zoom, viewport, and scroll coordination without changing logical playback time
   - Deterministic drag preview, commit, cancellation, and single seek request boundary
   - Playback synchronization guarded during active dragging with no feedback loop
+
+## Sprint 16.8.7.3 — Video Preview Synchronization
+
+Status: Implemented by full-source-replacement package.
+
+Scope:
+- Video preview port contract
+- Playback and playhead synchronization
+- HTML video adapter isolation
+- Drift correction and feedback-loop prevention
+- Media event lifecycle and safe detach/dispose

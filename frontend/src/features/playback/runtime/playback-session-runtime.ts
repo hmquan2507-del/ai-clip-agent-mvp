@@ -133,6 +133,22 @@ export class PlaybackSessionRuntime {
     );
   }
 
+  synchronizeTime(time: number, playing = this.state.playing): PlaybackSessionState {
+    this.assertActive();
+    const currentTime = clampPlaybackTime(time, this.state.duration);
+    const completed = currentTime >= this.state.duration && this.state.direction === 1;
+    return this.commit(
+      {
+        ...this.state,
+        currentTime,
+        currentFrame: timeToFrame(currentTime, this.state.fps, this.state.duration),
+        status: completed ? "completed" : playing ? "playing" : "paused",
+        playing: completed ? false : playing,
+      },
+      completed ? "completed" : "synchronized",
+    );
+  }
+
   setSpeed(speed: number): PlaybackSessionState {
     this.assertActive();
     return this.commit({ ...this.state, speed: normalizeSpeed(speed) }, "speed-changed");
