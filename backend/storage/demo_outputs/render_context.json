@@ -714,10 +714,10 @@
       "render_ready": false
     }
   },
-  "working_directory": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/working",
-  "temp_directory": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/temp",
-  "output_directory": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/output",
-  "artifact_directory": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts",
+  "working_directory": "storage\\render\\221e4b01-5fb9-4b4a-a549-4fb32c455059\\working",
+  "temp_directory": "storage\\render\\221e4b01-5fb9-4b4a-a549-4fb32c455059\\temp",
+  "output_directory": "storage\\render\\221e4b01-5fb9-4b4a-a549-4fb32c455059\\output",
+  "artifact_directory": "storage\\render\\221e4b01-5fb9-4b4a-a549-4fb32c455059\\artifacts",
   "render_config": {
     "width": 1080,
     "height": 1920,
@@ -1957,8 +1957,8 @@
         ],
         "status": "pending",
         "inputs": {
-          "output_directory": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/output",
-          "artifact_directory": "storage/render/221e4b01-5fb9-4b4a-a549-4fb32c455059/artifacts"
+          "output_directory": "storage\\render\\221e4b01-5fb9-4b4a-a549-4fb32c455059\\output",
+          "artifact_directory": "storage\\render\\221e4b01-5fb9-4b4a-a549-4fb32c455059\\artifacts"
         },
         "outputs": {},
         "priority": 100,
