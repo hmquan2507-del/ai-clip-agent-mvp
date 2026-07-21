@@ -42,6 +42,7 @@ from app.api.v1.runtime_artifact_replay import (
     router as runtime_artifact_replay_router,
 )
 from app.api.v1.ai_provider_health import router as ai_provider_health_router
+from app.review.export_api.router import router as export_workspace_router
 
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
@@ -90,6 +91,7 @@ app.include_router(runtime_artifact_validation_router, prefix="/api/v1")
 app.include_router(runtime_artifact_cleanup_router, prefix="/api/v1")
 app.include_router(runtime_artifact_replay_router, prefix="/api/v1")
 app.include_router(ai_provider_health_router, prefix="/api/v1")
+app.include_router(export_workspace_router)
 
 @app.get("/")
 def root():

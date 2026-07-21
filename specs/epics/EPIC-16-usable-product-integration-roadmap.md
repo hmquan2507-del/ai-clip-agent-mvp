@@ -315,3 +315,16 @@ Scope:
 - Component health endpoint
 - OpenAPI and controller regression tests
 
+
+## Sprint 16.8.4 - Export Workspace Router Integration & Render Status API
+
+Status: Completed
+
+Scope:
+
+- Root FastAPI router integration
+- Render submission status endpoint
+- Read-only QueueService status projection
+- Missing job and UUID validation
+- OpenAPI and integration regression tests
+
