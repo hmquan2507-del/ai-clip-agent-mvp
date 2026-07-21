@@ -378,3 +378,13 @@ Delivered:
 - Master/track volume, mute, solo, playback-rate, buffering, and drift handling.
 - DOM-isolated audio port plus HTMLAudioElement adapter.
 - Full regression coverage for Playback Session, Playhead, and Video Preview runtimes.
+
+## Sprint 16.8.7.5 — Timeline Scrubbing Runtime
+
+Status: Completed
+
+Delivered:
+- Deterministic scrub begin, throttled preview, commit, cancellation, and playback resume behavior.
+- Timeline pixel/time/frame projection through the existing playhead runtime.
+- Video and audio preview synchronization with muted-audio scrubbing policy.
+- Feedback-loop guards, immutable snapshots, DOM-free core runtime, and full playback regression coverage.
