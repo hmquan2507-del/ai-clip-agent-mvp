@@ -3,3 +3,5 @@ export * from "./playback-time-model";
 export * from "./playhead-coordinate-model";
 export * from "./playhead-runtime";
 export * from "./video-preview-synchronizer";
+export * from "./audio-drift-model";
+export * from "./audio-synchronization-runtime";
