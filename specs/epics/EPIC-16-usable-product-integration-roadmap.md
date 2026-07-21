@@ -350,3 +350,9 @@ Scope:
   - Immutable playback session contracts and state snapshots
   - Deterministic play, pause, stop, seek, speed, direction, loop, frame-step, advance, reset, and disposal behavior
   - Pure frontend runtime with no React, backend, media-element, or timeline mutation dependency
+
+- [x] Sprint 16.8.7.2 — Playhead Runtime
+  - Pure time, frame, timeline-pixel, and viewport-pixel coordinate projection
+  - Zoom, viewport, and scroll coordination without changing logical playback time
+  - Deterministic drag preview, commit, cancellation, and single seek request boundary
+  - Playback synchronization guarded during active dragging with no feedback loop
