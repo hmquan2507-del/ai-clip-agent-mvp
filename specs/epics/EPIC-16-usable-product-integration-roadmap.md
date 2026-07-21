@@ -345,3 +345,8 @@ Scope:
 
 
 - [x] Sprint 16.8.6 — Export Workspace Page Integration & Review-to-Export Navigation (Full Source Replacement)
+
+- [x] Sprint 16.8.7.1 — Playback Session Runtime
+  - Immutable playback session contracts and state snapshots
+  - Deterministic play, pause, stop, seek, speed, direction, loop, frame-step, advance, reset, and disposal behavior
+  - Pure frontend runtime with no React, backend, media-element, or timeline mutation dependency
