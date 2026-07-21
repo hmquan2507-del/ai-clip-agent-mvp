@@ -301,3 +301,17 @@ This document is the canonical implementation roadmap for EPIC 16. Any sprint re
 
 
 
+
+## Sprint 16.8.3 - Export Workspace API Contracts & Controller
+
+Status: Completed
+
+Scope:
+
+- Export Workspace API request/response contracts
+- Export Workspace application service
+- FastAPI controller and dependency factory
+- Render submission endpoint
+- Component health endpoint
+- OpenAPI and controller regression tests
+
