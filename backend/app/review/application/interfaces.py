@@ -90,6 +90,18 @@ class ReviewWorkspaceApplicationServiceInterface(
         raise NotImplementedError
 
     @abstractmethod
+    def move_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        delta_time: float,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
     def trim_clip_start(
         self,
         production_id: str,
@@ -141,6 +153,18 @@ class ReviewWorkspaceApplicationServiceInterface(
         raise NotImplementedError
 
     @abstractmethod
+    def duplicate_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        time_offset: float | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
     def delete_clip(
         self,
         production_id: str,
@@ -148,6 +172,17 @@ class ReviewWorkspaceApplicationServiceInterface(
         session_id: str,
         clip_id: str,
         close_gap: bool = False,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
         expected_revision: int | None = None,
     ) -> ReviewTimelineCommandResult:
         raise NotImplementedError

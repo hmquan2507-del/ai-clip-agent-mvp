@@ -15,40 +15,58 @@ from app.review.api.contracts import (
     ReviewWorkspaceAPIOperation,
 )
 from app.review.api.dependencies import (
+    get_review_ai_command_submission_service,
+    get_review_ai_suggestion_application_service,
     get_review_workspace_application_service,
 )
 from app.review.api.mappers import (
     ReviewWorkspaceAPIMapper,
 )
 from app.review.api.schemas import (
+    ReviewAICommandSubmissionResponse,
+    ApplyAISuggestionRequest,
     ClearTimelineClipboardHistoryRequest,
     ClearTimelineClipboardRequest,
     CloseReviewWorkspaceRequest,
     CloseTimelineGapRequest,
     CopyTimelineClipsRequest,
     CutTimelineClipsRequest,
+    DeleteTimelineClipsRequest,
     DeleteTimelineClipRequest,
+    DismissAISuggestionRequest,
     DuplicateTimelineClipRequest,
+    DuplicateTimelineClipsRequest,
     MoveTimelineClipRequest,
+    MoveTimelineClipsRequest,
     OpenReviewWorkspaceRequest,
     PasteTimelineClipsRequest,
     RedoTimelineCommandRequest,
+    RegenerateAISuggestionsRequest,
     ResetReviewWorkspaceRequest,
     RestoreTimelineClipboardHistoryRequest,
     ReviewClipboardCommandResponse,
+    ReviewAISuggestionResponse,
     ReviewTimelineCommandResponse,
     ReviewWorkspaceCloseResponse,
     ReviewWorkspaceResetResponse,
     ReviewWorkspaceSessionResponse,
     ReviewWorkspaceSnapshotResponse,
     SelectTimelineClipRequest,
+    SelectAISuggestionRequest,
     SplitTimelineClipRequest,
+    SubmitAICommandRequest,
     TrimTimelineClipEndRequest,
     TrimTimelineClipStartRequest,
     UndoTimelineCommandRequest,
 )
 from app.review.application.service import (
     ReviewWorkspaceApplicationService,
+)
+from app.review.commands import (
+    AICommandSubmissionService,
+)
+from app.review.application.suggestion_service import (
+    ReviewAISuggestionApplicationService,
 )
 
 
@@ -298,6 +316,95 @@ def select_timeline_clip(
                 },
             )
         )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/multi/move",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Di chuyển nhiều clip trên timeline",
+)
+def move_timeline_clips(
+    production_id: UUID,
+    request: MoveTimelineClipsRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.move_clips(
+            normalized_id,
+            session_id=request.session_id,
+            clip_ids=request.clip_ids,
+            delta_time=request.delta_time,
+            expected_revision=request.expected_revision,
+        )
+        return ReviewWorkspaceAPIMapper.timeline_command_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/multi/duplicate",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Nhân bản nhiều clip trên timeline",
+)
+def duplicate_timeline_clips(
+    production_id: UUID,
+    request: DuplicateTimelineClipsRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.duplicate_clips(
+            normalized_id,
+            session_id=request.session_id,
+            clip_ids=request.clip_ids,
+            time_offset=request.time_offset,
+            expected_revision=request.expected_revision,
+        )
+        return ReviewWorkspaceAPIMapper.timeline_command_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/timeline/multi/delete",
+    response_model=ReviewTimelineCommandResponse,
+    summary="Xóa nhiều clip trên timeline",
+)
+def delete_timeline_clips(
+    production_id: UUID,
+    request: DeleteTimelineClipsRequest,
+    service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewTimelineCommandResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.delete_clips(
+            normalized_id,
+            session_id=request.session_id,
+            clip_ids=request.clip_ids,
+            expected_revision=request.expected_revision,
+        )
+        return ReviewWorkspaceAPIMapper.timeline_command_response(result)
     except Exception as error:
         return _error_response(
             error,
@@ -884,6 +991,197 @@ def clear_timeline_clipboard_history(
         )
 
 
+@router.get(
+    "/suggestions",
+    response_model=ReviewAISuggestionResponse,
+    summary="Lấy danh sách đề xuất AI",
+)
+def get_ai_suggestions(
+    production_id: UUID,
+    session_id: str = Query(
+        min_length=1,
+        max_length=128,
+    ),
+    service: ReviewAISuggestionApplicationService = Depends(
+        get_review_ai_suggestion_application_service
+    ),
+) -> ReviewAISuggestionResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.get_ai_suggestions(
+            normalized_id,
+            session_id=session_id,
+        )
+        return ReviewWorkspaceAPIMapper.ai_suggestion_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=session_id,
+        )
+
+
+@router.post(
+    "/suggestions/select",
+    response_model=ReviewAISuggestionResponse,
+    summary="Chọn đề xuất AI",
+)
+def select_ai_suggestion(
+    production_id: UUID,
+    request: SelectAISuggestionRequest,
+    service: ReviewAISuggestionApplicationService = Depends(
+        get_review_ai_suggestion_application_service
+    ),
+) -> ReviewAISuggestionResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.select_ai_suggestion(
+            normalized_id,
+            session_id=request.session_id,
+            suggestion_id=request.suggestion_id,
+            expected_lifecycle_revision=(
+                request.expected_lifecycle_revision
+            ),
+        )
+        return ReviewWorkspaceAPIMapper.ai_suggestion_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/suggestions/apply",
+    response_model=ReviewAISuggestionResponse,
+    summary="Áp dụng đề xuất AI",
+)
+def apply_ai_suggestion(
+    production_id: UUID,
+    request: ApplyAISuggestionRequest,
+    service: ReviewAISuggestionApplicationService = Depends(
+        get_review_ai_suggestion_application_service
+    ),
+) -> ReviewAISuggestionResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.apply_ai_suggestion(
+            normalized_id,
+            session_id=request.session_id,
+            suggestion_id=request.suggestion_id,
+            expected_timeline_revision=(
+                request.expected_timeline_revision
+            ),
+            expected_lifecycle_revision=(
+                request.expected_lifecycle_revision
+            ),
+        )
+        return ReviewWorkspaceAPIMapper.ai_suggestion_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/suggestions/dismiss",
+    response_model=ReviewAISuggestionResponse,
+    summary="Bỏ qua đề xuất AI",
+)
+def dismiss_ai_suggestion(
+    production_id: UUID,
+    request: DismissAISuggestionRequest,
+    service: ReviewAISuggestionApplicationService = Depends(
+        get_review_ai_suggestion_application_service
+    ),
+) -> ReviewAISuggestionResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.dismiss_ai_suggestion(
+            normalized_id,
+            session_id=request.session_id,
+            suggestion_id=request.suggestion_id,
+            expected_lifecycle_revision=(
+                request.expected_lifecycle_revision
+            ),
+        )
+        return ReviewWorkspaceAPIMapper.ai_suggestion_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/suggestions/regenerate",
+    response_model=ReviewAISuggestionResponse,
+    summary="Tạo lại đề xuất AI",
+)
+def regenerate_ai_suggestions(
+    production_id: UUID,
+    request: RegenerateAISuggestionsRequest,
+    service: ReviewAISuggestionApplicationService = Depends(
+        get_review_ai_suggestion_application_service
+    ),
+) -> ReviewAISuggestionResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.regenerate_ai_suggestions(
+            normalized_id,
+            session_id=request.session_id,
+            expected_lifecycle_revision=(
+                request.expected_lifecycle_revision
+            ),
+        )
+        return ReviewWorkspaceAPIMapper.ai_suggestion_response(result)
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
+@router.post(
+    "/commands/submit",
+    response_model=ReviewAICommandSubmissionResponse,
+    summary="Gửi lệnh tự nhiên cho AI Editor",
+)
+def submit_ai_command(
+    production_id: UUID,
+    request: SubmitAICommandRequest,
+    service: AICommandSubmissionService = Depends(
+        get_review_ai_command_submission_service
+    ),
+) -> ReviewAICommandSubmissionResponse | JSONResponse:
+    normalized_id = str(production_id)
+    try:
+        result = service.submit(
+            normalized_id,
+            session_id=request.session_id,
+            command_text=request.command_text,
+            expected_timeline_revision=(
+                request.expected_timeline_revision
+            ),
+            client_request_id=request.client_request_id,
+        )
+        return (
+            ReviewWorkspaceAPIMapper
+            .ai_command_submission_response(result)
+        )
+    except Exception as error:
+        return _error_response(
+            error,
+            production_id=normalized_id,
+            session_id=request.session_id,
+        )
+
+
 def _error_response(
     error: Exception,
     *,
@@ -943,6 +1241,22 @@ def _status_code_for_error(
         (
             ReviewWorkspaceAPIErrorCode
             .CLIPBOARD_COMMAND_FAILED
+        ),
+        (
+            ReviewWorkspaceAPIErrorCode
+            .AI_SUGGESTION_OPERATION_FAILED
+        ),
+        (
+            ReviewWorkspaceAPIErrorCode
+            .AI_SUGGESTION_REVISION_CONFLICT
+        ),
+        (
+            ReviewWorkspaceAPIErrorCode
+            .AI_COMMAND_SUBMISSION_FAILED
+        ),
+        (
+            ReviewWorkspaceAPIErrorCode
+            .AI_COMMAND_REVISION_CONFLICT
         ),
     }:
         return status.HTTP_409_CONFLICT

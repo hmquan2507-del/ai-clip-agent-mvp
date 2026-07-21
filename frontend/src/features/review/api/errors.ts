@@ -43,7 +43,11 @@ export class ReviewWorkspaceAPIError extends Error {
   get isRevisionConflict(): boolean {
     return (
       this.status === 409 &&
-      this.code === "review_session_conflict" &&
+      (
+        this.code === "review_session_conflict" ||
+        this.code ===
+          "review_ai_suggestion_revision_conflict"
+      ) &&
       this.expectedRevision !== null &&
       this.currentRevision !== null
     );

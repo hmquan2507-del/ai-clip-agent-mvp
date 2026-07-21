@@ -5,8 +5,12 @@ import {
 
 import {
   ReviewWorkspaceAPIError,
+  type AISuggestionLifecycleSnapshot,
+  type ReviewAICommandSubmissionResponse,
   type ReviewClipboardCommandResponse,
   type ReviewClipboardOperation,
+  type ReviewAISuggestionOperation,
+  type ReviewAISuggestionResponse,
   type ReviewRuntimeSessionSnapshot,
   type ReviewRuntimeSessionState,
   type ReviewTimelineCommandOperation,
@@ -16,11 +20,16 @@ import {
 
 import type {
   CloseTimelineGapInput,
+  ApplyAISuggestionInput,
   CopyTimelineClipsInput,
   CutTimelineClipsInput,
   DeleteTimelineClipInput,
+  DeleteTimelineClipsInput,
+  DismissAISuggestionInput,
   DuplicateTimelineClipInput,
+  DuplicateTimelineClipsInput,
   MoveTimelineClipInput,
+  MoveTimelineClipsInput,
   PasteTimelineClipsInput,
   ReviewWorkspaceRuntimeActionOptions,
   ReviewWorkspaceRuntimeClient,
@@ -29,6 +38,8 @@ import type {
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
   RestoreTimelineClipboardHistoryInput,
+  SelectAISuggestionInput,
+  SubmitAICommandInput,
   SelectTimelineClipInput,
   SplitTimelineClipInput,
   TrimTimelineClipEndInput,
@@ -44,6 +55,12 @@ const INITIAL_STATE: ReviewWorkspaceRuntimeState = {
   pendingClipboardOperation: null,
   lastClipboardOperation: null,
   lastClipboardResponse: null,
+  pendingSuggestionOperation: null,
+  lastSuggestionOperation: null,
+  lastSuggestionResponse: null,
+  suggestionSnapshot: null,
+  aiCommandSubmissionPending: false,
+  lastAICommandSubmission: null,
   productionId: null,
   sessionId: null,
   session: null,
@@ -73,6 +90,9 @@ interface RequestCompletion {
   snapshot:
     | ReviewRuntimeSessionSnapshot
     | null;
+  suggestionSnapshot?:
+    | AISuggestionLifecycleSnapshot
+    | null;
 }
 
 type TimelineCommandExecutor = (
@@ -86,6 +106,12 @@ type ClipboardCommandExecutor = (
   expectedRevision: number,
   signal: AbortSignal,
 ) => Promise<ReviewClipboardCommandResponse>;
+
+type AISuggestionExecutor = (
+  active: ActiveSession,
+  lifecycleRevision: number | null,
+  signal: AbortSignal,
+) => Promise<ReviewAISuggestionResponse>;
 
 export class ReviewWorkspaceSessionRuntime {
   private readonly store:
@@ -156,6 +182,12 @@ export class ReviewWorkspaceSessionRuntime {
         pendingClipboardOperation: null,
         lastClipboardOperation: null,
         lastClipboardResponse: null,
+        pendingSuggestionOperation: null,
+        lastSuggestionOperation: null,
+        lastSuggestionResponse: null,
+        suggestionSnapshot: null,
+        aiCommandSubmissionPending: false,
+        lastAICommandSubmission: null,
       },
     );
 
@@ -189,6 +221,7 @@ export class ReviewWorkspaceSessionRuntime {
             response.session,
           snapshot:
             response.snapshot,
+          suggestionSnapshot: null,
         },
       );
 
@@ -288,6 +321,7 @@ export class ReviewWorkspaceSessionRuntime {
             response.snapshot.session,
           snapshot:
             response.snapshot,
+          suggestionSnapshot: null,
         },
       );
 
@@ -343,6 +377,7 @@ export class ReviewWorkspaceSessionRuntime {
           session:
             response.state,
           snapshot: null,
+          suggestionSnapshot: null,
         },
       );
 
@@ -439,6 +474,21 @@ export class ReviewWorkspaceSessionRuntime {
           },
           { signal },
         ),
+      options,
+    );
+  }
+
+  moveClips(
+    input: MoveTimelineClipsInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeTimelineCommand(
+      "move_clips",
+      (active, revision, signal) => this.client.moveClips(
+        active.productionId,
+        { ...clone(input), session_id: active.sessionId, expected_revision: revision },
+        { signal },
+      ),
       options,
     );
   }
@@ -554,6 +604,36 @@ export class ReviewWorkspaceSessionRuntime {
           },
           { signal },
         ),
+      options,
+    );
+  }
+
+  duplicateClips(
+    input: DuplicateTimelineClipsInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeTimelineCommand(
+      "duplicate_clips",
+      (active, revision, signal) => this.client.duplicateClips(
+        active.productionId,
+        { ...clone(input), session_id: active.sessionId, expected_revision: revision },
+        { signal },
+      ),
+      options,
+    );
+  }
+
+  deleteClips(
+    input: DeleteTimelineClipsInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeTimelineCommand(
+      "delete_clips",
+      (active, revision, signal) => this.client.deleteClips(
+        active.productionId,
+        { ...clone(input), session_id: active.sessionId, expected_revision: revision },
+        { signal },
+      ),
       options,
     );
   }
@@ -739,6 +819,175 @@ export class ReviewWorkspaceSessionRuntime {
     );
   }
 
+  refreshAISuggestions(
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeAISuggestion(
+      "get_suggestions",
+      (active, _lifecycleRevision, signal) =>
+        this.client.getAISuggestions(
+          active.productionId,
+          active.sessionId,
+          { signal },
+        ),
+      options,
+    );
+  }
+
+  selectAISuggestion(
+    input: SelectAISuggestionInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    const suggestionId =
+      input.suggestion_id === null
+        ? null
+        : requireIdentifier(
+            input.suggestion_id,
+            "suggestion_id",
+          );
+    return this.executeAISuggestion(
+      "select_suggestion",
+      (active, lifecycleRevision, signal) =>
+        this.client.selectAISuggestion(
+          active.productionId,
+          {
+            session_id: active.sessionId,
+            suggestion_id: suggestionId,
+            expected_lifecycle_revision:
+              lifecycleRevision ?? undefined,
+          },
+          { signal },
+        ),
+      options,
+      { requireSuggestionSnapshot: true },
+    );
+  }
+
+  applyAISuggestion(
+    input: ApplyAISuggestionInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    const suggestionId = requireIdentifier(
+      input.suggestion_id,
+      "suggestion_id",
+    );
+    return this.executeAISuggestion(
+      "apply_suggestion",
+      (active, lifecycleRevision, signal) =>
+        this.client.applyAISuggestion(
+          active.productionId,
+          {
+            session_id: active.sessionId,
+            suggestion_id: suggestionId,
+            expected_timeline_revision:
+              active.snapshot.timeline.revision,
+            expected_lifecycle_revision:
+              lifecycleRevision ?? undefined,
+          },
+          { signal },
+        ),
+      options,
+      { requireSuggestionSnapshot: true },
+    );
+  }
+
+  dismissAISuggestion(
+    input: DismissAISuggestionInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    const suggestionId = requireIdentifier(
+      input.suggestion_id,
+      "suggestion_id",
+    );
+    return this.executeAISuggestion(
+      "dismiss_suggestion",
+      (active, lifecycleRevision, signal) =>
+        this.client.dismissAISuggestion(
+          active.productionId,
+          {
+            session_id: active.sessionId,
+            suggestion_id: suggestionId,
+            expected_lifecycle_revision:
+              lifecycleRevision ?? undefined,
+          },
+          { signal },
+        ),
+      options,
+      { requireSuggestionSnapshot: true },
+    );
+  }
+
+  regenerateAISuggestions(
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    return this.executeAISuggestion(
+      "regenerate_suggestions",
+      (active, lifecycleRevision, signal) =>
+        this.client.regenerateAISuggestions(
+          active.productionId,
+          {
+            session_id: active.sessionId,
+            expected_lifecycle_revision:
+              lifecycleRevision ?? undefined,
+          },
+          { signal },
+        ),
+      options,
+      { requireSuggestionSnapshot: true },
+    );
+  }
+
+  async submitAICommand(
+    input: SubmitAICommandInput,
+    options: ReviewWorkspaceRuntimeActionOptions = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    const active = this.requireActiveSession();
+    const commandText = String(
+      input.command_text ?? "",
+    ).trim().replace(/\s+/g, " ");
+    if (!commandText || commandText.length > 2000) {
+      throw new ReviewWorkspaceAPIError(
+        "AI command must contain between 1 and 2000 characters.",
+        {
+          code: "review_request_validation_failed",
+          status: 422,
+          productionId: active.productionId,
+          sessionId: active.sessionId,
+        },
+      );
+    }
+    const request = this.beginAICommandSubmission();
+    const signal = linkAbortSignals(
+      request.controller,
+      options.signal,
+    );
+    try {
+      const response = await this.client.submitAICommand(
+        active.productionId,
+        {
+          session_id: active.sessionId,
+          command_text: commandText,
+          expected_timeline_revision:
+            active.snapshot.timeline.revision,
+          client_request_id: input.client_request_id,
+        },
+        { signal },
+      );
+      this.validateAICommandSubmissionResponse(
+        response,
+        active,
+      );
+      this.completeAICommandSubmission(
+        request.revision,
+        response,
+      );
+      return this.getState();
+    } catch (error) {
+      this.failRequest(request.revision, error);
+      throw error;
+    }
+  }
+
   clear(): ReviewWorkspaceRuntimeState {
     this.assertNotDisposed();
     this.cancelActiveRequest();
@@ -765,6 +1014,172 @@ export class ReviewWorkspaceSessionRuntime {
 
     this.cancelActiveRequest();
     this.disposed = true;
+  }
+
+  private async executeAISuggestion(
+    operation: ReviewAISuggestionOperation,
+    executor: AISuggestionExecutor,
+    options: ReviewWorkspaceRuntimeActionOptions,
+    config: { requireSuggestionSnapshot?: boolean } = {},
+  ): Promise<ReviewWorkspaceRuntimeState> {
+    const active = this.requireActiveSession();
+    const current = this.store.getState();
+    const lifecycleRevision =
+      current.suggestionSnapshot?.lifecycle_revision ?? null;
+    if (config.requireSuggestionSnapshot && lifecycleRevision === null) {
+      throw new ReviewWorkspaceAPIError(
+        "AI suggestions must be loaded before this operation.",
+        {
+          code: "review_ai_suggestion_operation_failed",
+          status: 409,
+          productionId: active.productionId,
+          sessionId: active.sessionId,
+        },
+      );
+    }
+
+    const request = this.beginAISuggestion(operation);
+    const signal = linkAbortSignals(request.controller, options.signal);
+    try {
+      const response = await executor(
+        active,
+        lifecycleRevision,
+        signal,
+      );
+      this.validateAISuggestionResponse(response, active, operation);
+      this.completeAISuggestion(request.revision, response);
+      return this.getState();
+    } catch (error) {
+      if (
+        error instanceof ReviewWorkspaceAPIError &&
+        error.isRevisionConflict &&
+        this.isCurrentRequest(request.revision)
+      ) {
+        await this.recoverAISuggestionConflict(
+          request.revision,
+          active,
+          error,
+          signal,
+        );
+      } else {
+        this.failRequest(request.revision, error);
+      }
+      throw error;
+    }
+  }
+
+  private beginAISuggestion(
+    operation: ReviewAISuggestionOperation,
+  ): RuntimeRequest {
+    this.assertNotDisposed();
+    const current = this.store.getState();
+    if (current.pendingOperation !== null) {
+      throw new ReviewWorkspaceAPIError(
+        "Another Review Workspace operation is already running.",
+        {
+          code: "review_session_conflict",
+          status: 409,
+          productionId: current.productionId,
+          sessionId: current.sessionId,
+        },
+      );
+    }
+    const revision = current.requestRevision + 1;
+    const controller = new AbortController();
+    this.activeController = controller;
+    this.store.setState({
+      ...current,
+      status: "suggesting",
+      pendingOperation: "ai_suggestion",
+      pendingCommand: null,
+      pendingClipboardOperation: null,
+      pendingSuggestionOperation: operation,
+      error: null,
+      requestRevision: revision,
+      stateRevision: current.stateRevision + 1,
+      updatedAt: now(),
+    });
+    return { revision, controller };
+  }
+
+  private beginAICommandSubmission(): RuntimeRequest {
+    this.assertNotDisposed();
+    const current = this.store.getState();
+    if (current.pendingOperation !== null) {
+      throw new ReviewWorkspaceAPIError(
+        "Another Review Workspace operation is already running.",
+        {
+          code: "review_session_conflict",
+          status: 409,
+          productionId: current.productionId,
+          sessionId: current.sessionId,
+        },
+      );
+    }
+    const revision = current.requestRevision + 1;
+    const controller = new AbortController();
+    this.activeController = controller;
+    this.store.setState({
+      ...current,
+      status: "submitting_command",
+      pendingOperation: "ai_command_submission",
+      aiCommandSubmissionPending: true,
+      error: null,
+      requestRevision: revision,
+      stateRevision: current.stateRevision + 1,
+      updatedAt: now(),
+    });
+    return { revision, controller };
+  }
+
+  private completeAICommandSubmission(
+    revision: number,
+    response: ReviewAICommandSubmissionResponse,
+  ): void {
+    const current = this.store.getState();
+    if (revision !== current.requestRevision || this.disposed) {
+      return;
+    }
+    this.activeController = null;
+    this.store.setState({
+      ...current,
+      status: "ready",
+      pendingOperation: null,
+      aiCommandSubmissionPending: false,
+      lastAICommandSubmission: clone(response),
+      error: null,
+      stateRevision: current.stateRevision + 1,
+      updatedAt: now(),
+    });
+  }
+
+  private completeAISuggestion(
+    revision: number,
+    response: ReviewAISuggestionResponse,
+  ): void {
+    const current = this.store.getState();
+    if (revision !== current.requestRevision || this.disposed) {
+      return;
+    }
+    this.activeController = null;
+    this.store.setState({
+      ...current,
+      status: "ready",
+      pendingOperation: null,
+      pendingCommand: null,
+      pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
+      lastSuggestionOperation: response.operation,
+      lastSuggestionResponse: clone(response),
+      suggestionSnapshot: clone(response.suggestion_snapshot),
+      productionId: response.production_id,
+      sessionId: response.session_id,
+      session: clone(response.workspace_snapshot.session),
+      snapshot: clone(response.workspace_snapshot),
+      error: null,
+      stateRevision: current.stateRevision + 1,
+      updatedAt: now(),
+    });
   }
 
   private async executeTimelineCommand(
@@ -915,6 +1330,7 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation: "clipboard_command",
       pendingCommand: null,
       pendingClipboardOperation: operation,
+      pendingSuggestionOperation: null,
       error: null,
       requestRevision: revision,
       stateRevision: current.stateRevision + 1,
@@ -964,6 +1380,7 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation:
         "timeline_command",
       pendingCommand: operation,
+      pendingSuggestionOperation: null,
       error: null,
       requestRevision: revision,
       stateRevision:
@@ -1012,6 +1429,7 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation,
       pendingCommand: null,
       pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
       error: null,
       requestRevision: revision,
       stateRevision:
@@ -1048,6 +1466,7 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation: null,
       pendingCommand: null,
       pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
       error: null,
       stateRevision:
         current.stateRevision + 1,
@@ -1079,6 +1498,7 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation: null,
       pendingCommand: null,
       pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
       lastCommand:
         response.operation,
       lastCommandResponse:
@@ -1093,6 +1513,7 @@ export class ReviewWorkspaceSessionRuntime {
         ),
       snapshot:
         clone(response.snapshot),
+      suggestionSnapshot: null,
       error: null,
       stateRevision:
         current.stateRevision + 1,
@@ -1119,12 +1540,18 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation: null,
       pendingCommand: null,
       pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
       lastClipboardOperation: response.operation,
       lastClipboardResponse: clone(response),
       productionId: response.production_id,
       sessionId: response.session_id,
       session: clone(response.snapshot.session),
       snapshot: clone(response.snapshot),
+      suggestionSnapshot:
+        response.operation === "cut" ||
+        response.operation === "paste"
+        ? null
+        : current.suggestionSnapshot,
       error: null,
       stateRevision: current.stateRevision + 1,
       updatedAt: now(),
@@ -1165,6 +1592,7 @@ export class ReviewWorkspaceSessionRuntime {
         pendingOperation: null,
         pendingCommand: null,
         pendingClipboardOperation: null,
+        pendingSuggestionOperation: null,
         productionId:
           response.production_id,
         sessionId:
@@ -1175,6 +1603,7 @@ export class ReviewWorkspaceSessionRuntime {
           ),
         snapshot:
           clone(response.snapshot),
+        suggestionSnapshot: null,
         error:
           normalizeError(conflict),
         stateRevision:
@@ -1212,6 +1641,7 @@ export class ReviewWorkspaceSessionRuntime {
       pendingOperation: null,
       pendingCommand: null,
       pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
       error: normalizeError(error),
       stateRevision:
         current.stateRevision + 1,
@@ -1243,6 +1673,32 @@ export class ReviewWorkspaceSessionRuntime {
             active.productionId,
           sessionId:
             active.sessionId,
+        },
+      );
+    }
+  }
+
+  private validateAICommandSubmissionResponse(
+    response: ReviewAICommandSubmissionResponse,
+    active: ActiveSession,
+  ): void {
+    if (
+      response.operation !== "submit_command" ||
+      response.production_id !== active.productionId ||
+      response.session_id !== active.sessionId ||
+      response.timeline_revision !==
+        active.snapshot.timeline.revision ||
+      response.timeline_mutated !== false ||
+      response.submission.timeline_revision !==
+        active.snapshot.timeline.revision
+    ) {
+      throw new ReviewWorkspaceAPIError(
+        "AI command submission does not match the active session.",
+        {
+          code: "invalid_response",
+          status: 502,
+          productionId: active.productionId,
+          sessionId: active.sessionId,
         },
       );
     }
@@ -1314,6 +1770,80 @@ export class ReviewWorkspaceSessionRuntime {
     }
   }
 
+  private validateAISuggestionResponse(
+    response: ReviewAISuggestionResponse,
+    active: ActiveSession,
+    operation: ReviewAISuggestionOperation,
+  ): void {
+    const previousTimelineRevision =
+      active.snapshot.timeline.revision;
+    const expectedTimelineRevision =
+      operation === "apply_suggestion"
+        ? previousTimelineRevision + 1
+        : previousTimelineRevision;
+    if (
+      response.production_id !== active.productionId ||
+      response.session_id !== active.sessionId ||
+      response.operation !== operation ||
+      response.timeline_revision !== expectedTimelineRevision ||
+      response.workspace_snapshot.timeline.revision !==
+        response.timeline_revision ||
+      response.suggestion_snapshot.timeline_revision !==
+        response.timeline_revision ||
+      response.suggestion_snapshot.lifecycle_revision !==
+        response.lifecycle_revision
+    ) {
+      throw new ReviewWorkspaceAPIError(
+        "AI suggestion response does not match the active session.",
+        {
+          code: "invalid_response",
+          status: 502,
+          productionId: active.productionId,
+          sessionId: active.sessionId,
+        },
+      );
+    }
+  }
+
+  private async recoverAISuggestionConflict(
+    revision: number,
+    active: ActiveSession,
+    conflict: ReviewWorkspaceAPIError,
+    signal: AbortSignal,
+  ): Promise<void> {
+    try {
+      const response = await this.client.getAISuggestions(
+        active.productionId,
+        active.sessionId,
+        { signal },
+      );
+      const current = this.store.getState();
+      if (revision !== current.requestRevision || this.disposed) {
+        return;
+      }
+      this.activeController = null;
+      this.store.setState({
+        ...current,
+        status: "ready",
+        pendingOperation: null,
+        pendingCommand: null,
+        pendingClipboardOperation: null,
+      pendingSuggestionOperation: null,
+      aiCommandSubmissionPending: false,
+        productionId: response.production_id,
+        sessionId: response.session_id,
+        session: clone(response.workspace_snapshot.session),
+        snapshot: clone(response.workspace_snapshot),
+        suggestionSnapshot: clone(response.suggestion_snapshot),
+        error: normalizeError(conflict),
+        stateRevision: current.stateRevision + 1,
+        updatedAt: now(),
+      });
+    } catch {
+      this.failRequest(revision, conflict);
+    }
+  }
+
   private requireActiveSession():
     ActiveSession {
     this.assertNotDisposed();
@@ -1377,7 +1907,11 @@ export class ReviewWorkspaceSessionRuntime {
       state.pendingOperation ===
         "timeline_command" ||
       state.pendingOperation ===
-        "clipboard_command"
+        "clipboard_command" ||
+      state.pendingOperation ===
+        "ai_suggestion" ||
+      state.pendingOperation ===
+        "ai_command_submission"
     ) {
       throw new ReviewWorkspaceAPIError(
         "A timeline command is already running.",

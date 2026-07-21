@@ -530,22 +530,18 @@ def main() -> None:
 
     service_summary = service.to_dict()
 
+    expected_operations = {
+    operation.value
+    for operation in ReviewTimelineCommandType
+}
+
     summary_valid = (
-        service_summary[
-            "timeline_commands"
-        ]["history_backed"]
-        is True
-        and service_summary[
-            "timeline_commands"
-        ]["expected_revision"]
-        is True
-        and len(
-            service_summary[
-                "timeline_commands"
-            ]["operations"]
-        )
-        == 9
-    )
+    service_summary["timeline_commands"]["history_backed"] is True
+    and service_summary["timeline_commands"]["expected_revision"] is True
+    and set(
+        service_summary["timeline_commands"]["operations"]
+    ) == expected_operations
+)
 
     checks = {
         "interface_contract_valid": (

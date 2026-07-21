@@ -122,6 +122,16 @@ class ReviewWorkspaceApplicationService(
 
         self._timeline_command_lock = RLock()
 
+    @property
+    def operation_lock(self):
+        """Return the shared application operation lock.
+
+        Suggestion orchestration uses the same re-entrant lock as
+        timeline and clipboard commands so proposal validation and
+        history-backed execution observe one authoritative revision.
+        """
+        return self._timeline_command_lock
+
     def open_session(
         self,
         production_id: str,
@@ -504,6 +514,29 @@ class ReviewWorkspaceApplicationService(
             },
         )
 
+    def move_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        delta_time: float,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        normalized_ids = self._normalize_clip_ids(clip_ids)
+        if len(normalized_ids) < 2:
+            raise ValueError("clip_ids must contain at least two unique clips.")
+        return self._execute_timeline_command(
+            production_id,
+            session_id=session_id,
+            operation=ReviewTimelineCommandType.MOVE_CLIPS,
+            expected_revision=expected_revision,
+            executor=lambda session: session.graph.history_runtime.move_clips(
+                normalized_ids, float(delta_time)
+            ),
+            metadata={"clip_ids": normalized_ids, "delta_time": float(delta_time)},
+        )
+
     def trim_clip_end(
         self,
         production_id: str,
@@ -645,6 +678,49 @@ class ReviewWorkspaceApplicationService(
                 "clip_id": clip_id,
                 "close_gap": bool(close_gap),
             },
+        )
+
+    def duplicate_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        time_offset: float | None = None,
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        normalized_ids = self._normalize_clip_ids(clip_ids)
+        if len(normalized_ids) < 2:
+            raise ValueError("clip_ids must contain at least two unique clips.")
+        return self._execute_timeline_command(
+            production_id,
+            session_id=session_id,
+            operation=ReviewTimelineCommandType.DUPLICATE_CLIPS,
+            expected_revision=expected_revision,
+            executor=lambda session: session.graph.history_runtime.duplicate_clips(
+                normalized_ids, time_offset=time_offset
+            ),
+            metadata={"clip_ids": normalized_ids, "time_offset": time_offset},
+        )
+
+    def delete_clips(
+        self,
+        production_id: str,
+        *,
+        session_id: str,
+        clip_ids: list[str],
+        expected_revision: int | None = None,
+    ) -> ReviewTimelineCommandResult:
+        normalized_ids = self._normalize_clip_ids(clip_ids)
+        if len(normalized_ids) < 2:
+            raise ValueError("clip_ids must contain at least two unique clips.")
+        return self._execute_timeline_command(
+            production_id,
+            session_id=session_id,
+            operation=ReviewTimelineCommandType.DELETE_CLIPS,
+            expected_revision=expected_revision,
+            executor=lambda session: session.graph.history_runtime.delete_clips(normalized_ids),
+            metadata={"clip_ids": normalized_ids},
         )
 
     def close_gap(

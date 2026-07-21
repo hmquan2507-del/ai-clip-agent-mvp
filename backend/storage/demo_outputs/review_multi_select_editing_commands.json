@@ -1,0 +1,11 @@
+{
+  "operations_complete": true,
+  "move_single_commit": true,
+  "relative_spacing_preserved": true,
+  "undo_redo_atomic": true,
+  "duplicate_single_commit": true,
+  "delete_single_commit": true,
+  "locked_failure_read_only": true,
+  "source_unchanged": true,
+  "history_single_command_boundary": true
+}

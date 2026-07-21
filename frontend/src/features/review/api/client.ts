@@ -1,4 +1,9 @@
 import {
+  REVIEW_AI_COMMAND_API_CONTRACT_VERSION,
+  type ReviewAICommandSubmissionResponse,
+  type SubmitAICommandRequest,
+} from "./command-contracts";
+import {
   REVIEW_WORKSPACE_API_CONTRACT_VERSION,
   type CloseReviewWorkspaceRequest,
   type OpenReviewWorkspaceRequest,
@@ -27,8 +32,11 @@ import {
   REVIEW_TIMELINE_COMMAND_API_CONTRACT_VERSION,
   type CloseTimelineGapRequest,
   type DeleteTimelineClipRequest,
+  type DeleteTimelineClipsRequest,
   type DuplicateTimelineClipRequest,
+  type DuplicateTimelineClipsRequest,
   type MoveTimelineClipRequest,
+  type MoveTimelineClipsRequest,
   type RedoTimelineCommandRequest,
   type ReviewTimelineCommandOperation,
   type ReviewTimelineCommandRequest,
@@ -38,6 +46,15 @@ import {
   type TrimTimelineClipStartRequest,
   type UndoTimelineCommandRequest,
 } from "./timeline-contracts";
+import {
+  REVIEW_AI_SUGGESTION_API_CONTRACT_VERSION,
+  type ApplyAISuggestionRequest,
+  type DismissAISuggestionRequest,
+  type RegenerateAISuggestionsRequest,
+  type ReviewAISuggestionOperation,
+  type ReviewAISuggestionResponse,
+  type SelectAISuggestionRequest,
+} from "./suggestion-contracts";
 
 const DEFAULT_API_BASE_URL =
   "http://localhost:8000/api/v1";
@@ -262,6 +279,31 @@ export class ReviewWorkspaceClient {
     );
   }
 
+  moveClips(
+    productionId: string,
+    request: MoveTimelineClipsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewTimelineCommandResponse> {
+    const deltaTime = Number(request.delta_time);
+    if (!Number.isFinite(deltaTime) || deltaTime === 0) {
+      throw validationError(
+        "delta_time must be a non-zero finite number.",
+        productionId,
+      );
+    }
+    return this.requestTimeline(
+      productionId,
+      "move_clips",
+      "/timeline/multi/move",
+      {
+        ...normalizeTimelineCommand(request, productionId),
+        clip_ids: requireMultiIdentifierList(request.clip_ids, productionId),
+        delta_time: deltaTime,
+      },
+      options,
+    );
+  }
+
   trimClipStart(
     productionId: string,
     request: TrimTimelineClipStartRequest,
@@ -426,6 +468,44 @@ export class ReviewWorkspaceClient {
         ),
         close_gap:
           request.close_gap ?? false,
+      },
+      options,
+    );
+  }
+
+  duplicateClips(
+    productionId: string,
+    request: DuplicateTimelineClipsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewTimelineCommandResponse> {
+    return this.requestTimeline(
+      productionId,
+      "duplicate_clips",
+      "/timeline/multi/duplicate",
+      {
+        ...normalizeTimelineCommand(request, productionId),
+        clip_ids: requireMultiIdentifierList(request.clip_ids, productionId),
+        time_offset:
+          request.time_offset == null
+            ? undefined
+            : requirePositiveNumber(request.time_offset, "time_offset", productionId),
+      },
+      options,
+    );
+  }
+
+  deleteClips(
+    productionId: string,
+    request: DeleteTimelineClipsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewTimelineCommandResponse> {
+    return this.requestTimeline(
+      productionId,
+      "delete_clips",
+      "/timeline/multi/delete",
+      {
+        ...normalizeTimelineCommand(request, productionId),
+        clip_ids: requireMultiIdentifierList(request.clip_ids, productionId),
       },
       options,
     );
@@ -658,6 +738,176 @@ export class ReviewWorkspaceClient {
     );
   }
 
+  getAISuggestions(
+    productionId: string,
+    sessionId: string,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewAISuggestionResponse> {
+    const normalizedSessionId = requireIdentifier(
+      sessionId,
+      "session_id",
+      productionId,
+    );
+    return this.requestAISuggestion(
+      productionId,
+      "get_suggestions",
+      withSessionQuery(
+        "/suggestions",
+        normalizedSessionId,
+      ),
+      "GET",
+      undefined,
+      options,
+    );
+  }
+
+  selectAISuggestion(
+    productionId: string,
+    request: SelectAISuggestionRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewAISuggestionResponse> {
+    const body = normalizeAISuggestionRequest(
+      request,
+      productionId,
+    );
+    return this.requestAISuggestion(
+      productionId,
+      "select_suggestion",
+      "/suggestions/select",
+      "POST",
+      {
+        ...body,
+        suggestion_id:
+          request.suggestion_id == null
+            ? null
+            : requireIdentifier(
+                request.suggestion_id,
+                "suggestion_id",
+                productionId,
+              ),
+      },
+      options,
+    );
+  }
+
+  applyAISuggestion(
+    productionId: string,
+    request: ApplyAISuggestionRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewAISuggestionResponse> {
+    return this.requestAISuggestion(
+      productionId,
+      "apply_suggestion",
+      "/suggestions/apply",
+      "POST",
+      {
+        ...normalizeAISuggestionRequest(
+          request,
+          productionId,
+        ),
+        suggestion_id: requireIdentifier(
+          request.suggestion_id,
+          "suggestion_id",
+          productionId,
+        ),
+        expected_timeline_revision:
+          normalizeOptionalRevision(
+            request.expected_timeline_revision,
+            "expected_timeline_revision",
+            productionId,
+          ),
+      },
+      options,
+    );
+  }
+
+  dismissAISuggestion(
+    productionId: string,
+    request: DismissAISuggestionRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewAISuggestionResponse> {
+    return this.requestAISuggestion(
+      productionId,
+      "dismiss_suggestion",
+      "/suggestions/dismiss",
+      "POST",
+      {
+        ...normalizeAISuggestionRequest(
+          request,
+          productionId,
+        ),
+        suggestion_id: requireIdentifier(
+          request.suggestion_id,
+          "suggestion_id",
+          productionId,
+        ),
+      },
+      options,
+    );
+  }
+
+  regenerateAISuggestions(
+    productionId: string,
+    request: RegenerateAISuggestionsRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewAISuggestionResponse> {
+    return this.requestAISuggestion(
+      productionId,
+      "regenerate_suggestions",
+      "/suggestions/regenerate",
+      "POST",
+      normalizeAISuggestionRequest(
+        request,
+        productionId,
+      ),
+      options,
+    );
+  }
+
+  submitAICommand(
+    productionId: string,
+    request: SubmitAICommandRequest,
+    options: ReviewWorkspaceRequestOptions = {},
+  ): Promise<ReviewAICommandSubmissionResponse> {
+    const normalizedProductionId = requireIdentifier(
+      productionId,
+      "productionId",
+    );
+    const commandText = String(
+      request.command_text ?? "",
+    ).trim().replace(/\s+/g, " ");
+    if (!commandText || commandText.length > 2000) {
+      throw validationError(
+        "command_text must contain between 1 and 2000 characters.",
+        normalizedProductionId,
+      );
+    }
+    return this.requestAICommand(
+      normalizedProductionId,
+      {
+        session_id: requireIdentifier(
+          request.session_id,
+          "session_id",
+          normalizedProductionId,
+        ),
+        command_text: commandText,
+        expected_timeline_revision:
+          normalizeOptionalRevision(
+            request.expected_timeline_revision,
+            "expected_timeline_revision",
+            normalizedProductionId,
+          ),
+        client_request_id:
+          normalizeOptionalIdentifier(
+            request.client_request_id,
+            "client_request_id",
+            normalizedProductionId,
+          ),
+      },
+      options,
+    );
+  }
+
   private async requestWorkspace<T>(
     productionId: string,
     expectedOperation:
@@ -684,6 +934,59 @@ export class ReviewWorkspaceClient {
     );
 
     return payload as T;
+  }
+
+  private async requestAICommand(
+    productionId: string,
+    body: Record<string, unknown>,
+    options: ReviewWorkspaceRequestOptions,
+  ): Promise<ReviewAICommandSubmissionResponse> {
+    const payload = await this.send(
+      productionId,
+      "/commands/submit",
+      {
+        method: "POST",
+        body: JSON.stringify(removeUndefined(body)),
+        signal: options.signal,
+      },
+    );
+    validateAICommandSubmissionResponse(
+      payload,
+      productionId,
+    );
+    return payload;
+  }
+
+  private async requestAISuggestion(
+    productionId: string,
+    expectedOperation: ReviewAISuggestionOperation,
+    path: string,
+    method: "GET" | "POST",
+    body: Record<string, unknown> | undefined,
+    options: ReviewWorkspaceRequestOptions,
+  ): Promise<ReviewAISuggestionResponse> {
+    const normalizedProductionId = requireIdentifier(
+      productionId,
+      "productionId",
+    );
+    const payload = await this.send(
+      normalizedProductionId,
+      path,
+      {
+        method,
+        body:
+          body === undefined
+            ? undefined
+            : JSON.stringify(removeUndefined(body)),
+        signal: options.signal,
+      },
+    );
+    validateAISuggestionSuccessResponse(
+      payload,
+      expectedOperation,
+      normalizedProductionId,
+    );
+    return payload;
   }
 
   private async requestTimeline(
@@ -897,6 +1200,46 @@ function normalizeClipboardCommand(
   );
 }
 
+function normalizeAISuggestionRequest(
+  request: {
+    session_id: string;
+    expected_lifecycle_revision?: number;
+  },
+  productionId: string,
+): {
+  session_id: string;
+  expected_lifecycle_revision?: number;
+} {
+  return {
+    session_id: requireIdentifier(
+      request.session_id,
+      "session_id",
+      productionId,
+    ),
+    expected_lifecycle_revision:
+      normalizeOptionalRevision(
+        request.expected_lifecycle_revision,
+        "expected_lifecycle_revision",
+        productionId,
+      ),
+  };
+}
+
+function normalizeOptionalRevision(
+  value: number | undefined,
+  fieldName: string,
+  productionId: string,
+): number | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  return requirePositiveInteger(
+    value,
+    fieldName,
+    productionId,
+  );
+}
+
 function requireIdentifierList(
   values: string[],
   fieldName: string,
@@ -922,6 +1265,24 @@ function requireIdentifierList(
   if (normalized.length === 0) {
     throw validationError(
       `${fieldName} must contain at least one identifier.`,
+      productionId,
+    );
+  }
+  return normalized;
+}
+
+function requireMultiIdentifierList(
+  value: string[],
+  productionId: string,
+): string[] {
+  const normalized = requireIdentifierList(
+    value,
+    "clip_ids",
+    productionId,
+  );
+  if (normalized.length < 2) {
+    throw validationError(
+      "clip_ids must contain at least two unique identifiers.",
       productionId,
     );
   }
@@ -1225,6 +1586,82 @@ function validateClipboardSuccessResponse(
   ) {
     throw invalidResponse(
       "Clipboard command response payload is incomplete.",
+      productionId,
+    );
+  }
+}
+
+function validateAISuggestionSuccessResponse(
+  payload: unknown,
+  expectedOperation: ReviewAISuggestionOperation,
+  productionId: string,
+): asserts payload is ReviewAISuggestionResponse {
+  validateCommonSuccessResponse(
+    payload,
+    REVIEW_AI_SUGGESTION_API_CONTRACT_VERSION,
+    expectedOperation,
+    productionId,
+  );
+  if (
+    !Number.isInteger(payload.timeline_revision) ||
+    Number(payload.timeline_revision) < 1 ||
+    !Number.isInteger(payload.lifecycle_revision) ||
+    Number(payload.lifecycle_revision) < 1 ||
+    !isRecord(payload.workspace_snapshot) ||
+    !isRecord(payload.suggestion_snapshot) ||
+    (
+      payload.timeline_command_result !== null &&
+      !isRecord(payload.timeline_command_result)
+    ) ||
+    !isRecord(payload.metadata)
+  ) {
+    throw invalidResponse(
+      "AI suggestion response payload is incomplete.",
+      productionId,
+    );
+  }
+
+  const workspaceTimeline =
+    payload.workspace_snapshot.timeline;
+  if (
+    !isRecord(workspaceTimeline) ||
+    workspaceTimeline.revision !==
+      payload.timeline_revision ||
+    payload.suggestion_snapshot.lifecycle_revision !==
+      payload.lifecycle_revision ||
+    payload.suggestion_snapshot.timeline_revision !==
+      payload.timeline_revision
+  ) {
+    throw invalidResponse(
+      "AI suggestion response revisions are inconsistent.",
+      productionId,
+    );
+  }
+}
+
+function validateAICommandSubmissionResponse(
+  payload: unknown,
+  productionId: string,
+): asserts payload is ReviewAICommandSubmissionResponse {
+  validateCommonSuccessResponse(
+    payload,
+    REVIEW_AI_COMMAND_API_CONTRACT_VERSION,
+    "submit_command",
+    productionId,
+  );
+  if (
+    !Number.isInteger(payload.timeline_revision) ||
+    Number(payload.timeline_revision) < 1 ||
+    !isRecord(payload.submission) ||
+    typeof payload.duplicate !== "boolean" ||
+    payload.timeline_mutated !== false ||
+    payload.submission.timeline_revision !==
+      payload.timeline_revision ||
+    payload.submission.status !== "accepted" ||
+    typeof payload.submission.submission_id !== "string"
+  ) {
+    throw invalidResponse(
+      "AI command submission response is invalid.",
       productionId,
     );
   }

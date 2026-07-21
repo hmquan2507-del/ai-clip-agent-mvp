@@ -1,0 +1,58 @@
+{
+  "checks": {
+    "all_routes_work": true,
+    "all_operations_delegated": true,
+    "select_payload_forwarded": true,
+    "apply_revisions_forwarded": true,
+    "apply_result_mapped": true,
+    "validation_blocked_before_service": true,
+    "revision_conflict_mapped": true,
+    "openapi_routes_complete": true,
+    "response_contract_valid": true,
+    "controller_has_no_runtime_access": true,
+    "route_count_valid": true
+  },
+  "calls": [
+    {
+      "operation": "get",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4"
+    },
+    {
+      "operation": "select",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4",
+      "suggestion_id": "suggestion_1",
+      "expected_lifecycle_revision": 1
+    },
+    {
+      "operation": "apply",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4",
+      "suggestion_id": "suggestion_1",
+      "expected_timeline_revision": 4,
+      "expected_lifecycle_revision": 1
+    },
+    {
+      "operation": "dismiss",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4",
+      "suggestion_id": "suggestion_1",
+      "expected_lifecycle_revision": null
+    },
+    {
+      "operation": "regenerate",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4",
+      "expected_lifecycle_revision": 2
+    },
+    {
+      "operation": "apply",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4",
+      "suggestion_id": "revision-conflict",
+      "expected_timeline_revision": null,
+      "expected_lifecycle_revision": null
+    }
+  ]
+}

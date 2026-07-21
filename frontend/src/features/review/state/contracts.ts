@@ -5,14 +5,24 @@ import type {
   CopyTimelineClipsRequest,
   CutTimelineClipsRequest,
   DeleteTimelineClipRequest,
+  DeleteTimelineClipsRequest,
   DuplicateTimelineClipRequest,
+  DuplicateTimelineClipsRequest,
   MoveTimelineClipRequest,
+  MoveTimelineClipsRequest,
   OpenReviewWorkspaceRequest,
   PasteTimelineClipsRequest,
   RedoTimelineCommandRequest,
   RestoreTimelineClipboardHistoryRequest,
   ReviewClipboardCommandResponse,
   ReviewClipboardOperation,
+  AISuggestionLifecycleSnapshot,
+  ReviewAICommandSubmissionResponse,
+  ApplyAISuggestionRequest,
+  DismissAISuggestionRequest,
+  RegenerateAISuggestionsRequest,
+  ReviewAISuggestionOperation,
+  ReviewAISuggestionResponse,
   ReviewRuntimeSessionSnapshot,
   ReviewRuntimeSessionState,
   ReviewTimelineCommandOperation,
@@ -22,7 +32,9 @@ import type {
   ReviewWorkspaceResetResponse,
   ReviewWorkspaceSessionResponse,
   ReviewWorkspaceSnapshotResponse,
+  SelectAISuggestionRequest,
   SelectTimelineClipRequest,
+  SubmitAICommandRequest,
   SplitTimelineClipRequest,
   TrimTimelineClipEndRequest,
   TrimTimelineClipStartRequest,
@@ -37,6 +49,8 @@ export type ReviewWorkspaceLifecycleStatus =
   | "resetting"
   | "selecting"
   | "executing"
+  | "suggesting"
+  | "submitting_command"
   | "closing"
   | "closed"
   | "error";
@@ -48,6 +62,8 @@ export type ReviewWorkspacePendingOperation =
   | "select"
   | "timeline_command"
   | "clipboard_command"
+  | "ai_suggestion"
+  | "ai_command_submission"
   | "close"
   | null;
 
@@ -92,6 +108,22 @@ export interface ReviewWorkspaceRuntimeState {
 
   lastClipboardResponse:
     ReviewClipboardCommandResponse | null;
+
+  pendingSuggestionOperation:
+    ReviewAISuggestionOperation | null;
+
+  lastSuggestionOperation:
+    ReviewAISuggestionOperation | null;
+
+  lastSuggestionResponse:
+    ReviewAISuggestionResponse | null;
+
+  suggestionSnapshot:
+    AISuggestionLifecycleSnapshot | null;
+
+  aiCommandSubmissionPending: boolean;
+  lastAICommandSubmission:
+    ReviewAICommandSubmissionResponse | null;
 
   productionId: string | null;
   sessionId: string | null;
@@ -163,6 +195,12 @@ export interface ReviewWorkspaceRuntimeClient {
     },
   ): Promise<ReviewTimelineCommandResponse>;
 
+  moveClips(
+    productionId: string,
+    request: MoveTimelineClipsRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewTimelineCommandResponse>;
+
   trimClipStart(
     productionId: string,
     request: TrimTimelineClipStartRequest,
@@ -195,12 +233,24 @@ export interface ReviewWorkspaceRuntimeClient {
     },
   ): Promise<ReviewTimelineCommandResponse>;
 
+  duplicateClips(
+    productionId: string,
+    request: DuplicateTimelineClipsRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewTimelineCommandResponse>;
+
   deleteClip(
     productionId: string,
     request: DeleteTimelineClipRequest,
     options?: {
       signal?: AbortSignal;
     },
+  ): Promise<ReviewTimelineCommandResponse>;
+
+  deleteClips(
+    productionId: string,
+    request: DeleteTimelineClipsRequest,
+    options?: { signal?: AbortSignal },
   ): Promise<ReviewTimelineCommandResponse>;
 
   closeGap(
@@ -262,6 +312,42 @@ export interface ReviewWorkspaceRuntimeClient {
     request: ClearTimelineClipboardHistoryRequest,
     options?: { signal?: AbortSignal },
   ): Promise<ReviewClipboardCommandResponse>;
+
+  getAISuggestions(
+    productionId: string,
+    sessionId: string,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewAISuggestionResponse>;
+
+  selectAISuggestion(
+    productionId: string,
+    request: SelectAISuggestionRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewAISuggestionResponse>;
+
+  applyAISuggestion(
+    productionId: string,
+    request: ApplyAISuggestionRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewAISuggestionResponse>;
+
+  dismissAISuggestion(
+    productionId: string,
+    request: DismissAISuggestionRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewAISuggestionResponse>;
+
+  regenerateAISuggestions(
+    productionId: string,
+    request: RegenerateAISuggestionsRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewAISuggestionResponse>;
+
+  submitAICommand(
+    productionId: string,
+    request: SubmitAICommandRequest,
+    options?: { signal?: AbortSignal },
+  ): Promise<ReviewAICommandSubmissionResponse>;
 }
 
 export interface ReviewWorkspaceRuntimeOpenOptions
@@ -280,6 +366,21 @@ export type SelectTimelineClipInput = Omit<
 
 export type MoveTimelineClipInput = Omit<
   MoveTimelineClipRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type MoveTimelineClipsInput = Omit<
+  MoveTimelineClipsRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type DuplicateTimelineClipsInput = Omit<
+  DuplicateTimelineClipsRequest,
+  "session_id" | "expected_revision"
+>;
+
+export type DeleteTimelineClipsInput = Omit<
+  DeleteTimelineClipsRequest,
   "session_id" | "expected_revision"
 >;
 
@@ -331,6 +432,23 @@ export type PasteTimelineClipsInput = Omit<
 export type RestoreTimelineClipboardHistoryInput = Omit<
   RestoreTimelineClipboardHistoryRequest,
   "session_id" | "expected_revision"
+>;
+
+export interface SelectAISuggestionInput {
+  suggestion_id: string | null;
+}
+
+export interface ApplyAISuggestionInput {
+  suggestion_id: string;
+}
+
+export interface DismissAISuggestionInput {
+  suggestion_id: string;
+}
+
+export type SubmitAICommandInput = Omit<
+  SubmitAICommandRequest,
+  "session_id" | "expected_timeline_revision"
 >;
 
 export type ReviewWorkspaceRuntimeListener = (

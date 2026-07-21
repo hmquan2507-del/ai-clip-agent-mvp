@@ -450,3 +450,67 @@ class TimelineCommandHistoryRuntime:
             state=self.state(),
             error=message,
         )
+
+    def move_clips(
+        self,
+        clip_ids: list[str],
+        delta_time: float,
+    ) -> TimelineHistoryResult:
+        return self.execute(
+            operation_type=(
+                TimelineEditingOperationType.MOVE_CLIPS
+            ),
+            label="Di chuyển nhiều clip",
+            mutation=lambda: (
+                self.mutation_runtime.move_clips(
+                    clip_ids,
+                    delta_time,
+                )
+            ),
+            metadata={
+                "clip_ids": list(clip_ids),
+                "delta_time": float(delta_time),
+            },
+        )
+
+    def duplicate_clips(
+        self,
+        clip_ids: list[str],
+        *,
+        time_offset: float | None = None,
+    ) -> TimelineHistoryResult:
+        return self.execute(
+            operation_type=(
+                TimelineEditingOperationType.DUPLICATE_CLIPS
+            ),
+            label="Nhân bản nhiều clip",
+            mutation=lambda: (
+                self.mutation_runtime.duplicate_clips(
+                    clip_ids,
+                    time_offset=time_offset,
+                )
+            ),
+            metadata={
+                "clip_ids": list(clip_ids),
+                "time_offset": time_offset,
+            },
+        )
+
+    def delete_clips(
+        self,
+        clip_ids: list[str],
+    ) -> TimelineHistoryResult:
+        return self.execute(
+            operation_type=(
+                TimelineEditingOperationType.DELETE_CLIPS
+            ),
+            label="Xóa nhiều clip",
+            mutation=lambda: (
+                self.mutation_runtime.delete_selected_clips(
+                    clip_ids
+                )
+            ),
+            metadata={
+                "clip_ids": list(clip_ids),
+            },
+        )

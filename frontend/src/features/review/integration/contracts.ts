@@ -1,4 +1,7 @@
 import type {
+  ReviewAISuggestionOperation,
+} from "../api";
+import type {
   ReviewBadgeTone,
 } from "../design-system";
 import type {
@@ -7,6 +10,15 @@ import type {
   ReviewTimelineTrackLane,
   ReviewTimelineViewport,
 } from "../drag";
+import type {
+  ReviewTimelineTrimCancelReason,
+  ReviewTimelineTrimHandle,
+  ReviewTimelineTrimRuntimeState,
+} from "../trim";
+import type {
+  ReviewTimelineKeyboardOperation,
+  ReviewTimelineKeyboardRuntimeState,
+} from "../keyboard";
 
 export type ReviewTimelineClipTone =
   | "video"
@@ -35,6 +47,20 @@ export interface ReviewTimelineCommandTargetView {
 }
 
 export type ReviewTimelineCommandIntent =
+  | {
+      operation: "move_clips";
+      clipIds: string[];
+      deltaTime: number;
+    }
+  | {
+      operation: "duplicate_clips";
+      clipIds: string[];
+      timeOffset?: number;
+    }
+  | {
+      operation: "delete_clips";
+      clipIds: string[];
+    }
   | {
       operation: "split_clip";
       clipId: string;
@@ -78,6 +104,56 @@ export type ReviewTimelineClipboardIntent =
   | {
       operation: "clear_history";
     };
+
+export type ReviewAISuggestionIntent =
+  | {
+      operation: "refresh_suggestions";
+    }
+  | {
+      operation: "select_suggestion";
+      suggestionId: string | null;
+    }
+  | {
+      operation: "apply_suggestion";
+      suggestionId: string;
+    }
+  | {
+      operation: "dismiss_suggestion";
+      suggestionId: string;
+    }
+  | {
+      operation: "regenerate_suggestions";
+    };
+
+export interface ReviewAICommandSubmissionIntent {
+  commandText: string;
+  clientRequestId: string;
+}
+
+export interface ReviewAISuggestionItemView {
+  id: string;
+  title: string;
+  description: string;
+  kind: string;
+  score: number | null;
+  selected: boolean;
+  actionable: boolean;
+  stale: boolean;
+  status: string;
+}
+
+export interface ReviewAISuggestionPanelView {
+  available: boolean;
+  suggestions: ReviewAISuggestionItemView[];
+  selectedSuggestionId: string | null;
+  count: number;
+  actionableCount: number;
+  staleCount: number;
+  lifecycleRevision: number | null;
+  timelineRevision: number | null;
+  pending: boolean;
+  pendingOperation: ReviewAISuggestionOperation | null;
+}
 
 export interface ReviewTimelineClipboardView {
   selectedClipIds: string[];
@@ -185,6 +261,39 @@ export interface ReviewTimelineClipDragView {
   failed: boolean;
 }
 
+export interface ReviewTimelineClipTrimGeometry {
+  viewport: ReviewTimelineViewport;
+}
+
+export interface ReviewTimelineClipTrimStartIntent
+  extends ReviewTimelineClipTrimGeometry {
+  clipId: string;
+  handle: ReviewTimelineTrimHandle;
+  pointer: ReviewTimelineDragPoint;
+}
+
+export interface ReviewTimelineClipTrimMoveIntent
+  extends ReviewTimelineClipTrimGeometry {
+  pointer: ReviewTimelineDragPoint;
+}
+
+export interface ReviewTimelineClipTrimView {
+  state: ReviewTimelineTrimRuntimeState;
+  active: boolean;
+  trimming: boolean;
+  committing: boolean;
+  failed: boolean;
+  cancelReason:
+    ReviewTimelineTrimCancelReason | null;
+}
+
+export interface ReviewRuntimeKeyboardEditingView {
+  enabled: boolean;
+  state: ReviewTimelineKeyboardRuntimeState;
+  lastOperation:
+    ReviewTimelineKeyboardOperation | null;
+}
+
 export interface ReviewInspectorView {
   selectedClipId: string | null;
   selectedClipLabel: string | null;
@@ -196,6 +305,7 @@ export interface ReviewInspectorView {
   subtitlePreset: string;
   aiScore: number | null;
   aiSuggestion: string | null;
+  suggestionReview: ReviewAISuggestionPanelView;
 }
 
 export interface ReviewEditorViewModel {

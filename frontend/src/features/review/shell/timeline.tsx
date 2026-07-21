@@ -5,6 +5,7 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from "react";
 import {
+  Fragment,
   useRef,
 } from "react";
 
@@ -23,6 +24,7 @@ import {
   Lock,
   Minus,
   MoveLeft,
+  MoveRight,
   Music2,
   Plus,
   Scissors,
@@ -48,6 +50,9 @@ import type {
   ReviewTimelineClipDragMoveIntent,
   ReviewTimelineClipDragStartIntent,
   ReviewTimelineClipDragView,
+  ReviewTimelineClipTrimMoveIntent,
+  ReviewTimelineClipTrimStartIntent,
+  ReviewTimelineClipTrimView,
   ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
@@ -59,6 +64,13 @@ import type {
   ReviewTimelineTrackLane,
   ReviewTimelineViewport,
 } from "../drag";
+import type {
+  ReviewTimelineTrimCancelReason,
+  ReviewTimelineTrimHandle,
+} from "../trim";
+import {
+  useReviewTimelineViewport,
+} from "../viewport";
 
 import {
   rulerMarks,
@@ -89,6 +101,7 @@ export interface ReviewTimelinePanelProps {
   commandPending?: boolean;
   clipboardPending?: boolean;
   drag?: ReviewTimelineClipDragView;
+  trim?: ReviewTimelineClipTrimView;
 
   pendingCommand:
     ReviewTimelineCommandOperation | null;
@@ -124,6 +137,20 @@ export interface ReviewTimelinePanelProps {
   onClipDragCancel?: (
     reason?: ReviewTimelineDragCancelReason,
   ) => void;
+
+  onClipTrimStart?: (
+    intent: ReviewTimelineClipTrimStartIntent,
+  ) => void;
+
+  onClipTrimMove?: (
+    intent: ReviewTimelineClipTrimMoveIntent,
+  ) => void;
+
+  onClipTrimDrop?: () => void;
+
+  onClipTrimCancel?: (
+    reason?: ReviewTimelineTrimCancelReason,
+  ) => void;
 }
 
 export function ReviewTimelinePanel({
@@ -132,6 +159,7 @@ export function ReviewTimelinePanel({
   commandPending = false,
   clipboardPending = false,
   drag,
+  trim,
   pendingCommand,
   pendingClipboardOperation,
   onSelectClip,
@@ -141,13 +169,23 @@ export function ReviewTimelinePanel({
   onClipDragMove,
   onClipDragDrop,
   onClipDragCancel,
+  onClipTrimStart,
+  onClipTrimMove,
+  onClipTrimDrop,
+  onClipTrimCancel,
 }: ReviewTimelinePanelProps) {
   const timelineCanvasRef =
+    useRef<HTMLDivElement | null>(null);
+  const timelineScrollRef =
+    useRef<HTMLDivElement | null>(null);
+  const timelineLabelsRef =
     useRef<HTMLDivElement | null>(null);
   const laneElementsRef = useRef(
     new Map<string, HTMLDivElement>(),
   );
   const activePointerRef =
+    useRef<number | null>(null);
+  const activeTrimPointerRef =
     useRef<number | null>(null);
   const pointerOriginRef = useRef<{
     clientX: number;
@@ -155,6 +193,15 @@ export function ReviewTimelinePanel({
   } | null>(null);
   const suppressClickRef =
     useRef(false);
+
+  const timelineViewport =
+    useReviewTimelineViewport({
+      duration: view?.duration ?? 30,
+      scrollRef: timelineScrollRef,
+      labelsRef: timelineLabelsRef,
+    });
+  const viewportState =
+    timelineViewport.state;
   const tracks:
     ReviewTimelineTrackView[] =
       view?.tracks ??
@@ -235,6 +282,14 @@ export function ReviewTimelinePanel({
       dragProjection.targetTrackId !==
         activeDragSource.trackId,
   );
+  const activeTrimSource =
+    trim?.active
+      ? trim.state.session?.source ?? null
+      : null;
+  const trimProjection =
+    trim?.active
+      ? trim.state.projection
+      : null;
 
   const target =
     view?.commandTarget ??
@@ -261,6 +316,7 @@ export function ReviewTimelinePanel({
     commandPending ||
     clipboardPending ||
     Boolean(drag?.active) ||
+    Boolean(trim?.active) ||
     !onTimelineCommand;
 
   const clipboardControlsDisabled =
@@ -268,6 +324,7 @@ export function ReviewTimelinePanel({
     commandPending ||
     clipboardPending ||
     Boolean(drag?.active) ||
+    Boolean(trim?.active) ||
     !onClipboardCommand;
 
   const canEditTarget =
@@ -276,8 +333,18 @@ export function ReviewTimelinePanel({
     ) &&
     !controlsDisabled;
 
+  const multiSelectedClipIds =
+    clipboard.selectedClipIds;
+  const hasMultiSelection =
+    multiSelectedClipIds.length > 1;
+  const canEditMultiSelection =
+    hasMultiSelection &&
+    clipboard.canCut &&
+    !controlsDisabled;
+
   const canSplit =
     canEditTarget &&
+    !hasMultiSelection &&
     Boolean(
       target?.canSplit &&
       target.splitTime !==
@@ -327,13 +394,25 @@ export function ReviewTimelinePanel({
     } | null => {
       const canvas =
         timelineCanvasRef.current;
+      const scrollElement =
+        timelineScrollRef.current;
+      const labelsElement =
+        timelineLabelsRef.current;
 
-      if (!canvas) {
+      if (
+        !canvas ||
+        !scrollElement ||
+        !labelsElement
+      ) {
         return null;
       }
 
       const canvasRect =
         canvas.getBoundingClientRect();
+      const scrollRect =
+        scrollElement.getBoundingClientRect();
+      const labelsWidth =
+        labelsElement.getBoundingClientRect().width;
       const lanes = tracks.flatMap(
         (track) => {
           const element =
@@ -361,16 +440,19 @@ export function ReviewTimelinePanel({
 
       return {
         viewport: {
-          left: canvasRect.left,
+          left:
+            scrollRect.left + labelsWidth,
           top: canvasRect.top + 28,
-          width: canvasRect.width,
+          width:
+            viewportState.viewportWidth,
           height: Math.max(
             1,
             canvasRect.height - 28,
           ),
-          scrollLeft: 0,
+          scrollLeft:
+            viewportState.scrollLeft,
           contentWidth:
-            canvasRect.width,
+            viewportState.contentWidth,
         },
         lanes,
       };
@@ -389,6 +471,7 @@ export function ReviewTimelinePanel({
       commandPending ||
       clipboardPending ||
       drag?.active ||
+      trim?.active ||
       !onClipDragStart
     ) {
       return;
@@ -419,6 +502,115 @@ export function ReviewTimelinePanel({
       },
       ...geometry,
     });
+  };
+
+  const beginClipTrim = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+    clipId: string,
+    handle: ReviewTimelineTrimHandle,
+    editable: boolean,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (
+      event.button !== 0 ||
+      !editable ||
+      selecting ||
+      commandPending ||
+      clipboardPending ||
+      drag?.active ||
+      trim?.active ||
+      !onClipTrimStart
+    ) {
+      return;
+    }
+
+    const geometry = measureDragGeometry();
+    if (!geometry) return;
+
+    activeTrimPointerRef.current =
+      event.pointerId;
+    suppressClickRef.current = true;
+    event.currentTarget.setPointerCapture(
+      event.pointerId,
+    );
+
+    onClipTrimStart({
+      clipId,
+      handle,
+      pointer: {
+        clientX: event.clientX,
+        clientY: event.clientY,
+      },
+      viewport: geometry.viewport,
+    });
+  };
+
+  const moveClipTrim = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    event.stopPropagation();
+    if (
+      activeTrimPointerRef.current !==
+        event.pointerId ||
+      !onClipTrimMove
+    ) {
+      return;
+    }
+
+    const geometry = measureDragGeometry();
+    if (!geometry) return;
+
+    onClipTrimMove({
+      pointer: {
+        clientX: event.clientX,
+        clientY: event.clientY,
+      },
+      viewport: geometry.viewport,
+    });
+  };
+
+  const dropClipTrim = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (
+      activeTrimPointerRef.current !==
+      event.pointerId
+    ) {
+      return;
+    }
+
+    if (
+      event.currentTarget.hasPointerCapture(
+        event.pointerId,
+      )
+    ) {
+      event.currentTarget.releasePointerCapture(
+        event.pointerId,
+      );
+    }
+
+    activeTrimPointerRef.current = null;
+    onClipTrimDrop?.();
+  };
+
+  const cancelClipTrim = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+  ) => {
+    event.stopPropagation();
+    if (
+      activeTrimPointerRef.current !==
+      event.pointerId
+    ) {
+      return;
+    }
+
+    activeTrimPointerRef.current = null;
+    suppressClickRef.current = true;
+    onClipTrimCancel?.("pointer_cancelled");
   };
 
   const moveClipDrag = (
@@ -527,6 +719,13 @@ export function ReviewTimelinePanel({
 
   const duplicateSelectedClip =
     () => {
+      if (canEditMultiSelection) {
+        onTimelineCommand?.({
+          operation: "duplicate_clips",
+          clipIds: [...multiSelectedClipIds],
+        });
+        return;
+      }
       if (
         !target ||
         !canEditTarget
@@ -544,6 +743,13 @@ export function ReviewTimelinePanel({
 
   const deleteSelectedClip =
     () => {
+      if (canEditMultiSelection) {
+        onTimelineCommand?.({
+          operation: "delete_clips",
+          clipIds: [...multiSelectedClipIds],
+        });
+        return;
+      }
       if (
         !target ||
         !canEditTarget
@@ -558,6 +764,17 @@ export function ReviewTimelinePanel({
           target.clipId,
       });
     };
+
+  const moveSelectedClips = (direction: -1 | 1) => {
+    if (!canEditMultiSelection) {
+      return;
+    }
+    onTimelineCommand?.({
+      operation: "move_clips",
+      clipIds: [...multiSelectedClipIds],
+      deltaTime: direction / Math.max(view?.fps ?? 30, 1),
+    });
+  };
 
   const closeGapBeforeClip =
     () => {
@@ -683,13 +900,34 @@ export function ReviewTimelinePanel({
         selecting ||
         commandPending ||
         clipboardPending ||
-        Boolean(drag?.active)
+        Boolean(drag?.active) ||
+        Boolean(trim?.active)
       }
       className="h-[252px] shrink-0 border-t border-[var(--review-border)] bg-[var(--review-timeline-ruler)] max-md:h-[220px]"
     >
       <div className="flex h-10 items-center justify-between border-b border-[var(--review-border)] px-2.5">
         <div className="flex items-center gap-2">
           <ReviewToolbarGroup>
+            <ReviewIconButton
+              aria-label="Dịch nhóm clip sang trái một frame"
+              title="Dịch nhóm sang trái"
+              size="sm"
+              onClick={() => moveSelectedClips(-1)}
+              disabled={!canEditMultiSelection}
+            >
+              <MoveLeft />
+            </ReviewIconButton>
+
+            <ReviewIconButton
+              aria-label="Dịch nhóm clip sang phải một frame"
+              title="Dịch nhóm sang phải"
+              size="sm"
+              onClick={() => moveSelectedClips(1)}
+              disabled={!canEditMultiSelection}
+            >
+              <MoveRight />
+            </ReviewIconButton>
+
             <ReviewIconButton
               aria-label="Tách clip đang chọn"
               title="Tách clip tại con trỏ"
@@ -710,7 +948,7 @@ export function ReviewTimelinePanel({
                 duplicateSelectedClip
               }
               disabled={
-                !canEditTarget
+                !canEditTarget && !canEditMultiSelection
               }
             >
               <Files />
@@ -724,7 +962,7 @@ export function ReviewTimelinePanel({
                 deleteSelectedClip
               }
               disabled={
-                !canEditTarget
+                !canEditTarget && !canEditMultiSelection
               }
             >
               <Trash2 />
@@ -901,23 +1139,77 @@ export function ReviewTimelinePanel({
                 : `Không thể di chuyển clip · ${drag.state.failure.message}`}
             </span>
           ) : null}
+
+          {trim?.trimming ? (
+            <span
+              role="status"
+              className="text-[10px] text-[var(--review-accent-text)]"
+            >
+              Đang cắt mép clip…
+            </span>
+          ) : null}
+
+          {trim?.committing ? (
+            <span
+              role="status"
+              className="text-[10px] text-[var(--review-accent-text)]"
+            >
+              Đang áp dụng điểm cắt…
+            </span>
+          ) : null}
+
+          {trim?.failed &&
+          trim.state.failure ? (
+            <span
+              role="alert"
+              data-review-trim-failure={
+                trim.state.failure.code
+              }
+              className="max-w-sm truncate text-[10px] text-rose-300"
+              title={trim.state.failure.message}
+            >
+              {trim.state.failure.isRevisionConflict
+                ? "Timeline đã thay đổi · Đã đồng bộ bản mới"
+                : `Không thể trim clip · ${trim.state.failure.message}`}
+            </span>
+          ) : null}
         </div>
 
         <div className="flex items-center gap-2">
           <ReviewIconButton
             aria-label="Thu nhỏ timeline"
             size="sm"
+            onClick={() => {
+              timelineViewport.zoomOut();
+            }}
+            disabled={
+              !viewportState.canZoomOut
+            }
           >
             <Minus />
           </ReviewIconButton>
 
           <div className="h-1 w-20 overflow-hidden rounded-full bg-[var(--review-surface-3)] max-sm:hidden">
-            <div className="h-full w-1/2 rounded-full bg-[var(--review-text-subtle)]" />
+            <div
+              className="h-full rounded-full bg-[var(--review-text-subtle)]"
+              style={{
+                width: `${Math.max(
+                  6,
+                  (viewportState.zoom / 8) * 100,
+                )}%`,
+              }}
+            />
           </div>
 
           <ReviewIconButton
             aria-label="Phóng to timeline"
             size="sm"
+            onClick={() => {
+              timelineViewport.zoomIn();
+            }}
+            disabled={
+              !viewportState.canZoomIn
+            }
           >
             <Plus />
           </ReviewIconButton>
@@ -925,14 +1217,38 @@ export function ReviewTimelinePanel({
           <ReviewIconButton
             aria-label="Vừa timeline"
             size="sm"
+            onClick={() => {
+              timelineViewport.fit();
+            }}
+            title={`Vừa timeline · ${Math.round(
+              viewportState.zoom * 100,
+            )}%`}
           >
             <ZoomIn />
           </ReviewIconButton>
         </div>
       </div>
 
-      <div className="grid h-[calc(100%-40px)] grid-cols-[112px_minmax(620px,1fr)] overflow-auto max-md:grid-cols-[88px_minmax(560px,1fr)]">
-        <div className="sticky left-0 z-20 border-r border-[var(--review-border)] bg-[var(--review-bg-elevated)]">
+      <div
+        ref={timelineScrollRef}
+        className="grid h-[calc(100%-40px)] grid-cols-[112px_minmax(620px,1fr)] overflow-auto max-md:grid-cols-[88px_minmax(560px,1fr)]"
+        data-review-timeline-zoom={
+          viewportState.zoom
+        }
+        data-review-timeline-scroll={
+          viewportState.scrollLeft
+        }
+        onScroll={
+          timelineViewport.synchronizeScroll
+        }
+        onWheel={
+          timelineViewport.zoomAtPointer
+        }
+      >
+        <div
+          ref={timelineLabelsRef}
+          className="sticky left-0 z-20 border-r border-[var(--review-border)] bg-[var(--review-bg-elevated)]"
+        >
           <div className="h-7 border-b border-[var(--review-border-subtle)]" />
 
           {tracks.map((track) => {
@@ -965,6 +1281,10 @@ export function ReviewTimelinePanel({
         <div
           ref={timelineCanvasRef}
           className="relative"
+          style={{
+            width:
+              `${viewportState.contentWidth}px`,
+          }}
         >
           <div
             className="grid h-7 border-b border-[var(--review-border-subtle)] text-[9px] text-[var(--review-text-subtle)]"
@@ -1033,8 +1353,24 @@ export function ReviewTimelinePanel({
                           ?.source.clipId ===
                           clip.id,
                       );
+                    const isTrimmed =
+                      Boolean(
+                        trim?.active &&
+                        activeTrimSource?.clipId ===
+                          clip.id,
+                      );
                     const projectedStart =
-                      isDragged &&
+                      isTrimmed &&
+                      trimProjection
+                        ? (
+                            trimProjection
+                              .projectedStartTime /
+                            Math.max(
+                              view?.duration ?? 1,
+                              0.000001,
+                            )
+                          ) * 100
+                        : isDragged &&
                       drag?.state.projection
                         ? (
                             drag.state.projection
@@ -1045,10 +1381,28 @@ export function ReviewTimelinePanel({
                             )
                           ) * 100
                         : clip.start;
+                    const projectedWidth =
+                      isTrimmed &&
+                      trimProjection
+                        ? (
+                            trimProjection
+                              .projectedDuration /
+                            Math.max(
+                              view?.duration ?? 1,
+                              0.000001,
+                            )
+                          ) * 100
+                        : clip.width;
+                    const handlesVisible =
+                      clip.selected &&
+                      clip.editable &&
+                      !track.locked &&
+                      !drag?.active &&
+                      Boolean(onClipTrimStart);
 
                     return (
+                    <Fragment key={clip.id}>
                     <button
-                      key={clip.id}
                       type="button"
                       aria-label={
                         clip.selected
@@ -1065,7 +1419,8 @@ export function ReviewTimelinePanel({
                         Boolean(
                           drag?.active &&
                           !isDragged,
-                        )
+                        ) ||
+                        Boolean(trim?.active)
                       }
                       title={
                         clip.editable
@@ -1075,6 +1430,11 @@ export function ReviewTimelinePanel({
                       data-drag-phase={
                         isDragged
                           ? drag?.state.phase
+                          : undefined
+                      }
+                      data-trim-phase={
+                        isTrimmed
+                          ? trim?.state.phase
                           : undefined
                       }
                       className={reviewClassNames(
@@ -1092,12 +1452,14 @@ export function ReviewTimelinePanel({
                         isDragged &&
                           crossTrackDrag &&
                           "opacity-0",
+                        isTrimmed &&
+                          "z-20 opacity-80 shadow-lg ring-2 ring-amber-300",
                       )}
                       style={{
                         left:
                           `${projectedStart}%`,
                         width:
-                          `${clip.width}%`,
+                          `${projectedWidth}%`,
                       }}
                       onClick={(
                         event,
@@ -1162,6 +1524,144 @@ export function ReviewTimelinePanel({
                         {clip.label}
                       </span>
                     </button>
+
+                    {handlesVisible ? (
+                      <>
+                        <button
+                          type="button"
+                          aria-label={`Trim đầu clip ${clip.label}`}
+                          title="Kéo để thay đổi điểm bắt đầu"
+                          data-review-trim-handle="start"
+                          data-trim-active={
+                            isTrimmed &&
+                            trim?.state.session?.handle ===
+                              "start"
+                              ? "true"
+                              : undefined
+                          }
+                          className="absolute top-1 z-30 h-8 w-2 -translate-x-1/2 touch-none cursor-ew-resize rounded-l border border-amber-200/70 bg-amber-300/80 shadow-[0_0_6px_rgba(252,211,77,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200 disabled:cursor-wait disabled:opacity-50"
+                          style={{
+                            left: `${projectedStart}%`,
+                          }}
+                          disabled={
+                            selecting ||
+                            commandPending ||
+                            clipboardPending ||
+                            Boolean(
+                              trim?.active &&
+                              !isTrimmed,
+                            )
+                          }
+                          onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }}
+                          onPointerDown={(event) => {
+                            beginClipTrim(
+                              event,
+                              clip.id,
+                              "start",
+                              true,
+                            );
+                          }}
+                          onPointerMove={moveClipTrim}
+                          onPointerUp={dropClipTrim}
+                          onPointerCancel={cancelClipTrim}
+                          onKeyDown={(event) => {
+                            if (
+                              event.key === "Escape" &&
+                              trim?.active
+                            ) {
+                              const pointerId =
+                                activeTrimPointerRef.current;
+                              if (
+                                pointerId !== null &&
+                                event.currentTarget.hasPointerCapture(
+                                  pointerId,
+                                )
+                              ) {
+                                event.currentTarget.releasePointerCapture(
+                                  pointerId,
+                                );
+                              }
+                              activeTrimPointerRef.current = null;
+                              suppressClickRef.current = true;
+                              onClipTrimCancel?.(
+                                "escape_pressed",
+                              );
+                            }
+                          }}
+                        />
+
+                        <button
+                          type="button"
+                          aria-label={`Trim cuối clip ${clip.label}`}
+                          title="Kéo để thay đổi điểm kết thúc"
+                          data-review-trim-handle="end"
+                          data-trim-active={
+                            isTrimmed &&
+                            trim?.state.session?.handle ===
+                              "end"
+                              ? "true"
+                              : undefined
+                          }
+                          className="absolute top-1 z-30 h-8 w-2 -translate-x-1/2 touch-none cursor-ew-resize rounded-r border border-amber-200/70 bg-amber-300/80 shadow-[0_0_6px_rgba(252,211,77,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200 disabled:cursor-wait disabled:opacity-50"
+                          style={{
+                            left:
+                              `${projectedStart + projectedWidth}%`,
+                          }}
+                          disabled={
+                            selecting ||
+                            commandPending ||
+                            clipboardPending ||
+                            Boolean(
+                              trim?.active &&
+                              !isTrimmed,
+                            )
+                          }
+                          onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }}
+                          onPointerDown={(event) => {
+                            beginClipTrim(
+                              event,
+                              clip.id,
+                              "end",
+                              true,
+                            );
+                          }}
+                          onPointerMove={moveClipTrim}
+                          onPointerUp={dropClipTrim}
+                          onPointerCancel={cancelClipTrim}
+                          onKeyDown={(event) => {
+                            if (
+                              event.key === "Escape" &&
+                              trim?.active
+                            ) {
+                              const pointerId =
+                                activeTrimPointerRef.current;
+                              if (
+                                pointerId !== null &&
+                                event.currentTarget.hasPointerCapture(
+                                  pointerId,
+                                )
+                              ) {
+                                event.currentTarget.releasePointerCapture(
+                                  pointerId,
+                                );
+                              }
+                              activeTrimPointerRef.current = null;
+                              suppressClickRef.current = true;
+                              onClipTrimCancel?.(
+                                "escape_pressed",
+                              );
+                            }
+                          }}
+                        />
+                      </>
+                    ) : null}
+                    </Fragment>
                     );
                   },
                 )}
@@ -1242,8 +1742,17 @@ function commandLabel(
     case "duplicate_clip":
       return "Đang nhân đôi clip…";
 
+    case "duplicate_clips":
+      return "Đang nhân đôi nhóm clip…";
+
     case "delete_clip":
       return "Đang xóa clip…";
+
+    case "delete_clips":
+      return "Đang xóa nhóm clip…";
+
+    case "move_clips":
+      return "Đang di chuyển nhóm clip…";
 
     case "close_gap":
       return "Đang đóng khoảng trống…";

@@ -4,6 +4,7 @@ import {
   Crop,
   Maximize2,
   Play,
+  RefreshCw,
   RotateCcw,
   SlidersHorizontal,
   Sparkles,
@@ -22,6 +23,7 @@ import {
   ReviewToolbarGroup,
 } from "../design-system";
 import type {
+  ReviewAISuggestionIntent,
   ReviewInspectorView,
   ReviewPreviewView,
 } from "../integration/contracts";
@@ -119,10 +121,22 @@ export function ReviewPreviewStage({ view }: ReviewPreviewStageProps) {
 
 export interface ReviewInspectorPanelProps {
   view?: ReviewInspectorView;
+  pending?: boolean;
+  onSuggestionIntent?: (
+    intent: ReviewAISuggestionIntent,
+  ) => void;
 }
 
-export function ReviewInspectorPanel({ view }: ReviewInspectorPanelProps) {
+export function ReviewInspectorPanel({
+  view,
+  pending = false,
+  onSuggestionIntent,
+}: ReviewInspectorPanelProps) {
   const hasSelection = Boolean(view?.selectedClipId);
+  const suggestionReview =
+    view?.suggestionReview;
+  const suggestions =
+    suggestionReview?.suggestions ?? [];
 
   return (
     <aside className="min-h-0 overflow-y-auto border-l border-[var(--review-border)] bg-[var(--review-bg-elevated)] max-xl:hidden">
@@ -190,31 +204,159 @@ export function ReviewInspectorPanel({ view }: ReviewInspectorPanelProps) {
               <ReviewPanelTitle>Đề xuất từ AI</ReviewPanelTitle>
             </div>
             <ReviewBadge tone="brand">
-              {view?.aiScore !== null && view?.aiScore !== undefined
-                ? `${view.aiScore} điểm`
+              {suggestionReview?.available
+                ? `${suggestionReview.actionableCount}/${suggestionReview.count}`
                 : "AI"}
             </ReviewBadge>
           </ReviewPanelHeader>
           <ReviewPanelBody className="space-y-3">
-            <p className="text-xs leading-5 text-[var(--review-text-muted)]">
-              {view?.aiSuggestion ??
-                (hasSelection
-                  ? "AI chưa có đề xuất mới cho clip đang chọn."
-                  : "Chọn một clip trên timeline để xem thuộc tính và đề xuất từ AI.")}
-            </p>
-            <div className="flex gap-2">
-              <ReviewButton size="sm" disabled={!view?.aiSuggestion}>
-                <WandSparkles className="size-3.5" />
-                Áp dụng
-              </ReviewButton>
-              <ReviewButton size="sm" variant="ghost">
-                Bỏ qua
-              </ReviewButton>
-            </div>
+            {!suggestionReview?.available ? (
+              <SuggestionEmptyState
+                pending={pending}
+                message="Đang tải các đề xuất phù hợp với timeline hiện tại."
+                onRefresh={() =>
+                  onSuggestionIntent?.({
+                    operation: "refresh_suggestions",
+                  })
+                }
+              />
+            ) : suggestions.length === 0 ? (
+              <SuggestionEmptyState
+                pending={pending}
+                message={
+                  hasSelection
+                    ? "AI chưa có đề xuất mới cho clip đang chọn."
+                    : "AI chưa có đề xuất mới cho timeline này."
+                }
+                onRefresh={() =>
+                  onSuggestionIntent?.({
+                    operation: "regenerate_suggestions",
+                  })
+                }
+              />
+            ) : (
+              <div className="space-y-2">
+                {suggestions.map((suggestion) => (
+                  <div
+                    key={suggestion.id}
+                    className={
+                      suggestion.selected
+                        ? "rounded-xl border border-[var(--review-accent)] bg-[var(--review-accent-soft)] p-2.5"
+                        : "rounded-xl border border-[var(--review-border)] bg-[var(--review-bg)] p-2.5"
+                    }
+                  >
+                    <button
+                      type="button"
+                      disabled={pending}
+                      className="block w-full text-left disabled:cursor-wait"
+                      onClick={() =>
+                        onSuggestionIntent?.({
+                          operation: "select_suggestion",
+                          suggestionId: suggestion.id,
+                        })
+                      }
+                    >
+                      <span className="flex items-start justify-between gap-2">
+                        <span className="text-[11px] font-semibold leading-4 text-[var(--review-text)]">
+                          {suggestion.title}
+                        </span>
+                        {suggestion.score !== null ? (
+                          <ReviewBadge tone="brand">
+                            {Math.round(suggestion.score)}
+                          </ReviewBadge>
+                        ) : null}
+                      </span>
+                      <span className="mt-1 block text-[10px] leading-4 text-[var(--review-text-muted)]">
+                        {suggestion.description}
+                      </span>
+                      {suggestion.stale ? (
+                        <span className="mt-1.5 block text-[10px] font-medium text-[var(--review-warning-text)]">
+                          Đề xuất đã cũ — hãy tạo lại trước khi áp dụng.
+                        </span>
+                      ) : null}
+                    </button>
+
+                    <div className="mt-2 flex gap-1.5">
+                      <ReviewButton
+                        size="sm"
+                        disabled={
+                          pending ||
+                          !suggestion.actionable ||
+                          suggestion.stale
+                        }
+                        onClick={() =>
+                          onSuggestionIntent?.({
+                            operation: "apply_suggestion",
+                            suggestionId: suggestion.id,
+                          })
+                        }
+                      >
+                        <WandSparkles className="size-3.5" />
+                        Áp dụng
+                      </ReviewButton>
+                      <ReviewButton
+                        size="sm"
+                        variant="ghost"
+                        disabled={pending}
+                        onClick={() =>
+                          onSuggestionIntent?.({
+                            operation: "dismiss_suggestion",
+                            suggestionId: suggestion.id,
+                          })
+                        }
+                      >
+                        Bỏ qua
+                      </ReviewButton>
+                    </div>
+                  </div>
+                ))}
+
+                <ReviewButton
+                  size="sm"
+                  variant="ghost"
+                  disabled={pending}
+                  onClick={() =>
+                    onSuggestionIntent?.({
+                      operation: "regenerate_suggestions",
+                    })
+                  }
+                >
+                  <RefreshCw className={pending ? "size-3.5 animate-spin" : "size-3.5"} />
+                  Tạo lại đề xuất
+                </ReviewButton>
+              </div>
+            )}
           </ReviewPanelBody>
         </ReviewPanel>
       </div>
     </aside>
+  );
+}
+
+function SuggestionEmptyState({
+  pending,
+  message,
+  onRefresh,
+}: {
+  pending: boolean;
+  message: string;
+  onRefresh(): void;
+}) {
+  return (
+    <div className="space-y-3">
+      <p className="text-xs leading-5 text-[var(--review-text-muted)]">
+        {message}
+      </p>
+      <ReviewButton
+        size="sm"
+        variant="ghost"
+        disabled={pending}
+        onClick={onRefresh}
+      >
+        <RefreshCw className={pending ? "size-3.5 animate-spin" : "size-3.5"} />
+        {pending ? "Đang xử lý…" : "Làm mới đề xuất"}
+      </ReviewButton>
+    </div>
   );
 }
 

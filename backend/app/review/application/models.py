@@ -26,6 +26,9 @@ class ReviewTimelineCommandType(str, Enum):
     DUPLICATE_CLIP = "duplicate_clip"
     DELETE_CLIP = "delete_clip"
     CLOSE_GAP = "close_gap"
+    MOVE_CLIPS = "move_clips"
+    DUPLICATE_CLIPS = "duplicate_clips"
+    DELETE_CLIPS = "delete_clips"
     UNDO = "undo"
     REDO = "redo"
 

@@ -8,11 +8,14 @@ export const REVIEW_TIMELINE_COMMAND_API_CONTRACT_VERSION =
 
 export type ReviewTimelineCommandOperation =
   | "move_clip"
+  | "move_clips"
   | "trim_clip_start"
   | "trim_clip_end"
   | "split_clip"
   | "duplicate_clip"
+  | "duplicate_clips"
   | "delete_clip"
+  | "delete_clips"
   | "close_gap"
   | "undo"
   | "redo";
@@ -27,6 +30,23 @@ export interface MoveTimelineClipRequest
   clip_id: string;
   new_start_time: number;
   target_track_id?: string | null;
+}
+
+export interface MoveTimelineClipsRequest
+  extends ReviewTimelineCommandRequest {
+  clip_ids: string[];
+  delta_time: number;
+}
+
+export interface DuplicateTimelineClipsRequest
+  extends ReviewTimelineCommandRequest {
+  clip_ids: string[];
+  time_offset?: number | null;
+}
+
+export interface DeleteTimelineClipsRequest
+  extends ReviewTimelineCommandRequest {
+  clip_ids: string[];
 }
 
 export interface TrimTimelineClipStartRequest

@@ -3,19 +3,29 @@ import {
 } from "../design-system";
 
 import type {
+  ReviewAICommandSubmissionIntent,
+  ReviewAISuggestionIntent,
   ReviewEditorViewModel,
   ReviewTimelineClipDragMoveIntent,
   ReviewTimelineClipDragStartIntent,
   ReviewTimelineClipDragView,
+  ReviewTimelineClipTrimMoveIntent,
+  ReviewTimelineClipTrimStartIntent,
+  ReviewTimelineClipTrimView,
   ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
+  ReviewRuntimeKeyboardEditingView,
   ReviewTimelineSelectionIntent,
 } from "../integration/contracts";
 import type {
   ReviewTimelineDragCancelReason,
 } from "../drag";
+import type {
+  ReviewTimelineTrimCancelReason,
+} from "../trim";
 
 import type {
+  AICommandSubmission,
   ReviewClipboardOperation,
   ReviewTimelineCommandOperation,
 } from "../api";
@@ -47,7 +57,12 @@ export interface ReviewEditorShellProps {
   selecting?: boolean;
   commandPending?: boolean;
   clipboardPending?: boolean;
+  suggestionPending?: boolean;
+  aiCommandPending?: boolean;
+  lastAICommandSubmission?: AICommandSubmission | null;
   drag?: ReviewTimelineClipDragView;
+  trim?: ReviewTimelineClipTrimView;
+  keyboard?: ReviewRuntimeKeyboardEditingView;
 
   pendingCommand:
     ReviewTimelineCommandOperation | null;
@@ -74,6 +89,14 @@ export interface ReviewEditorShellProps {
       ReviewTimelineClipboardIntent,
   ) => void;
 
+  onAISuggestionCommand?: (
+    intent: ReviewAISuggestionIntent,
+  ) => void;
+
+  onAICommandSubmit?: (
+    intent: ReviewAICommandSubmissionIntent,
+  ) => void;
+
   onClipDragStart?: (
     intent: ReviewTimelineClipDragStartIntent,
   ) => void;
@@ -87,6 +110,20 @@ export interface ReviewEditorShellProps {
   onClipDragCancel?: (
     reason?: ReviewTimelineDragCancelReason,
   ) => void;
+
+  onClipTrimStart?: (
+    intent: ReviewTimelineClipTrimStartIntent,
+  ) => void;
+
+  onClipTrimMove?: (
+    intent: ReviewTimelineClipTrimMoveIntent,
+  ) => void;
+
+  onClipTrimDrop?: () => void;
+
+  onClipTrimCancel?: (
+    reason?: ReviewTimelineTrimCancelReason,
+  ) => void;
 }
 
 export function ReviewEditorShell({
@@ -95,7 +132,12 @@ export function ReviewEditorShell({
   selecting = false,
   commandPending = false,
   clipboardPending = false,
+  suggestionPending = false,
+  aiCommandPending = false,
+  lastAICommandSubmission = null,
   drag,
+  trim,
+  keyboard,
   pendingCommand,
   pendingClipboardOperation,
   onRefresh,
@@ -104,19 +146,37 @@ export function ReviewEditorShell({
   onSelectClip,
   onTimelineCommand,
   onClipboardCommand,
+  onAISuggestionCommand,
+  onAICommandSubmit,
   onClipDragStart,
   onClipDragMove,
   onClipDragDrop,
   onClipDragCancel,
+  onClipTrimStart,
+  onClipTrimMove,
+  onClipTrimDrop,
+  onClipTrimCancel,
 }: ReviewEditorShellProps) {
   return (
-    <ReviewEditorSurface className="flex h-dvh min-h-[620px] flex-col overflow-hidden">
+    <ReviewEditorSurface
+      className="flex h-dvh min-h-[620px] flex-col overflow-hidden"
+      data-review-keyboard-controls={
+        keyboard?.enabled
+          ? "active"
+          : "inactive"
+      }
+      data-review-keyboard-operation={
+        keyboard?.lastOperation ?? undefined
+      }
+    >
       <ReviewEditorTopbar
         view={view?.header}
         refreshing={refreshing}
         commandPending={
           commandPending ||
-          clipboardPending
+          clipboardPending ||
+          suggestionPending ||
+          aiCommandPending
         }
         onRefresh={onRefresh}
         onUndo={onUndo}
@@ -132,15 +192,22 @@ export function ReviewEditorShell({
 
         <ReviewInspectorPanel
           view={view?.inspector}
+          pending={suggestionPending}
+          onSuggestionIntent={
+            onAISuggestionCommand
+          }
         />
       </div>
 
       <ReviewTimelinePanel
         view={view?.timeline}
         drag={drag}
+        trim={trim}
         selecting={selecting}
         commandPending={
-          commandPending
+          commandPending ||
+          suggestionPending ||
+          aiCommandPending
         }
         clipboardPending={
           clipboardPending
@@ -170,10 +237,37 @@ export function ReviewEditorShell({
         onClipDragCancel={
           onClipDragCancel
         }
+        onClipTrimStart={
+          onClipTrimStart
+        }
+        onClipTrimMove={
+          onClipTrimMove
+        }
+        onClipTrimDrop={
+          onClipTrimDrop
+        }
+        onClipTrimCancel={
+          onClipTrimCancel
+        }
       />
 
       <ReviewAICommandBar
-        disabled={Boolean(view)}
+        key={
+          lastAICommandSubmission?.submission_id ??
+          "new-command"
+        }
+        disabled={
+          !view ||
+          !onAICommandSubmit ||
+          commandPending ||
+          clipboardPending ||
+          suggestionPending
+        }
+        pending={aiCommandPending}
+        acceptedSubmissionId={
+          lastAICommandSubmission?.submission_id ?? null
+        }
+        onSubmit={onAICommandSubmit}
       />
     </ReviewEditorSurface>
   );

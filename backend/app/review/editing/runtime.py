@@ -547,6 +547,266 @@ class TimelineMutationRuntime:
             result_metadata={"removed_clip_ids": normalized_ids},
         )
 
+    def move_clips(
+        self,
+        clip_ids: list[str],
+        delta_time: float,
+    ) -> TimelineMutationResult:
+        normalized_ids = self._normalize_clip_ids(
+            clip_ids
+        )
+        if not normalized_ids:
+            return self._failure(
+                "Không có clip nào để di chuyển."
+            )
+
+        resolved_delta = float(delta_time)
+        if resolved_delta == 0:
+            return self._failure(
+                "delta_time phải khác 0."
+            )
+
+        timeline = self.store.snapshot()
+        selected: list[
+            tuple[EditableTimelineClip, str]
+        ] = []
+
+        for clip_id in normalized_ids:
+            clip = timeline.get_clip(clip_id)
+            track = timeline.find_clip_track(clip_id)
+            if clip is None or track is None:
+                return self._failure(
+                    "Không tìm thấy clip: " + clip_id
+                )
+            if track.locked:
+                return self._failure(
+                    "Không thể di chuyển clip trên "
+                    "track đang khóa: " + track.track_id
+                )
+            selected.append((clip, track.track_id))
+
+        before = timeline.to_dict()
+        selected.sort(
+            key=lambda item: (
+                item[0].start_time,
+                item[0].clip_id,
+            )
+        )
+
+        for clip, track_id in selected:
+            track = timeline.get_track(track_id)
+            if track is not None:
+                track.remove_clip(clip.clip_id)
+
+        affected_track_ids: list[str] = []
+        moved_ranges: list[dict[str, Any]] = []
+
+        for clip, track_id in selected:
+            new_start = clip.start_time + resolved_delta
+            new_end = clip.end_time + resolved_delta
+            if new_start < 0:
+                return self._failure(
+                    "Di chuyển nhiều clip vượt quá đầu timeline."
+                )
+            clip.start_time = new_start
+            clip.end_time = new_end
+            track = timeline.get_track(track_id)
+            if track is None:
+                return self._failure(
+                    "Không tìm thấy track: " + track_id
+                )
+            track.clips.append(clip)
+            track.sort_clips()
+            if track_id not in affected_track_ids:
+                affected_track_ids.append(track_id)
+            moved_ranges.append({
+                "clip_id": clip.clip_id,
+                "track_id": track_id,
+                "start_time": clip.start_time,
+                "end_time": clip.end_time,
+            })
+
+        validation = self.validator.validate_timeline(
+            timeline
+        )
+        if not validation.valid:
+            return self._validation_failure(validation)
+
+        return self._commit_batch(
+            timeline=timeline,
+            operation_type=(
+                TimelineEditingOperationType.MOVE_CLIPS
+            ),
+            before=before,
+            metadata={
+                "clip_ids": normalized_ids,
+                "delta_time": resolved_delta,
+                "affected_track_ids": affected_track_ids,
+                "moved_ranges": moved_ranges,
+                "clip_count": len(selected),
+            },
+            result_metadata={
+                "clip_ids": normalized_ids,
+                "delta_time": resolved_delta,
+            },
+        )
+
+    def duplicate_clips(
+        self,
+        clip_ids: list[str],
+        *,
+        time_offset: float | None = None,
+    ) -> TimelineMutationResult:
+        normalized_ids = self._normalize_clip_ids(
+            clip_ids
+        )
+        if not normalized_ids:
+            return self._failure(
+                "Không có clip nào để nhân bản."
+            )
+
+        timeline = self.store.snapshot()
+        selected: list[
+            tuple[EditableTimelineClip, str]
+        ] = []
+
+        for clip_id in normalized_ids:
+            clip = timeline.get_clip(clip_id)
+            track = timeline.find_clip_track(clip_id)
+            if clip is None or track is None:
+                return self._failure(
+                    "Không tìm thấy clip: " + clip_id
+                )
+            if track.locked:
+                return self._failure(
+                    "Không thể nhân bản clip trên "
+                    "track đang khóa: " + track.track_id
+                )
+            selected.append((clip, track.track_id))
+
+        selected.sort(
+            key=lambda item: (
+                item[0].start_time,
+                item[0].clip_id,
+            )
+        )
+        group_start = min(
+            clip.start_time for clip, _ in selected
+        )
+        group_end = max(
+            clip.end_time for clip, _ in selected
+        )
+        resolved_offset = (
+            float(time_offset)
+            if time_offset is not None
+            else group_end - group_start
+        )
+        if resolved_offset <= 0:
+            return self._failure(
+                "time_offset phải lớn hơn 0."
+            )
+
+        before = timeline.to_dict()
+        duplicated_ids: list[str] = []
+        affected_track_ids: list[str] = []
+
+        for source, track_id in selected:
+            duplicate = source.clone()
+            duplicate.clip_id = (
+                f"{source.clip_id}_copy_"
+                f"{uuid4().hex[:8]}"
+            )
+            duplicate.start_time += resolved_offset
+            duplicate.end_time += resolved_offset
+            track = timeline.get_track(track_id)
+            if track is None:
+                return self._failure(
+                    "Không tìm thấy track: " + track_id
+                )
+            track.clips.append(duplicate)
+            track.sort_clips()
+            duplicated_ids.append(duplicate.clip_id)
+            if track_id not in affected_track_ids:
+                affected_track_ids.append(track_id)
+
+        validation = self.validator.validate_timeline(
+            timeline
+        )
+        if not validation.valid:
+            return self._validation_failure(validation)
+
+        return self._commit_batch(
+            timeline=timeline,
+            operation_type=(
+                TimelineEditingOperationType.DUPLICATE_CLIPS
+            ),
+            before=before,
+            metadata={
+                "source_clip_ids": normalized_ids,
+                "duplicated_clip_ids": duplicated_ids,
+                "time_offset": resolved_offset,
+                "affected_track_ids": affected_track_ids,
+                "clip_count": len(duplicated_ids),
+            },
+            result_metadata={
+                "source_clip_ids": normalized_ids,
+                "duplicated_clip_ids": duplicated_ids,
+                "time_offset": resolved_offset,
+            },
+        )
+
+    def delete_selected_clips(
+        self,
+        clip_ids: list[str],
+    ) -> TimelineMutationResult:
+        normalized_ids = self._normalize_clip_ids(
+            clip_ids
+        )
+        if not normalized_ids:
+            return self._failure(
+                "Không có clip nào để xóa."
+            )
+
+        timeline = self.store.snapshot()
+        before = timeline.to_dict()
+        affected_track_ids: list[str] = []
+
+        for clip_id in normalized_ids:
+            track = timeline.find_clip_track(clip_id)
+            if track is None:
+                return self._failure(
+                    "Không tìm thấy clip: " + clip_id
+                )
+            if track.locked:
+                return self._failure(
+                    "Không thể xóa clip trên track "
+                    "đang khóa: " + track.track_id
+                )
+
+        for clip_id in normalized_ids:
+            track = timeline.find_clip_track(clip_id)
+            if track is None:
+                continue
+            track.remove_clip(clip_id)
+            if track.track_id not in affected_track_ids:
+                affected_track_ids.append(track.track_id)
+
+        return self._commit_batch(
+            timeline=timeline,
+            operation_type=(
+                TimelineEditingOperationType.DELETE_CLIPS
+            ),
+            before=before,
+            metadata={
+                "deleted_clip_ids": normalized_ids,
+                "affected_track_ids": affected_track_ids,
+                "clip_count": len(normalized_ids),
+            },
+            result_metadata={
+                "deleted_clip_ids": normalized_ids,
+            },
+        )
+
     def close_gap(
         self,
         track_id: str,
@@ -783,6 +1043,18 @@ class TimelineMutationRuntime:
             timeline=self.store.snapshot(),
             validation=validation,
             error=message,
+        )
+
+    @staticmethod
+    def _normalize_clip_ids(
+        clip_ids: list[str],
+    ) -> list[str]:
+        return list(
+            dict.fromkeys(
+                str(clip_id).strip()
+                for clip_id in clip_ids
+                if str(clip_id).strip()
+            )
         )
 
     def _failure(self, message: str) -> TimelineMutationResult:

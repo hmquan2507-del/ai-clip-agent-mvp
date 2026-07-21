@@ -124,6 +124,15 @@ export function buildReviewEditorViewModel(
       ?.clipboard.history_state ??
     null;
 
+  const suggestionSnapshot =
+    state.suggestionSnapshot;
+
+  const suggestionReadModel =
+    suggestionSnapshot?.read_model ?? null;
+
+  const selectedSuggestionId =
+    suggestionReadModel?.selected_suggestion_id ?? null;
+
   return {
     header: {
       productionId:
@@ -387,6 +396,44 @@ export function buildReviewEditorViewModel(
 
       aiScore,
       aiSuggestion,
+
+      suggestionReview: {
+        available:
+          suggestionSnapshot !== null,
+
+        suggestions:
+          suggestionReadModel?.suggestions.map(
+            (suggestion) => ({
+              id: suggestion.suggestion_id,
+              title: suggestion.title,
+              description: suggestion.description,
+              kind: suggestion.kind,
+              score: suggestion.score,
+              selected:
+                suggestion.suggestion_id ===
+                selectedSuggestionId,
+              actionable: suggestion.actionable,
+              stale: suggestion.stale,
+              status: suggestion.status,
+            }),
+          ) ?? [],
+
+        selectedSuggestionId,
+        count:
+          suggestionReadModel?.count ?? 0,
+        actionableCount:
+          suggestionReadModel?.actionable_count ?? 0,
+        staleCount:
+          suggestionReadModel?.stale_count ?? 0,
+        lifecycleRevision:
+          suggestionSnapshot?.lifecycle_revision ?? null,
+        timelineRevision:
+          suggestionSnapshot?.timeline_revision ?? null,
+        pending:
+          state.pendingOperation === "ai_suggestion",
+        pendingOperation:
+          state.pendingSuggestionOperation,
+      },
     },
   };
 }

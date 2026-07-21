@@ -5,6 +5,7 @@ import {
 } from "react";
 
 import type {
+  AISuggestion,
   EditableTimeline,
   ReviewRuntimeSessionSnapshot,
 } from "../api";
@@ -14,6 +15,8 @@ import {
 } from "./context";
 
 import type {
+  ReviewAISuggestionActions,
+  ReviewAISuggestionView,
   ReviewTimelineClipboardActions,
   ReviewTimelineCommandActions,
   ReviewTimelineSelectionActions,
@@ -23,6 +26,24 @@ import type {
   ReviewWorkspaceSnapshotView,
   ReviewWorkspaceStatusView,
 } from "./contracts";
+
+export function useReviewAICommandActions() {
+  const { submitAICommand } = useReviewWorkspace().actions;
+  return { submitAICommand };
+}
+
+export function useReviewAICommandSubmission() {
+  const {
+    aiCommandSubmissionPending,
+    lastAICommandSubmission,
+  } = useReviewWorkspaceState();
+  return {
+    pending: aiCommandSubmissionPending,
+    response: lastAICommandSubmission,
+    submission:
+      lastAICommandSubmission?.submission ?? null,
+  };
+}
 
 export function useReviewWorkspace():
   ReviewWorkspaceContextValue {
@@ -63,6 +84,52 @@ export function useReviewTimelineClipboard():
   return useReviewWorkspace().actions;
 }
 
+export function useReviewAISuggestionActions():
+  ReviewAISuggestionActions {
+  return useReviewWorkspace().actions;
+}
+
+export function useReviewAISuggestions():
+  ReviewAISuggestionView {
+  const {
+    pendingOperation,
+    pendingSuggestionOperation,
+    suggestionSnapshot,
+  } = useReviewWorkspaceState();
+
+  const suggestions =
+    suggestionSnapshot?.read_model.suggestions ?? [];
+
+  const selectedSuggestionId =
+    suggestionSnapshot
+      ?.read_model.selected_suggestion_id ?? null;
+
+  const selectedSuggestion =
+    suggestions.find(
+      (suggestion) =>
+        suggestion.suggestion_id ===
+        selectedSuggestionId,
+    ) ?? null;
+
+  return {
+    snapshot: suggestionSnapshot,
+    suggestions,
+    selectedSuggestion,
+    available: suggestionSnapshot !== null,
+    pending: pendingOperation === "ai_suggestion",
+    operation: pendingSuggestionOperation,
+    lifecycleRevision:
+      suggestionSnapshot?.lifecycle_revision ?? null,
+    timelineRevision:
+      suggestionSnapshot?.timeline_revision ?? null,
+  };
+}
+
+export function useSelectedAISuggestion():
+  AISuggestion | null {
+  return useReviewAISuggestions().selectedSuggestion;
+}
+
 export function useReviewWorkspaceStatus():
   ReviewWorkspaceStatusView {
   const {
@@ -70,6 +137,8 @@ export function useReviewWorkspaceStatus():
     pendingOperation,
     pendingCommand,
     pendingClipboardOperation,
+    pendingSuggestionOperation,
+    aiCommandSubmissionPending,
     error,
   } = useReviewWorkspaceState();
 
@@ -78,6 +147,8 @@ export function useReviewWorkspaceStatus():
     pendingOperation,
     pendingCommand,
     pendingClipboardOperation,
+    pendingSuggestionOperation,
+    aiCommandSubmissionPending,
 
     idle:
       status === "idle",
@@ -103,6 +174,12 @@ export function useReviewWorkspaceStatus():
     executingClipboard:
       pendingOperation ===
       "clipboard_command",
+
+    suggesting:
+      pendingOperation === "ai_suggestion",
+
+    submittingCommand:
+      pendingOperation === "ai_command_submission",
 
     closing:
       status === "closing",

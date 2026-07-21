@@ -6,3 +6,6 @@ export * from "./design-system";
 export * from "./shell";
 export * from "./integration";
 export * from "./drag";
+export * from "./trim";
+export * from "./viewport";
+export * from "./keyboard";

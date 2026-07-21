@@ -26,8 +26,16 @@ import {
 import {
   useReviewRuntimeClipDrag,
 } from "./use-runtime-clip-drag";
+import {
+  useReviewRuntimeClipTrim,
+} from "./use-runtime-clip-trim";
+import {
+  useReviewRuntimeKeyboardEditing,
+} from "./use-runtime-keyboard-editing";
 
 import type {
+  ReviewAICommandSubmissionIntent,
+  ReviewAISuggestionIntent,
   ReviewTimelineClipboardIntent,
   ReviewTimelineCommandIntent,
   ReviewTimelineSelectionIntent,
@@ -119,6 +127,26 @@ function ReviewRuntimeWorkspaceContent() {
         switch (
           intent.operation
         ) {
+          case "move_clips":
+            void actions.moveClips({
+              clip_ids: [...intent.clipIds],
+              delta_time: intent.deltaTime,
+            }).catch(() => undefined);
+            return;
+
+          case "duplicate_clips":
+            void actions.duplicateClips({
+              clip_ids: [...intent.clipIds],
+              time_offset: intent.timeOffset,
+            }).catch(() => undefined);
+            return;
+
+          case "delete_clips":
+            void actions.deleteClips({
+              clip_ids: [...intent.clipIds],
+            }).catch(() => undefined);
+            return;
+
           case "split_clip":
             void actions.splitClip({
               clip_id:
@@ -227,6 +255,57 @@ function ReviewRuntimeWorkspaceContent() {
       [actions],
     );
 
+  const executeAISuggestionCommand =
+    useCallback(
+      (
+        intent:
+          ReviewAISuggestionIntent,
+      ) => {
+        switch (intent.operation) {
+          case "refresh_suggestions":
+            void actions.refreshAISuggestions()
+              .catch(() => undefined);
+            return;
+
+          case "select_suggestion":
+            void actions.selectAISuggestion({
+              suggestion_id:
+                intent.suggestionId,
+            }).catch(() => undefined);
+            return;
+
+          case "apply_suggestion":
+            void actions.applyAISuggestion({
+              suggestion_id:
+                intent.suggestionId,
+            }).catch(() => undefined);
+            return;
+
+          case "dismiss_suggestion":
+            void actions.dismissAISuggestion({
+              suggestion_id:
+                intent.suggestionId,
+            }).catch(() => undefined);
+            return;
+
+          case "regenerate_suggestions":
+            void actions.regenerateAISuggestions()
+              .catch(() => undefined);
+        }
+      },
+      [actions],
+    );
+
+  const submitAICommand = useCallback(
+    (intent: ReviewAICommandSubmissionIntent) => {
+      void actions.submitAICommand({
+        command_text: intent.commandText,
+        client_request_id: intent.clientRequestId,
+      }).catch(() => undefined);
+    },
+    [actions],
+  );
+
   if (
     state.status === "idle" ||
     state.status === "opening" ||
@@ -281,6 +360,10 @@ function ReviewRuntimeWorkspaceContent() {
       onClipboardCommand={
         executeClipboardCommand
       }
+      onAISuggestionCommand={
+        executeAISuggestionCommand
+      }
+      onAICommandSubmit={submitAICommand}
     />
   );
 }
@@ -300,6 +383,12 @@ interface ReviewRuntimeWorkspaceEditorProps {
   onClipboardCommand(
     intent: ReviewTimelineClipboardIntent,
   ): void;
+  onAISuggestionCommand(
+    intent: ReviewAISuggestionIntent,
+  ): void;
+  onAICommandSubmit(
+    intent: ReviewAICommandSubmissionIntent,
+  ): void;
 }
 
 function ReviewRuntimeWorkspaceEditor({
@@ -311,6 +400,8 @@ function ReviewRuntimeWorkspaceEditor({
   onSelectClip,
   onTimelineCommand,
   onClipboardCommand,
+  onAISuggestionCommand,
+  onAICommandSubmit,
 }: ReviewRuntimeWorkspaceEditorProps) {
   const view = buildReviewEditorViewModel(
     state,
@@ -325,6 +416,12 @@ function ReviewRuntimeWorkspaceEditor({
       "clipboard_command";
   const selecting =
     state.status === "selecting";
+  const suggestionPending =
+    state.pendingOperation ===
+      "ai_suggestion";
+  const aiCommandPending =
+    state.pendingOperation ===
+      "ai_command_submission";
 
   const clipDrag =
     useReviewRuntimeClipDrag({
@@ -334,14 +431,58 @@ function ReviewRuntimeWorkspaceEditor({
       disabled:
         selecting ||
         commandPending ||
-        clipboardPending,
+        clipboardPending ||
+        suggestionPending ||
+        aiCommandPending,
       moveClip: actions.moveClip,
+    });
+
+  const clipTrim =
+    useReviewRuntimeClipTrim({
+      productionId:
+        view.header.productionId,
+      view,
+      disabled:
+        selecting ||
+        commandPending ||
+        clipboardPending ||
+        suggestionPending ||
+        aiCommandPending ||
+        clipDrag.drag.active,
+      trimClipStart:
+        actions.trimClipStart,
+      trimClipEnd:
+        actions.trimClipEnd,
+    });
+
+  const keyboard =
+    useReviewRuntimeKeyboardEditing({
+      productionId:
+        view.header.productionId,
+      view,
+      disabled:
+        selecting ||
+        commandPending ||
+        clipboardPending ||
+        suggestionPending ||
+        aiCommandPending ||
+        clipDrag.drag.active ||
+        clipTrim.trim.active,
+      onUndo,
+      onRedo,
+      onTimelineCommand,
+      onClipboardCommand,
     });
 
   const dropClip = useCallback(() => {
     void clipDrag.drop()
       .catch(() => undefined);
   }, [clipDrag]);
+
+  const dropClipTrim = useCallback(() => {
+    void clipTrim.drop()
+      .catch(() => undefined);
+  }, [clipTrim]);
 
   return (
     <ReviewEditorShell
@@ -361,11 +502,22 @@ function ReviewRuntimeWorkspaceEditor({
       pendingClipboardOperation={
         state.pendingClipboardOperation
       }
+      suggestionPending={suggestionPending}
+      aiCommandPending={aiCommandPending}
+      lastAICommandSubmission={
+        state.lastAICommandSubmission?.submission ?? null
+      }
       drag={clipDrag.drag}
+      trim={clipTrim.trim}
+      keyboard={keyboard}
       onClipDragStart={clipDrag.begin}
       onClipDragMove={clipDrag.move}
       onClipDragDrop={dropClip}
       onClipDragCancel={clipDrag.cancel}
+      onClipTrimStart={clipTrim.begin}
+      onClipTrimMove={clipTrim.move}
+      onClipTrimDrop={dropClipTrim}
+      onClipTrimCancel={clipTrim.cancel}
       onRefresh={onRefresh}
       onSelectClip={onSelectClip}
       onUndo={onUndo}
@@ -376,6 +528,10 @@ function ReviewRuntimeWorkspaceEditor({
       onClipboardCommand={
         onClipboardCommand
       }
+      onAISuggestionCommand={
+        onAISuggestionCommand
+      }
+      onAICommandSubmit={onAICommandSubmit}
     />
   );
 }

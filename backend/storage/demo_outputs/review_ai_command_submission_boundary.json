@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "contract_version_valid": true,
+    "submission_accepted": true,
+    "command_normalized": true,
+    "revision_captured": true,
+    "idempotency_valid": true,
+    "revision_conflict_read_only": true,
+    "validation_read_only": true,
+    "timeline_unchanged": true,
+    "execution_not_authorized": true,
+    "response_isolated": true,
+    "openapi_route_present": true,
+    "serialization_valid": true
+  },
+  "response": {
+    "contract_version": "16.6.8",
+    "success": true,
+    "operation": "submit_command",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "review-session-16-6-3",
+    "timeline_revision": 1,
+    "submission": {
+      "contract_version": "16.6.8",
+      "submission_id": "70f45c59-a0d6-4f57-80be-dbb83ca21267",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-3",
+      "command_text": "Làm hook mạnh hơn, thêm B-roll",
+      "timeline_revision": 1,
+      "status": "accepted",
+      "client_request_id": "command-request-1",
+      "created_at": "2026-07-18T10:48:18.341148+00:00",
+      "metadata": {
+        "execution_authorized": false,
+        "proposal_created": false
+      }
+    },
+    "duplicate": false,
+    "timeline_mutated": false
+  }
+}

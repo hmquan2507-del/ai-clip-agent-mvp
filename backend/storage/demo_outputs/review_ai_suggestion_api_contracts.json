@@ -1,0 +1,48 @@
+{
+  "checks": {
+    "legacy_contracts_preserved": true,
+    "suggestion_contract_version_valid": true,
+    "operations_complete": true,
+    "apply_contract_valid": true,
+    "select_clear_valid": true,
+    "dismiss_contract_valid": true,
+    "regenerate_contract_valid": true,
+    "empty_session_blocked": true,
+    "empty_suggestion_blocked": true,
+    "invalid_revision_blocked": true,
+    "extra_fields_blocked": true,
+    "response_input_isolated": true,
+    "response_output_isolated": true,
+    "operation_error_mapped": true,
+    "conflict_error_mapped": true,
+    "serialization_valid": true
+  },
+  "response": {
+    "contract_version": "16.6.4",
+    "success": true,
+    "operation": "get_suggestions",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "review-session-16-6-4",
+    "timeline_revision": 4,
+    "lifecycle_revision": 2,
+    "workspace_snapshot": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-4",
+      "timeline": {
+        "revision": 4
+      }
+    },
+    "suggestion_snapshot": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "lifecycle_revision": 2,
+      "timeline_revision": 4,
+      "read_model": {
+        "suggestions": []
+      }
+    },
+    "timeline_command_result": null,
+    "metadata": {
+      "source": "test"
+    }
+  }
+}

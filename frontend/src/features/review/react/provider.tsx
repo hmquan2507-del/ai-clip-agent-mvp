@@ -10,17 +10,24 @@ import {
 
 import {
   createReviewWorkspaceSessionRuntime,
+  type ApplyAISuggestionInput,
   type CloseTimelineGapInput,
   type CopyTimelineClipsInput,
   type CutTimelineClipsInput,
   type DeleteTimelineClipInput,
+  type DeleteTimelineClipsInput,
+  type DismissAISuggestionInput,
   type DuplicateTimelineClipInput,
+  type DuplicateTimelineClipsInput,
   type MoveTimelineClipInput,
+  type MoveTimelineClipsInput,
   type PasteTimelineClipsInput,
   type ReviewWorkspaceRuntimeActionOptions,
   type ReviewWorkspaceRuntimeOpenOptions,
   type ReviewWorkspaceRuntimeState,
   type RestoreTimelineClipboardHistoryInput,
+  type SelectAISuggestionInput,
+  type SubmitAICommandInput,
   type SelectTimelineClipInput,
   type SplitTimelineClipInput,
   type TrimTimelineClipEndInput,
@@ -42,6 +49,7 @@ export function ReviewWorkspaceProvider({
   runtime: providedRuntime,
   api,
   autoOpen = true,
+  autoLoadSuggestions = true,
   openOptions,
   onError,
 }: ReviewWorkspaceProviderProps) {
@@ -59,6 +67,9 @@ export function ReviewWorkspaceProvider({
 
   const onErrorRef =
     useRef(onError);
+
+  const suggestionLoadKeyRef =
+    useRef<string | null>(null);
 
   const forceRefresh =
     openOptions?.force_refresh;
@@ -148,6 +159,14 @@ export function ReviewWorkspaceProvider({
     [runtime],
   );
 
+  const moveClips = useCallback(
+    (
+      input: MoveTimelineClipsInput,
+      options: ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.moveClips(input, options),
+    [runtime],
+  );
+
   const trimClipStart = useCallback(
     (
       input:
@@ -208,6 +227,22 @@ export function ReviewWorkspaceProvider({
       input,
       options,
     ),
+    [runtime],
+  );
+
+  const duplicateClips = useCallback(
+    (
+      input: DuplicateTimelineClipsInput,
+      options: ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.duplicateClips(input, options),
+    [runtime],
+  );
+
+  const deleteClips = useCallback(
+    (
+      input: DeleteTimelineClipsInput,
+      options: ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.deleteClips(input, options),
     [runtime],
   );
 
@@ -314,6 +349,58 @@ export function ReviewWorkspaceProvider({
       [runtime],
     );
 
+  const refreshAISuggestions = useCallback(
+    (
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.refreshAISuggestions(options),
+    [runtime],
+  );
+
+  const selectAISuggestion = useCallback(
+    (
+      input: SelectAISuggestionInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.selectAISuggestion(input, options),
+    [runtime],
+  );
+
+  const applyAISuggestion = useCallback(
+    (
+      input: ApplyAISuggestionInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.applyAISuggestion(input, options),
+    [runtime],
+  );
+
+  const dismissAISuggestion = useCallback(
+    (
+      input: DismissAISuggestionInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.dismissAISuggestion(input, options),
+    [runtime],
+  );
+
+  const regenerateAISuggestions = useCallback(
+    (
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.regenerateAISuggestions(options),
+    [runtime],
+  );
+
+  const submitAICommand = useCallback(
+    (
+      input: SubmitAICommandInput,
+      options:
+        ReviewWorkspaceRuntimeActionOptions = {},
+    ) => runtime.submitAICommand(input, options),
+    [runtime],
+  );
+
   const actions =
     useMemo<ReviewWorkspaceActions>(
       () => ({
@@ -324,11 +411,14 @@ export function ReviewWorkspaceProvider({
         clear,
         selectClip,
         moveClip,
+        moveClips,
         trimClipStart,
         trimClipEnd,
         splitClip,
         duplicateClip,
+        duplicateClips,
         deleteClip,
+        deleteClips,
         closeGap,
         undoTimeline,
         redoTimeline,
@@ -338,6 +428,12 @@ export function ReviewWorkspaceProvider({
         restoreTimelineClipboardHistory,
         clearTimelineClipboard,
         clearTimelineClipboardHistory,
+        refreshAISuggestions,
+        selectAISuggestion,
+        applyAISuggestion,
+        dismissAISuggestion,
+        regenerateAISuggestions,
+        submitAICommand,
       }),
       [
         open,
@@ -347,11 +443,14 @@ export function ReviewWorkspaceProvider({
         clear,
         selectClip,
         moveClip,
+        moveClips,
         trimClipStart,
         trimClipEnd,
         splitClip,
         duplicateClip,
+        duplicateClips,
         deleteClip,
+        deleteClips,
         closeGap,
         undoTimeline,
         redoTimeline,
@@ -361,6 +460,12 @@ export function ReviewWorkspaceProvider({
         restoreTimelineClipboardHistory,
         clearTimelineClipboard,
         clearTimelineClipboardHistory,
+        refreshAISuggestions,
+        selectAISuggestion,
+        applyAISuggestion,
+        dismissAISuggestion,
+        regenerateAISuggestions,
+        submitAICommand,
       ],
     );
 
@@ -397,6 +502,52 @@ export function ReviewWorkspaceProvider({
     forceRefresh,
     open,
     replaceExisting,
+  ]);
+
+  useEffect(() => {
+    if (state.suggestionSnapshot !== null) {
+      suggestionLoadKeyRef.current = null;
+      return;
+    }
+
+    if (
+      !autoLoadSuggestions ||
+      state.status !== "ready" ||
+      state.pendingOperation !== null ||
+      state.sessionId === null ||
+      state.snapshot === null
+    ) {
+      return;
+    }
+
+    const loadKey = [
+      productionId,
+      state.sessionId,
+      state.snapshot.timeline.revision,
+    ].join(":");
+
+    if (suggestionLoadKeyRef.current === loadKey) {
+      return;
+    }
+
+    suggestionLoadKeyRef.current = loadKey;
+
+    void refreshAISuggestions().catch((error: unknown) => {
+      if (suggestionLoadKeyRef.current === loadKey) {
+        suggestionLoadKeyRef.current = null;
+      }
+
+      onErrorRef.current?.(error);
+    });
+  }, [
+    autoLoadSuggestions,
+    productionId,
+    refreshAISuggestions,
+    state.pendingOperation,
+    state.sessionId,
+    state.snapshot,
+    state.status,
+    state.suggestionSnapshot,
   ]);
 
   const value = useMemo(

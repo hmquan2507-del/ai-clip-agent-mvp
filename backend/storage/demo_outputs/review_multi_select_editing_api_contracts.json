@@ -1,0 +1,13 @@
+{
+  "contract_version_valid": true,
+  "operations_complete": true,
+  "schemas_complete": true,
+  "minimum_two_unique_required": true,
+  "routes_complete": true,
+  "interface_complete": true,
+  "service_complete": true,
+  "shared_command_boundary": true,
+  "history_backed_once": true,
+  "batch_commit_used": true,
+  "controller_has_no_runtime_access": true
+}

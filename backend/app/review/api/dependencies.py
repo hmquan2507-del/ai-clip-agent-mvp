@@ -14,6 +14,14 @@ from app.review.application.factory import (
 from app.review.application.service import (
     ReviewWorkspaceApplicationService,
 )
+from app.review.application.suggestion_service import (
+    ReviewAISuggestionApplicationService,
+    build_review_ai_suggestion_application_service,
+)
+from app.review.commands import (
+    AICommandSubmissionService,
+    AICommandSubmissionStore,
+)
 from app.review.session.registry import (
     ReviewRuntimeSessionRegistryInterface,
     build_in_memory_review_runtime_session_registry,
@@ -65,4 +73,39 @@ def get_review_workspace_application_service(
             ),
             session_registry=session_registry,
         )
+    )
+
+
+def get_review_ai_suggestion_application_service(
+    workspace_service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+) -> ReviewAISuggestionApplicationService:
+    """Build the request service around the same workspace service.
+
+    This preserves the shared re-entrant operation lock used by timeline,
+    clipboard and suggestion apply commands.
+    """
+    return build_review_ai_suggestion_application_service(
+        workspace_service=workspace_service,
+    )
+
+
+@lru_cache(maxsize=1)
+def get_review_ai_command_submission_store(
+) -> AICommandSubmissionStore:
+    return AICommandSubmissionStore(maximum_size=1000)
+
+
+def get_review_ai_command_submission_service(
+    workspace_service: ReviewWorkspaceApplicationService = Depends(
+        get_review_workspace_application_service
+    ),
+    store: AICommandSubmissionStore = Depends(
+        get_review_ai_command_submission_store
+    ),
+) -> AICommandSubmissionService:
+    return AICommandSubmissionService(
+        workspace_service=workspace_service,
+        store=store,
     )

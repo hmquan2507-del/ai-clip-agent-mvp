@@ -2,8 +2,8 @@
 
 Status: In Progress  
 Owner: Ho Quan  
-Last Updated: 2026-07-18  
-Current Milestone: 16.6.2 — AI Suggestion Lifecycle Store & Runtime
+Last Updated: 2026-07-19  
+Current Milestone: 16.7.6 — Timeline Zoom & Scroll Coordination
 
 ---
 
@@ -160,19 +160,19 @@ Goal: provide CapCut-style clip movement while preserving the backend-authoritat
 
 ### 16.6 — AI Suggestions & Command Panel
 
-Status: In Progress
+Status: Completed
 
 Goal: expose AI editing recommendations and natural-language revision commands while keeping the backend timeline and mutation runtimes authoritative.
 
 - 16.6.1 — AI Suggestion Contracts & Read Model (Completed)
-- 16.6.2 — AI Suggestion Lifecycle Store & Runtime (In Progress)
-- 16.6.3 — AI Suggestion Application Service
-- 16.6.4 — AI Suggestion API Contracts, Mapper & Controller
-- 16.6.5 — Frontend AI Suggestion API Client & State Runtime
-- 16.6.6 — React AI Suggestion Provider & Hooks
-- 16.6.7 — Runtime-connected Suggestion Review UI
-- 16.6.8 — Natural-language Command Submission Boundary
-- 16.6.9 — AI Suggestions Integration & Regression Tests
+- 16.6.2 — AI Suggestion Lifecycle Store & Runtime (Completed)
+- 16.6.3 — AI Suggestion Application Service (Completed)
+- 16.6.4 — AI Suggestion API Contracts, Mapper & Controller (Completed)
+- 16.6.5 — Frontend AI Suggestion API Client & State Runtime (Completed)
+- 16.6.6 — React AI Suggestion Provider & Hooks (Completed)
+- 16.6.7 — Runtime-connected Suggestion Review UI (Completed)
+- 16.6.8 — Natural-language Command Submission Boundary (Completed)
+- 16.6.9 — AI Suggestions Integration & Regression Tests (Completed)
 
 ### 16.6 Definition of Done
 
@@ -187,16 +187,37 @@ Goal: expose AI editing recommendations and natural-language revision commands w
 
 ---
 
-## Remaining EPIC 16 Milestones
+## Active Milestone
 
 ### 16.7 — Manual Editing Completion
 
-- Trim handles
-- Keyboard shortcuts
-- Timeline zoom and scroll coordination
-- Multi-select editing
-- Ripple edit policy
-- Advanced snapping and edit affordances
+Status: In Progress
+
+Goal: complete precise manual timeline refinement while preserving the backend timeline, command history, and revision checks as the only source of committed editing state.
+
+- 16.7.1 — Timeline Trim Interaction Contracts & Coordinate Model (Completed)
+- 16.7.2 — Frontend Trim Session State Runtime (Completed)
+- 16.7.3 — Runtime-connected Clip Trim Handles (Completed)
+- 16.7.4 — Timeline Keyboard Shortcut Runtime (Completed)
+- 16.7.5 — Runtime-connected Keyboard Editing Controls (Completed)
+- 16.7.6 — Timeline Zoom & Scroll Coordination (Completed)
+- 16.7.7 — Multi-select Editing Commands (Completed)
+- 16.7.8 — Ripple Edit Policy & Runtime
+- 16.7.9 — Manual Editing Integration & Regression Tests
+
+### 16.7 Definition of Done
+
+- Start/end trim previews are frame-quantized, bounded, cancellable, and never mutate authoritative state directly.
+- Every committed trim, shortcut, multi-select, or ripple operation crosses the runtime command boundary exactly once.
+- Locked tracks, minimum duration, invalid ranges, and revision conflicts remain atomic and read-only on failure.
+- Timeline zoom and horizontal scrolling preserve pointer-to-time accuracy and playhead/selection alignment.
+- Keyboard commands respect focus, editable elements, platform modifiers, and active workspace state.
+- Multi-select edits use deterministic targets and remain compatible with history, clipboard, selection, and drag runtimes.
+- Manual editing, AI suggestions, command submission, clipboard, drag, and source-isolation regressions remain green.
+
+---
+
+## Remaining EPIC 16 Milestones
 
 ### 16.8 — Export Workspace Integration
 

@@ -40,6 +40,19 @@
         "redo"
       ]
     },
+    "clipboard_commands": {
+      "history_backed_mutations": true,
+      "expected_revision": true,
+      "shared_atomic_lock": true,
+      "operations": [
+        "copy",
+        "cut",
+        "paste",
+        "restore_history",
+        "clear_content",
+        "clear_history"
+      ]
+    },
     "registry": {
       "registry": "InMemoryReviewRuntimeSessionRegistry",
       "ttl_seconds": 1800.0,

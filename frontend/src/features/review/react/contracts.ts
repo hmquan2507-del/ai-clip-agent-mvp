@@ -3,23 +3,32 @@ import type {
 } from "react";
 
 import type {
+  AISuggestion,
+  AISuggestionLifecycleSnapshot,
   ReviewWorkspaceClientConfig,
   ReviewRuntimeSessionSnapshot,
   ReviewRuntimeSessionState,
 } from "../api";
 
 import type {
+  ApplyAISuggestionInput,
   CloseTimelineGapInput,
   CopyTimelineClipsInput,
   CutTimelineClipsInput,
   DeleteTimelineClipInput,
+  DeleteTimelineClipsInput,
+  DismissAISuggestionInput,
   DuplicateTimelineClipInput,
+  DuplicateTimelineClipsInput,
   MoveTimelineClipInput,
+  MoveTimelineClipsInput,
   PasteTimelineClipsInput,
   ReviewWorkspaceRuntimeActionOptions,
   ReviewWorkspaceRuntimeOpenOptions,
   ReviewWorkspaceRuntimeState,
   RestoreTimelineClipboardHistoryInput,
+  SelectAISuggestionInput,
+  SubmitAICommandInput,
   SelectTimelineClipInput,
   SplitTimelineClipInput,
   TrimTimelineClipEndInput,
@@ -43,6 +52,11 @@ export interface ReviewTimelineCommandActions {
     options?: ReviewWorkspaceRuntimeActionOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
 
+  moveClips(
+    input: MoveTimelineClipsInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
   trimClipStart(
     input: TrimTimelineClipStartInput,
     options?: ReviewWorkspaceRuntimeActionOptions,
@@ -63,8 +77,18 @@ export interface ReviewTimelineCommandActions {
     options?: ReviewWorkspaceRuntimeActionOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
 
+  duplicateClips(
+    input: DuplicateTimelineClipsInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
   deleteClip(
     input: DeleteTimelineClipInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  deleteClips(
+    input: DeleteTimelineClipsInput,
     options?: ReviewWorkspaceRuntimeActionOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
 
@@ -112,11 +136,45 @@ export interface ReviewTimelineClipboardActions {
   ): Promise<ReviewWorkspaceRuntimeState>;
 }
 
+export interface ReviewAISuggestionActions {
+  refreshAISuggestions(
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  selectAISuggestion(
+    input: SelectAISuggestionInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  applyAISuggestion(
+    input: ApplyAISuggestionInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  dismissAISuggestion(
+    input: DismissAISuggestionInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+
+  regenerateAISuggestions(
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+}
+
+export interface ReviewAICommandActions {
+  submitAICommand(
+    input: SubmitAICommandInput,
+    options?: ReviewWorkspaceRuntimeActionOptions,
+  ): Promise<ReviewWorkspaceRuntimeState>;
+}
+
 export interface ReviewWorkspaceActions
   extends
     ReviewTimelineSelectionActions,
     ReviewTimelineCommandActions,
-    ReviewTimelineClipboardActions {
+    ReviewTimelineClipboardActions,
+    ReviewAISuggestionActions,
+    ReviewAICommandActions {
   open(
     options?: ReviewWorkspaceRuntimeOpenOptions,
   ): Promise<ReviewWorkspaceRuntimeState>;
@@ -149,6 +207,7 @@ export interface ReviewWorkspaceProviderProps {
   runtime?: ReviewWorkspaceSessionRuntime;
   api?: ReviewWorkspaceClientConfig;
   autoOpen?: boolean;
+  autoLoadSuggestions?: boolean;
 
   openOptions?: Omit<
     ReviewWorkspaceRuntimeOpenOptions,
@@ -177,6 +236,13 @@ export interface ReviewWorkspaceStatusView {
       "pendingClipboardOperation"
     ];
 
+  pendingSuggestionOperation:
+    ReviewWorkspaceRuntimeState[
+      "pendingSuggestionOperation"
+    ];
+
+  aiCommandSubmissionPending: boolean;
+
   idle: boolean;
   loading: boolean;
   ready: boolean;
@@ -185,6 +251,8 @@ export interface ReviewWorkspaceStatusView {
   selecting: boolean;
   executing: boolean;
   executingClipboard: boolean;
+  suggesting: boolean;
+  submittingCommand: boolean;
   closing: boolean;
   closed: boolean;
   failed: boolean;
@@ -206,4 +274,18 @@ export interface ReviewWorkspaceSnapshotView {
     ReviewRuntimeSessionSnapshot | null;
 
   available: boolean;
+}
+
+export interface ReviewAISuggestionView {
+  snapshot: AISuggestionLifecycleSnapshot | null;
+  suggestions: AISuggestion[];
+  selectedSuggestion: AISuggestion | null;
+  available: boolean;
+  pending: boolean;
+  operation:
+    ReviewWorkspaceRuntimeState[
+      "pendingSuggestionOperation"
+    ];
+  lifecycleRevision: number | null;
+  timelineRevision: number | null;
 }

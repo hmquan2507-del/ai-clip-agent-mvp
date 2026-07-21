@@ -24,6 +24,16 @@ const regressionScripts = [
   "test-review-design-system.cjs",
   "test-review-editor-shell.cjs",
   "test-review-runtime-connected-ui.cjs",
+  "test-review-timeline-trim-coordinate-model.cjs",
+  "test-review-timeline-trim-session-runtime.cjs",
+  "test-review-runtime-clip-trim-handles.cjs",
+  "test-review-timeline-keyboard-shortcut-runtime.cjs",
+  "test-review-runtime-keyboard-editing-controls.cjs",
+  "test-review-timeline-zoom-scroll-runtime.cjs",
+  "test-review-runtime-timeline-zoom-scroll-ui.cjs",
+  "test-review-multi-select-editing-commands.cjs",
+  "test-review-ai-command-submission-boundary.cjs",
+  "test-review-ai-suggestion-integration-regression.cjs",
   "test-review-drag-drop-integration-regression.cjs",
 ];
 
@@ -239,9 +249,15 @@ function main() {
         "def cors_origins",
       ),
 
-    ai_command_not_mutating_timeline:
+    ai_command_uses_submission_boundary:
       shellSource.includes(
-        "disabled={Boolean(view)}",
+        "onAICommandSubmit",
+      ) &&
+      runtimeSource.includes(
+        "actions.submitAICommand",
+      ) &&
+      !shellSource.includes(
+        "/commands/submit",
       ),
   };
 

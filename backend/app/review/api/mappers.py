@@ -8,12 +8,16 @@ from app.product import (
     ProductWorkspaceNotFoundError,
 )
 from app.review.api.contracts import (
+    ReviewAICommandAPIOperation,
+    ReviewAISuggestionAPIOperation,
     ReviewClipboardOperation,
     ReviewTimelineCommandOperation,
     ReviewWorkspaceAPIErrorCode,
     ReviewWorkspaceAPIOperation,
 )
 from app.review.api.schemas import (
+    ReviewAICommandSubmissionResponse,
+    ReviewAISuggestionResponse,
     ReviewClipboardCommandResponse,
     ReviewTimelineCommandResponse,
     ReviewWorkspaceAPIErrorDetail,
@@ -23,7 +27,15 @@ from app.review.api.schemas import (
     ReviewWorkspaceSessionResponse,
     ReviewWorkspaceSnapshotResponse,
 )
+from app.review.commands import (
+    AICommandRevisionConflictError,
+    AICommandSubmissionError,
+    AICommandSubmissionResult,
+)
 from app.review.application import (
+    ReviewAISuggestionApplicationResult,
+    ReviewAISuggestionOperationError,
+    ReviewAISuggestionRevisionConflictError,
     ReviewClipboardCommandOperationError,
     ReviewClipboardCommandResult,
     ReviewRuntimeSessionConflictError,
@@ -40,6 +52,21 @@ from app.review.session import (
 
 
 class ReviewWorkspaceAPIMapper:
+    @staticmethod
+    def ai_command_submission_response(
+        result: AICommandSubmissionResult,
+    ) -> ReviewAICommandSubmissionResponse:
+        submission = result.submission
+        return ReviewAICommandSubmissionResponse(
+            operation=ReviewAICommandAPIOperation.SUBMIT,
+            production_id=submission.production_id,
+            session_id=submission.session_id,
+            timeline_revision=submission.timeline_revision,
+            submission=submission.to_dict(),
+            duplicate=result.duplicate,
+            timeline_mutated=False,
+        )
+
     @staticmethod
     def session_response(
         session: ReviewRuntimeSession,
@@ -228,6 +255,36 @@ class ReviewWorkspaceAPIMapper:
         )
 
     @staticmethod
+    def ai_suggestion_response(
+        result: ReviewAISuggestionApplicationResult,
+        *,
+        metadata: dict[str, Any] | None = None,
+    ) -> ReviewAISuggestionResponse:
+        response_metadata = deepcopy(result.metadata)
+        response_metadata.update(deepcopy(metadata or {}))
+        return ReviewAISuggestionResponse(
+            operation=ReviewAISuggestionAPIOperation(
+                result.operation.value
+            ),
+            production_id=result.production_id,
+            session_id=result.session_id,
+            timeline_revision=result.timeline_revision,
+            lifecycle_revision=result.lifecycle_revision,
+            workspace_snapshot=(
+                result.workspace_snapshot.to_dict()
+            ),
+            suggestion_snapshot=(
+                result.suggestion_snapshot.to_dict()
+            ),
+            timeline_command_result=(
+                result.timeline_command_result.to_dict()
+                if result.timeline_command_result is not None
+                else None
+            ),
+            metadata=response_metadata,
+        )
+
+    @staticmethod
     def error_response(
         error: Exception,
         *,
@@ -295,6 +352,20 @@ class ReviewWorkspaceAPIMapper:
         ReviewWorkspaceAPIErrorCode,
         str,
     ]:
+        if isinstance(error, AICommandRevisionConflictError):
+            return (
+                ReviewWorkspaceAPIErrorCode
+                .AI_COMMAND_REVISION_CONFLICT,
+                "Timeline đã thay đổi, vui lòng gửi lại lệnh AI.",
+            )
+
+        if isinstance(error, AICommandSubmissionError):
+            return (
+                ReviewWorkspaceAPIErrorCode
+                .AI_COMMAND_SUBMISSION_FAILED,
+                "Không thể tiếp nhận lệnh AI.",
+            )
+
         if isinstance(
             error,
             ProductWorkspaceNotFoundError,
@@ -333,6 +404,16 @@ class ReviewWorkspaceAPIMapper:
 
         if isinstance(
             error,
+            ReviewAISuggestionRevisionConflictError,
+        ):
+            return (
+                ReviewWorkspaceAPIErrorCode
+                .AI_SUGGESTION_REVISION_CONFLICT,
+                "Đề xuất AI đã thay đổi, vui lòng tải lại.",
+            )
+
+        if isinstance(
+            error,
             ReviewRuntimeSessionConflictError,
         ):
             return (
@@ -342,6 +423,16 @@ class ReviewWorkspaceAPIMapper:
                     "Phiên review đang xung đột "
                     "với yêu cầu hiện tại."
                 ),
+            )
+
+        if isinstance(
+            error,
+            ReviewAISuggestionOperationError,
+        ):
+            return (
+                ReviewWorkspaceAPIErrorCode
+                .AI_SUGGESTION_OPERATION_FAILED,
+                "Không thể thực hiện thao tác đề xuất AI.",
             )
 
         if isinstance(

@@ -1,0 +1,98 @@
+{
+  "checks": {
+    "interface_contract_valid": true,
+    "contract_version_valid": true,
+    "shared_lock_used": true,
+    "get_read_only": true,
+    "select_delegated": true,
+    "dismiss_read_only": true,
+    "unsupported_command_blocked": true,
+    "failure_read_only": true,
+    "revision_conflict_blocked": true,
+    "apply_history_backed_once": true,
+    "apply_marks_lifecycle": true,
+    "regenerate_atomic": true,
+    "result_isolated": true,
+    "source_unchanged": true,
+    "serialization_valid": true,
+    "no_direct_timeline_mutation": true
+  },
+  "result": {
+    "contract_version": "16.6.3",
+    "success": true,
+    "operation": "regenerate_suggestions",
+    "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+    "session_id": "review-session-16-6-3",
+    "timeline_revision": 2,
+    "lifecycle_revision": 5,
+    "workspace_snapshot": {
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "session_id": "review-session-16-6-3",
+      "timeline": {
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "revision": 2,
+        "dirty": true
+      }
+    },
+    "suggestion_snapshot": {
+      "contract_version": "16.6.1",
+      "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+      "lifecycle_revision": 5,
+      "timeline_revision": 2,
+      "read_model": {
+        "contract_version": "16.6.1",
+        "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+        "timeline_revision": 2,
+        "suggestions": [
+          {
+            "contract_version": "16.6.1",
+            "suggestion_id": "suggestion_regenerated",
+            "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+            "kind": "pacing",
+            "status": "proposed",
+            "title": "Suggestion suggestion_regenerated",
+            "description": "Application service test suggestion.",
+            "timeline_revision": 2,
+            "target": {
+              "production_id": "221e4b01-5fb9-4b4a-a549-4fb32c455059",
+              "target_type": "clip",
+              "track_id": "video_track",
+              "clip_id": "clip_1",
+              "start_time": null,
+              "end_time": null,
+              "metadata": {}
+            },
+            "command": {
+              "operation": "move_clip",
+              "arguments": {
+                "clip_id": "clip_1",
+                "new_start_time": 2.0,
+                "target_track_id": "video_track"
+              },
+              "metadata": {}
+            },
+            "score": 90,
+            "actionable": true,
+            "stale": false,
+            "created_at": "2026-07-18T10:48:17.000009+00:00",
+            "metadata": {}
+          }
+        ],
+        "selected_suggestion_id": null,
+        "count": 1,
+        "actionable_count": 1,
+        "stale_count": 0,
+        "generated_at": "2026-07-18T10:48:17.000009+00:00",
+        "metadata": {
+          "provider": "fake"
+        }
+      },
+      "created_at": "2026-07-18T10:48:17.000009+00:00",
+      "metadata": {
+        "runtime": "AISuggestionLifecycleRuntime"
+      }
+    },
+    "timeline_command_result": null,
+    "metadata": {}
+  }
+}

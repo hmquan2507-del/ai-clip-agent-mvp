@@ -51,6 +51,10 @@ class TimelineEditingOperationType(StrEnum):
     DUPLICATE_CLIP = "duplicate_clip"
     CLOSE_GAP = "close_gap"
 
+    MOVE_CLIPS = "move_clips"
+    DUPLICATE_CLIPS = "duplicate_clips"
+    DELETE_CLIPS = "delete_clips"
+
     CUT_CLIPS = "cut_clips"
     PASTE_CLIPS = "paste_clips"
 
