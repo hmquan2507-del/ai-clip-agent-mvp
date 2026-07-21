@@ -328,3 +328,18 @@ Scope:
 - Missing job and UUID validation
 - OpenAPI and integration regression tests
 
+
+## Sprint 16.8.5 - Export Workspace Frontend Runtime
+
+Status: Completed
+
+Scope:
+
+- Typed Export Workspace frontend API client
+- Render submission state machine
+- Render status polling
+- Cancellation and lifecycle cleanup
+- React external-store runtime hook
+- Reusable Export Runtime panel
+- TypeScript and frontend regression validation
+
