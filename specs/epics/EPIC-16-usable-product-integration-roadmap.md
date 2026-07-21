@@ -343,3 +343,5 @@ Scope:
 - Reusable Export Runtime panel
 - TypeScript and frontend regression validation
 
+
+- [x] Sprint 16.8.6 — Export Workspace Page Integration & Review-to-Export Navigation (Full Source Replacement)

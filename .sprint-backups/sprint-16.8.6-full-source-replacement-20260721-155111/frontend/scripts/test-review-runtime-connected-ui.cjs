@@ -6,33 +6,6 @@ const path = require("node:path");
 const React = require("react");
 const { renderToStaticMarkup } = require("react-dom/server");
 const ts = require("typescript");
-const Module = require("node:module");
-
-const originalResolveFilename = Module._resolveFilename;
-
-Module._resolveFilename = function resolveFrontendAlias(
-  request,
-  parent,
-  isMain,
-  options,
-) {
-  if (request.startsWith("@/")) {
-    request = path.resolve(
-      __dirname,
-      "../src",
-      request.slice(2),
-    );
-  }
-
-  return originalResolveFilename.call(
-    this,
-    request,
-    parent,
-    isMain,
-    options,
-  );
-};
-
 
 function compileTypeScript(module, filename) {
   const source = fs.readFileSync(filename, "utf8");

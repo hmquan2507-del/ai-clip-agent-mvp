@@ -547,9 +547,9 @@ function ReviewRuntimeWorkspaceEditor({
       onClipTrimDrop={dropClipTrim}
       onClipTrimCancel={clipTrim.cancel}
       onRefresh={onRefresh}
-      onExport={openExportWorkspace}
+            onExport={openExportWorkspace}
       exportDisabled={!renderContract}
-      onSelectClip={onSelectClip}
+onSelectClip={onSelectClip}
       onUndo={onUndo}
       onRedo={onRedo}
       onTimelineCommand={

@@ -73,10 +73,10 @@ export interface ReviewEditorShellProps {
   onRefresh?: () => void;
   onUndo?: () => void;
   onRedo?: () => void;
-  onExport?: () => void;
-  exportDisabled?: boolean;
 
-  onSelectClip?: (
+    onExport?: () => void;
+  exportDisabled?: boolean;
+onSelectClip?: (
     intent:
       ReviewTimelineSelectionIntent,
   ) => void;
@@ -145,7 +145,7 @@ export function ReviewEditorShell({
   onRefresh,
   onUndo,
   onRedo,
-  onExport,
+    onExport,
   exportDisabled = false,
   onSelectClip,
   onTimelineCommand,
@@ -185,9 +185,9 @@ export function ReviewEditorShell({
         onRefresh={onRefresh}
         onUndo={onUndo}
         onRedo={onRedo}
-        onExport={onExport}
+              onExport={onExport}
         exportDisabled={exportDisabled}
-      />
+/>
 
       <div className="grid min-h-0 flex-1 grid-cols-[64px_minmax(0,1fr)_300px] max-xl:grid-cols-[58px_minmax(0,1fr)] max-md:grid-cols-1">
         <ReviewEditorRail />
@@ -224,7 +224,7 @@ export function ReviewEditorShell({
         pendingClipboardOperation={
           pendingClipboardOperation
         }
-        onSelectClip={onSelectClip}
+       onSelectClip={onSelectClip}
         onTimelineCommand={
           onTimelineCommand
         }
