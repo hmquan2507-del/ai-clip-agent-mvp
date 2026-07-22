@@ -9,3 +9,5 @@ export * from "./clip-move-contracts";
 export * from "./clip-trim-contracts";
 
 export * from "./ripple-edit-contracts";
+
+export * from "./magnetic-snap-contracts";

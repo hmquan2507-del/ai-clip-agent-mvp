@@ -427,3 +427,12 @@ Delivered:
 - Added begin, frame/time preview, delete-gap preview, commit, cancel, reset, subscribe, configure, and dispose lifecycle behavior.
 - Runtime remains independent from React, DOM, backend APIs, and direct timeline mutation.
 - Added regression coverage through Sprint 16.8.6 and TypeScript validation.
+
+## Sprint 16.8.8.1 — Timeline Magnetic & Snap Engine
+
+Status: Completed
+
+- Added reusable frame/time/pixel-aware magnetic snap engine.
+- Added clip-edge, playhead, marker, subtitle, timeline-boundary, and custom targets.
+- Added stable priority resolution, same-track boost, exclusions, immutable guides and previews.
+- Preserved strict React/DOM/backend and timeline-mutation boundaries.

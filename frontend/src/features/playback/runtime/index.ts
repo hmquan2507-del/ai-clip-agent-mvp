@@ -17,3 +17,7 @@ export * from "./timeline-clip-trim-runtime";
 
 export * from "./ripple-preview-model";
 export * from "./timeline-ripple-edit-runtime";
+
+export * from "./snap-candidate-model";
+export * from "./snap-guide-model";
+export * from "./timeline-magnetic-snap-engine";
