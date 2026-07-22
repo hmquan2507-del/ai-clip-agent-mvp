@@ -405,3 +405,15 @@ Delivered:
 - Added begin, preview, commit, cancel, reset, subscribe, and dispose lifecycle.
 - Runtime remains independent from React, DOM, backend APIs, and timeline mutation.
 - Added regression coverage through Sprint 16.8.6 and TypeScript validation.
+
+
+## Sprint 16.8.7.8 — Timeline Resize & Trim Runtime — Completed
+
+- Added immutable clip trim contracts, previews, snapshots, events, and commit results.
+- Added deterministic start-edge and end-edge trim calculations in frame and time domains.
+- Preserved one-to-one timeline/source frame mapping during preview.
+- Enforced timeline zero, source bounds, source duration, and minimum clip duration.
+- Added typed snap targets for playhead, clip boundaries, markers, timeline zero, and custom frames.
+- Added begin, preview, commit, cancel, reset, subscribe, and dispose lifecycle behavior.
+- Runtime remains independent from React, DOM, backend APIs, and direct timeline mutation.
+- Added regression coverage through Sprint 16.8.6 and TypeScript validation.

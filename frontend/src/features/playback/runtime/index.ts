@@ -12,3 +12,5 @@ export * from "./selection-history-model";
 export * from "./timeline-selection-runtime";
 export * from "./move-preview-model";
 export * from "./timeline-clip-move-runtime";
+export * from "./trim-preview-model";
+export * from "./timeline-clip-trim-runtime";
