@@ -4,3 +4,4 @@ export * from "./video-preview-contracts";
 export * from "./audio-sync-contracts";
 
 export * from "./scrubbing-contracts";
+export * from "./timeline-selection-contracts";

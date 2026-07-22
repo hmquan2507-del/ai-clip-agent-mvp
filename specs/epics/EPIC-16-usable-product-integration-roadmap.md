@@ -388,3 +388,10 @@ Delivered:
 - Timeline pixel/time/frame projection through the existing playhead runtime.
 - Video and audio preview synchronization with muted-audio scrubbing policy.
 - Feedback-loop guards, immutable snapshots, DOM-free core runtime, and full playback regression coverage.
+
+## Sprint 16.8.7.6 — Timeline Selection Runtime — Complete
+
+- Single, toggle, multi, and range selection runtime
+- Independent active and focused clip state
+- Keyboard focus navigation and bounded selection history
+- Immutable snapshots with no React, DOM, backend, or timeline mutation dependency

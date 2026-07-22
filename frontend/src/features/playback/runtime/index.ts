@@ -8,3 +8,5 @@ export * from "./audio-synchronization-runtime";
 
 export * from "./scrubbing-throttle-model";
 export * from "./timeline-scrubbing-runtime";
+export * from "./selection-history-model";
+export * from "./timeline-selection-runtime";
