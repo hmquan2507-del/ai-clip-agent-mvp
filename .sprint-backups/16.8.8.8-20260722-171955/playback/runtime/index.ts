@@ -58,4 +58,3 @@ export * from "./timeline-history-integration-runtime";
 export * from "./timeline-history-keyboard-integration";
 export * from "./timeline-history-toolbar-controller";
 export * from "./timeline-history-workspace-session-bridge";
-export * from "./timeline-history-ui-controller";

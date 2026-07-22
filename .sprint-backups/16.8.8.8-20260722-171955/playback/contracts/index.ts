@@ -23,4 +23,3 @@ export * from "./link-group-sync-contracts";
 export * from "./timeline-history-contracts";
 
 export * from "./timeline-history-integration-contracts";
-export * from "./timeline-history-ui-contracts";
