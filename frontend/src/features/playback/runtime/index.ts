@@ -38,3 +38,18 @@ export * from "./link-group-membership-model";
 export * from "./sync-relation-model";
 export * from "./synchronization-repair-model";
 export * from "./timeline-link-group-sync-runtime";
+
+export * from "./timeline-history-entry-model";
+export * from "./timeline-history-transaction-model";
+export * from "./timeline-history-checkpoint-model";
+export * from "./timeline-history-merge-model";
+
+export * from "./timeline-undo-redo-history-runtime";
+
+export * from "./timeline-history-branch-manager";
+export * from "./timeline-history-merge-strategy";
+export * from "./timeline-history-transaction-coordinator";
+
+export * from "./timeline-history-checkpoint-manager";
+export * from "./timeline-history-snapshot-persistence";
+export * from "./timeline-history-restore-runtime";
