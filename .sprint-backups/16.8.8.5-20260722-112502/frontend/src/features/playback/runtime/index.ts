@@ -33,8 +33,3 @@ export * from "./multi-track-link-model";
 export * from "./multi-track-collision-model";
 export * from "./multi-track-preview-model";
 export * from "./timeline-multi-track-edit-runtime";
-
-export * from "./link-group-membership-model";
-export * from "./sync-relation-model";
-export * from "./synchronization-repair-model";
-export * from "./timeline-link-group-sync-runtime";
