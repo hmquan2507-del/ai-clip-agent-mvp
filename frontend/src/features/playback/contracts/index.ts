@@ -11,3 +11,5 @@ export * from "./clip-trim-contracts";
 export * from "./ripple-edit-contracts";
 
 export * from "./magnetic-snap-contracts";
+
+export * from "./slip-slide-edit-contracts";

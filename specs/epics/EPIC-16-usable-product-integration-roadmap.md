@@ -436,3 +436,16 @@ Status: Completed
 - Added clip-edge, playhead, marker, subtitle, timeline-boundary, and custom targets.
 - Added stable priority resolution, same-track boost, exclusions, immutable guides and previews.
 - Preserved strict React/DOM/backend and timeline-mutation boundaries.
+
+## Sprint 16.8.8.2 — Timeline Slip & Slide Editing Runtime
+
+Status: Completed
+
+- Added immutable slip and slide editing contracts, sessions, previews, conflicts, events, and commit results.
+- Added slip editing that preserves timeline position and duration while shifting source in/out points within source bounds.
+- Added slide editing that preserves active clip duration and total three-clip timeline range while adjusting contiguous neighbors.
+- Added source handle, timeline boundary, minimum-duration, locked-clip, track, adjacency, gap, and overlap validation.
+- Added magnetic snap resolver boundary with snap-before-clamp ordering and owner exclusions.
+- Added deterministic begin, frame/time preview, commit, cancel, reset, subscribe, configure, and dispose lifecycle behavior.
+- Runtime remains independent from React, DOM, backend APIs, and direct timeline mutation.
+- Added regression coverage through Sprint 16.8.6 and TypeScript validation.

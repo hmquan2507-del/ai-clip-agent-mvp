@@ -21,3 +21,7 @@ export * from "./timeline-ripple-edit-runtime";
 export * from "./snap-candidate-model";
 export * from "./snap-guide-model";
 export * from "./timeline-magnetic-snap-engine";
+
+export * from "./slip-preview-model";
+export * from "./slide-preview-model";
+export * from "./timeline-slip-slide-edit-runtime";
