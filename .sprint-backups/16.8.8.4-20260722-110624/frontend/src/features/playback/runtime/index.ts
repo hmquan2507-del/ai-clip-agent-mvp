@@ -28,8 +28,3 @@ export * from "./timeline-slip-slide-edit-runtime";
 
 export * from "./roll-preview-model";
 export * from "./timeline-roll-edit-runtime";
-
-export * from "./multi-track-link-model";
-export * from "./multi-track-collision-model";
-export * from "./multi-track-preview-model";
-export * from "./timeline-multi-track-edit-runtime";
