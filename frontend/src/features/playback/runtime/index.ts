@@ -10,3 +10,5 @@ export * from "./scrubbing-throttle-model";
 export * from "./timeline-scrubbing-runtime";
 export * from "./selection-history-model";
 export * from "./timeline-selection-runtime";
+export * from "./move-preview-model";
+export * from "./timeline-clip-move-runtime";

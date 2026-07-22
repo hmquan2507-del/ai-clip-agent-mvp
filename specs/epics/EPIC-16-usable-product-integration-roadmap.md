@@ -395,3 +395,13 @@ Delivered:
 - Independent active and focused clip state
 - Keyboard focus navigation and bounded selection history
 - Immutable snapshots with no React, DOM, backend, or timeline mutation dependency
+
+## Sprint 16.8.7.7 — Timeline Clip Move Runtime — Completed
+
+- Added immutable clip move contracts and snapshots.
+- Added frame/time preview calculations with duration bounds.
+- Added multi-clip movement preserving relative spacing.
+- Added configurable snap targets and threshold handling.
+- Added begin, preview, commit, cancel, reset, subscribe, and dispose lifecycle.
+- Runtime remains independent from React, DOM, backend APIs, and timeline mutation.
+- Added regression coverage through Sprint 16.8.6 and TypeScript validation.
