@@ -53,8 +53,3 @@ export * from "./timeline-history-transaction-coordinator";
 export * from "./timeline-history-checkpoint-manager";
 export * from "./timeline-history-snapshot-persistence";
 export * from "./timeline-history-restore-runtime";
-
-export * from "./timeline-history-integration-runtime";
-export * from "./timeline-history-keyboard-integration";
-export * from "./timeline-history-toolbar-controller";
-export * from "./timeline-history-workspace-session-bridge";

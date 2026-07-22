@@ -21,5 +21,3 @@ export * from "./multi-track-edit-contracts";
 export * from "./link-group-sync-contracts";
 
 export * from "./timeline-history-contracts";
-
-export * from "./timeline-history-integration-contracts";
