@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),ts=require('typescript');
 require.extensions['.ts']=(m,f)=>{const s=fs.readFileSync(f,'utf8');const o=ts.transpileModule(s,{fileName:f,compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,moduleResolution:ts.ModuleResolutionKind.NodeJs,esModuleInterop:true}});m._compile(o.outputText,f)};
-const api=require(path.resolve(__dirname,'../src/features/playback/index.ts'));
+const api=require(path.resolve(__dirname,'./playback-headless-test-api.cjs'));
 const order=['a','b','c','d','e']; const input=[...order]; const r=api.createTimelineSelectionRuntime({orderedClipIds:order,historyLimit:10});
 const initial=r.getSnapshot(); let events=0; r.subscribe(()=>events++); r.ready(); const single=r.selectOnly('b'); const duplicateBefore=events; r.select('b'); const duplicateStable=events===duplicateBefore;
 r.toggle('d'); const multi=r.getSnapshot(); r.toggle('d'); const toggled=r.getSnapshot(); r.select('d'); const beforeRange=r.getSnapshot(); const range=r.selectRange('e');

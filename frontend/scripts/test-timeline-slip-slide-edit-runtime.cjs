@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),ts=require('typescript');
 require.extensions['.ts']=(m,f)=>{const s=fs.readFileSync(f,'utf8');const o=ts.transpileModule(s,{fileName:f,compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,moduleResolution:ts.ModuleResolutionKind.NodeJs,esModuleInterop:true}});m._compile(o.outputText,f)};
-const api=require(path.resolve(__dirname,'../src/features/playback/index.ts'));
+const api=require(path.resolve(__dirname,'./playback-headless-test-api.cjs'));
 const clip=(id,start,end,sourceStart,sourceEnd,sourceDuration=500,extra={})=>({clipId:id,trackId:'v1',timelineStartFrame:start,timelineEndFrame:end,sourceStartFrame:sourceStart,sourceEndFrame:sourceEnd,sourceDurationFrames:sourceDuration,...extra});
 const previous=clip('prev',0,100,50,150,500),active=clip('active',100,200,200,300,500),next=clip('next',200,300,100,200,500);
 const original=JSON.stringify({previous,active,next});

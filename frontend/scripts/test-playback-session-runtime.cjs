@@ -18,7 +18,7 @@ require.extensions[".ts"] = function compile(module, filename) {
   module._compile(output.outputText, filename);
 };
 
-const modulePath = path.resolve(__dirname, "../src/features/playback/index.ts");
+const modulePath = path.resolve(__dirname, "./playback-headless-test-api.cjs");
 const runtimePath = path.resolve(__dirname, "../src/features/playback/runtime/playback-session-runtime.ts");
 const source = fs.readFileSync(runtimePath, "utf8");
 const { PLAYBACK_SESSION_CONTRACT_VERSION, createPlaybackSessionRuntime } = require(modulePath);

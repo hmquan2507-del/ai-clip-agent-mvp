@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),ts=require('typescript');
 require.extensions['.ts']=(m,f)=>{const s=fs.readFileSync(f,'utf8');const o=ts.transpileModule(s,{fileName:f,compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,moduleResolution:ts.ModuleResolutionKind.NodeJs,esModuleInterop:true}});m._compile(o.outputText,f)};
-const api=require(path.resolve(__dirname,'../src/features/playback/index.ts'));
+const api=require(path.resolve(__dirname,'./playback-headless-test-api.cjs'));
 const clips=[
  {clipId:'a',trackId:'v1',timelineStartFrame:0,timelineEndFrame:100,sourceStartFrame:0,sourceEndFrame:100},
  {clipId:'b',trackId:'v1',timelineStartFrame:100,timelineEndFrame:200,sourceStartFrame:0,sourceEndFrame:100},

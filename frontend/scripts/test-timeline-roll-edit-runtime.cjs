@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),ts=require('typescript');
 require.extensions['.ts']=(m,f)=>{const s=fs.readFileSync(f,'utf8');const o=ts.transpileModule(s,{fileName:f,compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,moduleResolution:ts.ModuleResolutionKind.NodeJs,esModuleInterop:true}});m._compile(o.outputText,f)};
-const api=require(path.resolve(__dirname,'../src/features/playback/index.ts'));
+const api=require(path.resolve(__dirname,'./playback-headless-test-api.cjs'));
 const clip=(id,start,end,ss,se,sd=500,extra={})=>({clipId:id,trackId:'v1',timelineStartFrame:start,timelineEndFrame:end,sourceStartFrame:ss,sourceEndFrame:se,sourceDurationFrames:sd,...extra});
 const left=clip('left',0,100,50,150),right=clip('right',100,200,100,200),original=JSON.stringify({left,right});
 const events=[],r=api.createTimelineRollEditRuntime({framesPerSecond:30,minimumClipDurationFrames:10,timelineStartFrame:0,timelineEndFrame:250});r.subscribe(e=>events.push(e.type));const initial=r.getSnapshot();const begin=r.beginRollEdit({sessionId:'roll-1',leftClip:left,rightClip:right});const duplicateBefore=events.length;r.beginRollEdit({sessionId:'roll-1',leftClip:left,rightClip:right});const duplicate=events.length===duplicateBefore;const pr=r.previewRollFrames(20).preview;const pl=r.previewRollFrames(-20).preview;const pt=r.previewRollTime(1).preview;const pa=r.previewRollCutFrame(115).preview;

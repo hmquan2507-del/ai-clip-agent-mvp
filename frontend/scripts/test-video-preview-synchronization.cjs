@@ -8,7 +8,7 @@ require.extensions[".ts"] = function compile(module, filename) {
   const output = ts.transpileModule(source, { fileName: filename, compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, moduleResolution: ts.ModuleResolutionKind.NodeJs, esModuleInterop: true } });
   module._compile(output.outputText, filename);
 };
-const api = require(path.resolve(__dirname, "../src/features/playback/index.ts"));
+const api = require(path.resolve(__dirname, "./playback-headless-test-api.cjs"));
 const coreSource = fs.readFileSync(path.resolve(__dirname, "../src/features/playback/runtime/playback-session-runtime.ts"), "utf8") + fs.readFileSync(path.resolve(__dirname, "../src/features/playback/runtime/playhead-runtime.ts"), "utf8");
 const syncSource = fs.readFileSync(path.resolve(__dirname, "../src/features/playback/runtime/video-preview-synchronizer.ts"), "utf8");
 
