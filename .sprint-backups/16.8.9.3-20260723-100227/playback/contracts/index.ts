@@ -27,4 +27,3 @@ export * from "./timeline-history-ui-contracts";
 export * from "./timeline-effects-animation-contracts";
 export * from "./timeline-effects-workspace-contracts";
 export * from "./timeline-effects-inspector-contracts";
-export * from "./timeline-keyframe-overlay-contracts";
