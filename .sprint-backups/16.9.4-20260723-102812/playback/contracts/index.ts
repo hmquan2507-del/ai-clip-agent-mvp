@@ -32,5 +32,3 @@ export * from "./timeline-keyframe-overlay-contracts";
 export * from "./professional-trim-contracts";
 export * from "./professional-multi-track-contracts";
 export * from "./professional-selection-tool-contracts";
-
-export * from "./professional-snapping-contracts";
