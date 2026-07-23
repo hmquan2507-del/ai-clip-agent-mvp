@@ -67,4 +67,3 @@ export * from "./timeline-motion-preset-registry";
 export * from "./timeline-effects-animation-runtime";
 export * from "./timeline-effects-history-bridge";
 export * from "./timeline-effects-workspace-controller";
-export * from "./timeline-effects-inspector-controller";
