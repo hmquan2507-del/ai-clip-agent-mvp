@@ -74,3 +74,12 @@ export * from "./timeline-keyframe-overlay-runtime";
 export * from "./timeline-keyframe-drag-runtime";
 export * from "./timeline-animation-overlay-runtime";
 export * from "./timeline-keyframe-lane-controller";
+
+export * from "./timeline-gap-model";
+export * from "./professional-trim-calculator";
+export * from "./timeline-professional-trim-engine";
+export * from "./professional-track-model";
+export * from "./professional-track-group-model";
+export * from "./timeline-professional-multi-track-runtime";
+export * from "./professional-selection-model";
+export * from "./timeline-professional-selection-tool-runtime";

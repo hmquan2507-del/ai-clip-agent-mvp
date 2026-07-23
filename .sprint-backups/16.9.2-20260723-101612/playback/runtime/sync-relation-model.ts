@@ -1,0 +1,14 @@
+import type { LinkableTimelineClip, TimelineLinkGroup, TimelineSyncMode, TimelineSyncRelation, TimelineSyncValidation } from "../contracts/link-group-sync-contracts";
+export class SyncRelationModel {
+  static capture(group:TimelineLinkGroup, clips:readonly LinkableTimelineClip[], mode:TimelineSyncMode="start", toleranceFrames=1):readonly TimelineSyncRelation[]{
+    const byId=new Map(clips.map(c=>[c.clipId,c])); const anchor=byId.get(group.anchorClipId); if(!anchor) return Object.freeze([]);
+    return Object.freeze(group.clipIds.filter(id=>id!==anchor.clipId).sort().map(id=>{ const c=byId.get(id)!; return Object.freeze({relationId:`${group.groupId}:${anchor.clipId}:${id}`,groupId:group.groupId,anchorClipId:anchor.clipId,linkedClipId:id,timelineStartOffsetFrames:c.timelineStartFrame-anchor.timelineStartFrame,timelineEndOffsetFrames:c.timelineEndFrame-anchor.timelineEndFrame,sourceStartOffsetFrames:c.sourceStartFrame==null||anchor.sourceStartFrame==null?null:c.sourceStartFrame-anchor.sourceStartFrame,sourceEndOffsetFrames:c.sourceEndFrame==null||anchor.sourceEndFrame==null?null:c.sourceEndFrame-anchor.sourceEndFrame,mode,toleranceFrames,enabled:true}); }));
+  }
+  static validate(relation:TimelineSyncRelation, clips:readonly LinkableTimelineClip[]):TimelineSyncValidation{
+    const byId=new Map(clips.map(c=>[c.clipId,c])); const a=byId.get(relation.anchorClipId), l=byId.get(relation.linkedClipId);
+    if(!relation.enabled) return Object.freeze({relationId:relation.relationId,groupId:relation.groupId,anchorClipId:relation.anchorClipId,linkedClipId:relation.linkedClipId,state:"disabled",expectedStartFrame:0,actualStartFrame:0,startDriftFrames:0,expectedEndFrame:null,actualEndFrame:null,endDriftFrames:null,toleranceFrames:relation.toleranceFrames,blocking:false});
+    if(!a||!l) return Object.freeze({relationId:relation.relationId,groupId:relation.groupId,anchorClipId:relation.anchorClipId,linkedClipId:relation.linkedClipId,state:"missing-clip",expectedStartFrame:0,actualStartFrame:0,startDriftFrames:0,expectedEndFrame:null,actualEndFrame:null,endDriftFrames:null,toleranceFrames:relation.toleranceFrames,blocking:true});
+    const expectedStart=a.timelineStartFrame+relation.timelineStartOffsetFrames, drift=l.timelineStartFrame-expectedStart; const expectedEnd=a.timelineEndFrame+relation.timelineEndOffsetFrames, endDrift=l.timelineEndFrame-expectedEnd; const abs=Math.abs(drift); const state=abs===0?"in-sync":abs<=relation.toleranceFrames?"within-tolerance":"out-of-sync";
+    return Object.freeze({relationId:relation.relationId,groupId:relation.groupId,anchorClipId:relation.anchorClipId,linkedClipId:relation.linkedClipId,state,expectedStartFrame:expectedStart,actualStartFrame:l.timelineStartFrame,startDriftFrames:drift,expectedEndFrame:expectedEnd,actualEndFrame:l.timelineEndFrame,endDriftFrames:endDrift,toleranceFrames:relation.toleranceFrames,blocking:state==="out-of-sync"});
+  }
+}

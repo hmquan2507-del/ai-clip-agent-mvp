@@ -28,3 +28,7 @@ export * from "./timeline-effects-animation-contracts";
 export * from "./timeline-effects-workspace-contracts";
 export * from "./timeline-effects-inspector-contracts";
 export * from "./timeline-keyframe-overlay-contracts";
+
+export * from "./professional-trim-contracts";
+export * from "./professional-multi-track-contracts";
+export * from "./professional-selection-tool-contracts";
