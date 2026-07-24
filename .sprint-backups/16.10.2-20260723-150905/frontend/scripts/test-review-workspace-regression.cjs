@@ -123,7 +123,7 @@ function main() {
   );
 
   const routeSource = read(
-    "src/app/editor/[productionId]/page.tsx",
+    "src/app/review/page.tsx",
   );
 
   const reviewIndex = read(
@@ -216,10 +216,10 @@ function main() {
 
     route_accepts_production_id:
       routeSource.includes(
-        "productionId",
+        "production_id",
       ) &&
       routeSource.includes(
-        "productionId={normalizedProductionId}",
+        "productionId={productionId}",
       ),
 
     old_exports_removed:

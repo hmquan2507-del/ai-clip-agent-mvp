@@ -5,7 +5,6 @@ import {
   Film,
   FolderKanban,
   Home,
-  LayoutGrid,
   ListChecks,
   Layers,
   Settings,
@@ -16,7 +15,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const items = [
-  { label: "Workspace", href: "/workspace", icon: LayoutGrid },
   { label: "Home", href: "/", icon: Home },
   { label: "Upload", href: "/upload", icon: Upload },
   { label: "AI Queue", href: "/ai-queue", icon: ListChecks },

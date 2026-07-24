@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Clock, Film, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ButtonLink } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -48,26 +47,28 @@ export function ProductionCard({ production }: ProductionCardProps) {
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
-              <Badge tone={statusTone[production.status]}>{statusLabel[production.status]}</Badge>
+              <Badge tone={statusTone[production.status]}>
+                {statusLabel[production.status]}
+              </Badge>
+
               <Badge>{production.style}</Badge>
+
               <span className="inline-flex items-center gap-1 text-xs text-slate-500">
                 <Clock className="h-3.5 w-3.5" />
                 {production.updatedAt}
               </span>
-              <span className="text-xs text-slate-500">{production.duration}</span>
+
+              <span className="text-xs text-slate-500">
+                {production.duration}
+              </span>
             </div>
 
             <div className="mt-4">
-              <Progress value={production.progress} label="Production progress" helperText={`${production.progress}%`} />
-            </div>
-
-            <div className="mt-4">
-              <ButtonLink
-                href={`/editor/${encodeURIComponent(production.id)}`}
-                variant="secondary"
-              >
-                Open in Editor
-              </ButtonLink>
+              <Progress
+                value={production.progress}
+                label="Production progress"
+                helperText={`${production.progress}%`}
+              />
             </div>
           </div>
         </div>
