@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");

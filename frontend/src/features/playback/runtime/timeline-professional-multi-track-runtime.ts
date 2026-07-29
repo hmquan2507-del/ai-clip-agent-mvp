@@ -59,7 +59,7 @@ export class TimelineProfessionalMultiTrackRuntime {
   async updateTrack(trackId: string, request: UpdateProfessionalTrackRequest): Promise<ProfessionalMultiTrackSnapshot> {
     return this.mutate("Update track", [trackId], "track-updated", () => {
       const index = this.indexOfTrack(trackId);
-      let updated = ProfessionalTrackModel.update(this.tracks[index], request);
+      const updated = ProfessionalTrackModel.update(this.tracks[index], request);
       if (request.solo && this.configuration.soloIsExclusive) {
         this.tracks = Object.freeze(this.tracks.map((track, i) => i === index ? updated : Object.freeze({ ...track, solo: false })));
       } else {

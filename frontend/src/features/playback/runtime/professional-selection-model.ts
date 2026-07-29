@@ -43,6 +43,7 @@ export class ProfessionalSelectionModel {
     return Object.freeze(candidates.filter(candidate => containment === "contain"
       ? candidate.bounds.left >= rect.left && candidate.bounds.right <= rect.right && candidate.bounds.top >= rect.top && candidate.bounds.bottom <= rect.bottom
       : candidate.bounds.right >= rect.left && candidate.bounds.left <= rect.right && candidate.bounds.bottom >= rect.top && candidate.bounds.top <= rect.bottom)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- destructuring is used here specifically to drop `bounds` from `entity`.
       .map(({ bounds: _bounds, ...entity }) => this.normalizeEntity(entity)));
   }
 }

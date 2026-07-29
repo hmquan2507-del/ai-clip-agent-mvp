@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs=require('fs');const path=require('path');
 const root=path.resolve(__dirname,'..');
 const files={contract:path.join(root,'src/features/playback/contracts/multi-track-edit-contracts.ts'),runtime:path.join(root,'src/features/playback/runtime/timeline-multi-track-edit-runtime.ts'),links:path.join(root,'src/features/playback/runtime/multi-track-link-model.ts'),collision:path.join(root,'src/features/playback/runtime/multi-track-collision-model.ts'),preview:path.join(root,'src/features/playback/runtime/multi-track-preview-model.ts')};

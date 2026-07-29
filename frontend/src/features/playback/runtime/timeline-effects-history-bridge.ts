@@ -2,6 +2,7 @@ import type { TimelineHistoryChange, TimelineHistoryJsonValue } from "../contrac
 import type { TimelineHistoryCommandResult } from "../contracts/timeline-history-integration-contracts";
 import { TimelineHistoryIntegrationRuntime } from "./timeline-history-integration-runtime";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- TState is instantiated by callers (see TimelineEffectsHistoryBridge.execute below); not referenced within this interface's own fields.
 export interface TimelineEffectsHistoryCommand<TState = TimelineHistoryJsonValue> {
   readonly commandId: string;
   readonly label: string;

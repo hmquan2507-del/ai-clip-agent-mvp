@@ -4,7 +4,7 @@ require.extensions['.ts']=(m,f)=>{const s=fs.readFileSync(f,'utf8');const o=ts.t
 const api=require(path.resolve(__dirname,'./playback-headless-test-api.cjs'));
 const order=['a','b','c','d','e']; const input=[...order]; const r=api.createTimelineSelectionRuntime({orderedClipIds:order,historyLimit:10});
 const initial=r.getSnapshot(); let events=0; r.subscribe(()=>events++); r.ready(); const single=r.selectOnly('b'); const duplicateBefore=events; r.select('b'); const duplicateStable=events===duplicateBefore;
-r.toggle('d'); const multi=r.getSnapshot(); r.toggle('d'); const toggled=r.getSnapshot(); r.select('d'); const beforeRange=r.getSnapshot(); const range=r.selectRange('e');
+r.toggle('d'); const multi=r.getSnapshot(); r.toggle('d'); const toggled=r.getSnapshot(); r.select('d'); r.getSnapshot(); const range=r.selectRange('e');
 r.setActive('c'); const active=r.getSnapshot(); r.setFocused('b'); const focused=r.getSnapshot(); r.moveFocusNext(); const next=r.getSnapshot(); r.moveFocusPrevious(); const previous=r.getSnapshot(); r.setFocused('e'); r.moveFocusNext(); const clamped=r.getSnapshot();
 const historyDepthBefore=r.getSnapshot().historyDepth; r.selectOnly('a'); const restored=r.restorePreviousSelection(); const clear=r.clear();
 const snap=r.getSnapshot(); let immutable=false; try{snap.selectedClipIds.push('x')}catch{immutable=true} const source=fs.readFileSync(path.resolve(__dirname,'../src/features/playback/runtime/timeline-selection-runtime.ts'),'utf8');

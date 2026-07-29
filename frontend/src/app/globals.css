@@ -25,6 +25,346 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+/* ==========================================================================
+   Sprint 17.1 — Clip Editor (`--ce-*`) semantic design tokens.
+
+   This is ONE token system for the whole app — not a fourth theme alongside
+   `.review-editor-theme`/`.desktop-editor-theme`/`.ai-timeline-theme` below.
+   Those three keep working unmodified (no runtime/visual regression risk),
+   and where one of their values is byte-identical to a `--ce-*` token it is
+   aliased onto it in place (see the "ce-alias" comments below) so the
+   two systems stay provably in sync rather than drifting further apart.
+   Full per-surface migration onto `--ce-*` directly happens in Sprint 17.2+
+   per `specs/design/frontend-redesign-master-plan.md`.
+
+   See `specs/design/frontend-design-system.md` for the full token catalogue
+   and rationale for every value below. Available at `:root` — no theme
+   class required to read these.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* Color — background */
+  --ce-bg-app: #0b0d12;
+  --ce-bg-workspace: #0f1115;
+  --ce-bg-panel: #14161c;
+  --ce-bg-panel-raised: #181b22;
+  --ce-bg-canvas: #070910;
+  --ce-bg-overlay: rgb(10 11 15 / 72%);
+
+  /* Color — border */
+  --ce-border-subtle: rgb(151 164 190 / 8%);
+  --ce-border-default: rgb(151 164 190 / 14%);
+  --ce-border-strong: rgb(166 180 207 / 22%);
+  --ce-border-focus: var(--ce-accent-primary);
+
+  /* Color — text */
+  --ce-text-primary: #f4f6fb;
+  --ce-text-secondary: #a8b0c1;
+  --ce-text-muted: #6f7887;
+  --ce-text-disabled: #4d5566;
+  --ce-text-inverse: #0b0d12;
+
+  /* Color — accent */
+  --ce-accent-primary: #7c5cff;
+  --ce-accent-primary-hover: #8d73ff;
+  --ce-accent-primary-active: #6c4aef;
+  --ce-accent-soft: rgb(124 92 255 / 14%);
+
+  /* Color — state */
+  --ce-state-selected: var(--ce-accent-soft);
+  --ce-state-hover: rgb(151 164 190 / 10%);
+  --ce-state-focus: var(--ce-accent-primary);
+  --ce-state-processing: #f8c76e;
+  --ce-state-success: #65dfa9;
+  --ce-state-warning: #f8c76e;
+  --ce-state-error: #ff819d;
+  --ce-state-disabled: var(--ce-text-disabled);
+  --ce-opacity-disabled: 0.45;
+
+  /* Color — timeline (domain-specific, deliberately distinct hues) */
+  --ce-timeline-video: #6654d9;
+  --ce-timeline-audio: #218a63;
+  --ce-timeline-subtitle: #bd7a26;
+  --ce-timeline-broll: #207f9c;
+  --ce-timeline-ai: #a855f7;
+  --ce-timeline-playhead: #ff557d;
+  --ce-timeline-selection: rgb(124 92 255 / 28%);
+
+  /* Color — AI decision lifecycle */
+  --ce-decision-draft: var(--ce-text-secondary);
+  --ce-decision-applied: var(--ce-accent-primary);
+  --ce-decision-accepted: var(--ce-state-success);
+  --ce-decision-rejected: var(--ce-text-muted);
+  --ce-decision-disabled: var(--ce-text-disabled);
+  --ce-decision-manual: var(--ce-timeline-broll);
+  --ce-decision-processing: var(--ce-state-processing);
+  --ce-decision-stale: var(--ce-state-warning);
+  --ce-decision-error: var(--ce-state-error);
+
+  /* Typography roles — size / line-height / weight per role */
+  --ce-type-display-size: 28px;
+  --ce-type-display-line-height: 1.15;
+  --ce-type-display-weight: 600;
+
+  --ce-type-page-title-size: 20px;
+  --ce-type-page-title-line-height: 1.25;
+  --ce-type-page-title-weight: 600;
+
+  --ce-type-panel-title-size: 13px;
+  --ce-type-panel-title-line-height: 1.3;
+  --ce-type-panel-title-weight: 600;
+
+  --ce-type-section-title-size: 11px;
+  --ce-type-section-title-line-height: 1.3;
+  --ce-type-section-title-weight: 600;
+
+  --ce-type-body-size: 13px;
+  --ce-type-body-line-height: 1.5;
+  --ce-type-body-weight: 400;
+
+  --ce-type-body-compact-size: 11px;
+  --ce-type-body-compact-line-height: 1.4;
+  --ce-type-body-compact-weight: 400;
+
+  --ce-type-label-size: 11px;
+  --ce-type-label-line-height: 1.3;
+  --ce-type-label-weight: 500;
+
+  --ce-type-metadata-size: 10px;
+  --ce-type-metadata-line-height: 1.3;
+  --ce-type-metadata-weight: 500;
+
+  --ce-type-caption-size: 10px;
+  --ce-type-caption-line-height: 1.4;
+  --ce-type-caption-weight: 400;
+
+  --ce-type-timeline-label-size: 9px;
+  --ce-type-timeline-label-line-height: 1.2;
+  --ce-type-timeline-label-weight: 500;
+
+  --ce-type-button-size: 12px;
+  --ce-type-button-line-height: 1;
+  --ce-type-button-weight: 600;
+
+  --ce-type-input-size: 12px;
+  --ce-type-input-line-height: 1.4;
+  --ce-type-input-weight: 400;
+
+  --ce-type-code-size: 11px;
+  --ce-type-code-line-height: 1.4;
+  --ce-type-code-weight: 400;
+
+  /* Spacing scale */
+  --ce-space-2xs: 2px;
+  --ce-space-xs: 4px;
+  --ce-space-sm: 8px;
+  --ce-space-md: 16px;
+  --ce-space-lg: 24px;
+  --ce-space-xl: 32px;
+  --ce-space-2xl: 48px;
+
+  /* Editor dimensions */
+  --ce-dim-header-height: 48px;
+  --ce-dim-tool-rail-width: 64px;
+  --ce-dim-tool-rail-width-compact: 48px;
+  --ce-dim-asset-panel-min: 280px;
+  --ce-dim-asset-panel-default: 300px;
+  --ce-dim-asset-panel-max: 320px;
+  --ce-dim-inspector-min: 300px;
+  --ce-dim-inspector-default: 320px;
+  --ce-dim-inspector-max: 340px;
+  --ce-dim-timeline-toolbar-height: 40px;
+  --ce-dim-track-height: 40px;
+  --ce-dim-track-height-collapsed: 24px;
+  --ce-dim-ai-timeline-height-min: 110px;
+  --ce-dim-ai-timeline-height-default: 140px;
+  --ce-dim-ai-timeline-height-max: 150px;
+  --ce-dim-control-height-sm: 28px;
+  --ce-dim-control-height-md: 32px;
+  --ce-dim-control-height-lg: 40px;
+  --ce-icon-size-sm: 14px;
+  --ce-icon-size-md: 16px;
+
+  /* Radius scale */
+  --ce-radius-sm: 8px;
+  --ce-radius-md: 12px;
+  --ce-radius-lg: 16px;
+  --ce-radius-pill: 999px;
+
+  /* Elevation */
+  --ce-shadow-panel: 0 12px 32px rgb(0 0 0 / 24%);
+  --ce-shadow-floating: 0 24px 80px rgb(0 0 0 / 42%);
+  --ce-shadow-accent: 0 8px 24px rgb(91 60 224 / 28%);
+
+  /* Motion */
+  --ce-motion-duration-fast: 120ms;
+  --ce-motion-duration-base: 180ms;
+  --ce-motion-duration-slow: 280ms;
+  --ce-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ce-motion-easing-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ce-motion-easing-accelerate: cubic-bezier(0.3, 0, 1, 1);
+}
+
+/* Typography role utility classes — see frontend-design-system.md §Typography roles.
+   `display`/`pageTitle` are for Workspace/marketing-adjacent surfaces only;
+   nothing inside the Desktop Editor shell should use them. */
+.ce-text-display {
+  font-size: var(--ce-type-display-size);
+  line-height: var(--ce-type-display-line-height);
+  font-weight: var(--ce-type-display-weight);
+}
+.ce-text-page-title {
+  font-size: var(--ce-type-page-title-size);
+  line-height: var(--ce-type-page-title-line-height);
+  font-weight: var(--ce-type-page-title-weight);
+}
+.ce-text-panel-title {
+  font-size: var(--ce-type-panel-title-size);
+  line-height: var(--ce-type-panel-title-line-height);
+  font-weight: var(--ce-type-panel-title-weight);
+}
+.ce-text-section-title {
+  font-size: var(--ce-type-section-title-size);
+  line-height: var(--ce-type-section-title-line-height);
+  font-weight: var(--ce-type-section-title-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ce-text-body {
+  font-size: var(--ce-type-body-size);
+  line-height: var(--ce-type-body-line-height);
+  font-weight: var(--ce-type-body-weight);
+}
+.ce-text-body-compact {
+  font-size: var(--ce-type-body-compact-size);
+  line-height: var(--ce-type-body-compact-line-height);
+  font-weight: var(--ce-type-body-compact-weight);
+}
+.ce-text-label {
+  font-size: var(--ce-type-label-size);
+  line-height: var(--ce-type-label-line-height);
+  font-weight: var(--ce-type-label-weight);
+}
+.ce-text-metadata {
+  font-size: var(--ce-type-metadata-size);
+  line-height: var(--ce-type-metadata-line-height);
+  font-weight: var(--ce-type-metadata-weight);
+}
+.ce-text-caption {
+  font-size: var(--ce-type-caption-size);
+  line-height: var(--ce-type-caption-line-height);
+  font-weight: var(--ce-type-caption-weight);
+}
+.ce-text-timeline-label {
+  font-size: var(--ce-type-timeline-label-size);
+  line-height: var(--ce-type-timeline-label-line-height);
+  font-weight: var(--ce-type-timeline-label-weight);
+}
+.ce-text-button {
+  font-size: var(--ce-type-button-size);
+  line-height: var(--ce-type-button-line-height);
+  font-weight: var(--ce-type-button-weight);
+}
+.ce-text-input {
+  font-size: var(--ce-type-input-size);
+  line-height: var(--ce-type-input-line-height);
+  font-weight: var(--ce-type-input-weight);
+}
+.ce-text-code {
+  font-size: var(--ce-type-code-size);
+  line-height: var(--ce-type-code-line-height);
+  font-weight: var(--ce-type-code-weight);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Shared elevation/surface classes — background contrast as the primary
+   separator between regions (design direction: "surface contrast before
+   borders"), available for any surface migrating onto `--ce-*`. */
+.ce-surface-app {
+  background: var(--ce-bg-app);
+  color: var(--ce-text-primary);
+}
+.ce-surface-workspace {
+  background: var(--ce-bg-workspace);
+  color: var(--ce-text-primary);
+}
+.ce-surface-panel {
+  background: var(--ce-bg-panel);
+  color: var(--ce-text-primary);
+}
+.ce-surface-panel-raised {
+  background: var(--ce-bg-panel-raised);
+  color: var(--ce-text-primary);
+}
+.ce-surface-canvas {
+  background: var(--ce-bg-canvas);
+  color: var(--ce-text-primary);
+}
+.ce-surface-overlay {
+  background: var(--ce-bg-overlay);
+  color: var(--ce-text-primary);
+}
+
+/* Shared state utility classes. */
+.ce-state-selected {
+  background: var(--ce-state-selected);
+}
+.ce-state-hover:hover {
+  background: var(--ce-state-hover);
+}
+.ce-state-disabled,
+[data-ce-disabled="true"] {
+  color: var(--ce-state-disabled);
+  opacity: var(--ce-opacity-disabled);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.ce-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ce-bg-panel), 0 0 0 4px var(--ce-border-focus);
+}
+
+/* Unified thin scrollbar utility — supersedes the theme-scoped
+   `.desktop-editor-scroll` rule below (kept working, unmodified, for
+   surfaces that haven't migrated yet). Usable anywhere, no theme class
+   ancestor required. */
+.ce-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ce-border-strong) transparent;
+}
+.ce-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.ce-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ce-scroll::-webkit-scrollbar-thumb {
+  border-radius: var(--ce-radius-pill);
+  background-color: var(--ce-border-strong);
+}
+.ce-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(255 255 255 / 22%);
+}
+
+/* App-wide reduced-motion coverage for every `--ce-motion-*`-driven
+   transition/animation. The existing `.review-editor-theme`-scoped rule
+   further below is left in place unmodified (harmless overlap) rather than
+   removed, per this sprint's "do not blindly rewrite" constraint — this
+   rule simply closes the gap so reduced-motion is honored EVERYWHERE, not
+   only inside `.review-editor-theme`. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 .review-editor-theme {
   color-scheme: dark;
 
@@ -52,9 +392,9 @@ body {
   --review-border-hover:
     rgb(185 198 224 / 34%);
 
-  --review-accent: #7c5cff;
-  --review-accent-hover: #8d73ff;
-  --review-accent-active: #6c4aef;
+  --review-accent: var(--ce-accent-primary); /* ce-alias: #7c5cff */
+  --review-accent-hover: var(--ce-accent-primary-hover); /* ce-alias: #8d73ff */
+  --review-accent-active: var(--ce-accent-primary-active); /* ce-alias: #6c4aef */
   --review-accent-soft:
     rgb(124 92 255 / 12%);
   --review-accent-ring:
@@ -77,19 +417,19 @@ body {
     rgb(36 201 138 / 11%);
   --review-success-border:
     rgb(47 211 150 / 28%);
-  --review-success-text: #65dfa9;
+  --review-success-text: var(--ce-state-success); /* ce-alias: #65dfa9 */
 
   --review-warning-soft:
     rgb(246 177 61 / 11%);
   --review-warning-border:
     rgb(246 177 61 / 30%);
-  --review-warning-text: #f8c76e;
+  --review-warning-text: var(--ce-state-warning); /* ce-alias: #f8c76e */
 
   --review-danger-soft:
     rgb(244 82 117 / 11%);
   --review-danger-border:
     rgb(244 82 117 / 30%);
-  --review-danger-text: #ff819d;
+  --review-danger-text: var(--ce-state-error); /* ce-alias: #ff819d */
   --review-danger-hover:
     rgb(244 82 117 / 18%);
 
@@ -113,12 +453,12 @@ body {
   --review-timeline-ruler: #0b0f18;
   --review-timeline-grid:
     rgb(160 176 205 / 9%);
-  --review-timeline-playhead: #ff557d;
+  --review-timeline-playhead: var(--ce-timeline-playhead); /* ce-alias: #ff557d */
 
-  --review-clip-video: #6654d9;
-  --review-clip-broll: #207f9c;
-  --review-clip-subtitle: #bd7a26;
-  --review-clip-audio: #218a63;
+  --review-clip-video: var(--ce-timeline-video); /* ce-alias: #6654d9 */
+  --review-clip-broll: var(--ce-timeline-broll); /* ce-alias: #207f9c */
+  --review-clip-subtitle: var(--ce-timeline-subtitle); /* ce-alias: #bd7a26 */
+  --review-clip-audio: var(--ce-timeline-audio); /* ce-alias: #218a63 */
 
   background:
     radial-gradient(
@@ -194,20 +534,20 @@ body {
   --desktop-editor-text-muted: #a8b0c1;
   --desktop-editor-text-subtle: #6f7887;
 
-  --desktop-editor-primary: #7c5cff;
-  --desktop-editor-primary-hover: #8d73ff;
-  --desktop-editor-primary-soft: rgb(124 92 255 / 14%);
+  --desktop-editor-primary: var(--ce-accent-primary); /* ce-alias: #7c5cff */
+  --desktop-editor-primary-hover: var(--ce-accent-primary-hover); /* ce-alias: #8d73ff */
+  --desktop-editor-primary-soft: var(--ce-accent-soft); /* ce-alias: rgb(124 92 255 / 14%) */
   --desktop-editor-primary-text: #b9a9ff;
 
   --desktop-editor-warning-soft: rgb(246 177 61 / 12%);
   --desktop-editor-warning-border: rgb(246 177 61 / 30%);
-  --desktop-editor-warning-text: #f8c76e;
+  --desktop-editor-warning-text: var(--ce-state-warning); /* ce-alias: #f8c76e */
 
   --desktop-editor-danger-soft: rgb(244 82 117 / 12%);
   --desktop-editor-danger-border: rgb(244 82 117 / 30%);
-  --desktop-editor-danger-text: #ff819d;
+  --desktop-editor-danger-text: var(--ce-state-error); /* ce-alias: #ff819d */
 
-  --desktop-editor-success-text: #65dfa9;
+  --desktop-editor-success-text: var(--ce-state-success); /* ce-alias: #65dfa9 */
 
   --desktop-editor-radius-panel: 12px;
   --desktop-editor-radius-control: 8px;
@@ -218,6 +558,18 @@ body {
   --desktop-editor-space-xl: 32px;
 
   --desktop-editor-shadow-panel: 0 12px 32px rgb(0 0 0 / 24%);
+
+  /* 16.10.6.1 — named aliases for every design-token category called out in
+     Requirement 7. These intentionally REUSE the values above rather than
+     introduce new colors, so hover/selection/focus/disabled/processing/error
+     read as one consistent system instead of a second palette. */
+  --desktop-editor-hover: var(--desktop-editor-surface-hover);
+  --desktop-editor-selection: var(--desktop-editor-primary-soft);
+  --desktop-editor-focus: var(--desktop-editor-primary);
+  --desktop-editor-focus-ring: rgb(124 92 255 / 45%);
+  --desktop-editor-disabled-text: var(--desktop-editor-text-subtle);
+  --desktop-editor-error: var(--desktop-editor-danger-text);
+  --desktop-editor-processing: var(--desktop-editor-warning-text);
 }
 
 .ai-timeline-theme {
@@ -225,22 +577,68 @@ body {
 
   --ai-timeline-bg: #101014;
   --ai-timeline-surface: #1a1a20;
+  --ai-timeline-surface-hover: #232330;
 
   --ai-timeline-border-subtle: rgb(255 255 255 / 6%);
   --ai-timeline-border: rgb(255 255 255 / 12%);
+  --ai-timeline-border-hover: rgb(255 255 255 / 22%);
 
   --ai-timeline-text: #f5f7fb;
   --ai-timeline-text-muted: #a8b0c1;
   --ai-timeline-text-subtle: #6f7887;
 
+  /* Intentional deviation (documented in frontend-design-system.md): AI
+     Timeline keeps its own distinct accent hue rather than aliasing
+     --ce-accent-primary, since AI-authored surfaces are deliberately
+     visually distinguishable from manual-editing surfaces. */
   --ai-timeline-primary: #a855f7;
   --ai-timeline-primary-soft: rgb(168 85 247 / 16%);
   --ai-timeline-primary-text: #d8b4fe;
 
-  --ai-timeline-warning-text: #f8c76e;
+  --ai-timeline-warning-text: var(--ce-state-warning); /* ce-alias: #f8c76e */
+  --ai-timeline-danger-text: var(--ce-state-error); /* ce-alias: #ff819d */
+  --ai-timeline-success-text: var(--ce-state-success); /* ce-alias: #65dfa9 */
 
   --ai-timeline-radius: 10px;
   --ai-timeline-radius-control: 6px;
+  --ai-timeline-space-sm: 8px;
+  --ai-timeline-space-md: 16px;
+  --ai-timeline-shadow-panel: 0 12px 32px rgb(0 0 0 / 24%);
+
+  /* Same alias convention as `.desktop-editor-theme`, kept namespaced since
+     the AI Timeline runs in its own theme scope. */
+  --ai-timeline-hover: var(--ai-timeline-surface-hover);
+  --ai-timeline-selection: var(--ai-timeline-primary-soft);
+  --ai-timeline-focus: var(--ai-timeline-primary);
+  --ai-timeline-disabled-text: var(--ai-timeline-text-subtle);
+  --ai-timeline-error: var(--ai-timeline-danger-text);
+  --ai-timeline-processing: var(--ai-timeline-warning-text);
+}
+
+/* Compact scrollbar shared by Desktop Editor + AI Timeline scrollable panels
+   (Inspector tabs, Asset Library, AI Copilot, AI Timeline tracks) — reduces
+   visual noise vs. the browser default without hiding the scrollbar. */
+.desktop-editor-theme .desktop-editor-scroll,
+.ai-timeline-theme .desktop-editor-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--desktop-editor-border-hover, rgb(255 255 255 / 22%)) transparent;
+}
+
+.desktop-editor-theme .desktop-editor-scroll::-webkit-scrollbar,
+.ai-timeline-theme .desktop-editor-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.desktop-editor-theme .desktop-editor-scroll::-webkit-scrollbar-track,
+.ai-timeline-theme .desktop-editor-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.desktop-editor-theme .desktop-editor-scroll::-webkit-scrollbar-thumb,
+.ai-timeline-theme .desktop-editor-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / 16%);
 }
 
 .review-skeleton {

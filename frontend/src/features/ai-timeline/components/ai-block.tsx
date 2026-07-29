@@ -51,6 +51,13 @@ const VISUAL_STATE_CLASS: Record<AiBlockVisualState, string> = {
   normal: "border transition hover:brightness-110",
 };
 
+/** Below this rendered width, only the decision-type icon is shown (no title/confidence) — keeps narrow blocks readable instead of clipping garbled text. */
+const COMPACT_WIDTH_THRESHOLD = 30;
+/** Above this rendered width, there's room to also show the confidence value next to the title. */
+const CONFIDENCE_WIDTH_THRESHOLD = 92;
+/** Minimum clickable/visible width regardless of the decision's real duration. */
+const MIN_HIT_WIDTH = 16;
+
 export interface AiBlockProps {
   block: AiBlock;
   left: number;
@@ -74,13 +81,17 @@ function AiBlockImpl({
 }: AiBlockProps) {
   const Icon = TRACK_ICON[block.trackKind];
   const color = TRACK_COLOR[block.trackKind];
+  const compact = width < COMPACT_WIDTH_THRESHOLD;
+  const showConfidence = width >= CONFIDENCE_WIDTH_THRESHOLD;
 
   return (
     <button
       type="button"
       data-ai-block-id={block.id}
       data-ai-block-state={visualState}
+      data-ai-block-compact={compact}
       aria-label={`${block.title} — ${Math.round(block.confidence * 100)}% confidence${visualState !== "normal" ? ` (${visualState})` : ""}`}
+      title={compact ? block.title : undefined}
       onMouseEnter={() => onHoverChange(block.id)}
       onMouseLeave={() => onHoverChange(null)}
       onClick={() => onSelect(block)}
@@ -91,15 +102,22 @@ function AiBlockImpl({
       }}
       style={{
         left,
-        width: Math.max(width, 6),
+        width: Math.max(width, MIN_HIT_WIDTH),
         borderColor: color,
         backgroundColor: `${color}26`,
       }}
-      className={`absolute top-1 bottom-1 flex items-center gap-1 overflow-hidden rounded-md px-1.5 text-left ${VISUAL_STATE_CLASS[visualState]}`}
+      className={`absolute top-1 bottom-1 flex items-center gap-1 overflow-hidden rounded-md text-left ${compact ? "justify-center px-0.5" : "px-1.5"} ${VISUAL_STATE_CLASS[visualState]}`}
     >
       <Icon className="size-3 shrink-0" style={{ color }} />
-      <span className="truncate text-[10px] font-medium text-white">{block.title}</span>
-      {block.pinned ? <span aria-hidden className="ml-auto shrink-0 text-[9px]">📌</span> : null}
+      {compact ? null : (
+        <span className="min-w-0 flex-1 truncate text-[10px] font-medium text-white">{block.title}</span>
+      )}
+      {!compact && showConfidence ? (
+        <span className="shrink-0 text-[9px] font-semibold text-white/70">{Math.round(block.confidence * 100)}%</span>
+      ) : null}
+      {!compact && block.pinned ? (
+        <span aria-hidden className="shrink-0 text-[9px]">📌</span>
+      ) : null}
     </button>
   );
 }

@@ -1,4 +1,4 @@
-import { CheckCircle2, Sparkles, XCircle } from "lucide-react";
+import { CheckCircle2, Wand2, XCircle } from "lucide-react";
 
 import { ReviewAICommandBar, type ReviewAICommandBarProps } from "../../review/shell";
 
@@ -37,7 +37,7 @@ export interface EditorAiCopilotProps {
 export function EditorAiCopilot({ aiCommand, onSuggestionSelect, recentTasks = RECENT_TASKS }: EditorAiCopilotProps) {
   return (
     <div className="flex h-full flex-col">
-      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-3">
+      <div className="desktop-editor-scroll min-h-0 flex-1 space-y-4 overflow-y-auto p-3">
         <SectionHeading>Quick actions</SectionHeading>
         <div className="grid grid-cols-2 gap-1.5">
           {QUICK_ACTIONS.map((action) => (
@@ -53,7 +53,12 @@ export function EditorAiCopilot({ aiCommand, onSuggestionSelect, recentTasks = R
           ))}
         </div>
 
-        <SectionHeading>Suggestions</SectionHeading>
+        <div className="flex items-center justify-between">
+          <SectionHeading>Suggestions</SectionHeading>
+          <span className="rounded-full border border-dashed border-[var(--desktop-editor-border)] px-1.5 py-0.5 text-[8.5px] font-medium uppercase tracking-wide text-[var(--desktop-editor-text-subtle)]">
+            Pending runtime
+          </span>
+        </div>
         <div className="space-y-2">
           {SUGGESTIONS.map((suggestion) => (
             <button
@@ -101,10 +106,10 @@ export function EditorAiCopilot({ aiCommand, onSuggestionSelect, recentTasks = R
         )}
       </div>
 
-      <div className="shrink-0 border-t border-[var(--desktop-editor-border-subtle)] px-1 pb-1 pt-2">
+      <div className="sticky bottom-0 shrink-0 border-t border-[var(--desktop-editor-border-subtle)] bg-[var(--desktop-editor-surface)] px-1 pb-1 pt-2">
         <p className="mb-1 flex items-center gap-1 px-2 text-[10px] font-medium text-[var(--desktop-editor-text-subtle)]">
-          <Sparkles className="size-3" />
-          Custom prompt
+          <Wand2 className="size-3" />
+          AI Director
         </p>
         <ReviewAICommandBar {...aiCommand} />
       </div>

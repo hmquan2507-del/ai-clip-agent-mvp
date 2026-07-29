@@ -78,7 +78,7 @@ export function EditorInspector({
         <PanelCollapseButton direction="right" label="Collapse inspector" onClick={() => onToggleCollapsed?.()} />
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="desktop-editor-scroll min-h-0 flex-1 overflow-y-auto">
         {activeTab === "properties" ? (
           <PropertiesPlaceholder />
         ) : activeTab === "ai-decision" ? (
@@ -129,7 +129,7 @@ function PropertiesPlaceholder() {
       {PROPERTY_SECTIONS.map((section) => (
         <div
           key={section}
-          className="rounded-[var(--desktop-editor-radius-control)] border border-[var(--desktop-editor-border)] bg-[var(--desktop-editor-bg)] p-3"
+          className="rounded-[var(--desktop-editor-radius-control)] border border-[var(--desktop-editor-border-subtle)] bg-[var(--desktop-editor-bg)] p-3"
         >
           <p className="text-[11px] font-semibold text-[var(--desktop-editor-text)]">{section}</p>
           <p className="mt-1 text-[10px] leading-4 text-[var(--desktop-editor-text-subtle)]">

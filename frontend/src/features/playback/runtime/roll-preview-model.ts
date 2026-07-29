@@ -39,7 +39,7 @@ export class RollPreviewModel {
   static deltaRange(left: RollTimelineClip, right: RollTimelineClip, config: NormalizedRollConfiguration): readonly [number, number] {
     const leftDuration=left.timelineEndFrame-left.timelineStartFrame;
     const rightDuration=right.timelineEndFrame-right.timelineStartFrame;
-    let minimum=Math.max(config.minimumClipDurationFrames-leftDuration,-right.sourceStartFrame,config.timelineStartFrame-left.timelineEndFrame);
+    const minimum=Math.max(config.minimumClipDurationFrames-leftDuration,-right.sourceStartFrame,config.timelineStartFrame-left.timelineEndFrame);
     let maximum=Math.min(rightDuration-config.minimumClipDurationFrames,left.sourceDurationFrames-left.sourceEndFrame);
     if(config.timelineEndFrame!==null) maximum=Math.min(maximum,config.timelineEndFrame-left.timelineEndFrame);
     return Object.freeze([Math.ceil(minimum),Math.floor(maximum)]);

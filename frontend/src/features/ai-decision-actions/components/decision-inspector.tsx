@@ -35,7 +35,7 @@ export function AiDecisionInspector() {
 
   return (
     <div className="space-y-3 p-3" data-ai-decision-inspector="true">
-      <div className="rounded-lg border border-[var(--desktop-editor-border)] bg-[var(--desktop-editor-bg)] p-3">
+      <div className="rounded-lg border border-[var(--desktop-editor-border-subtle)] bg-[var(--desktop-editor-bg)] p-3">
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="text-[10px] uppercase tracking-[0.12em] text-[var(--desktop-editor-text-subtle)]">AI Decision</p>
@@ -77,7 +77,7 @@ export function AiDecisionInspector() {
             type="button"
             disabled={pending}
             onClick={() => void actions.runAction(action, decision)}
-            className="flex h-9 items-center justify-center gap-1.5 rounded-md border border-[var(--desktop-editor-border)] bg-[var(--desktop-editor-bg)] text-[10px] font-semibold text-[var(--desktop-editor-text)] hover:bg-white/5 disabled:opacity-50"
+            className="flex h-9 items-center justify-center gap-1.5 rounded-md border border-[var(--desktop-editor-border-subtle)] bg-[var(--desktop-editor-bg)] text-[10px] font-semibold text-[var(--desktop-editor-text)] hover:bg-white/5 disabled:opacity-50"
           >
             <Icon className="size-3.5" />
             {label}
@@ -93,7 +93,7 @@ export function AiDecisionInspector() {
         Convert to Manual
       </button>
 
-      <div className="rounded-lg border border-[var(--desktop-editor-border)] bg-[var(--desktop-editor-bg)] p-3">
+      <div className="rounded-lg border border-[var(--desktop-editor-border-subtle)] bg-[var(--desktop-editor-bg)] p-3">
         <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--desktop-editor-text-subtle)]">
           <History className="size-3.5" /> Decision history
         </div>

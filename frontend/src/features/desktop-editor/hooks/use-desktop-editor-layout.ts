@@ -2,10 +2,14 @@
 
 import { useCallback, useMemo, useState } from "react";
 
-export const ASSET_LIBRARY_LAYOUT = { default: 340, min: 280, max: 520, collapsed: 40 };
-export const INSPECTOR_LAYOUT = { default: 360, min: 320, max: 500, collapsed: 40 };
+// 16.10.6.1 UI/UX refinement: Asset/Inspector defaults narrowed and Tool Rail
+// shrunk to the sprint's target ranges so Preview gets more of the width by
+// default (Requirement 1) — panels remain fully resizable/collapsible within
+// their new ranges, nothing about the resize/collapse mechanism changed.
+export const ASSET_LIBRARY_LAYOUT = { default: 300, min: 280, max: 320, collapsed: 40 };
+export const INSPECTOR_LAYOUT = { default: 320, min: 300, max: 340, collapsed: 40 };
 export const TIMELINE_LAYOUT = { default: 320, min: 240, max: 520, collapsed: 64 };
-export const TOOL_RAIL_LAYOUT = { expanded: 72, compact: 48 };
+export const TOOL_RAIL_LAYOUT = { expanded: 64, compact: 48 };
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));

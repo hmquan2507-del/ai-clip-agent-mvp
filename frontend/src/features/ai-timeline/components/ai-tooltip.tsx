@@ -6,6 +6,10 @@ export interface AiTooltipProps {
   y: number;
 }
 
+const TOOLTIP_WIDTH = 256;
+const TOOLTIP_ESTIMATED_HEIGHT = 190;
+const CURSOR_OFFSET = 12;
+
 function formatTimeRange(block: AiBlock): string {
   const format = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -16,11 +20,23 @@ function formatTimeRange(block: AiBlock): string {
 }
 
 export function AiTooltip({ block, x, y }: AiTooltipProps) {
+  // Flip to the opposite side of the cursor when the tooltip would otherwise
+  // overflow the viewport — computed from fixed estimates, not a DOM
+  // measurement, so this never introduces a layout-measurement loop.
+  const viewportWidth = typeof window !== "undefined" ? window.innerWidth : Number.POSITIVE_INFINITY;
+  const viewportHeight = typeof window !== "undefined" ? window.innerHeight : Number.POSITIVE_INFINITY;
+
+  const overflowsRight = x + CURSOR_OFFSET + TOOLTIP_WIDTH > viewportWidth;
+  const overflowsBottom = y + CURSOR_OFFSET + TOOLTIP_ESTIMATED_HEIGHT > viewportHeight;
+
+  const left = overflowsRight ? Math.max(8, x - CURSOR_OFFSET - TOOLTIP_WIDTH) : x + CURSOR_OFFSET;
+  const top = overflowsBottom ? Math.max(8, y - CURSOR_OFFSET - TOOLTIP_ESTIMATED_HEIGHT) : y + CURSOR_OFFSET;
+
   return (
     <div
       role="tooltip"
-      style={{ left: x + 12, top: y + 12 }}
-      className="pointer-events-none fixed z-50 w-64 rounded-[var(--ai-timeline-radius)] border border-[var(--ai-timeline-border)] bg-[var(--ai-timeline-surface)] p-3 shadow-xl"
+      style={{ left, top, width: TOOLTIP_WIDTH }}
+      className="pointer-events-none fixed z-50 rounded-[var(--ai-timeline-radius)] border border-[var(--ai-timeline-border)] bg-[var(--ai-timeline-surface)] p-3 shadow-xl"
     >
       <p className="text-[11px] font-semibold text-[var(--ai-timeline-text)]">{block.title}</p>
       <p className="mt-0.5 text-[10px] text-[var(--ai-timeline-text-subtle)]">{formatTimeRange(block)}</p>

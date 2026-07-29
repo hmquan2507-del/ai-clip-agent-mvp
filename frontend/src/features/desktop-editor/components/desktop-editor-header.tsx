@@ -86,20 +86,27 @@ export function DesktopEditorHeader({
       </div>
 
       <div className="flex shrink-0 items-center gap-1">
-        <HeaderIconButton label="Undo" onClick={onUndo} disabled={!canUndo}>
-          <Undo2 className="size-4" />
-        </HeaderIconButton>
-        <HeaderIconButton label="Redo" onClick={onRedo} disabled={!canRedo}>
-          <Redo2 className="size-4" />
-        </HeaderIconButton>
-        <HeaderIconButton label="History" onClick={onHistory}>
-          <History className="size-4" />
-        </HeaderIconButton>
-        <HeaderIconButton label="Refresh" onClick={onRefresh}>
-          <RefreshCw className={refreshing ? "size-4 animate-spin" : "size-4"} />
-        </HeaderIconButton>
+        <div role="group" aria-label="History" className="flex items-center gap-0.5">
+          <HeaderIconButton label="Undo" onClick={onUndo} disabled={!canUndo}>
+            <Undo2 className="size-4" />
+          </HeaderIconButton>
+          <HeaderIconButton label="Redo" onClick={onRedo} disabled={!canRedo}>
+            <Redo2 className="size-4" />
+          </HeaderIconButton>
+          <HeaderIconButton label="History" onClick={onHistory}>
+            <History className="size-4" />
+          </HeaderIconButton>
+        </div>
 
-        <div className="mx-1.5 h-5 w-px bg-[var(--desktop-editor-border)]" />
+        <div className="mx-1 h-5 w-px bg-[var(--desktop-editor-border-subtle)]" />
+
+        <div role="group" aria-label="View" className="flex items-center gap-0.5">
+          <HeaderIconButton label="Refresh" onClick={onRefresh}>
+            <RefreshCw className={refreshing ? "size-4 animate-spin" : "size-4"} />
+          </HeaderIconButton>
+        </div>
+
+        <div className="mx-1.5 h-5 w-px bg-[var(--desktop-editor-border-subtle)]" />
 
         <button
           type="button"

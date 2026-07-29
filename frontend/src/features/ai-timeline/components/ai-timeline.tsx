@@ -179,6 +179,20 @@ export function AiTimeline({ realClips = [], onBlockAction, onRequestSelectClip 
 
   const playheadLeft = AI_TRACK_HEADER_WIDTH + viewport.playheadTime * viewport.pixelsPerSecond - viewport.scrollLeft;
 
+  const visibleTrackCount = useMemo(() => {
+    if (state.activeFilters.size === 0) return tracks.length;
+    return tracks.filter((track) => track.filterKey && state.activeFilters.has(track.filterKey)).length;
+  }, [tracks, state.activeFilters]);
+  const noSearchMatches = matchingBlockIds != null && matchingBlockIds.size === 0;
+  const emptyStateMessage =
+    visibleTrackCount === 0
+      ? "No tracks match the selected filters."
+      : noSearchMatches
+        ? `No AI decisions match "${state.search.trim()}".`
+        : blocks.length === 0
+          ? "No AI decisions yet for this production."
+          : null;
+
   return (
     <div
       className="ai-timeline-theme flex h-full min-h-0 flex-col border-b border-[var(--ai-timeline-border)] bg-[var(--ai-timeline-bg)]"
@@ -190,7 +204,7 @@ export function AiTimeline({ realClips = [], onBlockAction, onRequestSelectClip 
           ✨ AI Timeline
         </span>
 
-        <label className="flex h-6 w-40 shrink-0 items-center gap-1 rounded-md border border-[var(--ai-timeline-border)] bg-[var(--ai-timeline-surface)] px-1.5">
+        <label className="flex h-6 w-36 shrink-0 items-center gap-1 rounded-md border border-[var(--ai-timeline-border-subtle)] bg-[var(--ai-timeline-surface)] px-1.5 focus-within:border-[var(--ai-timeline-primary)]">
           <Search className="size-3 shrink-0 text-[var(--ai-timeline-text-subtle)]" />
           <input
             type="search"
@@ -226,8 +240,8 @@ export function AiTimeline({ realClips = [], onBlockAction, onRequestSelectClip 
                 onClick={() => state.toggleFilter(filter.key)}
                 className={
                   active
-                    ? "shrink-0 rounded-full bg-[var(--ai-timeline-primary-soft)] px-2 py-0.5 text-[10px] font-semibold text-[var(--ai-timeline-primary-text)]"
-                    : "shrink-0 rounded-full border border-[var(--ai-timeline-border)] px-2 py-0.5 text-[10px] font-medium text-[var(--ai-timeline-text-subtle)] hover:text-[var(--ai-timeline-text)]"
+                    ? "shrink-0 whitespace-nowrap rounded-full bg-[var(--ai-timeline-primary-soft)] px-2 py-0.5 text-[10px] font-semibold text-[var(--ai-timeline-primary-text)]"
+                    : "shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-medium text-[var(--ai-timeline-text-subtle)] hover:bg-white/5 hover:text-[var(--ai-timeline-text)]"
                 }
               >
                 {filter.label}
@@ -294,9 +308,21 @@ export function AiTimeline({ realClips = [], onBlockAction, onRequestSelectClip 
         ref={scrollRef}
         onScroll={handleScroll}
         onMouseMove={(event) => setPointerPosition({ x: event.clientX, y: event.clientY })}
-        className="relative min-h-0 flex-1 overflow-auto"
+        className="desktop-editor-scroll relative min-h-0 flex-1 overflow-auto"
       >
-        <div style={{ position: "relative", width: AI_TRACK_HEADER_WIDTH + viewport.duration * viewport.pixelsPerSecond }}>
+        {emptyStateMessage ? (
+          <div className="flex h-full min-h-24 items-center justify-center px-4 text-center text-[10.5px] text-[var(--ai-timeline-text-subtle)]">
+            {emptyStateMessage}
+          </div>
+        ) : null}
+
+        <div
+          style={{
+            position: "relative",
+            width: AI_TRACK_HEADER_WIDTH + viewport.duration * viewport.pixelsPerSecond,
+            display: emptyStateMessage ? "none" : undefined,
+          }}
+        >
           {tracks.map((track) => {
             const activeFilterCount = state.activeFilters.size;
             const passesFilter =
