@@ -9,6 +9,7 @@ import {
 
 import { DesktopEditorHeader } from "./desktop-editor-header";
 import { DesktopGrid } from "./desktop-grid";
+import { EditorAiDirectorDock } from "./editor-ai-director-dock";
 import { EditorAssetPanel } from "./editor-asset-panel";
 import { EditorInspector } from "./editor-inspector";
 import { EditorPreviewCanvas } from "./editor-preview-canvas";
@@ -89,7 +90,7 @@ export function DesktopEditorShell({
 
   return (
     <div
-      className="desktop-editor-theme h-dvh min-h-[640px] w-full overflow-hidden bg-[var(--desktop-editor-bg)] text-[var(--desktop-editor-text)]"
+      className="desktop-editor-theme h-dvh min-h-[640px] w-full overflow-hidden bg-[var(--ce-bg-workspace)] text-[var(--ce-text-primary)]"
       data-desktop-editor-shell="true"
       data-desktop-editor-keyboard-controls={keyboard?.enabled ? "active" : "inactive"}
       data-desktop-editor-keyboard-operation={keyboard?.lastOperation ?? undefined}
@@ -204,6 +205,7 @@ export function DesktopEditorShell({
             onToggleCollapsed={layout.toggleInspectorCollapsed}
           />
         }
+        aiDirectorDock={<EditorAiDirectorDock />}
         statusBar={
           <EditorStatusBar
             fps={view?.timeline?.fps}

@@ -64,15 +64,15 @@ export function PanelDivider({
       }}
       className={
         orientation === "horizontal"
-          ? "group relative w-1 shrink-0 cursor-col-resize touch-none select-none bg-[var(--desktop-editor-border)] outline-none focus-visible:bg-[var(--desktop-editor-primary)]"
-          : "group relative h-1 shrink-0 cursor-row-resize touch-none select-none bg-[var(--desktop-editor-border)] outline-none focus-visible:bg-[var(--desktop-editor-primary)]"
+          ? "ce-focus-ring group relative w-1 shrink-0 cursor-col-resize touch-none select-none bg-[var(--ce-border-default)] outline-none focus-visible:bg-[var(--ce-accent-primary)]"
+          : "ce-focus-ring group relative h-1 shrink-0 cursor-row-resize touch-none select-none bg-[var(--ce-border-default)] outline-none focus-visible:bg-[var(--ce-accent-primary)]"
       }
     >
       <div
         className={
           orientation === "horizontal"
-            ? "absolute inset-y-0 -left-1 -right-1 group-hover:bg-[var(--desktop-editor-primary-soft)]"
-            : "absolute inset-x-0 -top-1 -bottom-1 group-hover:bg-[var(--desktop-editor-primary-soft)]"
+            ? "absolute inset-y-0 -left-1 -right-1 group-hover:bg-[var(--ce-accent-soft)]"
+            : "absolute inset-x-0 -top-1 -bottom-1 group-hover:bg-[var(--ce-accent-soft)]"
         }
       />
     </div>

@@ -15,6 +15,7 @@ export interface DesktopGridProps {
   timeline: ReactNode;
   inspectorDivider: ReactNode;
   inspector: ReactNode;
+  aiDirectorDock: ReactNode;
   statusBar: ReactNode;
 }
 
@@ -23,6 +24,7 @@ const GRID_TEMPLATE_AREAS = [
   '"rail        assets  divA    preview preview preview"',
   '"timelineDiv timelineDiv timelineDiv timelineDiv timelineDiv timelineDiv"',
   '"timeline    timeline timeline timeline divB    inspector"',
+  '"aiDirector  aiDirector aiDirector aiDirector aiDirector aiDirector"',
   '"status      status  status  status   status  status"',
 ].join(" ");
 
@@ -50,13 +52,14 @@ function DesktopGridImpl({
   timeline,
   inspectorDivider,
   inspector,
+  aiDirectorDock,
   statusBar,
 }: DesktopGridProps) {
   const style: CSSProperties & Record<string, string | number> = {
     display: "grid",
     gridTemplateAreas: GRID_TEMPLATE_AREAS,
     gridTemplateColumns: `${toolRailWidth}px ${assetLibraryWidth}px 6px minmax(0, 1fr) 6px ${inspectorWidth}px`,
-    gridTemplateRows: `auto minmax(0, 1fr) 6px ${timelineHeight}px auto`,
+    gridTemplateRows: `auto minmax(0, 1fr) 6px ${timelineHeight}px auto auto`,
     height: "100%",
     width: "100%",
   };
@@ -69,26 +72,45 @@ function DesktopGridImpl({
       <div style={{ gridArea: "rail" }} className="min-h-0 min-w-0">
         {rail}
       </div>
-      <div style={{ gridArea: "assets" }} className="min-h-0 min-w-0">
+      <div
+        style={{ gridArea: "assets" }}
+        className="min-h-0 min-w-0"
+        data-editor-focus-zone="asset-panel"
+      >
         {assets}
       </div>
       <div style={{ gridArea: "divA" }} className="min-h-0">
         {assetsDivider}
       </div>
-      <div style={{ gridArea: "preview" }} className="min-h-0 min-w-0">
+      <div
+        style={{ gridArea: "preview" }}
+        className="min-h-0 min-w-0"
+        data-editor-focus-zone="preview"
+      >
         {preview}
       </div>
       <div style={{ gridArea: "timelineDiv" }} className="min-w-0">
         {timelineDivider}
       </div>
-      <div style={{ gridArea: "timeline" }} className="min-h-0 min-w-0">
+      <div
+        style={{ gridArea: "timeline" }}
+        className="min-h-0 min-w-0"
+        data-editor-focus-zone="timeline"
+      >
         {timeline}
       </div>
       <div style={{ gridArea: "divB" }} className="min-h-0">
         {inspectorDivider}
       </div>
-      <div style={{ gridArea: "inspector" }} className="min-h-0 min-w-0">
+      <div
+        style={{ gridArea: "inspector" }}
+        className="min-h-0 min-w-0"
+        data-editor-focus-zone="inspector"
+      >
         {inspector}
+      </div>
+      <div style={{ gridArea: "aiDirector" }} className="min-w-0">
+        {aiDirectorDock}
       </div>
       <div style={{ gridArea: "status" }} className="min-w-0">
         {statusBar}

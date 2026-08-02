@@ -30,7 +30,7 @@ export function PanelCollapseButton({ direction, label, onClick }: PanelCollapse
       aria-label={label}
       title={label}
       onClick={onClick}
-      className="flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--desktop-editor-text-subtle)] transition hover:bg-[var(--desktop-editor-surface-hover)] hover:text-[var(--desktop-editor-text)]"
+      className="ce-focus-ring flex size-6 shrink-0 items-center justify-center rounded-[var(--ce-radius-sm)] text-[var(--ce-text-muted)] transition hover:bg-[var(--ce-state-hover)] hover:text-[var(--ce-text-primary)]"
     >
       <Icon className="size-3.5" />
     </button>

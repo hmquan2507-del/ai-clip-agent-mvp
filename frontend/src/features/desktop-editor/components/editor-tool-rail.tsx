@@ -33,6 +33,11 @@ export interface EditorToolRailProps {
   onToggleCompact?: () => void;
 }
 
+/**
+ * Shell tool rail — Sprint 17.2 token cutover. Navigation only, no editing
+ * logic. Cut directly onto `--ce-*` per `frontend-redesign-master-plan.md`
+ * §17.2; no prop/behavior change.
+ */
 export function EditorToolRail({
   activeTab = "media",
   onTabChange,
@@ -42,7 +47,8 @@ export function EditorToolRail({
   return (
     <nav
       aria-label="Editor tool rail"
-      className="flex h-full w-full flex-col items-center gap-1 overflow-y-auto border-r border-[var(--desktop-editor-border)] bg-[var(--desktop-editor-surface)] py-2"
+      data-editor-focus-zone="tool-rail"
+      className="ce-scroll flex h-full w-full flex-col items-center gap-1 overflow-y-auto border-r border-[var(--ce-border-default)] bg-[var(--ce-bg-panel-raised)] py-2"
     >
       {TOOLS.map((tool) => {
         const Icon = tool.icon;
@@ -58,8 +64,8 @@ export function EditorToolRail({
             onClick={() => onTabChange?.(tool.key)}
             className={
               active
-                ? "flex w-11 flex-col items-center gap-1 rounded-[var(--desktop-editor-radius-control)] bg-[var(--desktop-editor-primary-soft)] px-1 py-2 text-[var(--desktop-editor-primary-text)]"
-                : "flex w-11 flex-col items-center gap-1 rounded-[var(--desktop-editor-radius-control)] px-1 py-2 text-[var(--desktop-editor-text-subtle)] transition hover:bg-[var(--desktop-editor-surface-hover)] hover:text-[var(--desktop-editor-text)]"
+                ? "ce-focus-ring flex w-11 flex-col items-center gap-1 rounded-[var(--ce-radius-sm)] bg-[var(--ce-accent-soft)] px-1 py-2 text-[var(--ce-accent-primary)]"
+                : "ce-focus-ring flex w-11 flex-col items-center gap-1 rounded-[var(--ce-radius-sm)] px-1 py-2 text-[var(--ce-text-muted)] transition hover:bg-[var(--ce-state-hover)] hover:text-[var(--ce-text-primary)]"
             }
           >
             <Icon className="size-4" />

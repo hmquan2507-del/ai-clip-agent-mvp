@@ -27,6 +27,11 @@ export interface DesktopEditorHeaderProps {
   onRefresh?: () => void;
 }
 
+/**
+ * Shell header — Sprint 17.2 token cutover. Cut directly onto the `ce`
+ * semantic tokens (bypassing the legacy desktop-editor alias layer per
+ * `frontend-redesign-master-plan.md` §17.2); no prop/behavior change.
+ */
 export function DesktopEditorHeader({
   projectName = "AI Clip Agent",
   productionTitle = "Untitled production",
@@ -45,7 +50,12 @@ export function DesktopEditorHeader({
   onRefresh,
 }: DesktopEditorHeaderProps) {
   return (
-    <header className="flex h-12 shrink-0 items-center justify-between gap-3 border-b border-[var(--desktop-editor-border)] bg-[var(--desktop-editor-surface)] pl-3 pr-2">
+    <header
+      role="banner"
+      aria-label="Editor header"
+      data-editor-focus-zone="header"
+      className="flex h-[var(--ce-dim-header-height)] shrink-0 items-center justify-between gap-3 border-b border-[var(--ce-border-default)] bg-[var(--ce-bg-panel-raised)] pl-3 pr-2"
+    >
       <div className="flex min-w-0 items-center gap-2.5">
         <span
           aria-hidden
@@ -57,28 +67,27 @@ export function DesktopEditorHeader({
           <Circle className="size-2.5 fill-[#28c840] text-[#28c840]" />
         </span>
 
-        <div className="mx-1 h-5 w-px bg-[var(--desktop-editor-border)]" />
+        <div className="mx-1 h-5 w-px bg-[var(--ce-border-default)]" />
 
-        <div className="flex size-7 shrink-0 items-center justify-center rounded-[var(--desktop-editor-radius-control)] bg-[var(--desktop-editor-primary)]">
+        <div className="flex size-7 shrink-0 items-center justify-center rounded-[var(--ce-radius-sm)] bg-[var(--ce-accent-primary)]">
           <Sparkles className="size-3.5 text-white" />
         </div>
 
         <nav
           aria-label="Project breadcrumb"
-          className="flex min-w-0 items-center gap-1.5 text-[12px] text-[var(--desktop-editor-text-muted)]"
+          className="flex min-w-0 items-center gap-1.5 text-[12px] text-[var(--ce-text-secondary)]"
         >
           <span className="shrink-0">{projectName}</span>
           <ChevronRight className="size-3.5 shrink-0" />
-          <span className="truncate font-medium text-[var(--desktop-editor-text)]">
-            {productionTitle}
-          </span>
+          <span className="truncate font-medium text-[var(--ce-text-primary)]">{productionTitle}</span>
         </nav>
 
         <span
+          role="status"
           className={
             dirty
-              ? "shrink-0 rounded-full border border-[var(--desktop-editor-warning-border)] bg-[var(--desktop-editor-warning-soft)] px-2 py-0.5 text-[10px] font-medium text-[var(--desktop-editor-warning-text)]"
-              : "shrink-0 rounded-full border border-[var(--desktop-editor-border)] px-2 py-0.5 text-[10px] font-medium text-[var(--desktop-editor-text-subtle)]"
+              ? "shrink-0 rounded-[var(--ce-radius-pill)] border border-[color-mix(in_srgb,var(--ce-state-warning)_30%,transparent)] bg-[color-mix(in_srgb,var(--ce-state-warning)_12%,transparent)] px-2 py-0.5 text-[10px] font-medium text-[var(--ce-state-warning)]"
+              : "shrink-0 rounded-[var(--ce-radius-pill)] border border-[var(--ce-border-default)] px-2 py-0.5 text-[10px] font-medium text-[var(--ce-text-muted)]"
           }
         >
           {autosaveLabel ?? (dirty ? "Unsaved changes" : "All changes saved")}
@@ -98,7 +107,7 @@ export function DesktopEditorHeader({
           </HeaderIconButton>
         </div>
 
-        <div className="mx-1 h-5 w-px bg-[var(--desktop-editor-border-subtle)]" />
+        <div className="mx-1 h-5 w-px bg-[var(--ce-border-subtle)]" />
 
         <div role="group" aria-label="View" className="flex items-center gap-0.5">
           <HeaderIconButton label="Refresh" onClick={onRefresh}>
@@ -106,12 +115,12 @@ export function DesktopEditorHeader({
           </HeaderIconButton>
         </div>
 
-        <div className="mx-1.5 h-5 w-px bg-[var(--desktop-editor-border-subtle)]" />
+        <div className="mx-1.5 h-5 w-px bg-[var(--ce-border-subtle)]" />
 
         <button
           type="button"
           onClick={onShare}
-          className="rounded-[var(--desktop-editor-radius-control)] px-2.5 py-1.5 text-[12px] font-medium text-[var(--desktop-editor-text-muted)] transition hover:bg-[var(--desktop-editor-surface-hover)] hover:text-[var(--desktop-editor-text)]"
+          className="ce-focus-ring rounded-[var(--ce-radius-sm)] px-2.5 py-1.5 text-[12px] font-medium text-[var(--ce-text-secondary)] transition hover:bg-[var(--ce-state-hover)] hover:text-[var(--ce-text-primary)]"
         >
           <span className="inline-flex items-center gap-1.5">
             <Share2 className="size-3.5" />
@@ -123,7 +132,7 @@ export function DesktopEditorHeader({
           type="button"
           onClick={onExport}
           disabled={exportDisabled}
-          className="rounded-[var(--desktop-editor-radius-control)] bg-[var(--desktop-editor-primary)] px-3.5 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[var(--desktop-editor-primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="ce-focus-ring rounded-[var(--ce-radius-sm)] bg-[var(--ce-accent-primary)] px-3.5 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[var(--ce-accent-primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {exportPending ? "Exporting…" : "Export"}
         </button>
@@ -150,7 +159,7 @@ function HeaderIconButton({
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex size-7 items-center justify-center rounded-[var(--desktop-editor-radius-control)] text-[var(--desktop-editor-text-muted)] transition hover:bg-[var(--desktop-editor-surface-hover)] hover:text-[var(--desktop-editor-text)] disabled:cursor-not-allowed disabled:opacity-40"
+      className="ce-focus-ring flex size-7 items-center justify-center rounded-[var(--ce-radius-sm)] text-[var(--ce-text-secondary)] transition hover:bg-[var(--ce-state-hover)] hover:text-[var(--ce-text-primary)] disabled:cursor-not-allowed disabled:opacity-40"
     >
       {children}
     </button>

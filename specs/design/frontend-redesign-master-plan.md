@@ -6,6 +6,10 @@ Status: Planning only. Sprint 17.1 itself implements only the token foundation (
 
 Companion documents: `frontend-architecture-audit.md`, `frontend-ux-visual-audit.md`, `frontend-design-direction.md`, `frontend-design-system.md`, `frontend-responsive-system.md`, `frontend-accessibility-system.md`.
 
+**Sprint 17.1.5 (Desktop UX Blueprint)** adds the implementation contract every sprint below must follow: `editor-ui-principles.md` (42 principles), `desktop-editor-ux-blueprint.md` (layout/wireframes/diagrams/docking/responsive/Future Runtime Requirements), `editor-interaction-model.md` (selection model, context propagation matrix, keyboard/focus zones), `editor-state-matrix.md` (per-surface state tables). Sprints 17.2–17.8 must implement against these documents rather than inventing layout/interaction/state behavior ad hoc; any desired interaction not covered by them and not listed as a Future Runtime Requirement should be raised before implementation, not assumed.
+
+**`component-migration-map.md`** (Sprint 17.1.5 completion task) is the component-level migration contract for every sprint below: for each real component it records the current file, runtime owner, presentation owner, target sprint, migration strategy (Preserve/Refactor/Replace/Split/Merge/Deprecate), compatibility mode, and deletion eligibility, plus Safe Component Removal Rules and a Risk Matrix. Every sprint from 17.2 onward must check its scope against that document's tables before touching a file, especially the Manual Timeline section's "blocked" rows, which may not be migrated without a separate, explicitly-approved runtime-boundary exception.
+
 ## Standing constraints for every sprint below
 
 - Preserve Timeline/Playback/History/Selection/Drag/Trim/Keyboard/Clipboard/AI-Decision-Action Runtimes and the natural-language command runtime exactly as documented in `frontend-architecture-audit.md` §5.
@@ -16,6 +20,8 @@ Companion documents: `frontend-architecture-audit.md`, `frontend-ux-visual-audit
 ---
 
 ### 17.2 — Desktop Editor Shell Redesign
+
+**Status: COMPLETE (2026-07-29), scope narrowed at execution time.** The sprint brief that shipped 17.2 explicitly restricted it to shell-level components only (`DesktopEditorShell`, `DesktopGrid`, `DesktopEditorHeader`, `EditorStatusBar`, `EditorToolRail`, `PanelDivider`, `PanelCollapseButton`, layout hooks, plus a new reserved `EditorAiDirectorDock`) and explicitly excluded `features/ai-timeline/components/*` and every other Desktop Editor content component (Preview/Timeline/Inspector/Asset Panel internals) — narrower than this entry's original planned scope below. Those files remain on their originally-planned sprints (17.3–17.6) and were not touched. See `specs/epics/17.2-desktop-editor-shell-redesign.md` and `component-migration-map.md`'s §1/Sprint-ownership rows (both marked "Migrated in 17.2") for what actually shipped.
 
 - **Goal:** Cut the Desktop Editor over from `--desktop-editor-*`/`--ai-timeline-*` (now alias layers, per 17.1) directly to `--ce-*` tokens and the consolidated primitives; apply "surface contrast before borders" (design direction principle 3) to the shell chrome.
 - **Scope:** `features/desktop-editor/components/*`, `features/ai-timeline/components/*` class references only — no prop/behavior changes.
