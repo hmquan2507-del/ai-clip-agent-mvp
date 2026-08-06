@@ -101,6 +101,12 @@ class TimelineClip(BaseEntity):
     text: Mapped[str | None] = mapped_column(Text, nullable=True)
     metadata_json: Mapped[str | None] = mapped_column(Text, nullable=True)
 
+    # A clip can reference either an uploaded ProductionAsset (asset_id) or
+    # a file outside that table entirely - e.g. a stock b-roll/music/SFX
+    # library file under storage/assets/ picked by the auto-edit pipeline,
+    # which was never uploaded by this production and has no asset_id.
+    local_path: Mapped[str | None] = mapped_column(String, nullable=True)
+
     track = relationship(
         "TimelineTrack",
         back_populates="clips",

@@ -143,6 +143,7 @@ class TimelineRepository:
                         source_start=clip_payload.get("source_start"),
                         source_end=clip_payload.get("source_end"),
                         asset_id=clip_payload.get("asset_id"),
+                        local_path=clip_payload.get("local_path"),
                         text=clip_payload.get("text"),
                         metadata_json=clip_payload.get("metadata_json"),
                     )

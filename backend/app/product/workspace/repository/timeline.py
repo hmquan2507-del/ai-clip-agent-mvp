@@ -12,6 +12,31 @@ from app.product.workspace.repository.utils import (
     normalize_production_id,
 )
 
+# The persisted Timeline's track/clip vocabulary (app/db/enums.py) is
+# coarser than the Review Workspace's EditableTimeline vocabulary
+# (app/review/editing/enums.py) - naively passing the DB string through
+# fails EditableTrackType/EditableClipType's own coercion (e.g. DB "video"
+# has no EditableTrackType member, only "video_primary" does) and
+# silently degrades every video track to "unknown". Map back explicitly
+# rather than relying on the two vocabularies happening to line up.
+_DB_TRACK_TYPE_TO_EDITABLE = {
+    "video": "video_primary",
+    "audio": "audio",
+    "subtitle": "subtitle",
+    "broll": "broll",
+    "sound_effect": "sound_effect",
+    "music": "music",
+}
+
+_DB_CLIP_TYPE_TO_EDITABLE = {
+    "source": "video",
+    "generated": "audio",
+    "subtitle": "subtitle",
+    "broll": "broll",
+    "sound_effect": "sound_effect",
+    "music": "music",
+}
+
 
 class RepositoryTimelineWorkspaceAdapter(
     TimelineWorkspaceLoader
@@ -190,6 +215,10 @@ class RepositoryTimelineWorkspaceAdapter(
                         clip_type.value
                     )
 
+                clip_type = _DB_CLIP_TYPE_TO_EDITABLE.get(
+                    clip_type, clip_type
+                )
+
                 clips.append(
                     {
                         "clip_id": str(
@@ -247,6 +276,11 @@ class RepositoryTimelineWorkspaceAdapter(
                             is not None
                             else None
                         ),
+                        "local_path": getattr(
+                            clip,
+                            "local_path",
+                            None,
+                        ),
                         "text": getattr(
                             clip,
                             "text",
@@ -275,6 +309,10 @@ class RepositoryTimelineWorkspaceAdapter(
                 track_type = (
                     track_type.value
                 )
+
+            track_type = _DB_TRACK_TYPE_TO_EDITABLE.get(
+                track_type, track_type
+            )
 
             tracks.append(
                 {

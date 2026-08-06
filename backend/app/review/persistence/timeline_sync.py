@@ -74,6 +74,7 @@ def sync_editable_timeline_to_db(
                     "source_start": clip.source_start,
                     "source_end": clip.source_end,
                     "asset_id": clip.asset_id,
+                    "local_path": clip.local_path,
                     "text": clip.text,
                     "metadata_json": json.dumps(clip.metadata) if clip.metadata else None,
                 }

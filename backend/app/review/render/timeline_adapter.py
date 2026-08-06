@@ -118,12 +118,20 @@ def build_execution_timeline_for_production(
         final_clips: list[FinalTimelineClip] = []
 
         for clip in track.clips:
-            clip_asset = _get_asset_by_id(db, clip.asset_id)
-            local_path = (
-                _resolve_asset_path(clip_asset)
-                if clip_asset is not None
-                else None
-            )
+            # A clip either points at an uploaded ProductionAsset
+            # (asset_id) or carries its own local_path directly - e.g. a
+            # stock b-roll/music/SFX library file the auto-edit pipeline
+            # picked, which was never uploaded and has no ProductionAsset
+            # row at all.
+            if clip.local_path:
+                local_path = clip.local_path
+            else:
+                clip_asset = _get_asset_by_id(db, clip.asset_id)
+                local_path = (
+                    _resolve_asset_path(clip_asset)
+                    if clip_asset is not None
+                    else None
+                )
 
             clip_metadata = (
                 json.loads(clip.metadata_json)

@@ -1,3 +1,4 @@
+import logging
 import uuid
 from pathlib import Path
 from uuid import UUID
@@ -5,7 +6,7 @@ from uuid import UUID
 from fastapi import UploadFile
 from sqlalchemy.orm import Session
 
-from app.db.enums import AssetType, UploadStatus
+from app.db.enums import AssetType, ProductionStatus, UploadStatus
 from app.db.models.production_asset import (
     ProductionAsset,
 )
@@ -13,12 +14,15 @@ from app.media.validation.factory import (
     build_media_validation_runtime,
 )
 from app.repositories.production_repository import ProductionRepository
+from app.services.auto_edit_service import AutoEditError, run_auto_edit
 from app.services.upload_validation_service import (
     UploadValidationError,
     UploadValidationService,
 )
 from app.storage.base import StorageProvider
 from app.storage.factory import get_storage_provider
+
+logger = logging.getLogger(__name__)
 
 LOCAL_UPLOAD_BASE_PATH = Path("data/uploads")
 
@@ -106,6 +110,28 @@ class UploadService:
         self.db.add(production)
         self.db.commit()
         self.db.refresh(asset)
+
+        # Automatically build a first-pass AI-edited timeline (real
+        # transcript-based subtitles, real b-roll/music/SFX from the
+        # stock library) so the operator lands on the Review Workspace
+        # with something real to look at, not an empty timeline. A
+        # failure here (e.g. no Gemini quota) must never fail the
+        # upload itself - the video is safely stored either way, and the
+        # operator can still edit manually with zero AI assistance.
+        try:
+            run_auto_edit(self.db, production_id)
+            production.status = ProductionStatus.REVIEW_READY.value
+        except AutoEditError:
+            logger.exception(
+                "Auto-edit failed for production %s; leaving the "
+                "timeline for manual editing.",
+                production_id,
+            )
+            production.status = ProductionStatus.ATTACHED.value
+
+        production.version += 1
+        self.db.add(production)
+        self.db.commit()
 
         return asset
 
