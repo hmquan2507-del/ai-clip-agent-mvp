@@ -1,0 +1,11 @@
+{
+  "download_before_render_is_404": true,
+  "download_before_render_not_a_redirect": true,
+  "render_endpoint_202": true,
+  "render_status_completed": true,
+  "download_after_render_200": true,
+  "download_content_type_is_video": true,
+  "downloaded_bytes_nonempty": true,
+  "export_workspace_submission_202": true,
+  "export_workspace_job_auto_ran": true
+}

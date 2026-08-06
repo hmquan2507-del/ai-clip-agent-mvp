@@ -1,0 +1,10 @@
+{
+  "render_succeeded": true,
+  "export_status_completed": true,
+  "export_has_storage_path": true,
+  "final_file_exists": true,
+  "final_file_nonempty": true,
+  "final_file_is_playable_video": true,
+  "rendered_duration_reflects_trim": true,
+  "get_latest_export_matches": true
+}

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from app.product.adapters import (
     ProductSnapshotBuilder,
@@ -43,6 +43,9 @@ def build_repository_product_workspace_service(
     storage_roots: list[str | Path]
     | None = None,
     cache_ttl_seconds: float = 15.0,
+    default_source_lookup: (
+        Callable[[str], dict[str, Any] | None] | None
+    ) = None,
 ) -> ProductWorkspaceService:
     production_loader = (
         RepositoryProductionWorkspaceAdapter(
@@ -54,12 +57,14 @@ def build_repository_product_workspace_service(
         RepositoryTimelineWorkspaceAdapter(
             timeline_repository,
             storage_roots=storage_roots,
+            default_source_lookup=default_source_lookup,
         )
     )
 
     artifact_loader = (
         RepositoryArtifactWorkspaceAdapter(
             artifact_repository,
+            production_repository=production_repository,
             storage_roots=storage_roots,
         )
     )

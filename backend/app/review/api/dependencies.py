@@ -3,13 +3,18 @@ from __future__ import annotations
 from functools import lru_cache
 
 from fastapi import Depends
+from sqlalchemy.orm import Session
 
+from app.db.session import get_db
 from app.product import ProductWorkspaceService
 from app.product.api.dependencies import (
     get_product_workspace_service,
 )
 from app.review.application.factory import (
     build_review_workspace_application_service,
+)
+from app.review.persistence import (
+    sync_editable_timeline_to_db,
 )
 from app.review.application.service import (
     ReviewWorkspaceApplicationService,
@@ -57,13 +62,17 @@ def get_review_workspace_application_service(
     ) = Depends(
         get_review_runtime_session_registry
     ),
+    db: Session = Depends(get_db),
 ) -> ReviewWorkspaceApplicationService:
     """
     Application Service được tạo theo request.
 
     ProductWorkspaceService tiếp tục dùng database session
     của request hiện tại, trong khi Session Registry được
-    dùng chung giữa các request.
+    dùng chung giữa các request. Mỗi lệnh timeline/clipboard
+    thành công sẽ được ghi lại (write-through) vào DB qua
+    `sync_editable_timeline_to_db`, dùng chung session `db`
+    của request hiện tại.
     """
 
     return (
@@ -72,6 +81,11 @@ def get_review_workspace_application_service(
                 product_workspace_service
             ),
             session_registry=session_registry,
+            timeline_sync=lambda timeline: (
+                sync_editable_timeline_to_db(
+                    db, timeline
+                )
+            ),
         )
     )
 

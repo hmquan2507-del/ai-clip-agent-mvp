@@ -102,6 +102,57 @@ class TimelineRepository:
 
         return clip
 
+    def replace_tracks(
+        self,
+        timeline_id: str,
+        tracks_payload: list[dict],
+    ) -> Timeline:
+        """Replace every track/clip under a timeline in one transaction.
+
+        Used to write-through the Review Workspace's authoritative editable
+        timeline snapshot after every successful edit command, so the DB
+        timeline a server restart or a render job reads never drifts from
+        the in-memory session the operator is actually editing.
+        """
+        timeline = self.get_by_id(timeline_id)
+        if timeline is None:
+            raise ValueError("Timeline not found")
+
+        for track in list(timeline.tracks):
+            self.db.delete(track)
+        self.db.flush()
+
+        for track_payload in tracks_payload:
+            track = TimelineTrack(
+                timeline_id=timeline_id,
+                type=track_payload["type"],
+                name=track_payload["name"],
+                position=track_payload["position"],
+                metadata_json=track_payload.get("metadata_json"),
+            )
+            self.db.add(track)
+            self.db.flush()
+
+            for clip_payload in track_payload["clips"]:
+                self.db.add(
+                    TimelineClip(
+                        track_id=track.id,
+                        type=clip_payload["type"],
+                        timeline_start=clip_payload["timeline_start"],
+                        timeline_end=clip_payload["timeline_end"],
+                        source_start=clip_payload.get("source_start"),
+                        source_end=clip_payload.get("source_end"),
+                        asset_id=clip_payload.get("asset_id"),
+                        text=clip_payload.get("text"),
+                        metadata_json=clip_payload.get("metadata_json"),
+                    )
+                )
+
+        self.db.commit()
+        self.db.refresh(timeline)
+
+        return timeline
+
     def mark_completed(
         self,
         timeline_id: str,

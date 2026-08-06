@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import logging
 from copy import deepcopy
 from dataclasses import dataclass
 from threading import RLock
 from typing import Any, Callable
+
+logger = logging.getLogger(__name__)
 
 from app.product.workspace.service import (
     ProductWorkspaceService,
@@ -32,6 +35,9 @@ from app.review.editing.clipboard.models import (
 from app.review.editing.history.models import (
     TimelineHistoryResult,
 )
+from app.review.editing.models import (
+    EditableTimeline,
+)
 from app.review.session.factory import (
     build_review_runtime_session,
 )
@@ -45,6 +51,10 @@ from app.review.session.registry import (
 from app.review.session.runtime import (
     ReviewRuntimeSession,
 )
+
+TimelinePersistCallback = Callable[
+    [EditableTimeline], None
+]
 
 
 TimelineCommandExecutor = Callable[
@@ -110,6 +120,9 @@ class ReviewWorkspaceApplicationService(
             ReviewWorkspaceApplicationConfig
             | None
         ) = None,
+        timeline_sync: (
+            TimelinePersistCallback | None
+        ) = None,
     ):
         self.product_workspace_service = (
             product_workspace_service
@@ -119,8 +132,32 @@ class ReviewWorkspaceApplicationService(
             config
             or ReviewWorkspaceApplicationConfig()
         )
+        self._timeline_sync = timeline_sync
 
         self._timeline_command_lock = RLock()
+
+    def _persist_timeline(
+        self,
+        timeline: EditableTimeline,
+    ) -> None:
+        """Best-effort write-through to the DB timeline.
+
+        Persistence failures must never break an already-successful
+        in-memory edit - the session snapshot stays authoritative for the
+        response either way, so a persistence error is swallowed here
+        rather than surfaced as a command failure.
+        """
+        if self._timeline_sync is None:
+            return
+
+        try:
+            self._timeline_sync(timeline)
+        except Exception:
+            logger.exception(
+                "Failed to persist review timeline "
+                "to the database for production_id=%s",
+                timeline.production_id,
+            )
 
     @property
     def operation_lock(self):
@@ -312,6 +349,10 @@ class ReviewWorkspaceApplicationService(
                     ),
                 )
             )
+
+        self._persist_timeline(
+            result.snapshot.timeline
+        )
 
         return result.snapshot.clone()
 
@@ -1174,6 +1215,10 @@ class ReviewWorkspaceApplicationService(
                 session.snapshot()
             )
 
+            self._persist_timeline(
+                after_snapshot.timeline
+            )
+
             return ReviewTimelineCommandResult(
                 operation=operation,
                 production_id=normalized_id,
@@ -1324,6 +1369,11 @@ class ReviewWorkspaceApplicationService(
                 )
 
             after_snapshot = session.snapshot()
+
+            self._persist_timeline(
+                after_snapshot.timeline
+            )
+
             clipboard_runtime = (
                 session.graph.clipboard_runtime
             )

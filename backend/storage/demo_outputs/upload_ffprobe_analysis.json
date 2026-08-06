@@ -1,0 +1,11 @@
+{
+  "duration_populated": true,
+  "width_populated": true,
+  "height_populated": true,
+  "fps_populated": true,
+  "video_codec_populated": true,
+  "audio_codec_populated": true,
+  "has_audio_true": true,
+  "invalid_file_rejected": true,
+  "rejected_upload_file_cleaned_up": true
+}

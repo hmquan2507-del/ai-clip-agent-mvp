@@ -4,6 +4,7 @@ from app.product.workspace.service import ProductWorkspaceService
 from app.review.application.service import (
     ReviewWorkspaceApplicationConfig,
     ReviewWorkspaceApplicationService,
+    TimelinePersistCallback,
 )
 from app.review.session.registry import (
     ReviewRuntimeSessionRegistryInterface,
@@ -19,6 +20,7 @@ def build_review_workspace_application_service(
     ) = None,
     registry_ttl_seconds: float = 1800.0,
     config: ReviewWorkspaceApplicationConfig | None = None,
+    timeline_sync: TimelinePersistCallback | None = None,
 ) -> ReviewWorkspaceApplicationService:
     registry = session_registry
 
@@ -33,4 +35,5 @@ def build_review_workspace_application_service(
         product_workspace_service=product_workspace_service,
         session_registry=registry,
         config=config,
+        timeline_sync=timeline_sync,
     )

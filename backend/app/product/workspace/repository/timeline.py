@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from app.product.workspace.interfaces import (
     TimelineWorkspaceLoader,
@@ -32,6 +32,9 @@ class RepositoryTimelineWorkspaceAdapter(
         *,
         storage_roots: list[str | Path] | None = None,
         include_demo_fallbacks: bool = True,
+        default_source_lookup: (
+            Callable[[str], dict[str, Any] | None] | None
+        ) = None,
     ):
         self.timeline_repository = timeline_repository
 
@@ -51,6 +54,12 @@ class RepositoryTimelineWorkspaceAdapter(
         self.include_demo_fallbacks = (
             include_demo_fallbacks
         )
+
+        # Called with production_id when no real, persisted timeline
+        # exists yet (a brand new upload). Should return
+        # {"asset_id", "local_path", "duration", "width", "height", "fps"}
+        # for the production's real uploaded source video, or None.
+        self.default_source_lookup = default_source_lookup
 
     def load_timeline(
         self,
@@ -80,11 +89,72 @@ class RepositoryTimelineWorkspaceAdapter(
                 repository_timeline
             )
 
-        return find_first_json(
+        from_file = find_first_json(
             self._timeline_candidates(
                 normalized_id
             )
         )
+
+        if from_file is not None:
+            return from_file
+
+        return self._build_default_timeline_from_source(
+            normalized_id
+        )
+
+    def _build_default_timeline_from_source(
+        self,
+        production_id: str,
+    ) -> dict[str, Any] | None:
+        if self.default_source_lookup is None:
+            return None
+
+        source = self.default_source_lookup(
+            production_id
+        )
+
+        if not source or not source.get("local_path"):
+            return None
+
+        duration = float(source.get("duration") or 0.0)
+
+        clip = {
+            "clip_id": "source_clip",
+            "clip_type": "video_primary",
+            "start_time": 0.0,
+            "end_time": duration,
+            "source_start": 0.0,
+            "source_end": duration,
+            "asset_id": source.get("asset_id"),
+            "local_path": source.get("local_path"),
+            "metadata_json": None,
+        }
+
+        return {
+            "production_id": production_id,
+            "version": "1.0",
+            "duration": duration,
+            "canvas": {
+                "width": source.get("width") or 1080,
+                "height": source.get("height") or 1920,
+                "fps": source.get("fps") or 30.0,
+            },
+            "tracks": [
+                {
+                    "track_id": "source_track",
+                    "track_type": "video_primary",
+                    "name": "Video chính",
+                    "position": 0,
+                    "clips": [clip],
+                    "metadata_json": None,
+                }
+            ],
+            "effects": [],
+            "transitions": [],
+            "metadata": {
+                "source": "default_from_uploaded_asset",
+            },
+        }
 
     def _adapt_repository_timeline(
         self,
@@ -300,6 +370,14 @@ class RepositoryTimelineWorkspaceAdapter(
         self,
         production_id: str,
     ) -> list[Path]:
+        # Deliberately production_id-scoped only. This adapter previously
+        # also fell back to global, unscoped files under
+        # storage/demo_outputs/ whenever include_demo_fallbacks was true -
+        # meaning every production with no real timeline yet (e.g. a
+        # brand new upload) silently got served an unrelated demo
+        # production's timeline as if it were real. Never fake success:
+        # a production with no real timeline gets none, not someone
+        # else's.
         candidates: list[
             Path
         ] = []
@@ -324,20 +402,6 @@ class RepositoryTimelineWorkspaceAdapter(
                     root
                     / production_id
                     / "timeline.json",
-                ]
-            )
-
-        if self.include_demo_fallbacks:
-            candidates.extend(
-                [
-                    Path(
-                        "storage/demo_outputs/"
-                        "final_timeline.json"
-                    ),
-                    Path(
-                        "storage/demo_outputs/"
-                        "execution_timeline.json"
-                    ),
                 ]
             )
 

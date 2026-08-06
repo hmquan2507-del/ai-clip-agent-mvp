@@ -3,8 +3,6 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from app.db.enums import UploadStatus
-
 
 class UploadRead(BaseModel):
     id: UUID
@@ -13,7 +11,13 @@ class UploadRead(BaseModel):
     mime_type: str | None
     size_bytes: int | None
     storage_path: str
-    status: UploadStatus
+    duration: float | None
+    width: int | None
+    height: int | None
+    fps: float | None
+    video_codec: str | None
+    audio_codec: str | None
+    has_audio: bool | None
     created_at: datetime
     updated_at: datetime
 

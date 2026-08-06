@@ -1,3 +1,4 @@
+from app.asset.repository.models import AssetModel
 from app.db.models.asset import AssetLibraryItem
 from app.db.models.clip import Clip
 from app.db.models.export import Export
@@ -19,6 +20,7 @@ from app.db.models.production_asset import (
     ProductionAsset,
 )
 __all__ = [
+    "AssetModel",
     "AssetLibraryItem",
     "Clip",
     "Export",

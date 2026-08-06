@@ -1,0 +1,11 @@
+{
+  "timeline_created": true,
+  "track_count_matches": true,
+  "video_track_found": true,
+  "clip_persisted": true,
+  "duration_persisted": true,
+  "same_timeline_row_reused": true,
+  "edit_replaced_not_accumulated": true,
+  "trim_reflected": true,
+  "duration_updated": true
+}

@@ -3,7 +3,10 @@ from __future__ import annotations
 from sqlalchemy.orm import Session
 
 from app.db.models.queue_job import QueueJob
-from app.services.render_service import RenderService
+from app.services.render_export_service import (
+    RenderExportError,
+    render_production,
+)
 from app.workers.base_runtime_worker import BaseRuntimeWorker
 
 
@@ -20,11 +23,16 @@ class RenderRuntimeWorker(BaseRuntimeWorker):
                 "Render worker requires database session.",
             )
 
-        plan = RenderService(self.db).generate_render_plan(
-            production_id=job.production_id,
-        )
+        try:
+            export = render_production(
+                self.db,
+                job.production_id,
+            )
+        except RenderExportError as error:
+            raise RuntimeError(str(error)) from error
 
         return self.completed_response(
             job,
-            render_plan_id=str(plan.id),
+            export_id=str(export.id),
+            final_video_path=export.storage_path,
         )

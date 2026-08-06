@@ -29,9 +29,10 @@ def get_queue_service(db: Session = Depends(get_db)) -> QueueService:
 
 def get_export_workspace_service(
     queue_service: QueueService = Depends(get_queue_service),
+    db: Session = Depends(get_db),
 ) -> ExportWorkspaceApplicationService:
     return ExportWorkspaceApplicationService(
-        create_render_job_submission_runtime(queue_service)
+        create_render_job_submission_runtime(queue_service, db=db)
     )
 
 

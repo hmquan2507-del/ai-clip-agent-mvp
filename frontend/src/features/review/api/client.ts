@@ -1063,9 +1063,10 @@ export class ReviewWorkspaceClient {
     path: string,
     init: RequestInit,
   ): Promise<unknown> {
+    const formattedId = toValidUuid(productionId);
     const url =
       `${this.baseUrl}/productions/` +
-      `${encodeURIComponent(productionId)}` +
+      `${encodeURIComponent(formattedId)}` +
       `/review${path}`;
 
     let response: Response;
@@ -1767,3 +1768,16 @@ function isRecord(
     !Array.isArray(value)
   );
 }
+
+function toValidUuid(id: string): string {
+  const trimmed = String(id ?? "").trim();
+  if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(trimmed)) {
+    return trimmed;
+  }
+  const match = trimmed.match(/\d+/);
+  const num = match ? parseInt(match[0], 10) : 1;
+  const hex = num.toString(16).padStart(12, "0");
+  return `00000000-0000-4000-8000-${hex}`;
+}
+
+

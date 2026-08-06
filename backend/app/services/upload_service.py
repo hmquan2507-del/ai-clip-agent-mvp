@@ -1,4 +1,5 @@
 import uuid
+from pathlib import Path
 from uuid import UUID
 
 from fastapi import UploadFile
@@ -8,6 +9,9 @@ from app.db.enums import AssetType, UploadStatus
 from app.db.models.production_asset import (
     ProductionAsset,
 )
+from app.media.validation.factory import (
+    build_media_validation_runtime,
+)
 from app.repositories.production_repository import ProductionRepository
 from app.services.upload_validation_service import (
     UploadValidationError,
@@ -15,6 +19,8 @@ from app.services.upload_validation_service import (
 )
 from app.storage.base import StorageProvider
 from app.storage.factory import get_storage_provider
+
+LOCAL_UPLOAD_BASE_PATH = Path("data/uploads")
 
 
 class UploadService:
@@ -26,13 +32,14 @@ class UploadService:
         self.db = db
         self.production_repository = ProductionRepository(db)
         self.validation_service = UploadValidationService()
+        self.media_validator = build_media_validation_runtime()
         self.storage = storage or get_storage_provider()
 
     def upload_source_video(
         self,
         production_id: UUID,
         file: UploadFile,
-        ) -> ProductionAsset:        
+        ) -> ProductionAsset:
         production = self.production_repository.get_by_id(production_id)
 
         if production is None:
@@ -58,6 +65,22 @@ class UploadService:
         except Exception:
             size_bytes = None
 
+        # Real ffprobe pass so the editor knows the actual duration and
+        # resolution before the timeline or render pipeline ever touches
+        # this file - a corrupt or non-video upload is rejected here
+        # instead of failing silently much later at render time.
+        analysis = self.media_validator.validate(
+            local_path=str(LOCAL_UPLOAD_BASE_PATH / storage_path),
+            require_video=True,
+        )
+
+        if not analysis.valid:
+            self.storage.delete_file(storage_path)
+            raise UploadValidationError(
+                "Uploaded file failed video validation: "
+                + ", ".join(analysis.errors)
+            )
+
         asset = ProductionAsset(
             production_id=production_id,
             type=AssetType.SOURCE_VIDEO,
@@ -65,6 +88,13 @@ class UploadService:
             mime_type=file.content_type,
             size_bytes=size_bytes,
             storage_path=storage_path,
+            duration=analysis.duration,
+            width=analysis.width,
+            height=analysis.height,
+            fps=analysis.fps,
+            video_codec=analysis.video_codec,
+            audio_codec=analysis.audio_codec,
+            has_audio=analysis.has_audio,
         )
 
         self.db.add(asset)
