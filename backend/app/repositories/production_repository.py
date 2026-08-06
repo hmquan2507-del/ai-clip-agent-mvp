@@ -19,7 +19,7 @@ class ProductionRepository:
             .order_by(Production.created_at.desc())
         )
 
-        return list(self.db.scalars(statement).all())
+        return list(self.db.scalars(statement).unique().all())
 
     def get_by_id(self, production_id: UUID) -> Production | None:
         statement = (
