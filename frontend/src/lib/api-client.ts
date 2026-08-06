@@ -41,7 +41,16 @@ export interface ApiProductionAsset {
   updated_at: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+// Two different env var names have accumulated for the same backend-origin
+// concept across this codebase (this file historically used
+// NEXT_PUBLIC_API_URL, while features/review/api/client.ts and
+// features/review/integration/adapters.ts use NEXT_PUBLIC_API_BASE_URL) -
+// accept either so starting the dev server with only one of them set
+// doesn't silently point this client at the wrong backend.
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "http://localhost:8000/api/v1";
 
 /** The backend serves uploaded/rendered files under /media/*, relative to
  * its own origin (not the frontend's) - resolve it to an absolute URL. */
