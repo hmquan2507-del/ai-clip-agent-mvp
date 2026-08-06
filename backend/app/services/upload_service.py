@@ -108,3 +108,19 @@ class UploadService:
         self.db.refresh(asset)
 
         return asset
+
+    def list_assets(
+        self,
+        production_id: UUID,
+    ) -> list[ProductionAsset]:
+        production = self.production_repository.get_by_id(production_id)
+
+        if production is None:
+            raise UploadValidationError("Production not found.")
+
+        return (
+            self.db.query(ProductionAsset)
+            .filter(ProductionAsset.production_id == production_id)
+            .order_by(ProductionAsset.created_at.desc())
+            .all()
+        )

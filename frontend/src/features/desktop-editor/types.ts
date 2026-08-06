@@ -69,6 +69,10 @@ export interface DesktopEditorRuntimeProps {
   onClipTrimMove?: (intent: ReviewTimelineClipTrimMoveIntent) => void;
   onClipTrimDrop?: () => void;
   onClipTrimCancel?: (reason?: ReviewTimelineTrimCancelReason) => void;
+
+  assets?: MediaAsset[];
+  assetsLoading?: boolean;
+  assetsError?: string | null;
 }
 
 export type EditorToolRailTabKey =
@@ -100,6 +104,7 @@ export interface MediaAsset {
   name: string;
   durationLabel: string;
   kind: MediaAssetKind;
+  url?: string;
 }
 
 export type EditorInspectorTabKey = "properties" | "ai-copilot";

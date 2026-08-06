@@ -38,3 +38,20 @@ def upload_source_video(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(error),
         ) from error
+
+
+@router.get(
+    "/production/{production_id}",
+    response_model=list[UploadRead],
+)
+def list_production_assets(
+    production_id: UUID,
+    service: UploadService = Depends(get_upload_service),
+):
+    try:
+        return service.list_assets(production_id)
+    except UploadValidationError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(error),
+        ) from error

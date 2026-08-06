@@ -1,4 +1,7 @@
-import type { DesktopEditorRuntimeProps } from "../types";
+"use client";
+
+import { useState } from "react";
+import type { DesktopEditorRuntimeProps, EditorToolRailTabKey } from "../types";
 import { AiDecisionActionProvider } from "../../ai-decision-actions";
 import {
   ASSET_LIBRARY_LAYOUT,
@@ -30,23 +33,6 @@ function formatClockLabel(totalSeconds: number): string {
 
 export type DesktopEditorShellProps = DesktopEditorRuntimeProps;
 
-/**
- * Brand new Desktop Editor Shell — occupies the entire viewport, no
- * application sidebar, no dashboard, no workspace navigation. Owns layout
- * only; every piece of interactive editing behavior (preview, timeline,
- * drag/trim/keyboard, AI command submission) is delegated to the existing,
- * untouched Review runtime via the components it renders.
- *
- * Docking layout: Tool Rail (fixed) | Asset Library (resizable, left) |
- * Preview (flexible, centered) on top; Timeline (resizable height, visual
- * focus) | Inspector (resizable) on the bottom; Status Bar spans the full
- * width. Every divider drags to resize, every panel (except Tool Rail width)
- * can collapse.
- *
- * Per the error-handling rule, a runtime failure is shown only inside the
- * preview canvas — the rest of the shell (header, rail, asset panel,
- * inspector, timeline, status bar) always renders and never disappears.
- */
 export function DesktopEditorShell({
   view,
   refreshing = false,
@@ -80,13 +66,21 @@ export function DesktopEditorShell({
   onClipTrimMove,
   onClipTrimDrop,
   onClipTrimCancel,
+  assets,
+  assetsLoading = false,
+  assetsError = null,
 }: DesktopEditorShellProps) {
-  // AI-suggestion apply/dismiss/regenerate has no surface in this sprint's
-  // placeholder Properties tab; the AI Copilot tab's preset cards are
-  // intentionally callback-only (no API, no timeline mutation) per spec.
   void onAISuggestionCommand;
 
   const layout = useDesktopEditorLayout();
+  const [activeToolTab, setActiveToolTab] = useState<EditorToolRailTabKey>("media");
+  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null);
+  const [headlineText, setHeadlineText] = useState<string>("3 GIÂY ĐẦU QUYẾT ĐỊNH TẤT CẢ");
+  const [subtitleText, setSubtitleText] = useState<string>("Hook mạnh giúp người xem dừng lại ngay từ giây đầu tiên");
+  const [videoScale, setVideoScale] = useState<number>(100);
+  const [videoRotation, setVideoRotation] = useState<number>(0);
+  const [videoOpacity, setVideoOpacity] = useState<number>(100);
+  const [audioVolume, setAudioVolume] = useState<number>(100);
 
   return (
     <div
@@ -118,12 +112,20 @@ export function DesktopEditorShell({
         }
         rail={
           <EditorToolRail
+            activeTab={activeToolTab}
+            onTabChange={setActiveToolTab}
             compact={layout.toolRailCompact}
             onToggleCompact={layout.toggleToolRailCompact}
           />
         }
         assets={
           <EditorAssetPanel
+            assets={assets}
+            loading={assetsLoading}
+            error={assetsError}
+            onSelectAsset={(_id, mediaUrl) => {
+              if (mediaUrl) setActiveVideoUrl(mediaUrl);
+            }}
             collapsed={layout.assetLibraryCollapsed}
             onToggleCollapsed={layout.toggleAssetLibraryCollapsed}
           />
@@ -140,7 +142,20 @@ export function DesktopEditorShell({
           />
         }
         preview={
-          <EditorPreviewCanvas view={view?.preview} runtimeError={runtimeError} onRetry={onRefresh} />
+          <EditorPreviewCanvas
+            view={
+              view?.preview
+                ? {
+                    ...view.preview,
+                    headline: headlineText,
+                    subtitle: subtitleText,
+                    videoUrl: activeVideoUrl ?? view.preview.videoUrl,
+                  }
+                : undefined
+            }
+            runtimeError={runtimeError}
+            onRetry={onRefresh}
+          />
         }
         timelineDivider={
           <PanelDivider
@@ -200,6 +215,18 @@ export function DesktopEditorShell({
               acceptedSubmissionId: lastAICommandSubmission?.submission_id ?? null,
               onSubmit: onAICommandSubmit,
             }}
+            headline={headlineText}
+            onHeadlineChange={setHeadlineText}
+            subtitle={subtitleText}
+            onSubtitleChange={setSubtitleText}
+            scale={videoScale}
+            onScaleChange={setVideoScale}
+            rotation={videoRotation}
+            onRotationChange={setVideoRotation}
+            opacity={videoOpacity}
+            onOpacityChange={setVideoOpacity}
+            volume={audioVolume}
+            onVolumeChange={setAudioVolume}
             onAiSuggestionSelect={undefined}
             collapsed={layout.inspectorCollapsed}
             onToggleCollapsed={layout.toggleInspectorCollapsed}
@@ -208,9 +235,13 @@ export function DesktopEditorShell({
         aiDirectorDock={<EditorAiDirectorDock />}
         statusBar={
           <EditorStatusBar
-            fps={view?.timeline?.fps}
-            durationLabel={view?.timeline?.durationLabel}
-            cursorTimeLabel={view?.timeline ? formatClockLabel(view.timeline.playheadTime) : undefined}
+            zoomLabel="58%"
+            snapEnabled={true}
+            fps={view?.timeline?.fps ?? 30}
+            resolutionLabel="1080×1920"
+            playbackSpeedLabel="1.0x"
+            cursorTimeLabel={view?.timeline ? formatClockLabel(view.timeline.playheadTime) : "00:00"}
+            durationLabel={view?.timeline?.durationLabel ?? "00:18"}
             ready={!runtimeError}
           />
         }

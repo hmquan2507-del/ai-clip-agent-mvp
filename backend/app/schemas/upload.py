@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 
 
 class UploadRead(BaseModel):
@@ -24,3 +24,8 @@ class UploadRead(BaseModel):
     model_config = {
         "from_attributes": True,
     }
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def media_url(self) -> str:
+        return f"/media/{self.storage_path}"

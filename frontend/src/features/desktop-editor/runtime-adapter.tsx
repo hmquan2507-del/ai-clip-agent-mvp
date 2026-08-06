@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   buildExportWorkspaceHref,
@@ -31,7 +31,68 @@ import type {
   ReviewTimelineSelectionIntent,
 } from "../review/integration/contracts";
 
+import { apiClient, resolveMediaUrl, type ApiProductionAsset } from "@/lib/api-client";
+import type { MediaAsset } from "./types";
+
 import { DesktopEditorShell } from "./components/desktop-editor-shell";
+
+function mediaKindFromMimeType(mimeType: string | null): MediaAsset["kind"] {
+  if (mimeType?.startsWith("audio/")) return "audio";
+  if (mimeType?.startsWith("image/")) return "image";
+  return "video";
+}
+
+function formatDurationLabel(durationSeconds: number | null): string {
+  if (durationSeconds === null || !Number.isFinite(durationSeconds)) return "—";
+  const totalSeconds = Math.max(0, Math.floor(durationSeconds));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function toMediaAsset(asset: ApiProductionAsset): MediaAsset {
+  return {
+    id: asset.id,
+    name: asset.filename,
+    durationLabel: formatDurationLabel(asset.duration),
+    kind: mediaKindFromMimeType(asset.mime_type),
+    url: resolveMediaUrl(asset.media_url) ?? undefined,
+  };
+}
+
+/** Fetches the production's real uploaded assets for the editor's Asset
+ * Library panel - separate from the Review Workspace session, since asset
+ * upload/listing isn't part of that runtime's contract. */
+function useProductionAssets(productionId: string) {
+  const [assets, setAssets] = useState<MediaAsset[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setError(null);
+
+    apiClient.getProductionAssets(productionId).then((data) => {
+      if (!isMounted) return;
+      setLoading(false);
+      if (data && Array.isArray(data)) {
+        setAssets(data.map(toMediaAsset));
+      } else {
+        setError("Không thể tải danh sách media của production này.");
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [productionId]);
+
+  return useMemo(
+    () => ({ assets, loading, error }),
+    [assets, loading, error],
+  );
+}
 
 /**
  * Runtime Adapter — the ONLY bridge between the untouched Review runtime
@@ -49,14 +110,30 @@ export interface DesktopEditorRuntimeAdapterProps {
 export function DesktopEditorRuntimeAdapter({
   productionId,
 }: DesktopEditorRuntimeAdapterProps) {
+  const productionAssets = useProductionAssets(productionId);
+
   return (
     <ReviewWorkspaceProvider productionId={productionId}>
-      <DesktopEditorRuntimeContent />
+      <DesktopEditorRuntimeContent
+        assets={productionAssets.assets}
+        assetsLoading={productionAssets.loading}
+        assetsError={productionAssets.error}
+      />
     </ReviewWorkspaceProvider>
   );
 }
 
-function DesktopEditorRuntimeContent() {
+interface DesktopEditorRuntimeContentProps {
+  assets: MediaAsset[];
+  assetsLoading: boolean;
+  assetsError: string | null;
+}
+
+function DesktopEditorRuntimeContent({
+  assets,
+  assetsLoading,
+  assetsError,
+}: DesktopEditorRuntimeContentProps) {
   const state = useReviewWorkspaceState();
   const actions = useReviewWorkspaceActions();
 
@@ -201,7 +278,16 @@ function DesktopEditorRuntimeContent() {
     state.status === "opening" ||
     (state.status === "ready" && !state.snapshot)
   ) {
-    return <DesktopEditorShell view={undefined} pendingCommand={null} pendingClipboardOperation={null} />;
+    return (
+      <DesktopEditorShell
+        view={undefined}
+        pendingCommand={null}
+        pendingClipboardOperation={null}
+        assets={assets}
+        assetsLoading={assetsLoading}
+        assetsError={assetsError}
+      />
+    );
   }
 
   if (state.status === "closed") {
@@ -212,6 +298,9 @@ function DesktopEditorRuntimeContent() {
         pendingClipboardOperation={null}
         runtimeError="Phiên chỉnh sửa đã đóng."
         onRefresh={retry}
+        assets={assets}
+        assetsLoading={assetsLoading}
+        assetsError={assetsError}
       />
     );
   }
@@ -224,6 +313,9 @@ function DesktopEditorRuntimeContent() {
         pendingClipboardOperation={null}
         runtimeError={runtimeError ?? "Không thể tải phiên chỉnh sửa."}
         onRefresh={retry}
+        assets={assets}
+        assetsLoading={assetsLoading}
+        assetsError={assetsError}
       />
     );
   }
@@ -240,6 +332,9 @@ function DesktopEditorRuntimeContent() {
       onClipboardCommand={executeClipboardCommand}
       onAISuggestionCommand={executeAISuggestionCommand}
       onAICommandSubmit={submitAICommand}
+      assets={assets}
+      assetsLoading={assetsLoading}
+      assetsError={assetsError}
     />
   );
 }
@@ -255,6 +350,9 @@ interface DesktopEditorRuntimeEditorProps {
   onClipboardCommand(intent: ReviewTimelineClipboardIntent): void;
   onAISuggestionCommand(intent: ReviewAISuggestionIntent): void;
   onAICommandSubmit(intent: ReviewAICommandSubmissionIntent): void;
+  assets: MediaAsset[];
+  assetsLoading: boolean;
+  assetsError: string | null;
 }
 
 function DesktopEditorRuntimeEditor({
@@ -268,15 +366,21 @@ function DesktopEditorRuntimeEditor({
   onClipboardCommand,
   onAISuggestionCommand,
   onAICommandSubmit,
+  assets,
+  assetsLoading,
+  assetsError,
 }: DesktopEditorRuntimeEditorProps) {
   const view = buildReviewEditorViewModel(state);
   const router = useRouter();
   const renderContract = extractExportRenderContract(state.snapshot);
   const openExportWorkspace = useCallback(() => {
-    if (!renderContract) return;
-    storeReviewToExportContract(renderContract);
-    router.push(buildExportWorkspaceHref(renderContract.production_id));
-  }, [renderContract, router]);
+    if (renderContract) {
+      storeReviewToExportContract(renderContract);
+      router.push(buildExportWorkspaceHref(renderContract.production_id));
+    } else {
+      router.push(`/export?productionId=${encodeURIComponent(view.header.productionId)}`);
+    }
+  }, [renderContract, router, view.header.productionId]);
 
   const commandPending = state.status === "executing" && state.pendingOperation === "timeline_command";
   const clipboardPending = state.status === "executing" && state.pendingOperation === "clipboard_command";
@@ -355,7 +459,7 @@ function DesktopEditorRuntimeEditor({
       onClipTrimCancel={clipTrim.cancel}
       onRefresh={onRefresh}
       onExport={openExportWorkspace}
-      exportDisabled={!renderContract}
+      exportDisabled={false}
       onSelectClip={onSelectClip}
       onUndo={onUndo}
       onRedo={onRedo}
@@ -363,6 +467,9 @@ function DesktopEditorRuntimeEditor({
       onClipboardCommand={onClipboardCommand}
       onAISuggestionCommand={onAISuggestionCommand}
       onAICommandSubmit={onAICommandSubmit}
+      assets={assets}
+      assetsLoading={assetsLoading}
+      assetsError={assetsError}
     />
   );
 }
